@@ -1,6 +1,6 @@
-#nexmatix-demo
+# nexmatix-demo
 
-| This profile provides a client/server multi-project build structure. The server Grails app is using the rest-api profile with CORS enabled. It can be started using 'grails run-app' or using the Gradle wrapper:
+This profile provides a client/server multi-project build structure. The server Grails app is using the rest-api profile with CORS enabled. It can be started using 'grails run-app' or using the Gradle wrapper:
 
   ./gradlew server:bootRun
 
