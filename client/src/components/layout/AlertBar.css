@@ -1,0 +1,8 @@
+.alertBar {
+    min-width: 200px;
+    max-width: 250px;
+    height: 100%;
+    background-color: #444444;
+    color: white;
+    flex: 1 0 0;
+}

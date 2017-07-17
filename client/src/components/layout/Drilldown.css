@@ -1,0 +1,9 @@
+.drilldown {
+    min-width: 250px;
+    max-width: 350px;
+    background-color: #444444;
+    color: white;
+    border-right: 1px solid black;
+    height: 100%;
+    flex: 1 0 0;
+}
