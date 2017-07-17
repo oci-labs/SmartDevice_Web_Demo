@@ -1,0 +1,11 @@
+import com.nextmatix.Facility
+
+model {
+    Facility facility
+}
+
+json {
+    id facility.id
+    name facility.name
+    departments tmpl.department("department", facility.departments)
+}

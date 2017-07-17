@@ -1,0 +1,7 @@
+import com.nextmatix.Facility
+
+model {
+    List<Facility> facilityList
+}
+
+json tmpl.facility("facility", facilityList)

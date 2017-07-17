@@ -1,0 +1,9 @@
+import com.nextmatix.Department
+
+model {
+    Department department
+}
+
+json {
+    name department.name
+}
