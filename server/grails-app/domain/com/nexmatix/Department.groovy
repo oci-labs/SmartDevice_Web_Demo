@@ -1,4 +1,4 @@
-package com.nextmatix
+package com.nexmatix
 
 import grails.rest.Resource
 
@@ -8,5 +8,10 @@ class Department {
     String name
 
     static belongsTo = [facility: Facility]
+    static hasMany = [ machines: Machine ]
+
+    static constraints = {
+        machines nullable: true
+    }
 
 }
