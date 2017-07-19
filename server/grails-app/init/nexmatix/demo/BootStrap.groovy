@@ -12,6 +12,7 @@ import java.lang.reflect.Array
 class BootStrap {
 
     def toLetter = { number ->
+        number--
         def thirdLetter = number % 26
         def secondLetter = (number - thirdLetter) / 26
         def firstLetter = (number - thirdLetter - (secondLetter * 26)) / 26
@@ -27,25 +28,25 @@ class BootStrap {
 
         }
 
-        (new Array[9]).eachWithIndex { name, i ->
+        (1..9).each { i ->
 
-            def department = new Department([name: "Department " + (i+1), facility: (i % 3) + 1]).save()
+            def department = new Department([name: "Department " + i, facility: (i % 3) + 1]).save()
             println "Saved department: ${department.name} belongs to ${department.facility.name}"
         }
 
-        (new Array[27]).eachWithIndex { name, i ->
+        (1..27).each { i ->
 
             def machine = new Machine(name: "Machine " + toLetter(i), department: (i%9)+1).save()
             println "Saved _machine: ${machine.name}"
         }
 
-        (new Array[108]).eachWithIndex { name, i ->
+        (1..108).each { i ->
 
-            def manifold = new Manifold(name: "Manifold " + (i+1), machine: (i%27)+1).save()
+            def manifold = new Manifold(name: "Manifold " + i, machine: (i%27)+1).save()
             println "Saved manifold: ${manifold.name}"
         }
 
-        (new Array[648]).eachWithIndex { name, i ->
+        (1..648).each { i ->
 
             def station = new Station(name: "Station " + toLetter(i), manifold: (i%108)+1).save()
             println "Saved station: ${station.name}"
