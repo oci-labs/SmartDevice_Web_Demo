@@ -1,0 +1,7 @@
+model {
+    List<Station> stationList
+}
+
+json {
+    station tmpl.station("station", stationList)
+}

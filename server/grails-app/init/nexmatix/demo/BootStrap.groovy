@@ -6,8 +6,17 @@ import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
 
+import java.lang.reflect.Array
+
 
 class BootStrap {
+
+    def toLetter = { number ->
+        def thirdLetter = number % 26
+        def secondLetter = (number - thirdLetter) / 26
+        def firstLetter = (number - thirdLetter - (secondLetter * 26)) / 26
+        return String.valueOf((char)(firstLetter + 65)) + String.valueOf((char)(secondLetter + 65)) + String.valueOf((char)(thirdLetter + 65))
+    }
 
     def init = { servletContext ->
         println "Loading database..."
@@ -18,27 +27,27 @@ class BootStrap {
 
         }
 
-        ["Department 1", "Department 2", "Department 3"].each { name ->
+        (new Array[9]).eachWithIndex { name, i ->
 
-            def department = new Department([name: name, facility: 1]).save()
-            println "Saved department: ${department.name}"
+            def department = new Department([name: "Department " + (i+1), facility: (i % 3) + 1]).save()
+            println "Saved department: ${department.name} belongs to ${department.facility.name}"
         }
 
-        ["Machine A", "Machine B", "Machine C"].each { name ->
+        (new Array[27]).eachWithIndex { name, i ->
 
-            def machine = new Machine(name: name, department: 1).save()
-            println "Saved machine: ${machine.name}"
+            def machine = new Machine(name: "Machine " + toLetter(i), department: (i%9)+1).save()
+            println "Saved _machine: ${machine.name}"
         }
 
-        ["Manifold 1", "Manifold 2", "Manifold 3"].each { name ->
+        (new Array[108]).eachWithIndex { name, i ->
 
-            def manifold = new Manifold(name: name, machine: 1).save()
+            def manifold = new Manifold(name: "Manifold " + (i+1), machine: (i%27)+1).save()
             println "Saved manifold: ${manifold.name}"
         }
 
-        ["Station A", "Station B", "Station C"].each { name ->
+        (new Array[648]).eachWithIndex { name, i ->
 
-            def station = new Station(name: name, manifold: 1).save()
+            def station = new Station(name: "Station " + toLetter(i), manifold: (i%108)+1).save()
             println "Saved station: ${station.name}"
         }
 

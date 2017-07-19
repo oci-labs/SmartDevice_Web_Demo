@@ -1,0 +1,5 @@
+model {
+    List<Department> departmentList
+}
+
+json tmpl.department("department", departmentList)
