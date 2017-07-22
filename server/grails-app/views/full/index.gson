@@ -1,0 +1,3 @@
+json {
+    message: 'Just a test message'
+}

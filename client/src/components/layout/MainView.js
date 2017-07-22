@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styles from './MainView.css';
+import './MainView.css';
 
 class MainView extends Component {
     render() {

@@ -1,9 +1,27 @@
 .drilldown {
-    min-width: 250px;
-    max-width: 350px;
-    background-color: #444444;
-    color: white;
-    border-right: 1px solid black;
-    height: 100%;
-    flex: 1 0 0;
-}
+  min-width: 250px;
+  max-width: 420px;
+  padding: 15px 30px;
+  background-color: #444444;
+  color: white;
+  border-right: 1px solid black;
+  height: 100%;
+  flex: 1 0 0; }
+  .drilldown .drilldownTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px; }
+  .drilldown .faults {
+    justify-content: center;
+    padding: 8px 0px; }
+  .drilldown .drilldownData {
+    padding: 24px 0px 0px;
+    height: 100px; }
+    .drilldown .drilldownData .drilldownDataColumn {
+      align-items: center;
+      font-size: 12px;
+      line-height: 16px; }
+      .drilldown .drilldownData .drilldownDataColumn .dataLabel {
+        font-weight: bold; }
+      .drilldown .drilldownData .drilldownDataColumn .data {
+        margin-bottom: 9px; }

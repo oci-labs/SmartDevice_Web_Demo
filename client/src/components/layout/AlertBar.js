@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
-import styles from './AlertBar.css';
+import React, { Component } from "react";
+import "./AlertBar.css";
 
 class AlertBar extends Component {
-    render() {
-        return (
-            <div className="alertBar">AlertBar</div>
-        );
-    }
+  render() {
+    return <div className="alertBar">AlertBar</div>;
+  }
 }
 
 export default AlertBar;

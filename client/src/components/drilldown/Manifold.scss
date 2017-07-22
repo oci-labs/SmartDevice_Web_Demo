@@ -1,0 +1,39 @@
+.manifoldContainer {
+    display: flex;
+}
+
+.valveOuterContainer {
+    position: relative;
+    padding: 10px 0px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.valveOuterContainer.active::before {
+    content: '';
+    position: absolute;
+    z-index: 100;
+    bottom: -1px;
+    left: calc(50% - 10px);
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid black;
+    border-left: 10px solid transparent;
+}
+
+.valveOuterContainer.active::after {
+  content: '';
+  position: absolute;
+  z-index: 101;
+  bottom: -1px;
+  left: calc(50% - 9px);
+  display: block;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0px 9px 9px 9px;
+  border-color: transparent transparent white transparent;
+}
