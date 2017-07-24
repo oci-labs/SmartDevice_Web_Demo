@@ -23,13 +23,13 @@ class ValveAlert extends Component {
         return (
                 <Alert color={this.props.color === 'disabled' ? '' : this.props.color} className={ this.props.color === 'disabled' ? 'disabled' : ''} isOpen={this.state.visible}>
                     { this.props.leftIcon && (
-                        <div className="alert-icon-left">
+                        <div className="alert-icon-left" style={{"height": "24px"}}>
                             {(() => {
                                 switch(this.props.leftIcon) {
                                     case 'Disconnected':
-                                        return <Disconnect size="32" color={this.props.color === 'disabled' ? '#777' : 'white'} />;
+                                        return <Disconnect size="24" color={this.props.color === 'disabled' ? '#777' : 'white'} />;
                                     case 'Gauge':
-                                        return<Gauge size="32"color={this.props.color ==='disabled' ? '#777' : 'white'}/>;
+                                        return<Gauge size="24" color={this.props.color ==='disabled' ? '#777' : 'white'}/>;
                                     default:
                                         return null;
                                 }
@@ -43,7 +43,7 @@ class ValveAlert extends Component {
                     </div>
                     <div className="alert-icon-right">
                         { this.props.rightIcon && (
-                            <MdNotificationsOff size={32} onClick={this.onDismiss}/>
+                            <MdNotificationsOff size={24} onClick={this.onDismiss}/>
                         )}
                     </div>
                 </Alert>
