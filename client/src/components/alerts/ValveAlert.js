@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Alert } from 'reactstrap';
 import Disconnect from '../icons/Disconnect';
+import Gauge from'../icons/Gauge';
 import {MdNotificationsOff} from 'react-icons/lib/md';
 import './Alerts.css';
 
@@ -23,7 +24,16 @@ class ValveAlert extends Component {
                 <Alert color={this.props.color === 'disabled' ? '' : this.props.color} className={ this.props.color === 'disabled' ? 'disabled' : ''} isOpen={this.state.visible}>
                     { this.props.leftIcon && (
                         <div className="alert-icon-left">
-                            <Disconnect size="32" color={this.props.color === 'disabled' ? '#777' : 'white'} />
+                            {(() => {
+                                switch(this.props.leftIcon) {
+                                    case 'Disconnected':
+                                        return <Disconnect size="32" color={this.props.color === 'disabled' ? '#777' : 'white'} />;
+                                    case 'Gauge':
+                                        return<Gauge size="32"color={this.props.color ==='disabled' ? '#777' : 'white'}/>;
+                                    default:
+                                        return null;
+                                }
+                            })()}
                         </div>
                     ) }
                     {/* this.props.alertContent */}
