@@ -1,0 +1,39 @@
+div.alertsContainer .alert {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: space-between; }
+
+div.alertsContainer .alert-danger {
+  background: #ba2316;
+  color: white;
+  border: 1px solid #7f332d;
+  box-shadow: none;
+  margin: 5px; }
+
+div.alertsContainer .alert-info {
+  background: #777;
+  color: white;
+  border: 1px solid #555;
+  box-shadow: none;
+  margin: 5px; }
+
+div.alertsContainer .alert.disabled {
+  background: #555;
+  color: #777;
+  border: 1px solid #555;
+  box-shadow: none;
+  margin: 5px; }
+
+div.alertsContainer .alert-content {
+  line-height: 15px; }
+
+div.alertsContainer .alert-details {
+  font-size: 12px; }
+
+div.alertsContainer .alert-icon-left {
+  margin-right: 10px; }
+
+div.alertsContainer .alert-icon-right {
+  margin-left: 10px;
+  min-width: 32px; }
