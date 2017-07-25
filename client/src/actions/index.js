@@ -2,15 +2,15 @@ import * as types from "./types";
 import { SERVER_URL } from "../config";
 
 function GETAllFacilities() {
-  return fetch(`${SERVER_URL}api/facility`);
+  return fetch(`${SERVER_URL}/api/facility`);
 }
 
 function GETFacility({ id }) {
-  return fetch(`${SERVER_URL}api/facility/${id}`);
+  return fetch(`${SERVER_URL}/api/facility/${id}`);
 }
 
 function GETAllDepartments() {
-  return fetch(`${SERVER_URL}api/department`);
+  return fetch(`${SERVER_URL}/api/department`);
 }
 
 function GETDepartment({ id }) {
