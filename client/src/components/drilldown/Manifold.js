@@ -5,18 +5,16 @@ import "./Manifold.css";
 class Manifold extends Component {
   constructor(props) {
     super(props);
-
-    this.makeValveActive = this.makeValveActive.bind(this);
-
     this.state = {
       activeValveId: null
     };
   }
-  makeValveActive(valve) {
+
+  makeValveActive = (valve) => {
     this.setState({
       activeValveId: valve.id
     });
-  }
+  };
 
   render() {
     let self = this;

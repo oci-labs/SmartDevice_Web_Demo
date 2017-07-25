@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
+import Alerts from "../alerts/Alerts";
+
 import "./AlertBar.css";
 
-class AlertBar extends Component {
-  render() {
-    return <div className="alertBar">AlertBar</div>;
-  }
-}
+const AlertBar = () => {
+  return <div className="alertBar">
+    <Alerts />
+  </div>;
+};
 
 export default AlertBar;
