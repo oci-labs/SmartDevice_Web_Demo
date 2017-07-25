@@ -1,0 +1,60 @@
+.drilldown {
+  min-width: 250px;
+  max-width: 420px;
+  padding: 15px 30px;
+  background-color: #444444;
+  color: #cbcbcb;
+  border-right: 1px solid black;
+  height: 100%;
+  flex: 1 0 0;
+  .drilldownTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .drilldownError {
+    margin: 12px 0px;
+    padding: 12px;
+    height: 50px;
+    border-radius: 4px;
+    background-color: #ba2316;
+    font-weight: bold;
+    justify-content: space-between;
+  }
+  .drilldownInfo {
+    margin: 12px 0px;
+    div {
+      line-height: 18px;
+    }
+    .nameInfo {
+      font-size: 1.2em;
+    }
+    .image {
+      margin: 11px;
+      display: flex;
+
+      i.material-icons {
+        font-size: 36px;
+      }
+    }
+  }
+  .faults {
+    justify-content: center;
+    padding: 8px 0px;
+  }
+  .drilldownData {
+    padding: 24px 0px 0px;
+    height: 100px;
+    .drilldownDataColumn {
+      align-items: center;
+      font-size: 12px;
+      line-height: 16px;
+      .dataLabel {
+        font-weight: bold;
+      }
+      .data {
+        margin-bottom: 9px;
+      }
+    }
+  }
+}

@@ -1,5 +1,3 @@
-import com.nextmatix.Facility
-
 model {
     Facility facility
 }

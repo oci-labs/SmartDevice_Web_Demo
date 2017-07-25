@@ -1,0 +1,10 @@
+model {
+    Machine machine
+}
+
+json {
+    id machine.id
+    name machine.name
+    department tmpl.department(machine.department)
+    manifolds tmpl.manifold("manifold", machine.manifolds)
+}

@@ -1,0 +1,5 @@
+model {
+    List<Manifold> manifoldList
+}
+
+json tmpl.manifold("manifold", manifoldList)
