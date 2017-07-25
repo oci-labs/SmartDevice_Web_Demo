@@ -5,22 +5,12 @@ import "./Drilldown.css";
 
 import ValveIcon from "../drilldown/ValveIcon";
 import Manifold from "../drilldown/Manifold";
+import CycleCount from "../drilldown/CycleCount";
 import Icon from "../icons/Icon";
 import { Column, Row, HorizontalLine, VerticalLine } from "./LayoutComponents";
 
-const DrilldownComponent = ({ currentValve }) => {
+const DrilldownComponent = ({ currentManifold, currentValve }) => {
   let error, valve;
-  let manifold = {
-    id: 3,
-    name: "Manifold 3",
-    stations: [
-      { id: 1, name: "Station 1" },
-      { id: 2, name: "Station 2" },
-      { id: 3, name: "Station 3" },
-      { id: 4, name: "Station 4" },
-      { id: 5, name: "Station 5" }
-    ]
-  };
 
   if (currentValve) {
     valve = (
@@ -45,6 +35,8 @@ const DrilldownComponent = ({ currentValve }) => {
           <ValveIcon>Leak Fault</ValveIcon>
           <ValveIcon>Pressure Fault</ValveIcon>
         </Row>
+        <HorizontalLine />
+        <CycleCount cycleCount="1000" />
         <HorizontalLine />
         <Row className="drilldownData">
           <Column className="drilldownDataColumn">
@@ -76,9 +68,9 @@ const DrilldownComponent = ({ currentValve }) => {
   return (
     <div className="drilldown">
       <div className="drilldownTitle">
-        {manifold.name}
+        {currentManifold.name}
       </div>
-      <Manifold manifold={manifold} />
+      <Manifold manifold={currentManifold} />
       {error}
       {valve}
     </div>
@@ -91,6 +83,7 @@ DrilldownComponent.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    currentManifold: state.currentManifold,
     currentValve: state.currentValve
   };
 };
