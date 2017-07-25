@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { SERVER_URL } from "./config";
 import "whatwg-fetch";
 
 import AlertBar from "./components/layout/AlertBar";
@@ -9,14 +8,9 @@ import MainView from "./components/layout/MainView";
 import Nav from "./components/layout/Nav";
 import Profile from "./components/layout/Profile";
 import { Row, Column } from "./components/layout/LayoutComponents";
+import WebSocketDemo from "./components/demo/WebsocketDemo";
 
 class App extends Component {
-  componentDidMount() {
-    fetch(SERVER_URL + "/application")
-      .then(r => r.json())
-      .then(json => this.setState({ serverInfo: json }))
-      .catch(error => console.error("Error connecting to server: " + error));
-  }
 
   render() {
     return (
@@ -25,7 +19,9 @@ class App extends Component {
         <Column>
           <Nav />
           <Row>
-            <MainView />
+            <MainView>
+              <WebSocketDemo />h
+            </MainView>
             <Drilldown />
             <AlertBar />
           </Row>
