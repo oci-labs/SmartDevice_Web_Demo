@@ -4,7 +4,7 @@ div.alertsContainer .alert {
   flex: 1;
   justify-content: space-between;
   margin: 15px;
-  padding: 6px 10px;
+  padding: 10px;
   box-shadow: none; }
 
 div.alertsContainer .alert-danger {
@@ -23,12 +23,12 @@ div.alertsContainer .alert.disabled {
   border: 1px solid #555; }
 
 div.alertsContainer .alert-content {
-  line-height: 15px;
+  line-height: 13px;
   text-shadow: none;
   flex-grow: 1; }
 
 div.alertsContainer .alert-details {
-  font-size: 10px; }
+  font-size: 9px; }
 
 div.alertsContainer .alert-icon-left {
   margin-right: 10px; }
