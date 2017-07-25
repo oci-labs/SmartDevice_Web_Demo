@@ -2,26 +2,27 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./MainView.css";
 
-import { getAllMachines } from "../../actions";
+import Item from "../mainView/Item";
+
+import { getAllFacilities } from "../../actions";
 
 class MainViewComponent extends Component {
   componentWillMount() {
-    this.props.loadAllMachines();
+    this.props.loadAllFacilities();
   }
   render() {
     let machines;
-    if (this.props.machines) {
-      machines = this.props.machines.map(function(machine) {
+    if (this.props.facilities) {
+      machines = this.props.facilities.map(function(machine) {
         return (
-          <div key={machine.id}>
+          <Item key={machine.id}>
             {machine.name}
-          </div>
+          </Item>
         );
       });
     }
     return (
       <div className="mainView">
-        MainView
         {machines}
         {this.props.children}
       </div>
@@ -31,14 +32,14 @@ class MainViewComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    machines: state.machines
+    facilities: state.facilities
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAllMachines: function() {
-      dispatch(getAllMachines());
+    loadAllFacilities: function() {
+      dispatch(getAllFacilities());
     }
   };
 }

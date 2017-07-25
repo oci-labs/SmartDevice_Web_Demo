@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CycleCount.css";
+import "./CycleCount.css";
 
 const CycleCount = ({ cycleCount }) => {
   return (
