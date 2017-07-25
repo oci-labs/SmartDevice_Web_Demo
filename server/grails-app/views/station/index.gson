@@ -2,6 +2,4 @@ model {
     List<Station> stationList
 }
 
-json {
-    station tmpl.station("station", stationList)
-}
+json tmpl.station("station", stationList)

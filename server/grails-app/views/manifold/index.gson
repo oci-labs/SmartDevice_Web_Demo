@@ -2,6 +2,4 @@ model {
     List<Manifold> manifoldList
 }
 
-json {
-    manifold tmpl.manifold("manifold", manifoldList)
-}
+json tmpl.manifold("manifold", manifoldList)
