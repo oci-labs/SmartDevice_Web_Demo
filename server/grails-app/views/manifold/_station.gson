@@ -5,4 +5,5 @@ model {
 json {
     id station.id
     name station.name
+    type 'station'
 }

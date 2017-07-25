@@ -5,6 +5,8 @@ export const SET_CURRENT_FACILITY = "facility:set:current";
 export const SET_CURRENT_DEPARTMENT = "department:set:current";
 export const SET_CURRENT_MACHINE = "machine:set:current";
 export const SET_CURRENT_MANIFOLD = "manifold:set:current";
-export const SET_CURRENT_VALVE = "station:set:current";
+export const SET_CURRENT_STATION = "station:set:current";
+
+export const UPDATE_ACTIVE_ITEMS = "items:update";
 
 export const HANDLE_ERROR = "error:handle";

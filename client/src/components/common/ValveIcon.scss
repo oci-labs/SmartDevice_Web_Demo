@@ -4,6 +4,25 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  &.clickable {
+    cursor: pointer;
+  }
+  &.large {
+    .iconContainer {
+      width: 150px;
+      height: 150px;
+      font-size: 22px;
+    }
+    .valveIconLabel {
+      top: 0px;
+      font-size: 20px;
+    }
+  }
+  &:hover {
+    .valveIconBorder {
+      background-color: rgba(226, 226, 226, 0.98) !important;
+    }
+  }
   .iconContainer {
     display: flex;
     align-content: stretch;

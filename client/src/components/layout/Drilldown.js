@@ -3,29 +3,37 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./Drilldown.css";
 
-import ValveIcon from "../drilldown/ValveIcon";
+import ValveIcon from "../common/ValveIcon";
 import Manifold from "../drilldown/Manifold";
 import CycleCount from "../drilldown/CycleCount";
 import Icon from "../icons/Icon";
 import { Column, Row, HorizontalLine, VerticalLine } from "./LayoutComponents";
 
-const DrilldownComponent = ({ currentManifold, currentValve }) => {
-  let error, valve;
+const DrilldownComponent = ({ currentManifold, currentStation }) => {
+  let error, title, station;
 
-  if (currentValve) {
-    valve = (
+  if (currentManifold) {
+    title = (
+      <div className="drilldownTitle">
+        {currentManifold.name}
+      </div>
+    );
+  }
+
+  if (currentStation) {
+    station = (
       <div>
         <Row className="drilldownInfo">
           <Icon type="settings_input_composite" className="image" />
           <Column>
             <div className="nameInfo">
-              {currentValve.name}
+              {currentStation.name}
             </div>
             <div>
-              {currentValve.model}
+              {currentStation.model}
             </div>
             <div>
-              {currentValve.serialNum}
+              {currentStation.serialNum}
             </div>
           </Column>
         </Row>
@@ -57,7 +65,7 @@ const DrilldownComponent = ({ currentManifold, currentValve }) => {
     );
   }
 
-  if (currentValve && currentValve.error) {
+  if (currentStation && currentStation.error) {
     error = (
       <Row className="drilldownError">
         Pressure Warning: 6/6 - 12:15 PM<Icon type="close" />
@@ -66,25 +74,24 @@ const DrilldownComponent = ({ currentManifold, currentValve }) => {
   }
 
   return (
-    <div className="drilldown">
-      <div className="drilldownTitle">
-        {currentManifold.name}
-      </div>
+    <div className={`drilldown ${currentManifold ? "show" : "hide"}`}>
+      {title}
       <Manifold manifold={currentManifold} />
       {error}
-      {valve}
+      {station}
     </div>
   );
 };
 
 DrilldownComponent.propTypes = {
-  currentValve: PropTypes.object
+  currentManifold: PropTypes.object,
+  currentStation: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
     currentManifold: state.currentManifold,
-    currentValve: state.currentValve
+    currentStation: state.currentStation
   };
 };
 
