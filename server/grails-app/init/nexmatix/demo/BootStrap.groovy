@@ -61,7 +61,7 @@ class BootStrap {
         (1..200).each { i ->
 
             def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: rand, isActive: new Random().nextBoolean(), station: (i%648)+1).save()
-         //   println "Saved alert: ${alert.alertType}"
+            println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
 
     }
