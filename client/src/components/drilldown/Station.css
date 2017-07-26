@@ -6,7 +6,7 @@
     background-color: #17a71d;
     height: 90px; } }
 
-.valveWrapper {
+.stationWrapper {
   position: relative;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   border-top: 1px solid #666666;
   border-bottom: 1px solid #666666;
   cursor: pointer; }
-  .valveWrapper.active::before {
+  .stationWrapper.active::before {
     content: '';
     position: absolute;
     z-index: 100;
@@ -28,7 +28,7 @@
     border-right: 14px solid transparent;
     border-bottom: 14px solid #666666;
     border-left: 14px solid transparent; }
-  .valveWrapper.active::after {
+  .stationWrapper.active::after {
     content: '';
     position: absolute;
     z-index: 101;
@@ -40,7 +40,7 @@
     border-style: solid;
     border-width: 0px 12px 12px 12px;
     border-color: transparent transparent #444444 transparent; }
-  .valveWrapper .valveContainer {
+  .stationWrapper .stationContainer {
     position: relative;
     display: flex;
     padding: 15px 0px;
@@ -49,7 +49,7 @@
     width: 34px;
     border-radius: 4px;
     background-color: #666666; }
-    .valveWrapper .valveContainer .valveIndicator {
+    .stationWrapper .stationContainer .stationIndicator {
       position: absolute;
       left: 13px;
       top: 15px;
@@ -57,7 +57,7 @@
       width: 8px;
       border-radius: 50%;
       background-color: #17a71d; }
-    .valveWrapper .valveContainer .valveActiveIndicator {
+    .stationWrapper .stationContainer .stationActiveIndicator {
       position: absolute;
       bottom: 0px;
       width: 34px;
@@ -67,7 +67,7 @@
       border-bottom-right-radius: 4px;
       animation-name: makeActive;
       animation-duration: .5s; }
-    .valveWrapper .valveContainer .valveLabel {
+    .stationWrapper .stationContainer .stationLabel {
       position: absolute;
       bottom: 0px;
       color: #cbcbcb;
@@ -77,7 +77,7 @@
       font-weight: bold;
       text-align: center; }
 
-.valveEmptyContainer {
+.stationEmptyContainer {
   display: flex;
   justify-content: center;
   padding: 0px 0px 15px;
@@ -88,7 +88,7 @@
   border: 3px solid #666666;
   background-color: #444444;
   align-items: center; }
-  .valveEmptyContainer .material-icons {
+  .stationEmptyContainer .material-icons {
     margin-top: 110px;
     font-size: 14px;
     color: #666666; }

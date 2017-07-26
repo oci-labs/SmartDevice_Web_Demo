@@ -9,7 +9,7 @@
   }
 }
 
-.valveWrapper {
+.stationWrapper {
   position: relative;
   display: flex;
   justify-content: center;
@@ -47,7 +47,7 @@
       border-color: transparent transparent #444444 transparent;
     }
   }
-  .valveContainer {
+  .stationContainer {
     position: relative;
     display: flex;
     padding: 15px 0px;
@@ -56,7 +56,7 @@
     width: 34px;
     border-radius: 4px;
     background-color: #666666;
-    .valveIndicator {
+    .stationIndicator {
       position: absolute;
       left: 13px;
       top: 15px;
@@ -65,7 +65,7 @@
       border-radius: 50%;
       background-color: #17a71d;
     }
-    .valveActiveIndicator {
+    .stationActiveIndicator {
       position: absolute;
       bottom: 0px;
       width: 34px;
@@ -76,7 +76,7 @@
       animation-name: makeActive;
       animation-duration: .5s;
     }
-    .valveLabel {
+    .stationLabel {
       position: absolute;
       bottom: 0px;
       color: #cbcbcb;
@@ -89,7 +89,7 @@
   }
 }
 
-.valveEmptyContainer {
+.stationEmptyContainer {
   display: flex;
   justify-content: center;
   padding: 0px 0px 15px;

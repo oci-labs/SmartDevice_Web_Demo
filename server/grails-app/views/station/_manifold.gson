@@ -5,4 +5,5 @@ model {
 json {
     id manifold.id
     name manifold.name
+    type 'manifold'
 }

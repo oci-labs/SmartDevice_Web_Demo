@@ -2,27 +2,32 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./MainView.css";
 
-import { getAllMachines } from "../../actions";
+import ValveIcon from "../common/ValveIcon";
+
+import { setCurrentItem, setCurrentManifold } from "../../actions";
 
 class MainViewComponent extends Component {
   componentWillMount() {
-    this.props.loadAllMachines();
+    this.props.handleSetCurrentItem();
   }
   render() {
-    let machines;
-    if (this.props.machines) {
-      machines = this.props.machines.map(function(machine) {
+    const self = this;
+    let activeItems;
+    if (this.props.activeItems) {
+      activeItems = this.props.activeItems.map(function(item) {
+        const handleClick = () => {
+          self.props.handleSetCurrentItem(item, item.type === "manifold");
+        };
         return (
-          <div key={machine.id}>
-            {machine.name}
-          </div>
+          <ValveIcon key={item.id} size="large" handleClick={handleClick}>
+            {item.name}
+          </ValveIcon>
         );
       });
     }
     return (
       <div className="mainView">
-        MainView
-        {machines}
+        {activeItems}
         {this.props.children}
       </div>
     );
@@ -31,14 +36,17 @@ class MainViewComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    machines: state.machines
+    activeItems: state.activeItems
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAllMachines: function() {
-      dispatch(getAllMachines());
+    handleSetCurrentItem: function(item, isManifold) {
+      dispatch(setCurrentItem(item, isManifold));
+    },
+    handleSetCurrentManifold: function(item) {
+      dispatch(setCurrentManifold(item));
     }
   };
 }

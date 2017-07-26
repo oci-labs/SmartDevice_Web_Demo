@@ -72,6 +72,8 @@ grails:
 grails:
     cors:
         enabled: true
+
+allowedOrigin: http://localhost:3000 # accepted origin URL for websocket connections
 ---
 hibernate:
     cache:

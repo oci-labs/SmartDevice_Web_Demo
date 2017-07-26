@@ -3,5 +3,7 @@ model {
 }
 
 json {
+    id department.id
     name department.name
+    type 'department'
 }
