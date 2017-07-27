@@ -1,19 +1,45 @@
 import React, { Component } from "react";
-import ValveAlert from './ValveAlert';
-import './Alerts.css';
+import { connect } from "react-redux";
+import ValveAlert from "./ValveAlert";
+import "./Alerts.css";
 
-class Alerts extends Component {
-    render() {
-        return (
-            <div className="alertsContainer">
-                <ValveAlert color="danger" leftIcon="Disconnected" rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="danger" leftIcon="Disconnected"  rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="danger" leftIcon="Disconnected" rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="info" leftIcon="Disconnected" valveNumber="20100105" alertType="Disconnected" station="6/5" time="11:42am"/>
-                <ValveAlert color="disabled" leftIcon="Gauge" valveNumber="20100105" alertType="Disconnected" station="6/5" time="11:42am" />
-            </div>
-        );
+import { getAllAlerts } from "../../actions";
+
+class AlertsComponent extends Component {
+  componentWillMount() {
+    this.props.handleGetAllAlerts();
+  }
+  render() {
+    const self = this;
+    let alerts;
+    if (this.props.alerts) {
+      alerts = this.props.alerts.map((alert) => {
+        const handleDismiss = () => {
+          self.props.handleUpdateList()
+        }
+      });
     }
+  }
+
+
+
+
 }
+
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    alerts: state.alerts
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    handleGetAllAlerts: function() {
+      dispatch(getAllAlerts());
+    }
+  };
+}
+
+const Alerts = connect(mapStateToProps, mapDispatchToProps)(AlertsComponent);
 
 export default Alerts;

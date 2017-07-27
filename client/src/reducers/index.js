@@ -6,6 +6,10 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case types.SET_ALL_ALERTS:
+      return Object.assign({}, state, {
+        alerts: action.payload
+      });
     case types.SET_ALL_FACILITIES:
       return Object.assign({}, state, {
         facilities: action.payload
