@@ -12,12 +12,36 @@ class Dropdown extends Component {
       show: false
     };
   }
+
+  collapse = () => {
+    this.setState({
+      show: false
+    });
+  };
+
   expandDropdown = () => {
-    console.log("Expanding dropdown");
     this.setState({
       show: !this.state.show
     });
   };
+
+  handleClickOutside = event => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.collapse();
+    }
+  };
+
+  setWrapperRef = node => {
+    this.wrapperRef = node;
+  };
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
 
   render() {
     const self = this;
@@ -51,7 +75,10 @@ class Dropdown extends Component {
             </div>
           </div>
         </div>
-        <div className={`dropdownOptions ${this.state.show ? "show" : ""}`}>
+        <div
+          className={`dropdownOptions ${this.state.show ? "show" : ""}`}
+          ref={this.setWrapperRef}
+        >
           {items}
         </div>
       </div>
