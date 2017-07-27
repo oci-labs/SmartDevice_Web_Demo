@@ -6,6 +6,8 @@
   align-items: center; }
   .valveIconWrapper.clickable {
     cursor: pointer; }
+    .valveIconWrapper.clickable:hover .valveIconBorder {
+      background-color: rgba(226, 226, 226, 0.98) !important; }
   .valveIconWrapper.large .iconContainer {
     width: 150px;
     height: 150px;
@@ -13,8 +15,6 @@
   .valveIconWrapper.large .valveIconLabel {
     top: 0px;
     font-size: 20px; }
-  .valveIconWrapper:hover .valveIconBorder {
-    background-color: rgba(226, 226, 226, 0.98) !important; }
   .valveIconWrapper .iconContainer {
     display: flex;
     align-content: stretch;

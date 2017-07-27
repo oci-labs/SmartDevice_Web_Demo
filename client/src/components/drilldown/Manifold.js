@@ -15,7 +15,6 @@ class ManifoldComponent extends Component {
   }
 
   render() {
-    let self = this;
     let stations = [];
     if (this.props.manifold && this.props.manifold.stations) {
       stations = this.props.manifold.stations

@@ -1,4 +1,5 @@
 .mainView {
   display: flex;
+  flex-direction: column;
   min-width: 400px;
   flex: 1 0 0; }
