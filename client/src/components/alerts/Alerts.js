@@ -10,15 +10,46 @@ class AlertsComponent extends Component {
     this.props.handleGetAllAlerts();
   }
   render() {
+      function compareAlerts(a, b) {
+          // Use toUpperCase() to ignore character casing
+          const activeA = a.isActive;
+          const activeB = b.isActive;
+
+          let comparison = 0;
+          if (activeA > activeB) {
+              comparison = -1;
+          } else if (activeA < activeB) {
+              comparison = 1;
+          }
+          return comparison;
+      }
     const self = this;
-    let alerts;
+    let sortedAlerts;
     if (this.props.alerts) {
-      alerts = this.props.alerts.map((alert) => {
+      let alerts = this.props.alerts.map((alert) => {
         const handleDismiss = () => {
           self.props.handleUpdateList()
         }
       });
+      sortedAlerts = alerts.slice().sort(compareAlerts);
+        return (
+            <ValveAlert
+              key={alert.id}
+              leftIcon="Disconnected"
+              isActive={alert.isActive}
+              valveNumber={alert.valveSerial}
+              alertType={alert.alertType}
+              station={alert.station.id}
+              time={alert.thrownAt}
+
+            />
+        )
     }
+      return (
+          <div className="alertsContainer">
+              {sortedAlerts}
+          </div>
+      );
   }
 
 
