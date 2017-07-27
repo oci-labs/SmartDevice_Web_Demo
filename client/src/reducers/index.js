@@ -1,6 +1,7 @@
 import * as types from "../actions/types";
 
 const initialState = {
+  activeItems: [],
   currentStation: {}
 };
 

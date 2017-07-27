@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import "./MainView.css";
 
 import ValveIcon from "../common/ValveIcon";
+import Tabs from "../mainView/Tabs";
+import { Row } from "../layout/LayoutComponents";
 
 import { setCurrentItem, setCurrentManifold } from "../../actions";
 
@@ -27,8 +29,10 @@ class MainViewComponent extends Component {
     }
     return (
       <div className="mainView">
-        {activeItems}
-        {this.props.children}
+        <Tabs />
+        <Row>
+          {activeItems}
+        </Row>
       </div>
     );
   }
