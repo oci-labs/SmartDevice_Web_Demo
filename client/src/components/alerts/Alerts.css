@@ -35,4 +35,4 @@ div.alertsContainer .alert-icon-left {
 
 div.alertsContainer .alert-icon-right {
   margin-left: 10px;
-  min-width: 32px; }
+  cursor: pointer; }

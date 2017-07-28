@@ -1,6 +1,10 @@
 import * as types from "./types";
 import { SERVER_URL } from "../config";
 
+function GETAllAlerts(count) {
+  return fetch(`${SERVER_URL}/api/alert?max=${count}`);
+}
+
 function GETAllFacilities() {
   return fetch(`${SERVER_URL}/api/facility`);
 }
@@ -49,6 +53,12 @@ function getFirst(items) {
   });
 }
 
+export function setAllAlerts(alerts) {
+  return {
+    type: types.SET_ALL_ALERTS,
+    payload: alerts
+  };
+}
 export function setAllFacilities(facilities) {
   return {
     type: types.SET_ALL_FACILITIES,
@@ -131,6 +141,17 @@ export function setCurrentItem(item, isManifold, currentStation) {
   };
 }
 
+export function getAllAlerts(count = 10) {
+  return function(dispatch) {
+    return GETAllAlerts(count)
+      .then(toJson)
+      .then(
+        alerts => dispatch(setAllAlerts(alerts)),
+        error => dispatch(throwError(error))
+      );
+  };
+}
+
 export function getAllFacilities() {
   return function(dispatch) {
     return GETAllFacilities()
@@ -150,5 +171,12 @@ export function getAllMachines() {
         machines => dispatch(setAllMachines(machines)),
         error => dispatch(throwError(error))
       );
+  };
+}
+
+export function updateAlert(alert) {
+  return {
+    type: types.TOGGLE_ALERT,
+    payload: alert
   };
 }

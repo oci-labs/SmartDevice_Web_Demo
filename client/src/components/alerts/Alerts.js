@@ -1,19 +1,77 @@
 import React, { Component } from "react";
-import ValveAlert from './ValveAlert';
-import './Alerts.css';
+import { connect } from "react-redux";
+import ValveAlert from "./ValveAlert";
+import "./Alerts.css";
 
-class Alerts extends Component {
-    render() {
-        return (
-            <div className="alertsContainer">
-                <ValveAlert color="danger" leftIcon="Disconnected" rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="danger" leftIcon="Disconnected"  rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="danger" leftIcon="Disconnected" rightIcon valveNumber="1001014" alertType="Disconnected" station="6/6" time="1:15pm"/>
-                <ValveAlert color="info" leftIcon="Disconnected" valveNumber="20100105" alertType="Disconnected" station="6/5" time="11:42am"/>
-                <ValveAlert color="disabled" leftIcon="Gauge" valveNumber="20100105" alertType="Disconnected" station="6/5" time="11:42am" />
-            </div>
-        );
+import { getAllAlerts, updateAlert } from "../../actions";
+
+class AlertsComponent extends Component {
+  componentWillMount() {
+    this.props.handleGetAllAlerts(1000);
+  }
+  render() {
+    const self = this;
+    let alerts;
+    let sortedAlerts;
+    let alertList;
+
+    function compareAlerts(a, b) {
+      // Use toUpperCase() to ignore character casing
+      const activeA = a.isActive;
+      const activeB = b.isActive;
+
+      let comparison = 0;
+      if (activeA > activeB) {
+        comparison = -1;
+      } else if (activeA < activeB) {
+        comparison = 1;
+      }
+      return comparison;
     }
+
+    if (this.props.alerts) {
+      let alerts = this.props.alerts;
+      sortedAlerts = alerts.slice().sort(compareAlerts);
+      alertList = sortedAlerts.map(function(alert) {
+        return (
+          <ValveAlert
+            key={alert.id}
+            id={alert.id}
+            leftIcon="Disconnected"
+            isActive={alert.isActive}
+            valveNumber={alert.valveSerial}
+            alertType={alert.alertType}
+            station="6/6"
+            time={alert.thrownAt}
+            handleUpdate={self.props.handleUpdateAlert}
+          />
+        );
+      });
+    }
+    return (
+      <div className="alertsContainer">
+        {alertList}
+      </div>
+    );
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    alerts: state.alerts
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    handleGetAllAlerts: function(count) {
+      dispatch(getAllAlerts(count));
+    },
+    handleUpdateAlert: function(alert) {
+      dispatch(updateAlert(alert));
+    }
+  };
+}
+
+const Alerts = connect(mapStateToProps, mapDispatchToProps)(AlertsComponent);
 
 export default Alerts;

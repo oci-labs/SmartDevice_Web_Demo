@@ -1,12 +1,14 @@
 package nexmatix.demo
 
+import com.nexmatix.Alert
+import com.nexmatix.AlertType
 import com.nexmatix.Department
 import com.nexmatix.Facility
 import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
 
-import java.lang.reflect.Array
+import java.sql.Timestamp
 
 
 class BootStrap {
@@ -50,6 +52,16 @@ class BootStrap {
 
             def station = new Station(name: "Station " + toLetter(i), manifold: (i%108)+1).save()
             println "Saved station: ${station.name}"
+        }
+
+        long offset = Timestamp.valueOf("2017-07-24 00:00:00").getTime();
+        long end = Timestamp.valueOf("2017-07-25 12:00:00").getTime();
+        long diff = end - offset + 1;
+        Timestamp rand = new Timestamp(offset + (long)(Math.random() * diff));
+        (1..200).each { i ->
+
+            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: rand, isActive: new Random().nextBoolean(), station: (i%648)+1).save()
+            println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
 
     }

@@ -1,53 +1,77 @@
-import React, {Component} from "react";
-import {Alert} from 'reactstrap';
-import Disconnect from '../icons/Disconnect';
-import Gauge from'../icons/Gauge';
-import {MdNotificationsOff} from 'react-icons/lib/md';
-import './Alerts.css';
+import React, { Component } from "react";
+import { Alert } from "reactstrap";
+import Disconnect from "../icons/Disconnect";
+import Gauge from "../icons/Gauge";
+import Icon from "../icons/Icon";
+import "./Alerts.css";
 
 class ValveAlert extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      visible: true
-    };
   }
 
-  onDismiss = () => {
-    this.setState({visible: false});
-  };
-
   render() {
-
-    const {color, leftIcon, rightIcon, valveNumber, station, alertType, time} = this.props;
-
+    const {
+      color,
+      leftIcon,
+      valveNumber,
+      station,
+      alertType,
+      time,
+      handleUpdate
+    } = this.props;
+    const handleClick = () => {
+      handleUpdate(this);
+    };
     return (
-      <Alert color={color === 'disabled' ? '' : color} className={color === 'disabled' ? 'disabled' : ''}
-             isOpen={this.state.visible}>
-        {leftIcon && (
-          <div className="alert-icon-left" style={{"height": "24px"}}>
+      <Alert
+        color={this.props.isActive ? "danger" : ""}
+        className={this.props.isActive ? "" : "disabled"}
+      >
+        {leftIcon &&
+          <div className="alert-icon-left" style={{ height: "24px" }}>
             {(() => {
               switch (leftIcon) {
-                case 'Disconnected':
-                  return <Disconnect size="24" color={color === 'disabled' ? '#777' : 'white'}/>;
-                case 'Gauge':
-                  return <Gauge size="24" color={color === 'disabled' ? '#777' : 'white'}/>;
+                case "Disconnected":
+                  return (
+                    <Disconnect
+                      size="24"
+                      color={this.props.isActive ? "white" : "#777"}
+                    />
+                  );
+                case "Gauge":
+                  return (
+                    <Gauge
+                      size="24"
+                      color={
+                        this.props.isActive === "disabled" ? "white" : "#777"
+                      }
+                    />
+                  );
                 default:
                   return null;
               }
             })()}
-          </div>
-        ) }
+          </div>}
         {/* this.props.alertContent */}
         <div className="alert-content">
-          <strong>Valve {valveNumber}</strong><br />
-          <span className="alert-details">{alertType}: {station} - {time}</span>
+          <strong>
+            Valve {valveNumber}
+          </strong>
+          <br />
+          <span className="alert-details">
+            {alertType}: {station} - {time}
+          </span>
         </div>
-        <div className="alert-icon-right">
-          {rightIcon && (
-            <MdNotificationsOff size={24} onClick={this.onDismiss}/>
-          )}
+        <div
+          className="alert-icon-right"
+          style={{ height: "24px" }}
+          onClick={handleClick}
+        >
+          {this.props.isActive && <Icon type="cancel" className="image" />
+          /* <MdNotificationsOff size={24} onClick={this.onDismiss}/>*/
+          }
         </div>
       </Alert>
     );

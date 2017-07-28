@@ -7,6 +7,10 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case types.SET_ALL_ALERTS:
+      return Object.assign({}, state, {
+        alerts: action.payload
+      });
     case types.SET_ALL_FACILITIES:
       return Object.assign({}, state, {
         facilities: action.payload
@@ -26,6 +30,16 @@ function reducer(state = initialState, action) {
     case types.UPDATE_ACTIVE_ITEMS:
       return Object.assign({}, state, {
         activeItems: action.payload
+      });
+    case types.TOGGLE_ALERT:
+        let alerts = state.alerts.map((alert) => {
+          if (alert.id === action.payload.props.id) {
+            alert.isActive = !alert.isActive;
+          }
+          return alert;
+        });
+      return Object.assign({}, state, {
+        alerts: alerts
       });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {
