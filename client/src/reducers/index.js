@@ -2,6 +2,12 @@ import * as types from "../actions/types";
 
 const initialState = {
   activeItems: [],
+  selectedFacility: {},
+  selectedDepartment: {},
+  selectedMachine: {},
+  selectedManifold: {},
+  selectedStation: {},
+  VIEW_STATE: "state:facility",
   currentStation: {}
 };
 
@@ -13,7 +19,7 @@ function reducer(state = initialState, action) {
       });
     case types.SET_ALL_FACILITIES:
       return Object.assign({}, state, {
-        facilities: action.payload
+        allFacilities: action.payload
       });
     case types.SET_ALL_MACHINES:
       return Object.assign({}, state, {
@@ -23,9 +29,21 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         currentStation: action.payload
       });
-    case types.SET_CURRENT_MANIFOLD:
+    case types.SET_SELECTED_FACILITY:
       return Object.assign({}, state, {
-        currentManifold: action.payload
+        selectedFacility: action.payload
+      });
+    case types.SET_SELECTED_DEPARTMENT:
+      return Object.assign({}, state, {
+        selectedDepartment: action.payload
+      });
+    case types.SET_SELECTED_MACHINE:
+      return Object.assign({}, state, {
+        selectedMachine: action.payload
+      });
+    case types.SET_SELECTED_MANIFOLD:
+      return Object.assign({}, state, {
+        selectedManifold: action.payload
       });
     case types.UPDATE_ACTIVE_ITEMS:
       return Object.assign({}, state, {
@@ -44,6 +62,10 @@ function reducer(state = initialState, action) {
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {
         error: action.payload
+      });
+    case types.SET_VIEW_STATE:
+      return Object.assign({}, state, {
+        VIEW_STATE: action.payload
       });
     default:
       return state;

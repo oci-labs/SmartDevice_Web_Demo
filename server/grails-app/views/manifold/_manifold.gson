@@ -6,6 +6,6 @@ json {
     id manifold.id
     name manifold.name
     type 'manifold'
-    machine tmpl.machine(manifold.machine)
-    stations tmpl.station("station", manifold.stations)
+    parent tmpl.machine(manifold.machine)
+    children tmpl.station("station", manifold.stations)
 }

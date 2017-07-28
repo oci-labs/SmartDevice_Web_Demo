@@ -6,5 +6,5 @@ json {
     id facility.id
     name facility.name
     type 'facility'
-    departments tmpl.department("department", facility.departments)
+    children tmpl.department("department", facility.departments)
 }

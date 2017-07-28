@@ -2,37 +2,29 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./MainView.css";
 
-import ValveIcon from "../common/ValveIcon";
 import Tabs from "../mainView/Tabs";
-import { Row } from "../layout/LayoutComponents";
+import IconGroup from "../mainView/IconGroup";
+import { Column } from "../layout/LayoutComponents";
 
-import { setCurrentItem, setCurrentManifold } from "../../actions";
+import { setSelectedItem } from "../../actions";
 
 class MainViewComponent extends Component {
   componentWillMount() {
     this.props.handleSetCurrentItem();
   }
   render() {
-    const self = this;
     let activeItems;
     if (this.props.activeItems) {
-      activeItems = this.props.activeItems.map(function(item) {
-        const handleClick = () => {
-          self.props.handleSetCurrentItem(item, item.type === "manifold");
-        };
-        return (
-          <ValveIcon key={item.id} size="large" handleClick={handleClick}>
-            {item.name}
-          </ValveIcon>
-        );
+      activeItems = this.props.activeItems.map(function(item, index) {
+        return <IconGroup groupItem={item} key={item.id} />;
       });
     }
     return (
       <div className="mainView">
         <Tabs />
-        <Row>
+        <Column>
           {activeItems}
-        </Row>
+        </Column>
       </div>
     );
   }
@@ -46,11 +38,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleSetCurrentItem: function(item, isManifold) {
-      dispatch(setCurrentItem(item, isManifold));
-    },
-    handleSetCurrentManifold: function(item) {
-      dispatch(setCurrentManifold(item));
+    handleSetCurrentItem: function(item) {
+      dispatch(setSelectedItem(item));
     }
   };
 }
