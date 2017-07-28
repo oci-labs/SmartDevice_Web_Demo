@@ -173,3 +173,10 @@ export function getAllMachines() {
       );
   };
 }
+
+export function updateAlert(alert) {
+  return {
+    type: types.TOGGLE_ALERT,
+    payload: alert
+  };
+}

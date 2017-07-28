@@ -9,13 +9,7 @@ class ValveAlert extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isActive: this.props.isActive };
   }
-
-  onDismiss = () => {
-    this.setState({ isActive: false });
-    this.props.callback();
-  };
 
   render() {
     const {
@@ -24,13 +18,16 @@ class ValveAlert extends Component {
       valveNumber,
       station,
       alertType,
-      time
+      time,
+      handleUpdate
     } = this.props;
-
+    const handleClick = () => {
+      handleUpdate(this);
+    };
     return (
       <Alert
-        color={color === "disabled" ? "" : color || "danger"}
-        className={this.state.isActive ? "" : "disabled"}
+        color={this.props.isActive ? "danger" : ""}
+        className={this.props.isActive ? "" : "disabled"}
       >
         {leftIcon &&
           <div className="alert-icon-left" style={{ height: "24px" }}>
@@ -40,7 +37,7 @@ class ValveAlert extends Component {
                   return (
                     <Disconnect
                       size="24"
-                      color={this.state.isActive ? "white" : "#777"}
+                      color={this.props.isActive ? "white" : "#777"}
                     />
                   );
                 case "Gauge":
@@ -48,7 +45,7 @@ class ValveAlert extends Component {
                     <Gauge
                       size="24"
                       color={
-                        this.state.isActive === "disabled" ? "white" : "#777"
+                        this.props.isActive === "disabled" ? "white" : "#777"
                       }
                     />
                   );
@@ -70,9 +67,9 @@ class ValveAlert extends Component {
         <div
           className="alert-icon-right"
           style={{ height: "24px" }}
-          onClick={this.onDismiss}
+          onClick={handleClick}
         >
-          {this.state.isActive && <Icon type="cancel" className="image" />
+          {this.props.isActive && <Icon type="cancel" className="image" />
           /* <MdNotificationsOff size={24} onClick={this.onDismiss}/>*/
           }
         </div>

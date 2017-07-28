@@ -31,6 +31,16 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         activeItems: action.payload
       });
+    case types.TOGGLE_ALERT:
+        let alerts = state.alerts.map((alert) => {
+          if (alert.id === action.payload.props.id) {
+            alert.isActive = !alert.isActive;
+          }
+          return alert;
+        });
+      return Object.assign({}, state, {
+        alerts: alerts
+      });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {
         error: action.payload

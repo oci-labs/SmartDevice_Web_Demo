@@ -11,3 +11,5 @@ export const SET_CURRENT_STATION = "station:set:current";
 export const UPDATE_ACTIVE_ITEMS = "items:update";
 
 export const HANDLE_ERROR = "error:handle";
+
+export const TOGGLE_ALERT = "alert:update"
