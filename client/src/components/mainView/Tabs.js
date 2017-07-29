@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import "./Tabs.css";
 
 import Tab from "./Tab";
@@ -12,50 +12,53 @@ import {
   MANIFOLD_STATE
 } from "../common/view.config";
 
-import { initialize } from "../../actions";
+import {initialize} from "../../actions";
 
 class TabsComponent extends Component {
   componentWillMount() {
     this.props.initializeFacilities();
   }
+
   render() {
-    const self = this;
-    let additionalTabs = [
-      <Tab
-        item={{ name: "All", type: "facility" }}
-        key="0"
-        active={!this.props.selectedFacility.id}
-      />
-    ];
+    const {facilities, selectedFacility, selectedDepartment} = this.props;
+
     const addTabs = items => {
+      let firstTab = [
+        <Tab
+          item={{name: "All", type: "facility"}}
+          key="0"
+          active={!selectedFacility.id}
+        />
+      ];
+
+      let additionalTabs = [];
+
       if (items) {
-        items.map(function(item, index) {
-          additionalTabs.push(
-            <Tab
-              item={item}
-              key={index + 1}
-              active={self.props.selectedFacility.id === item.id}
-            />
-          );
-        });
+        additionalTabs = items.map((item, index) => <Tab
+            item={item}
+            key={index + 1}
+            active={selectedFacility.id === item.id}
+          />
+        );
       }
-      return additionalTabs;
+      return [...firstTab, ...additionalTabs];
     };
+
     return (
       <div>
         <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
-          <Tab item={{ name: "Facilities" }} label={true} />
-          {addTabs(this.props.facilities)}
+          <Tab item={{name: "Facilities"}} label={true}/>
+          {addTabs(facilities)}
         </View>
         <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
           <Tab
-            item={this.props.selectedFacility}
+            item={selectedFacility}
             label={true}
             selected={true}
           />
-          <Tab item={this.props.selectedDepartment} selected={true} />
-          <Tab item={{ name: "Machine" }} selected={true} />
-          <Dropdown items={this.props.selectedDepartment.children} />
+          <Tab item={selectedDepartment} selected={true}/>
+          <Tab item={{name: "Machine"}} selected={true}/>
+          <Dropdown items={selectedDepartment.children}/>
         </View>
       </div>
     );
@@ -73,7 +76,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initializeFacilities: function() {
+    initializeFacilities: function () {
       dispatch(initialize());
     }
   };
