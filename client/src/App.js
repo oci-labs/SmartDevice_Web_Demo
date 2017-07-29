@@ -5,6 +5,7 @@ import "whatwg-fetch";
 
 import AlertBar from "./components/layout/AlertBar";
 import Drilldown from "./components/layout/Drilldown";
+import MachineView from "./components/layout/MachineView";
 import MainView from "./components/layout/MainView";
 import Nav from "./components/layout/Nav";
 import Profile from "./components/layout/Profile";
@@ -26,6 +27,7 @@ class App extends Component {
           <Nav />
           <Row>
             <MainView />
+            <MachineView />
             <Drilldown />
             <AlertBar />
           </Row>

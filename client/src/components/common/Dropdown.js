@@ -44,8 +44,7 @@ class Dropdown extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("Test", newProps.items);
-    if (!this.state.selectedItem) {
+    if (newProps.items && !this.state.selectedItem) {
       this.setState({
         selectedItem: newProps.items[0]
       });
@@ -54,19 +53,22 @@ class Dropdown extends Component {
 
   render() {
     const self = this;
-    const items = this.props.items.map(function(item, index) {
-      const selectItem = () => {
-        self.setState({
-          selectedItem: item,
-          show: false
-        });
-      };
-      return (
-        <div key={index} className="dropdownItem" onClick={selectItem}>
-          {item.name}
-        </div>
-      );
-    });
+    let items = [];
+    if (this.props.items) {
+      items = this.props.items.map(function(item, index) {
+        const selectItem = () => {
+          self.setState({
+            selectedItem: item,
+            show: false
+          });
+        };
+        return (
+          <div key={index} className="dropdownItem" onClick={selectItem}>
+            {item.name}
+          </div>
+        );
+      });
+    }
     return (
       <div className="dropdownContainer">
         <div className="selectedDropdownOption">

@@ -1,0 +1,25 @@
+.groupItemContainer {
+  padding: 20px 25px; }
+  .groupItemContainer .groupItemNav {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 5px;
+    font-size: 18px;
+    font-weight: bold; }
+    .groupItemContainer .groupItemNav .groupItemNavLeft {
+      width: 100px; }
+      .groupItemContainer .groupItemNav .groupItemNavLeft .addNew {
+        display: flex;
+        justify-content: center;
+        height: 25px;
+        width: 25px;
+        border-radius: 4px;
+        background-color: #fdaa18;
+        color: white;
+        line-height: 36px; }
+    .groupItemContainer .groupItemNav .groupItemNavRight {
+      display: flex;
+      width: 100px;
+      justify-content: flex-end; }
+      .groupItemContainer .groupItemNav .groupItemNavRight .material-icons {
+        font-size: 30px; }
