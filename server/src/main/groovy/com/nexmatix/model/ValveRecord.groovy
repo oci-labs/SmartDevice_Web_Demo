@@ -5,12 +5,8 @@ import com.nexmatix.Station
 /**
  * Created by zak on 7/25/17.
  */
-class ValveRecord {
+class ValveRecord implements ValveDetails {
 
-    Integer cycleCounts
-    Integer faults
-    Integer inputs
-    Integer pressure
     Long station
 
     public ValveRecord(c, f, i, p, s) {

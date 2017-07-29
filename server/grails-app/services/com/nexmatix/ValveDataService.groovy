@@ -1,9 +1,9 @@
 package com.nexmatix
 
-import grails.transaction.Transactional
 import groovy.json.JsonBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
+import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 class ValveDataService {

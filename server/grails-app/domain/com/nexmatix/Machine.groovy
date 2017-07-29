@@ -6,9 +6,7 @@ import grails.rest.Resource
 class Machine {
 
     String name
-
-    static belongsTo = [department: Department]
-    static hasMany = [manifolds: Manifold]
+    Department department
 
     static constraints = {
         manifolds nullable: true
