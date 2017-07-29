@@ -8,7 +8,6 @@ import "./Alerts.css";
 class ValveAlert extends Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -21,6 +20,8 @@ class ValveAlert extends Component {
       time,
       handleUpdate
     } = this.props;
+    let thrownAt = new Date(time);
+    let displayTime = thrownAt.toLocaleTimeString();
     const handleClick = () => {
       handleUpdate(this);
     };
@@ -32,25 +33,22 @@ class ValveAlert extends Component {
         {leftIcon &&
           <div className="alert-icon-left" style={{ height: "24px" }}>
             {(() => {
-              switch (leftIcon) {
-                case "Disconnected":
+              switch (alertType) {
+                case "DISCONNECTED":
+                case "DATA_FAULT":
                   return (
                     <Disconnect
                       size="24"
                       color={this.props.isActive ? "white" : "#777"}
                     />
                   );
-                case "Gauge":
+                default:
                   return (
                     <Gauge
                       size="24"
-                      color={
-                        this.props.isActive === "disabled" ? "white" : "#777"
-                      }
+                      color={this.props.isActive ? "white" : "#777"}
                     />
                   );
-                default:
-                  return null;
               }
             })()}
           </div>}
@@ -61,7 +59,7 @@ class ValveAlert extends Component {
           </strong>
           <br />
           <span className="alert-details">
-            {alertType}: {station} - {time}
+            {alertType}: {station} - {displayTime}
           </span>
         </div>
         <div

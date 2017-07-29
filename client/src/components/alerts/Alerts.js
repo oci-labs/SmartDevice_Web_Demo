@@ -37,7 +37,7 @@ class AlertsComponent extends Component {
           <ValveAlert
             key={alert.id}
             id={alert.id}
-            leftIcon="Disconnected"
+            leftIcon
             isActive={alert.isActive}
             valveNumber={alert.valveSerial}
             alertType={alert.alertType}
