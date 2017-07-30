@@ -27,7 +27,7 @@ it('passes dispatch and getState', () => {
     dispatch(setSelectedItem({id: 1, type: 'facility'}, false));
     getState();
   });
-  //expect(store.dispatch).toHaveBeenCalledWith(types.SET_SELECTED_FACILITY);
+  //TODO: expect(store.dispatch).toHaveBeenCalledWith(types.SET_SELECTED_FACILITY);
   expect(store.getState).toHaveBeenCalled()
 });
 
