@@ -14,10 +14,9 @@ class MainViewComponent extends Component {
   }
   render() {
     let activeItems;
-    if (this.props.activeItems) {
-      activeItems = this.props.activeItems.map(function(item, index) {
-        return <IconGroup groupItem={item} key={item.id} />;
-      });
+    if (this.props.activeItems.length) {
+      activeItems = this.props.activeItems.map((item) =>
+        <IconGroup groupItem={item} key={item.id} />);
     }
     return (
       <div className="mainView">

@@ -14,10 +14,9 @@ function toJson(response) {
   return response.json();
 }
 
-function getFirst(items) {
-  return items.reduce(function(a, b) {
-    return a.id < b.id ? a : b;
-  });
+export function getFirst(items) {
+  return items.reduce((a, b) =>
+    a.id < b.id ? a : b);
 }
 
 export function setAllAlerts(alerts) {

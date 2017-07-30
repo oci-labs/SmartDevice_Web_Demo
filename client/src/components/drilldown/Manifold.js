@@ -6,12 +6,9 @@ const Manifold = ({ manifold }) => {
   let stations = [];
   if (manifold && manifold.children) {
     stations = manifold.children
-      .sort(function(a, b) {
-        return a.id - b.id;
-      })
-      .map(function(station, index) {
-        return <Station id={++index} key={station.id} station={station} />;
-      });
+      .sort((a, b) =>  a.id - b.id)
+      .map((station, index) =>
+        <Station id={++index} key={station.id} station={station} />);
   }
 
   while (stations.length < 9) {

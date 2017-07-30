@@ -10,8 +10,6 @@ class AlertsComponent extends Component {
     this.props.handleGetAllAlerts(1000);
   }
   render() {
-    const self = this;
-    let alerts;
     let sortedAlerts;
     let alertList;
 
@@ -32,7 +30,7 @@ class AlertsComponent extends Component {
     if (this.props.alerts) {
       let alerts = this.props.alerts;
       sortedAlerts = alerts.slice().sort(compareAlerts);
-      alertList = sortedAlerts.map(function(alert) {
+      alertList = sortedAlerts.map((alert) => {
         return (
           <ValveAlert
             key={alert.id}
@@ -43,7 +41,7 @@ class AlertsComponent extends Component {
             alertType={alert.alertType}
             station="6/6"
             time={alert.thrownAt}
-            handleUpdate={self.props.handleUpdateAlert}
+            handleUpdate={this.props.handleUpdateAlert}
           />
         );
       });
