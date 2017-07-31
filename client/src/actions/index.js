@@ -78,6 +78,11 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setViewState(states.FACILITY_STATE));
               dispatch(setActiveItems(response));
               break;
+            case "machine":
+              dispatch(setSelectedMachine({}));
+              dispatch(setSelectedItem(item.parent));
+              dispatch(setActiveItems(response));
+              break;
             default:
               console.log("Not handled yet");
           }

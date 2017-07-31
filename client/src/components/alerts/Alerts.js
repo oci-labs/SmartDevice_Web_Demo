@@ -11,7 +11,6 @@ class AlertsComponent extends Component {
   }
   render() {
     const self = this;
-    let alerts;
     let sortedAlerts;
     let alertList;
 

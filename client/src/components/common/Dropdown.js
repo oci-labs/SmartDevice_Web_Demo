@@ -52,22 +52,34 @@ class Dropdown extends Component {
   }
 
   render() {
-    const self = this;
     let items = [];
     if (this.props.items) {
-      items = this.props.items.map(function(item, index) {
+      items = this.props.items.map((item, index) => {
         const selectItem = () => {
-          self.setState({
+          this.setState({
             selectedItem: item,
             show: false
           });
+          this.props.handleItemClick(item);
         };
         return (
-          <div key={index} className="dropdownItem" onClick={selectItem}>
+          <div key={index + 1} className="dropdownItem" onClick={selectItem}>
             {item.name}
           </div>
         );
       });
+      const selectAll = () => {
+        this.setState({
+          selectedItem: { name: "All" },
+          show: false
+        });
+        this.props.handleAllClick();
+      };
+      items.unshift(
+        <div key="0" className="dropdownItem" onClick={selectAll}>
+          All
+        </div>
+      );
     }
     return (
       <div className="dropdownContainer">

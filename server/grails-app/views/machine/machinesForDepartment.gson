@@ -1,0 +1,5 @@
+model {
+    List<Machine> machineList
+}
+
+json tmpl.machine("machine", machineList)
