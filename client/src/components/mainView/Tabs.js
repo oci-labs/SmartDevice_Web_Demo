@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./Tabs.css";
 
 import Tab from "./Tab";
@@ -12,11 +12,7 @@ import {
   MANIFOLD_STATE
 } from "../common/view.config";
 
-<<<<<<< HEAD
-import {initialize} from "../../actions";
-=======
 import { initialize, setSelectedItem } from "../../actions";
->>>>>>> Updating dropdown and trying to implement custom endpoit
 
 class TabsComponent extends Component {
   componentWillMount() {
@@ -24,12 +20,12 @@ class TabsComponent extends Component {
   }
 
   render() {
-    const {facilities, selectedFacility, selectedDepartment} = this.props;
+    const { facilities, selectedFacility, selectedDepartment } = this.props;
 
     const addTabs = items => {
       let firstTab = [
         <Tab
-          item={{name: "All", type: "facility"}}
+          item={{ name: "All", type: "facility" }}
           key="0"
           active={!selectedFacility.id}
         />
@@ -38,7 +34,8 @@ class TabsComponent extends Component {
       let additionalTabs = [];
 
       if (items && items.length) {
-        additionalTabs = items.map((item, index) => <Tab
+        additionalTabs = items.map((item, index) =>
+          <Tab
             item={item}
             key={index + 1}
             active={selectedFacility.id === item.id}
@@ -53,18 +50,20 @@ class TabsComponent extends Component {
     const handleAllMachineClick = () => {
       this.props.handleItemClick({ type: "machine" });
     };
+    const handleMachineClick = item => {
+      this.props.handleItemClick(item);
+    };
+    const handleAllMachineClick = () => {
+      this.props.handleItemClick({ type: "machine" });
+    };
     return (
       <div>
         <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
-          <Tab item={{name: "Facilities"}} label={true}/>
+          <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
         </View>
         <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
-          <Tab
-            item={selectedFacility}
-            label={true}
-            selected={true}
-          />
+          <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={this.props.selectedDepartment} selected={true} />
           <Tab item={{ name: "Machine" }} selected={true} />
           <Dropdown
@@ -89,7 +88,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initializeFacilities: function () {
+    initializeFacilities: function() {
       dispatch(initialize());
     },
     handleItemClick: item => {
