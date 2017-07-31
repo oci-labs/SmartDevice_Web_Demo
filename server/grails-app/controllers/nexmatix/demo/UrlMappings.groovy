@@ -10,7 +10,8 @@ class UrlMappings {
         put "/$controller/$id(.$format)?"(action:"update")
         patch "/$controller/$id(.$format)?"(action:"patch")
 
-        "/api/$controller/$action?/$id?(.$format)?"
+        "/api/machine/$id?(.$format)?"(controller: 'machine')
+        "/api/machine/$action?/$id?(.$format)?" (controller: 'machine')
 
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
