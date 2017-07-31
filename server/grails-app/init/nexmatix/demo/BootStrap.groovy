@@ -54,13 +54,13 @@ class BootStrap {
             println "Saved station: ${station.name}"
         }
 
-        long offset = Timestamp.valueOf("2017-07-24 00:00:00").getTime();
-        long end = Timestamp.valueOf("2017-07-25 12:00:00").getTime();
+        long offset = Timestamp.valueOf("2017-07-31 08:50:00").getTime();
+        long end = Timestamp.valueOf("2017-08-01 23:59:59").getTime();
         long diff = end - offset + 1;
-        Timestamp rand = new Timestamp(offset + (long)(Math.random() * diff));
+
         (1..200).each { i ->
 
-            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: rand, isActive: new Random().nextBoolean(), station: (i%648)+1).save()
+            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: new Timestamp(offset + (long)(Math.random() * diff)).toString(), isActive: new Random().nextBoolean(), station: (i%648)+1).save()
             println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
 

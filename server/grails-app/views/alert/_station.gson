@@ -1,0 +1,10 @@
+model {
+    Station station
+}
+
+json {
+    id station.id
+    name station.name
+    manifold station.manifold.name
+    type 'station'
+}

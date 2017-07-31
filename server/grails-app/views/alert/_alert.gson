@@ -1,0 +1,13 @@
+model {
+    Alert alert
+}
+
+json {
+    id alert.id
+    alertType alert.alertType
+    thrownAt alert.thrownAt
+    valveSerial alert.valveSerial
+    isActive alert.isActive
+    type 'alert'
+    parent tmpl.station(alert.station)
+}

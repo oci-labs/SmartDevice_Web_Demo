@@ -11,6 +11,9 @@ class Alert {
     AlertType   alertType
 
     static belongsTo = [station: Station]
+    static mapping = {
+        sort "thrownAt"
+    }
 
     static constraints = {
     }
