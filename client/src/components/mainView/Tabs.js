@@ -33,7 +33,7 @@ class TabsComponent extends Component {
 
       let additionalTabs = [];
 
-      if (items) {
+      if (items && items.length) {
         additionalTabs = items.map((item, index) => <Tab
             item={item}
             key={index + 1}

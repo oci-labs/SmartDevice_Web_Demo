@@ -14,6 +14,10 @@ function toJson(response) {
   return response.json();
 }
 
+export function getFirst(items) {
+  return items.reduce((a, b) => (a.id < b.id ? a : b));
+}
+
 export function setAllAlerts(alerts) {
   return {
     type: types.SET_ALL_ALERTS,

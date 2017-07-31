@@ -6,30 +6,31 @@ import Icon from "../icons/Icon";
 import "./Alerts.css";
 
 class ValveAlert extends Component {
-
   render() {
-    const {
-      leftIcon,
-      alertType,
-      time,
-      handleUpdate
-    } = this.props;
+    const { leftIcon, alertType, time, handleUpdate } = this.props;
     const alertTypes = {
-        DATA_FAULT: "Data Fault",
-        DISCONNECTED: "Disconnected",
-        LIFECYCLE_COUNT_FAULT: "Count Fault",
-        LIFECYCLE_COUNT_WARNING: "Count Warning",
-        PRESSURE_FAULT: "Pressure Fault",
-        PRESSURE_WARNING: "Pressure Warning",
-        VALVE_FAULT: "Valve Fault"
-      }
+      DATA_FAULT: "Data Fault",
+      DISCONNECTED: "Disconnected",
+      LIFECYCLE_COUNT_FAULT: "Count Fault",
+      LIFECYCLE_COUNT_WARNING: "Count Warning",
+      PRESSURE_FAULT: "Pressure Fault",
+      PRESSURE_WARNING: "Pressure Warning",
+      VALVE_FAULT: "Valve Fault"
+    };
     let today = new Date();
     today.setHours(0);
     today.setMinutes(0);
     today.setSeconds(0);
     today = today.setMilliseconds(0);
     let thrownAt = new Date(time);
-    let displayTime = thrownAt.toLocaleString([],  {month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit'}).replace(/,/g , "");;
+    let displayTime = thrownAt
+      .toLocaleString([], {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+      .replace(/,/g, "");
     const handleClick = () => {
       handleUpdate(this);
     };
@@ -75,7 +76,8 @@ class ValveAlert extends Component {
           style={{ height: "24px" }}
           onClick={handleClick}
         >
-          {this.props.isActive && <Icon type="notifications_paused" className="image" />
+          {this.props.isActive &&
+            <Icon type="notifications_paused" className="image" />
           /* <MdNotificationsOff size={24} onClick={this.onDismiss}/>*/
           }
         </div>

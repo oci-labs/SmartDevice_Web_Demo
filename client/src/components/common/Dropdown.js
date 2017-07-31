@@ -52,12 +52,14 @@ class Dropdown extends Component {
   }
 
   render() {
-    const self = this;
-    let items = [];
+
+    const {selectedItem, show} = this.state;
+
+    let items = null;
     if (this.props.items) {
-      items = this.props.items.map(function(item, index) {
+      items = this.props.items.map((item, index) => {
         const selectItem = () => {
-          self.setState({
+          this.setState({
             selectedItem: item,
             show: false
           });
@@ -74,11 +76,11 @@ class Dropdown extends Component {
         <div className="selectedDropdownOption">
           <div className="dropdownItem">
             <div className="labelWrapper">
-              {this.state.selectedItem ? this.state.selectedItem.name : ""}
+              {selectedItem ? selectedItem.name : ""}
             </div>
             <div className="iconWrapper">
               <Icon
-                type={`${this.state.show
+                type={`${show
                   ? "keyboard_arrow_up"
                   : "keyboard_arrow_down"}`}
                 handleClick={this.expandDropdown}
@@ -87,7 +89,7 @@ class Dropdown extends Component {
           </div>
         </div>
         <div
-          className={`dropdownOptions ${this.state.show ? "show" : ""}`}
+          className={`dropdownOptions ${show ? "show" : ""}`}
           ref={this.setWrapperRef}
         >
           {items}
