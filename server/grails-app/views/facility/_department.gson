@@ -6,4 +6,6 @@ json {
     id department.id
     name department.name
     type 'department'
+    parent department.facility.id
+    children tmpl.machine("_machine", department.machines)
 }

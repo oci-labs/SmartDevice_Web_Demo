@@ -8,14 +8,16 @@ import Manifold from "../drilldown/Manifold";
 import CycleCount from "../drilldown/CycleCount";
 import Icon from "../icons/Icon";
 import { Column, Row, HorizontalLine, VerticalLine } from "./LayoutComponents";
+import View from "../common/View";
+import { MANIFOLD_STATE } from "../common/view.config";
 
-const DrilldownComponent = ({ currentManifold, currentStation }) => {
+const DrilldownComponent = ({ selectedManifold, currentStation }) => {
   let error, title, station;
 
-  if (currentManifold) {
+  if (selectedManifold) {
     title = (
       <div className="drilldownTitle">
-        {currentManifold.name}
+        {selectedManifold.name}
       </div>
     );
   }
@@ -74,23 +76,25 @@ const DrilldownComponent = ({ currentManifold, currentStation }) => {
   }
 
   return (
-    <div className={`drilldown ${currentManifold ? "show" : "hide"}`}>
-      {title}
-      <Manifold manifold={currentManifold} />
-      {error}
-      {station}
-    </div>
+    <View states={MANIFOLD_STATE}>
+      <div className={`drilldown ${selectedManifold ? "show" : "hide"}`}>
+        {title}
+        <Manifold manifold={selectedManifold} />
+        {error}
+        {station}
+      </div>
+    </View>
   );
 };
 
 DrilldownComponent.propTypes = {
-  currentManifold: PropTypes.object,
+  selectedManifold: PropTypes.object,
   currentStation: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    currentManifold: state.currentManifold,
+    selectedManifold: state.selectedManifold,
     currentStation: state.currentStation
   };
 };

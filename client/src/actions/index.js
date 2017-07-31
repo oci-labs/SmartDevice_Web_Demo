@@ -1,96 +1,23 @@
 import * as types from "./types";
+import * as states from "../components/common/view.config";
 import { SERVER_URL } from "../config";
 
 function GETAllAlerts(count) {
   return fetch(`${SERVER_URL}/api/alert?max=${count}`);
 }
 
-function GETAllFacilities() {
-  return fetch(`${SERVER_URL}/api/facility`);
-}
-
-function GETFacility({ id }) {
-  return fetch(`${SERVER_URL}/api/facility/${id}`);
-}
-
-function GETAllDepartments() {
-  return fetch(`${SERVER_URL}/api/department`);
-}
-
-function GETDepartment({ id }) {
-  return fetch(`${SERVER_URL}/api/department/${id}`);
-}
-
-function GETAllMachines() {
-  return fetch(`${SERVER_URL}api/machine`);
-}
-
 function GETItem(item) {
-  return fetch(`${SERVER_URL}/api/${item.type}/${item.id}`);
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
 function toJson(response) {
   return response.json();
 }
 
-function getChildType(item) {
-  switch (item.type) {
-    case "facility":
-      return "departments";
-    case "department":
-      return "machines";
-    case "machine":
-      return "manifolds";
-    default:
-      console.log("Shouldnt be using this", item);
-      return "something";
-  }
-}
-
-function getFirst(items) {
-  return items.reduce(function(a, b) {
-    return a.id < b.id ? a : b;
-  });
-}
-
 export function setAllAlerts(alerts) {
   return {
     type: types.SET_ALL_ALERTS,
     payload: alerts
-  };
-}
-export function setAllFacilities(facilities) {
-  return {
-    type: types.SET_ALL_FACILITIES,
-    payload: facilities
-  };
-}
-
-export function setAllDepartments(departments) {
-  return {
-    type: types.SET_ALL_DEPARTMENTS,
-    payload: departments
-  };
-}
-
-export function setAllMachines(machines) {
-  return {
-    type: types.SET_ALL_MACHINES,
-    payload: machines
-  };
-}
-
-export function setCurrentManifold(manifold) {
-  return {
-    type: types.SET_CURRENT_MANIFOLD,
-    payload: manifold
-  };
-}
-
-export function setCurrentStation(station) {
-  return {
-    type: types.SET_CURRENT_STATION,
-    payload: station
   };
 }
 
@@ -108,36 +35,91 @@ export function setActiveItems(items) {
   };
 }
 
-export function setCurrentItem(item, isManifold, currentStation) {
+export function setSelectedItem(item, keepViewState) {
   return function(dispatch) {
-    if (!item) {
-      return GETAllFacilities()
-        .then(toJson)
-        .then(
-          facilities => dispatch(setActiveItems(facilities)),
-          error => dispatch(throwError(error))
-        );
-    }
-    if (isManifold) {
-      return GETItem(item).then(toJson).then(
-        manifold => {
-          if (currentStation) {
-            dispatch(setCurrentStation(currentStation));
-          } else {
-            dispatch(setCurrentStation(getFirst(manifold.stations)));
+    if (item) {
+      GETItem(item).then(toJson).then(function(response) {
+        if (item.id) {
+          switch (item.type) {
+            case "facility":
+              dispatch(setSelectedFacility(response));
+              if (!keepViewState) {
+                dispatch(setViewState(states.FACILITY_STATE));
+              }
+              dispatch(setActiveItems([response]));
+              break;
+            case "department":
+              dispatch(setSelectedItem(response.parent, true));
+              dispatch(setSelectedDepartment(response));
+              dispatch(setViewState(states.DEPARTMENT_STATE));
+              break;
+            case "machine":
+              dispatch(setSelectedMachine(response));
+              dispatch(setViewState(states.MACHINE_STATE));
+              dispatch(setActiveItems([response]));
+              break;
+            case "manifold":
+              dispatch(setSelectedManifold(response));
+              dispatch(setViewState(states.MANIFOLD_STATE));
+              break;
+            default:
+              console.log("Not handled yet", response, item.type);
           }
-          dispatch(setCurrentManifold(manifold));
-        },
-        error => dispatch(throwError(error))
-      );
+        } else {
+          switch (item.type) {
+            case "facility":
+              dispatch(setSelectedFacility({}));
+              dispatch(setViewState(states.FACILITY_STATE));
+              dispatch(setActiveItems(response));
+              break;
+            default:
+              console.log("Not handled yet");
+          }
+        }
+      });
     }
-    return GETItem(item).then(toJson).then(
-      item => {
-        const activeItems = item[getChildType(item)];
-        dispatch(setActiveItems(activeItems));
-      },
-      error => dispatch(throwError(error))
-    );
+  };
+}
+
+function setAllFacilities(facilities) {
+  return {
+    type: types.SET_ALL_FACILITIES,
+    payload: facilities
+  };
+}
+
+export function setSelectedFacility(facility) {
+  return {
+    type: types.SET_SELECTED_FACILITY,
+    payload: facility
+  };
+}
+
+export function setSelectedDepartment(department) {
+  return {
+    type: types.SET_SELECTED_DEPARTMENT,
+    payload: department
+  };
+}
+
+export function setSelectedMachine(machine) {
+  return {
+    type: types.SET_SELECTED_MACHINE,
+    payload: machine
+  };
+}
+
+export function setSelectedManifold(manifold) {
+  return {
+    type: types.SET_SELECTED_MANIFOLD,
+    payload: manifold
+  };
+}
+
+export function setViewState(state) {
+  return {
+    type: types.SET_VIEW_STATE,
+    payload: state
   };
 }
 
@@ -152,25 +134,19 @@ export function getAllAlerts(count = 10) {
   };
 }
 
-export function getAllFacilities() {
-  return function(dispatch) {
-    return GETAllFacilities()
-      .then(toJson)
-      .then(
-        facilities => dispatch(setAllFacilities(facilities)),
-        error => dispatch(throwError(error))
-      );
+export function setSelectedStation(station) {
+  return {
+    type: types.SET_CURRENT_STATION,
+    payload: station
   };
 }
 
-export function getAllMachines() {
-  return function(dispatch) {
-    return GETAllMachines()
-      .then(toJson)
-      .then(
-        machines => dispatch(setAllMachines(machines)),
-        error => dispatch(throwError(error))
-      );
+export function initialize() {
+  return dispatch => {
+    GETItem({ type: "facility" }).then(toJson).then(response => {
+      dispatch(setActiveItems(response));
+      dispatch(setAllFacilities(response));
+    });
   };
 }
 

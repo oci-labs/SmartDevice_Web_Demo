@@ -3,3 +3,6 @@
   flex-direction: column;
   min-width: 400px;
   flex: 1 0 0; }
+  .mainView .mainViewItems {
+    display: flex;
+    justify-content: space-around; }

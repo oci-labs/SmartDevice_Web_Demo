@@ -7,8 +7,13 @@ export const SET_CURRENT_DEPARTMENT = "department:set:current";
 export const SET_CURRENT_MACHINE = "machine:set:current";
 export const SET_CURRENT_MANIFOLD = "manifold:set:current";
 export const SET_CURRENT_STATION = "station:set:current";
+export const SET_SELECTED_FACILITY = "selected:facility";
+export const SET_SELECTED_DEPARTMENT = "selected:department";
+export const SET_SELECTED_MACHINE = "selected:machine";
+export const SET_SELECTED_MANIFOLD = "selected:manifold";
 
 export const UPDATE_ACTIVE_ITEMS = "items:update";
+export const SET_VIEW_STATE = "set:state";
 
 export const HANDLE_ERROR = "error:handle";
 

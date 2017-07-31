@@ -6,5 +6,5 @@ json {
     id station.id
     name station.name
     type 'station'
-    manifold tmpl.manifold(station.manifold)
+    parent tmpl.manifold(station.manifold)
 }

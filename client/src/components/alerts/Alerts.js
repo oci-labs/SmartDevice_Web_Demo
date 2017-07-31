@@ -6,54 +6,42 @@ import "./Alerts.css";
 import { getAllAlerts, updateAlert } from "../../actions";
 
 class AlertsComponent extends Component {
-  componentWillMount() {
-    this.props.handleGetAllAlerts(1000);
-  }
-  render() {
-    const self = this;
-    let alerts;
-    let sortedAlerts;
-    let alertList;
-
-    function compareAlerts(a, b) {
-      // Use toUpperCase() to ignore character casing
-      const activeA = a.isActive;
-      const activeB = b.isActive;
-
-      let comparison = 0;
-      if (activeA > activeB) {
-        comparison = -1;
-      } else if (activeA < activeB) {
-        comparison = 1;
-      }
-      return comparison;
+    componentWillMount() {
+        this.props.handleGetAllAlerts(30);
     }
 
-    if (this.props.alerts) {
-      let alerts = this.props.alerts;
-      sortedAlerts = alerts.slice().sort(compareAlerts);
-      alertList = sortedAlerts.map(function(alert) {
+    render() {
+        const self = this;
+        let alertList;
+
+        if (this.props.alerts) {
+            let alerts = this.props.alerts;
+            let activeAlerts = [].concat(alerts)
+                .filter((alert) => { return alert.isActive === true });
+            let inActiveAlerts = [].concat(alerts)
+                .filter((alert) => { return alert.isActive === false});
+            activeAlerts.sort((a, b) => (new Date(a.thrownAt) < new Date(b.thrownAt)) ? 1 : (new Date(a.thrownAt) > new Date(b.thrownAt)) ? -1 : 0);
+            inActiveAlerts.sort((a, b) => (new Date(a.thrownAt) < new Date(b.thrownAt)) ? 1 : (new Date(a.thrownAt) > new Date(b.thrownAt)) ? -1 : 0);
+            alertList = activeAlerts.concat(inActiveAlerts)
+                .map((alert) =>
+                    <ValveAlert
+                        key={alert.id}
+                        id={alert.id}
+                        leftIcon
+                        isActive={alert.isActive}
+                        alertType={alert.alertType}
+                        time={alert.thrownAt}
+                        handleUpdate={self.props.handleUpdateAlert}
+                    />
+                );
+            console.log(alertList);
+        }
         return (
-          <ValveAlert
-            key={alert.id}
-            id={alert.id}
-            leftIcon
-            isActive={alert.isActive}
-            valveNumber={alert.valveSerial}
-            alertType={alert.alertType}
-            station="6/6"
-            time={alert.thrownAt}
-            handleUpdate={self.props.handleUpdateAlert}
-          />
+            <div className="alertsContainer">
+                {alertList || "No Alerts"}
+            </div>
         );
-      });
     }
-    return (
-      <div className="alertsContainer">
-        {alertList}
-      </div>
-    );
-  }
 }
 
 function mapStateToProps(state) {

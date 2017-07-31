@@ -6,6 +6,6 @@ json {
     id department.id
     name department.name
     type 'department'
-    facility tmpl.facility(department.facility)
-    machines tmpl.machine("_machine", department.machines)
+    parent tmpl.facility(department.facility)
+    children tmpl.machine("_machine", department.machines)
 }
