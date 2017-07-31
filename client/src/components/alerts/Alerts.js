@@ -12,9 +12,9 @@ class AlertsComponent extends Component {
   }
 
   render() {
-    const self = this;
     let alertList;
     let inactiveAlertList;
+    const {handleUpdateAlert} = this.props;
 
     if (this.props.alerts) {
       let alerts = this.props.alerts;
@@ -44,7 +44,7 @@ class AlertsComponent extends Component {
                 isActive={alert.isActive}
                 alertType={alert.alertType}
                 time={alert.thrownAt}
-                handleUpdate={self.props.handleUpdateAlert}
+                handleUpdate={handleUpdateAlert}
               />
       );
       inactiveAlertList = inactiveAlerts.map(alert =>
@@ -55,23 +55,9 @@ class AlertsComponent extends Component {
               isActive={alert.isActive}
               alertType={alert.alertType}
               time={alert.thrownAt}
-              handleUpdate={self.props.handleUpdateAlert}
+              handleUpdate={handleUpdateAlert}
           />
       );
-      // alertList = activeAlerts
-      //   .concat(inActiveAlerts)
-      //   .map(alert =>
-      //     <ValveAlert
-      //       key={alert.id}
-      //       id={alert.id}
-      //       leftIcon
-      //       isActive={alert.isActive}
-      //       alertType={alert.alertType}
-      //       time={alert.thrownAt}
-      //       handleUpdate={self.props.handleUpdateAlert}
-      //     />
-      //   );
-      // console.log(alertList);
     }
     return (
       <div className="alertsContainer">
