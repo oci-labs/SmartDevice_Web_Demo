@@ -32,7 +32,8 @@
   "plugins": [
     "flowtype",
     "html",
-    "react"
+    "react",
+    "prettier"
   ],
 
   "rules": {
@@ -294,6 +295,7 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-template": "off",
+    "prettier/prettier": "error",
     "quote-props": ["error", "as-needed"],
     "quotes": ["error", "single", "avoid-escape"],
     "radix": "error",

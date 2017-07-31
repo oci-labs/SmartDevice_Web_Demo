@@ -1,0 +1,72 @@
+.valveIconWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; }
+  .valveIconWrapper.clickable {
+    cursor: pointer; }
+    .valveIconWrapper.clickable:hover .valveIconBorder {
+      background-color: rgba(226, 226, 226, 0.98) !important; }
+  .valveIconWrapper.large .iconContainer {
+    width: 120px;
+    height: 120px;
+    font-size: 17px; }
+  .valveIconWrapper.large .valveIconLabel {
+    top: 0px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #7e7e7e; }
+  .valveIconWrapper .iconContainer {
+    display: flex;
+    align-content: stretch;
+    width: 88px;
+    height: 88px;
+    font-size: 10px; }
+    .valveIconWrapper .iconContainer .valveIconContainer {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      margin: 8px;
+      padding: .3em;
+      border-radius: 50%;
+      border: 1px solid rgba(231, 231, 231, 0.26);
+      background-color: rgba(231, 231, 231, 0.98); }
+      .valveIconWrapper .iconContainer .valveIconContainer .valveIconBorder {
+        display: flex;
+        flex: 1;
+        align-items: stretch;
+        border-radius: 50%;
+        border: 1px solid rgba(68, 68, 68, 0.35);
+        box-shadow: inset 0px 0px 0.1em 0.1em rgba(68, 68, 68, 0.25);
+        background-color: white; }
+        .valveIconWrapper .iconContainer .valveIconContainer .valveIconBorder .valveIconCheck {
+          display: flex;
+          justify-content: center;
+          flex: 1;
+          top: calc(50% - 24px);
+          align-items: center;
+          color: #17a71d; }
+          .valveIconWrapper .iconContainer .valveIconContainer .valveIconBorder .valveIconCheck .material-icons {
+            font-size: 3em; }
+  .valveIconWrapper .valveIconLabel {
+    display: flex;
+    position: relative;
+    top: -7px;
+    text-align: center; }
+
+.warning.valveIconContainer {
+  border: 1px solid red;
+  background-color: red; }
+
+.warning .valveIconBorder {
+  display: flex;
+  justify-content: center;
+  border: 1px solid red;
+  background-color: red; }
+  .warning .valveIconBorder .valveIconCheck {
+    display: flex;
+    justify-content: center;
+    color: green;
+    font-weight: bold; }

@@ -1,0 +1,9 @@
+model {
+    Manifold manifold
+}
+
+json {
+    id manifold.id
+    name manifold.name
+    type 'manifold'
+}

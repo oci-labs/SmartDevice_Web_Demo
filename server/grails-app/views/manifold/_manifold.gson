@@ -1,0 +1,11 @@
+model {
+    Manifold manifold
+}
+
+json {
+    id manifold.id
+    name manifold.name
+    type 'manifold'
+    parent tmpl.machine(manifold.machine)
+    children tmpl.station("station", manifold.stations)
+}

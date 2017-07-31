@@ -1,0 +1,67 @@
+import React from "react";
+import { connect } from "react-redux";
+import "./MachineView.css";
+
+import { HorizontalLine } from "../layout/LayoutComponents";
+import Icon from "../icons/Icon";
+import View from "../common/View";
+import { DEPARTMENT_STATE } from "../common/view.config";
+import { setSelectedItem } from "../../actions";
+
+const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
+  let machines;
+
+  if (selectedDepartment.children) {
+    machines = selectedDepartment.children.map(function(child, index) {
+      const machineClick = () => {
+        handleMachineClick(child);
+      };
+      return (
+        <div key={index} onClick={machineClick}>
+          <div className="departmentChild">
+            <div>
+              {child.name}
+            </div>
+            <Icon type="keyboard_arrow_right" />
+          </div>
+          <HorizontalLine />
+        </div>
+      );
+    });
+  }
+  return (
+    <View states={[DEPARTMENT_STATE]} className="machineView">
+      <div className="departmentTitle">
+        <div>
+          {selectedDepartment.name}
+        </div>
+        <div className="departmentNavRight">
+          <Icon type="mode_edit" />
+          <Icon type="fullscreen" />
+        </div>
+      </div>
+      <HorizontalLine />
+      {machines}
+    </View>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    selectedDepartment: state.selectedDepartment
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleMachineClick: function(machine) {
+      dispatch(setSelectedItem(machine));
+    }
+  };
+};
+
+const MachineView = connect(mapStateToProps, mapDispatchToProps)(
+  MachineViewComponent
+);
+
+export default MachineView;

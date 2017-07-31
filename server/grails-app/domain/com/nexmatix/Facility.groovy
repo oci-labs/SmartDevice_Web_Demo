@@ -1,4 +1,4 @@
-package com.nextmatix
+package com.nexmatix
 
 import grails.rest.Resource
 
