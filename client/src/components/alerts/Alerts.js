@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ValveAlert from "./ValveAlert";
+import { CSSTransitionGroup } from 'react-transition-group'
 import "./Alerts.css";
 
 import { getAllAlerts, updateAlert } from "../../actions";
@@ -13,13 +14,14 @@ class AlertsComponent extends Component {
   render() {
     const self = this;
     let alertList;
+    let inactiveAlertList;
 
     if (this.props.alerts) {
       let alerts = this.props.alerts;
       let activeAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === true;
       });
-      let inActiveAlerts = [].concat(alerts).filter(alert => {
+      let inactiveAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === false;
       });
       activeAlerts.sort(
@@ -28,30 +30,58 @@ class AlertsComponent extends Component {
             ? 1
             : new Date(a.thrownAt) > new Date(b.thrownAt) ? -1 : 0
       );
-      inActiveAlerts.sort(
+      inactiveAlerts.sort(
         (a, b) =>
           new Date(a.thrownAt) < new Date(b.thrownAt)
             ? 1
             : new Date(a.thrownAt) > new Date(b.thrownAt) ? -1 : 0
       );
-      alertList = activeAlerts
-        .concat(inActiveAlerts)
-        .map(alert =>
+      alertList = activeAlerts.map(alert =>
+              <ValveAlert
+                key={alert.id}
+                id={alert.id}
+                leftIcon
+                isActive={alert.isActive}
+                alertType={alert.alertType}
+                time={alert.thrownAt}
+                handleUpdate={self.props.handleUpdateAlert}
+              />
+      );
+      inactiveAlertList = inactiveAlerts.map(alert =>
           <ValveAlert
-            key={alert.id}
-            id={alert.id}
-            leftIcon
-            isActive={alert.isActive}
-            alertType={alert.alertType}
-            time={alert.thrownAt}
-            handleUpdate={self.props.handleUpdateAlert}
+              key={alert.id}
+              id={alert.id}
+              leftIcon
+              isActive={alert.isActive}
+              alertType={alert.alertType}
+              time={alert.thrownAt}
+              handleUpdate={self.props.handleUpdateAlert}
           />
-        );
-      console.log(alertList);
+      );
+      // alertList = activeAlerts
+      //   .concat(inActiveAlerts)
+      //   .map(alert =>
+      //     <ValveAlert
+      //       key={alert.id}
+      //       id={alert.id}
+      //       leftIcon
+      //       isActive={alert.isActive}
+      //       alertType={alert.alertType}
+      //       time={alert.thrownAt}
+      //       handleUpdate={self.props.handleUpdateAlert}
+      //     />
+      //   );
+      // console.log(alertList);
     }
     return (
       <div className="alertsContainer">
-        {alertList || "No Alerts"}
+        <CSSTransitionGroup
+            transitionName="alerts"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}>
+            {alertList}
+            {inactiveAlertList}
+        </CSSTransitionGroup>
       </div>
     );
   }
