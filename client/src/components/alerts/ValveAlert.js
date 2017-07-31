@@ -6,7 +6,6 @@ import Icon from "../icons/Icon";
 import "./Alerts.css";
 
 class ValveAlert extends Component {
-
   render() {
     const {
       //color,

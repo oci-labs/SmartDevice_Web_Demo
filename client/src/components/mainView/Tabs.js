@@ -12,7 +12,11 @@ import {
   MANIFOLD_STATE
 } from "../common/view.config";
 
+<<<<<<< HEAD
 import {initialize} from "../../actions";
+=======
+import { initialize, setSelectedItem } from "../../actions";
+>>>>>>> Updating dropdown and trying to implement custom endpoit
 
 class TabsComponent extends Component {
   componentWillMount() {
@@ -43,7 +47,12 @@ class TabsComponent extends Component {
       }
       return [...firstTab, ...additionalTabs];
     };
-
+    const handleMachineClick = item => {
+      this.props.handleItemClick(item);
+    };
+    const handleAllMachineClick = () => {
+      this.props.handleItemClick({ type: "machine" });
+    };
     return (
       <div>
         <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
@@ -56,9 +65,13 @@ class TabsComponent extends Component {
             label={true}
             selected={true}
           />
-          <Tab item={selectedDepartment} selected={true}/>
-          <Tab item={{name: "Machine"}} selected={true}/>
-          <Dropdown items={selectedDepartment.children}/>
+          <Tab item={this.props.selectedDepartment} selected={true} />
+          <Tab item={{ name: "Machine" }} selected={true} />
+          <Dropdown
+            items={this.props.selectedDepartment.children}
+            handleItemClick={handleMachineClick}
+            handleAllClick={handleAllMachineClick}
+          />
         </View>
       </div>
     );
@@ -78,6 +91,9 @@ const mapDispatchToProps = dispatch => {
   return {
     initializeFacilities: function () {
       dispatch(initialize());
+    },
+    handleItemClick: item => {
+      dispatch(setSelectedItem(item));
     }
   };
 };

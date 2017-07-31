@@ -52,8 +52,7 @@ class Dropdown extends Component {
   }
 
   render() {
-
-    const {selectedItem, show} = this.state;
+    const { selectedItem, show } = this.state;
 
     let items = null;
     if (this.props.items) {
@@ -63,13 +62,26 @@ class Dropdown extends Component {
             selectedItem: item,
             show: false
           });
+          this.props.handleItemClick(item);
         };
         return (
-          <div key={index} className="dropdownItem" onClick={selectItem}>
+          <div key={index + 1} className="dropdownItem" onClick={selectItem}>
             {item.name}
           </div>
         );
       });
+      const selectAll = () => {
+        this.setState({
+          selectedItem: { name: "All" },
+          show: false
+        });
+        this.props.handleAllClick();
+      };
+      items.unshift(
+        <div key="0" className="dropdownItem" onClick={selectAll}>
+          All
+        </div>
+      );
     }
     return (
       <div className="dropdownContainer">
@@ -80,9 +92,7 @@ class Dropdown extends Component {
             </div>
             <div className="iconWrapper">
               <Icon
-                type={`${show
-                  ? "keyboard_arrow_up"
-                  : "keyboard_arrow_down"}`}
+                type={`${show ? "keyboard_arrow_up" : "keyboard_arrow_down"}`}
                 handleClick={this.expandDropdown}
               />
             </div>
