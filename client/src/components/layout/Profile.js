@@ -1,12 +1,31 @@
-import React, {Component} from 'react';
-import './Profile.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import "./Profile.css";
 
-class Profile extends Component {
-    render() {
-        return (
-            <div className="profile">Profile</div>
-        );
-    }
-}
+import ProfilePicture from "../profile/ProfilePicture";
+import { Column, Row } from "../layout/LayoutComponents";
+
+const ProfileComponent = ({ viewProfile }) => {
+  return (
+    <div className={`profile ${viewProfile ? "show" : ""}`}>
+      <Column>
+        <ProfilePicture />
+        <div className="profileTitle">Brian Jenkins</div>
+        <div className="profileRoles">
+          <span>Technician</span> | <span className="logout">Logout</span>
+        </div>
+        <button className="adminButton">Admin</button>
+      </Column>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    viewProfile: state.viewProfile
+  };
+};
+
+const Profile = connect(mapStateToProps)(ProfileComponent);
 
 export default Profile;

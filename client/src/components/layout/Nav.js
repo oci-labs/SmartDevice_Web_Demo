@@ -1,57 +1,34 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import "./Nav.css";
 
-import { Row } from "../layout/LayoutComponents";
+import Icon from "../icons/Icon";
+import { toggleProfile } from "../../actions";
 
-class NavComponent extends Component {
-  render() {
-    return (
-      <div className="nav">
-        <Row>
-          <div>
-            Selected Facility:{" "}
-            {this.props.selectedFacility
-              ? this.props.selectedFacility.name
-              : "None"}
-          </div>
-          <div>
-            Selected Department:{" "}
-            {this.props.selectedDepartment
-              ? this.props.selectedDepartment.name
-              : "None"}
-          </div>
-          <div>
-            Selected Machine:{" "}
-            {this.props.selectedMachine
-              ? this.props.selectedMachine.name
-              : "None"}
-          </div>
-          <div>
-            Selected Manifold:{" "}
-            {this.props.selectedManifold
-              ? this.props.selectedManifold.name
-              : "None"}
-          </div>
-          <div>
-            VIEW_STATE: {this.props.VIEW_STATE ? this.props.VIEW_STATE : "None"}
-          </div>
-        </Row>
+const NavComponent = ({ toggleProfile }) => {
+  return (
+    <div className="nav">
+      <div className="toggleProfile" onClick={toggleProfile}>
+        <Icon type="dehaze" />
       </div>
-    );
-  }
-}
+      <div className="companyTitle">Continental</div>
+      <div className="spacing" />
+      <div className="rightNavIcons">
+        <Icon type="fullscreen" />
+        <Icon type="warning" />
+      </div>
+    </div>
+  );
+};
 
-const mapStateToProps = state => {
+const mapDispatchToProps = dispatch => {
   return {
-    selectedFacility: state.selectedFacility,
-    selectedDepartment: state.selectedDepartment,
-    selectedMachine: state.selectedMachine,
-    selectedManifold: state.selectedManifold,
-    VIEW_STATE: state.VIEW_STATE
+    toggleProfile: function() {
+      dispatch(toggleProfile());
+    }
   };
 };
 
-const Nav = connect(mapStateToProps)(NavComponent);
+const Nav = connect(null, mapDispatchToProps)(NavComponent);
 
 export default Nav;
