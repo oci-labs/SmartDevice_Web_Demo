@@ -1,4 +1,44 @@
 .nav {
-    min-height: 45px;
-    border-bottom: 1px solid grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 45px;
+  border-bottom: 1px solid grey;
+  .toggleProfile {
+    display: flex;
+    justify-content: center;
+    background-color: #fdaa18;
+    height: 45px;
+    width: 45px;
+    padding: 10px;
+    cursor: pointer;
+    .material-icons {
+      font-size: 2em;
+      color: white;
+    }
+  }
+  .companyTitle {
+    padding: 5px 20px;
+    font-size: 21px;
+  }
+  .spacing {
+    display: flex;
+    flex: 1;
+  }
+  .rightNavIcons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 20px;
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+      .material-icons {
+        color: #7c7c7c;
+        font-size: 2.6em;
+      }
+    }
+  }
 }
