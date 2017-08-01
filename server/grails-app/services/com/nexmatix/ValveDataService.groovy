@@ -1,5 +1,6 @@
 package com.nexmatix
 
+import com.nexmatix.datastore.ValveDataStoreService
 import groovy.json.JsonBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
@@ -10,12 +11,12 @@ class ValveDataService {
 
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate
-    DataStoreService dataStoreService
+    ValveDataStoreService valveDataStoreService
 
     def retrieveAndSend() {
         log.info "retrieveAndSend"
 
-        def data = dataStoreService.retrieveValveData()
+        def data = valveDataStoreService.retrieveValveData()
 
         simpMessagingTemplate.convertAndSend "/topic/valves", "${new JsonBuilder(data*.outputProperties)}"
 
