@@ -10,13 +10,16 @@ function GETItem(item) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
+function GETMachinesByDepartment(departmentId) {
+  return fetch(`${SERVER_URL}/api/machine/byDepartment/${departmentId}`);
+}
+
 function toJson(response) {
   return response.json();
 }
 
 export function getFirst(items) {
-  return items.reduce((a, b) =>
-    a.id < b.id ? a : b);
+  return items.reduce((a, b) => (a.id < b.id ? a : b));
 }
 
 export function setAllAlerts(alerts) {
@@ -54,9 +57,15 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setActiveItems([response]));
               break;
             case "department":
-              dispatch(setSelectedItem(response.parent, true));
               dispatch(setSelectedDepartment(response));
-              dispatch(setViewState(states.DEPARTMENT_STATE));
+              if (!keepViewState) {
+                dispatch(setSelectedItem(response.parent, true));
+                dispatch(setViewState(states.DEPARTMENT_STATE));
+              } else {
+                GETMachinesByDepartment(item.id).then(toJson).then(response => {
+                  dispatch(setActiveItems(response));
+                });
+              }
               break;
             case "machine":
               dispatch(setSelectedMachine(response));
@@ -79,8 +88,7 @@ export function setSelectedItem(item, keepViewState) {
               break;
             case "machine":
               dispatch(setSelectedMachine({}));
-              dispatch(setSelectedItem(item.parent));
-              dispatch(setActiveItems(response));
+              dispatch(setSelectedItem(item.parent, true));
               break;
             default:
               console.log("Not handled yet");

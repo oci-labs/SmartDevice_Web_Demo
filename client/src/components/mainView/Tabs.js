@@ -48,13 +48,10 @@ class TabsComponent extends Component {
       this.props.handleItemClick(item);
     };
     const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
-    };
-    const handleMachineClick = item => {
-      this.props.handleItemClick(item);
-    };
-    const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
+      this.props.handleItemClick({
+        type: "machine",
+        parent: this.props.selectedDepartment
+      });
     };
     return (
       <div>
@@ -68,6 +65,7 @@ class TabsComponent extends Component {
           <Tab item={{ name: "Machine" }} selected={true} />
           <Dropdown
             items={this.props.selectedDepartment.children}
+            initialItem={this.props.selectedMachine}
             handleItemClick={handleMachineClick}
             handleAllClick={handleAllMachineClick}
           />
@@ -82,7 +80,8 @@ const mapStateToProps = state => {
     activeItems: state.activeItems,
     facilities: state.allFacilities,
     selectedDepartment: state.selectedDepartment,
-    selectedFacility: state.selectedFacility
+    selectedFacility: state.selectedFacility,
+    selectedMachine: state.selectedMachine
   };
 };
 
