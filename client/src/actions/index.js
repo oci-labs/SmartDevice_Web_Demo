@@ -167,6 +167,12 @@ export function initialize() {
   };
 }
 
+export function toggleProfile() {
+  return {
+    type: types.TOGGLE_PROFILE
+  };
+}
+
 export function updateAlert(alert) {
   return {
     type: types.TOGGLE_ALERT,
