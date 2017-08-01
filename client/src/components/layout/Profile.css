@@ -1,5 +1,31 @@
 .profile {
+  display: none;
   min-width: 210px;
   height: 100vh;
   background-color: #444444;
-  color: white; }
+  color: white;
+  padding: 30px 15px; }
+  .profile.show {
+    display: flex;
+    animation-name: showProfile;
+    animation-duration: 4s; }
+  .profile .profileTitle {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 1.5em; }
+  .profile .profileRoles {
+    text-align: center;
+    font-size: .9em;
+    color: #6b6b6b; }
+    .profile .profileRoles .logout {
+      color: #fdaa18;
+      text-decoration: underline;
+      cursor: pointer; }
+  .profile .adminButton {
+    color: white;
+    height: 40px;
+    margin-top: 40px;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: 2px solid #fdaa18;
+    border-radius: 4px; }
