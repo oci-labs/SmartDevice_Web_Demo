@@ -12,10 +12,11 @@ class AlertsComponent extends Component {
   }
 
   render() {
-    const self = this;
     let alertList;
     let inactiveAlertList;
     let snoozedAlertList;
+
+    const {handleUpdateAlert} = this.props;
 
     if (this.props.alerts) {
       let alerts = this.props.alerts;
@@ -55,7 +56,7 @@ class AlertsComponent extends Component {
                 isSnoozed={alert.isSnoozed}
                 alertType={alert.alertType}
                 time={alert.thrownAt}
-                handleUpdate={self.props.handleUpdateAlert}
+                handleUpdate={handleUpdateAlert}
               />
       );
       inactiveAlertList = inactiveAlerts.map(alert =>
@@ -67,7 +68,7 @@ class AlertsComponent extends Component {
               isSnoozed={alert.isSnoozed}
               alertType={alert.alertType}
               time={alert.thrownAt}
-              handleUpdate={self.props.handleUpdateAlert}
+              handleUpdate={handleUpdateAlert}
           />
       );
       snoozedAlertList = snoozedAlerts.map(alert =>
@@ -79,7 +80,7 @@ class AlertsComponent extends Component {
               isSnoozed={alert.isSnoozed}
               alertType={alert.alertType}
               time={alert.thrownAt}
-              handleUpdate={self.props.handleUpdateAlert}
+              handleUpdate={handleUpdateAlert}
           />
       );
     }
