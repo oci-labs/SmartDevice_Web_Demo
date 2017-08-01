@@ -7,7 +7,14 @@ import "./Alerts.css";
 
 class ValveAlert extends Component {
   render() {
-    const { leftIcon, alertType, time, handleUpdate } = this.props;
+    const {
+      leftIcon,
+      alertType,
+      isActive,
+      isSnoozed,
+      time,
+      handleUpdate
+    } = this.props;
     const alertTypes = {
       DATA_FAULT: "Data Fault",
       DISCONNECTED: "Disconnected",
@@ -36,8 +43,8 @@ class ValveAlert extends Component {
     };
     return (
       <Alert
-        color={this.props.isActive ? "danger" : ""}
-        className={this.props.isActive ? "" : "disabled"}
+        color={isSnoozed ? "info" : isActive && !isSnoozed ? "danger" : ""}
+        className={!isActive ? "disabled" : ""}
       >
         {leftIcon &&
           <div className="alert-icon-left" style={{ height: "24px" }}>
@@ -46,17 +53,11 @@ class ValveAlert extends Component {
                 case "DISCONNECTED":
                 case "DATA_FAULT":
                   return (
-                    <Disconnect
-                      size="24"
-                      color={this.props.isActive ? "white" : "#777"}
-                    />
+                    <Disconnect size="24" color={isActive ? "white" : "#777"} />
                   );
                 default:
                   return (
-                    <Gauge
-                      size="24"
-                      color={this.props.isActive ? "white" : "#777"}
-                    />
+                    <Gauge size="24" color={isActive ? "white" : "#777"} />
                   );
               }
             })()}
@@ -76,7 +77,7 @@ class ValveAlert extends Component {
           style={{ height: "24px" }}
           onClick={handleClick}
         >
-          {this.props.isActive &&
+          {isActive && !isSnoozed &&
             <Icon type="notifications_paused" className="image" />
           /* <MdNotificationsOff size={24} onClick={this.onDismiss}/>*/
           }

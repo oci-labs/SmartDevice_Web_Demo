@@ -17,4 +17,4 @@ export const SET_VIEW_STATE = "set:state";
 
 export const HANDLE_ERROR = "error:handle";
 
-export const TOGGLE_ALERT = "alert:update"
+export const SNOOZE_ALERT = "alert:snooze"

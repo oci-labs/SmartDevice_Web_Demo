@@ -42,7 +42,7 @@ div.alertsContainer .alerts-enter {
 
 div.alertsContainer .alerts-enter.alerts-enter-active {
   opacity: 1;
-  transition: 700ms; }
+  transition: 600ms; }
 
 div.alertsContainer .alerts-leave {
   opacity: 1; }

@@ -4,7 +4,7 @@ import ValveAlert from "./ValveAlert";
 import { CSSTransitionGroup } from 'react-transition-group'
 import "./Alerts.css";
 
-import { getAllAlerts, updateAlert } from "../../actions";
+import { getAllAlerts, snoozeAlert } from "../../actions";
 
 class AlertsComponent extends Component {
   componentWillMount() {
@@ -15,14 +15,18 @@ class AlertsComponent extends Component {
     const self = this;
     let alertList;
     let inactiveAlertList;
+    let snoozedAlertList;
 
     if (this.props.alerts) {
       let alerts = this.props.alerts;
       let activeAlerts = [].concat(alerts).filter(alert => {
-        return alert.isActive === true;
+        return alert.isActive === true && alert.isSnoozed=== false;
       });
       let inactiveAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === false;
+      });
+      let snoozedAlerts = [].concat(alerts).filter(alert => {
+        return alert.isActive === true && alert.isSnoozed === true;
       });
       activeAlerts.sort(
         (a, b) =>
@@ -36,12 +40,19 @@ class AlertsComponent extends Component {
             ? 1
             : new Date(a.thrownAt) > new Date(b.thrownAt) ? -1 : 0
       );
+      snoozedAlerts.sort(
+        (a, b) =>
+          new Date(a.thrownAt) < new Date(b.thrownAt)
+            ? 1
+            : new Date(a.thrownAt) > new Date(b.thrownAt)
+      );
       alertList = activeAlerts.map(alert =>
               <ValveAlert
                 key={alert.id}
                 id={alert.id}
                 leftIcon
                 isActive={alert.isActive}
+                isSnoozed={alert.isSnoozed}
                 alertType={alert.alertType}
                 time={alert.thrownAt}
                 handleUpdate={self.props.handleUpdateAlert}
@@ -53,33 +64,33 @@ class AlertsComponent extends Component {
               id={alert.id}
               leftIcon
               isActive={alert.isActive}
+              isSnoozed={alert.isSnoozed}
               alertType={alert.alertType}
               time={alert.thrownAt}
               handleUpdate={self.props.handleUpdateAlert}
           />
       );
-      // alertList = activeAlerts
-      //   .concat(inActiveAlerts)
-      //   .map(alert =>
-      //     <ValveAlert
-      //       key={alert.id}
-      //       id={alert.id}
-      //       leftIcon
-      //       isActive={alert.isActive}
-      //       alertType={alert.alertType}
-      //       time={alert.thrownAt}
-      //       handleUpdate={self.props.handleUpdateAlert}
-      //     />
-      //   );
-      // console.log(alertList);
+      snoozedAlertList = snoozedAlerts.map(alert =>
+          <ValveAlert
+              key={alert.id}
+              id={alert.id}
+              leftIcon
+              isActive={alert.isActive}
+              isSnoozed={alert.isSnoozed}
+              alertType={alert.alertType}
+              time={alert.thrownAt}
+              handleUpdate={self.props.handleUpdateAlert}
+          />
+      );
     }
     return (
       <div className="alertsContainer">
         <CSSTransitionGroup
             transitionName="alerts"
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={300}>
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={100}>
             {alertList}
+            {snoozedAlertList}
             {inactiveAlertList}
         </CSSTransitionGroup>
       </div>
@@ -98,7 +109,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(getAllAlerts(count));
     },
     handleUpdateAlert: function(alert) {
-      dispatch(updateAlert(alert));
+      dispatch(snoozeAlert(alert));
     }
   };
 }
