@@ -29,6 +29,7 @@ class AlertsComponent extends Component {
       let snoozedAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === true && alert.isSnoozed === true;
       });
+      
       activeAlerts.sort(
         (a, b) =>
           new Date(a.thrownAt) < new Date(b.thrownAt)

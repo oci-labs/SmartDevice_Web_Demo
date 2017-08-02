@@ -1,0 +1,26 @@
+.profilePicture {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
+  .profilePicture img {
+    width: 120px;
+    height: 120px;
+    border: 5px solid black;
+    border-radius: 50%; }
+  .profilePicture .editProfilePicture {
+    position: absolute;
+    top: 90px;
+    right: calc(50% - 60px);
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 3px 0px;
+    background-color: white;
+    border: 3px solid #fdaa18;
+    border-radius: 50%;
+    cursor: pointer; }
+    .profilePicture .editProfilePicture .material-icons {
+      font-size: 18px;
+      color: #696969; }

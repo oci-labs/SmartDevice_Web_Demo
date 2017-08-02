@@ -8,7 +8,8 @@ const initialState = {
   selectedManifold: {},
   selectedStation: {},
   VIEW_STATE: "state:facility",
-  currentStation: {}
+  currentStation: {},
+  viewProfile: true
 };
 
 function reducer(state = initialState, action) {
@@ -50,14 +51,18 @@ function reducer(state = initialState, action) {
         activeItems: action.payload
       });
     case types.SNOOZE_ALERT:
-        let alerts = state.alerts.map((alert) => {
-          if (alert.id === action.payload.props.id) {
-            alert.isSnoozed = !alert.isSnoozed;
-          }
-          return alert;
-        });
+      let alerts = state.alerts.map((alert) => {
+        if (alert.id === action.payload.props.id) {
+          alert.isSnoozed = !alert.isSnoozed;
+        }
+        return alert;
+      });
       return Object.assign({}, state, {
         alerts: alerts
+      });
+    case types.TOGGLE_PROFILE:
+      return Object.assign({}, state, {
+        viewProfile: !state.viewProfile
       });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {
