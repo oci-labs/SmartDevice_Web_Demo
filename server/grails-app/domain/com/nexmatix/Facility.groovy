@@ -2,7 +2,7 @@ package com.nexmatix
 
 import grails.rest.Resource
 
-@Resource(uri='/api/facility', formats = ['json'], readOnly = false)
+@Resource(uri='/api/facility', formats = ['json'])
 class Facility {
 
     String name

@@ -7,6 +7,7 @@ import com.nexmatix.Facility
 import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
+import com.nexmatix.Valve
 
 import java.sql.Timestamp
 
@@ -50,8 +51,8 @@ class BootStrap {
 
         (1..648).each { i ->
 
-            def station = new Station(name: "Station " + toLetter(i), manifold: (i%108)+1).save()
-            println "Saved station: ${station.name}"
+            def station = new Station(serialNumber: "Station " + toLetter(i), manifold: (i%108)+1).save()
+            println "Saved station: ${station.serialNumber}"
         }
 
         long offset = Timestamp.valueOf("2017-07-24 00:00:00").getTime();
@@ -63,6 +64,10 @@ class BootStrap {
             def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: rand, isActive: new Random().nextBoolean(), station: (i%648)+1).save()
             println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
+
+
+
+        new Valve(station: Station.first(), fabricationDate: new Date(), latestStatus: null, shippingDate: new Date(), sku: 'NX-DCV-whatevs').save()
 
     }
     def destroy = {

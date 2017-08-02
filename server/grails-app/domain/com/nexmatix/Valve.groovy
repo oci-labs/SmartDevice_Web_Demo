@@ -1,12 +1,13 @@
 package com.nexmatix
 
-import com.nexmatix.model.AlertStatus
-import com.nexmatix.model.ValveDetails
+class Valve {
 
-class Valve implements ValveDetails {
-
+    String serialNumber
+    String sku
+    ValveStatus latestStatus
     Station station
 
     static constraints = {
+        latestStatus nullable: true
     }
 }

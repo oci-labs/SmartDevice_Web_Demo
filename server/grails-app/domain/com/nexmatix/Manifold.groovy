@@ -6,8 +6,8 @@ import grails.rest.Resource
 class Manifold {
 
     String name
+    Machine machine
 
-    static belongsTo = [machine: Machine]
     static hasMany = [stations: Station]
 
     static constraints = {
