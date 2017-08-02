@@ -1,5 +1,7 @@
+import com.nexmatix.Facility
+
 model {
     List<Facility> facilityList
 }
 
-json tmpl.facility("facility", facilityList)
+json tmpl.'/templates/facility'("facility", facilityList)

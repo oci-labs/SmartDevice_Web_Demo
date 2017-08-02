@@ -6,4 +6,10 @@ class Machine {
 
     String name
     Department department
+
+    List<Manifold> getManifolds() {
+        Manifold.withNewSession {
+            Manifold.where { machine == this }.list()
+        }
+    }
 }

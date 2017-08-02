@@ -1,9 +1,0 @@
-model {
-    Facility facility
-}
-
-json {
-    id facility.id
-    name facility.name
-    type 'facility'
-}
