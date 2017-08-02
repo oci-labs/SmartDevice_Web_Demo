@@ -84,23 +84,27 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 environments:
     development:
         dataSource:
             dbCreate: create-drop
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:mysql://127.0.0.1:3306/nexmatix_demo1?useTimezone=true&serverTimezone=GMT
+            driverClassName: com.mysql.cj.jdbc.Driver
+            username: root
+            password: mysql
     test:
         dataSource:
             dbCreate: update
-            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:mysql://127.0.0.1:3306/nexmatix_demo1?useTimezone=true&serverTimezone=GMT
+            driverClassName: com.mysql.cj.jdbc.Driver
+            username: root
+            password: mysql
     production:
         dataSource:
-            dbCreate: none
-            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            driverClassName: com.mysql.cj.jdbc.Driver
+            dbCreate: create-drop
+            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatix-mvd:europe-west1:grailstest-mysql&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=foo123&useSSL=false
             properties:
                 jmxEnabled: true
                 initialSize: 5
