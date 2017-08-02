@@ -32,5 +32,6 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+    logger("com.nexmatix", INFO, ['STDOUT', 'FULL_STACKTRACE'], false)
 }
 root(ERROR, ['STDOUT'])
