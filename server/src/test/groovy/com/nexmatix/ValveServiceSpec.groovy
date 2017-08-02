@@ -1,9 +1,9 @@
-package com.nexmatix.datastore
+package com.nexmatix
 
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class ValveDataStoreServiceSpec extends Specification implements ServiceUnitTest<ValveDataStoreService>{
+class ValveServiceSpec extends Specification implements ServiceUnitTest<ValveService>{
 
     def setup() {
     }
