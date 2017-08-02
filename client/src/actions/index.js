@@ -143,14 +143,20 @@ export function setViewState(state) {
 
 export function getAllAlerts(count = 10) {
   return function(dispatch) {
-    return GETAllAlerts(count)
-      .then(toJson)
-      .then(
-        alerts => dispatch(setAllAlerts(alerts)),
-        error => dispatch(throwError(error))
-      );
+    return GETAllAlerts(count).then(toJson).then(
+      items => {
+        let alerts = items.map(item => {
+          item.isSnoozed = false;
+          return item;
+        });
+        console.log(alerts);
+        dispatch(setAllAlerts(alerts));
+      },
+      error => dispatch(throwError(error))
+    );
   };
 }
+
 export function setSelectedStation(station) {
   return {
     type: types.SET_CURRENT_STATION,
@@ -173,9 +179,9 @@ export function toggleProfile() {
   };
 }
 
-export function updateAlert(alert) {
+export function snoozeAlert(alert) {
   return {
-    type: types.TOGGLE_ALERT,
+    type: types.SNOOZE_ALERT,
     payload: alert
   };
 }

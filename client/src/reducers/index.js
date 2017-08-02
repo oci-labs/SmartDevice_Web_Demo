@@ -50,10 +50,10 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         activeItems: action.payload
       });
-    case types.TOGGLE_ALERT:
-      let alerts = state.alerts.map(alert => {
+    case types.SNOOZE_ALERT:
+      let alerts = state.alerts.map((alert) => {
         if (alert.id === action.payload.props.id) {
-          alert.isActive = !alert.isActive;
+          alert.isSnoozed = !alert.isSnoozed;
         }
         return alert;
       });
