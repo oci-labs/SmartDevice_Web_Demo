@@ -4,12 +4,14 @@ import "./Nav.css";
 import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
 import { Badge } from 'reactstrap';
 import Icon from "../icons/Icon";
-import { toggleProfile } from "../../actions";
+import { toggleProfile, toggleAlerts } from "../../actions";
 
-const NavComponent = ({ toggleProfile, alerts }) => {
-    let activeAlerts;
+
+const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
+    console.log(alerts);
+    let activeAlerts = [];
     if (alerts) { activeAlerts = alerts.filter(alert => {
-      return alerts.isActive
+      return alert.isActive
     })}
     console.log(activeAlerts);
 
@@ -22,7 +24,9 @@ const NavComponent = ({ toggleProfile, alerts }) => {
       <div className="spacing" />
       <div className="rightNavIcons">
         <IconExpand width="32" height="32" color="#777" />
-          <IconNotification width="32"height="32" color="#777" />{ alerts.length > 0 && <Badge color="danger" pill>{alerts.length}</Badge>}
+          <IconNotification width="32"height="32" color="#777" onClick={toggleAlerts} />
+          { activeAlerts.length > 0 && <Badge color="danger" pill onClick={toggleAlerts}>{activeAlerts.length}</Badge> }
+
       </div>
     </div>
   );
@@ -36,6 +40,10 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
+    toggleAlerts: function() {
+      console.log('clicked alerts');
+      dispatch(toggleAlerts());
+    },
     toggleProfile: function() {
       dispatch(toggleProfile());
     }

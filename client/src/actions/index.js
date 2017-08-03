@@ -179,6 +179,12 @@ export function toggleProfile() {
   };
 }
 
+export function toggleAlerts() {
+    return {
+        type: types.TOGGLE_ALERTS
+    };
+}
+
 export function snoozeAlert(alert) {
   return {
     type: types.SNOOZE_ALERT,

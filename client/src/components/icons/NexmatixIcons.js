@@ -1,4 +1,5 @@
 import React from 'react';
+import './NexmatixIcons.css';
 
 export function IconPlus(props) {
     const {width, height, color} = props;
@@ -58,9 +59,9 @@ export function IconMenu(props) {
 }
 
 export function IconNotification(props) {
-    const {width, height, color} = props;
+    const {width, height, color, onClick} = props;
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="iconNotification" data-name="Notification" width={width} height={height} fill={color} viewBox="0 0 300 300"><path d="M296.84 244.78A118.38 118.38 0 0 0 288 228.4q-58-93.92-116-187.78c-14.22-23.07-29.68-23-44 .28C92.37 98.65 56.52 156.25 20.9 214c-6.26 10.15-12.7 20.33-17.61 31.14-6.55 14.42 1.5 28.26 17.15 30.91 4.67.79 9.54.52 14.31.52q57.38.05 114.75 0h116.19a94.29 94.29 0 0 0 12.89-.38c16.48-2.3 24.61-16.19 18.26-31.41zM166.33 102.63l-3.91 85.67h-25l-3.91-85.67zM149.9 241.5a17.7 17.7 0 1 1 17.8-17.8 17.7 17.7 0 0 1-17.8 17.8z" className="cls-1"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" className="iconNotification" cursor={onClick ? "pointer" : "arrow"} data-name="Notification" width={width} height={height} fill={color} onClick={onClick} viewBox="0 0 300 300"><path d="M296.84 244.78A118.38 118.38 0 0 0 288 228.4q-58-93.92-116-187.78c-14.22-23.07-29.68-23-44 .28C92.37 98.65 56.52 156.25 20.9 214c-6.26 10.15-12.7 20.33-17.61 31.14-6.55 14.42 1.5 28.26 17.15 30.91 4.67.79 9.54.52 14.31.52q57.38.05 114.75 0h116.19a94.29 94.29 0 0 0 12.89-.38c16.48-2.3 24.61-16.19 18.26-31.41zM166.33 102.63l-3.91 85.67h-25l-3.91-85.67zM149.9 241.5a17.7 17.7 0 1 1 17.8-17.8 17.7 17.7 0 0 1-17.8 17.8z" className="cls-1"/></svg>
     )
 }
 
