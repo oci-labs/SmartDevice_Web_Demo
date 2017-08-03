@@ -22,12 +22,12 @@ trait DataStoreService<T> {
     KeyFactory keyFactory
 
 
-    List<T> listEntities(Integer max, Integer offset, String sort) {
+    List<T> listEntities(Integer max, Integer offset/*, String sort*/) {
         println "listEntities for ${kind}"
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind(kind)
                 .setLimit(max)
-                .setOrderBy(StructuredQuery.OrderBy.desc("${sort}"))
+                //.setOrderBy(StructuredQuery.OrderBy.desc("${sort}"))
                 .build()
         QueryResults<Entity> resultList = datastore.run(query)
 

@@ -25,7 +25,6 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
 
     @Override
     ValveStatus transformEntity(Entity entity) {
-        println "transformEntity..."
         log.info "transformEntity: ${entity.getLong('valve_sn')}"
 
         Valve.withNewTransaction {
