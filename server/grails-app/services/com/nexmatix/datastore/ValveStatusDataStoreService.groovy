@@ -25,27 +25,29 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
 
     @Override
     ValveStatus transformEntity(Entity entity) {
-        log.info "transformEntity: ${entity.getLong('valve_sn')}"
-
+        log.info "transformEntity: ${entity.key.name}"
         Valve.withNewTransaction {
+
             Valve valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
 
             if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
+            if(!ValveStatus.findByName(entity.key.name)) {
+                ValveStatus status = new ValveStatus(
+                        name: entity.key.name,
+                        valve: valve,
+                        cycleCount: entity.getLong('cc'),
+                        cycleCountLimit: entity.getLong('ccl'),
+                        input: entity.getString('input'),
+                        leak: entity.getString('leak'),
+                        pressureFault: entity.getString('p_fault'),
+                        pressurePoint: entity.getLong('pp'),
+                        updateTime: Date.from(Instant.parse(entity.getString('update_time'))))
 
-            ValveStatus status = new ValveStatus(
-                    valve: valve,
-                    cycleCount: entity.getLong('cc'),
-                    cycleCountLimit: entity.getLong('ccl'),
-                    input: entity.getString('input'),
-                    leak: entity.getString('leak'),
-                    pressureFault: entity.getString('p_fault'),
-                    pressurePoint: entity.getLong('pp'),
-                    updateTime: Date.from(Instant.parse(entity.getString('update_time'))))
+                if(!status.save())
+                    status.errors.allErrors.each { log.error "${it}" }
 
-            if(!status.save())
-                status.errors.allErrors.each { log.error "${it}" }
-
-            status
+                status
+            }
         }
     }
 

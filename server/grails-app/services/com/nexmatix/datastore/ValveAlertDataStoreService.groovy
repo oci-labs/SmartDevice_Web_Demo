@@ -23,21 +23,25 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
 
     @Override
     ValveAlert transformEntity(Entity entity) {
+        log.info "transformEntity: ${entity.key.name}"
         ValveAlert.withNewTransaction {
-            Valve valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
+            if(!ValveAlert.findByName(entity.key.name)) {
+                Valve valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
 
-            if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
+                if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
 
-            ValveAlert alert = new ValveAlert(
-                    valve: valve,
-                    description: entity.getString('description'),
-                    alertType: AlertType.lookup(entity.getString('alert_type')),
-                    detectionTime: Date.from(Instant.parse(entity.getString('detection_time'))))
+                ValveAlert alert = new ValveAlert(
+                        name: entity.key.name,
+                        valve: valve,
+                        description: entity.getString('description'),
+                        alertType: AlertType.lookup(entity.getString('alert_type')),
+                        detectionTime: Date.from(Instant.parse(entity.getString('detection_time'))))
 
-            if(!alert.save())
-                alert.errors.allErrors.each { log.error "${it}" }
+                if(!alert.save())
+                    alert.errors.allErrors.each { log.error "${it}" }
 
-            alert
+                alert
+            }
         }
     }
 
