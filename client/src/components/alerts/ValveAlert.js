@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Alert } from "reactstrap";
 import Disconnect from "../icons/Disconnect";
 import Gauge from "../icons/Gauge";
+import { IconAlarm } from "../icons/NexmatixIcons";
 import Icon from "../icons/Icon";
 import "./Alerts.css";
 
@@ -78,8 +79,7 @@ class ValveAlert extends Component {
           onClick={handleClick}
         >
           {isActive && !isSnoozed &&
-            <Icon type="notifications_paused" className="image" />
-          /* <MdNotificationsOff size={24} onClick={this.onDismiss}/>*/
+              <IconAlarm width="24" height="24" color="#fff" />
           }
         </div>
       </Alert>

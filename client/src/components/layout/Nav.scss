@@ -30,6 +30,9 @@
     flex-direction: row;
     align-items: center;
     padding: 0px 20px;
+    svg {
+      margin: 0 15px;
+    }
     span {
       display: flex;
       flex-direction: row;
@@ -39,6 +42,11 @@
         color: #7c7c7c;
         font-size: 2.6em;
       }
+    }
+    .badge-danger {
+      background-color: #d9534f;
+      left: -28px;
+      position: relative;
     }
   }
 }
