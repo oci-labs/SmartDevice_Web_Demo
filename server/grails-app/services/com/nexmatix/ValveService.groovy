@@ -6,11 +6,11 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class ValveService {
 
-    ValveDataStoreService dataStoreService
+    ValveDataStoreService valveDataStoreService
 
-    Valve createNewValve(String serialNumber) {
-
-        Valve valve = dataStoreService.retrieveEntity(serialNumber)
+    Valve createNewValve(Long serialNumber) {
+        log.info "createNewValve: ${serialNumber}"
+        Valve valve = new Valve(serialNumber: serialNumber, sku: 'whatevs', station: Station.first()) //valveDataStoreService.retrieveEntity(serialNumber)
 
         if(!valve.save()) {
             valve.errors.allErrors.each { log.error "${it}" }

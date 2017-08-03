@@ -10,8 +10,7 @@ import com.nexmatix.model.ValveDetails
 class ValveStatus implements ValveDetails {
 
     Map getOutputProperties() {
-        [valve          : valve,
-//         name           : name,
+        [valve          : [id: valve.id],
          updateTime     : updateTime,
          cycleCount     : cycleCount,
          cycleCountLimit: cycleCountLimit,

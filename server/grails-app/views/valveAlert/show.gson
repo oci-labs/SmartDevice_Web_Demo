@@ -1,0 +1,7 @@
+import com.nexmatix.ValveAlert
+
+model {
+    List<ValveAlert> alertList
+}
+
+json tmpl.valveAlert("valveAlert", alertList)

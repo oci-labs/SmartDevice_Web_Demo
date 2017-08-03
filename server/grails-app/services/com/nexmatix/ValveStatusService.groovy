@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ValveStatusService {
 
-    @Autowired
-    SimpMessagingTemplate simpMessagingTemplate
     ValveStatusDataStoreService valveStatusDataStoreService
 
     def retrieveAndSend() {
@@ -18,9 +16,6 @@ class ValveStatusService {
 
         def data = valveStatusDataStoreService.retrieveValveStatuses()
 
-        log.info "data: ${data}"
-
-        simpMessagingTemplate.convertAndSend "/topic/valves", "${new JsonBuilder(data*.outputProperties)}"
-
+        log.info "retrieved ${data.size()} records..."
     }
 }

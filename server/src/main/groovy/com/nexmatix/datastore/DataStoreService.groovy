@@ -8,39 +8,52 @@ import com.google.cloud.datastore.Key
 import com.google.cloud.datastore.KeyFactory
 import com.google.cloud.datastore.Query
 import com.google.cloud.datastore.QueryResults
+import com.google.cloud.datastore.StructuredQuery
+
+import javax.annotation.PostConstruct
+
 /**
  * Created by zak on 7/31/17.
  */
 trait DataStoreService<T> {
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService()
-    String kind = T.class.name
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind(kind)
+    String kind
+    KeyFactory keyFactory
 
-    List<T> listEntities(Integer max, Integer offset) {
-        Query<Entity> query = Query.newEntityQueryBuilder()       // Build the Query
-                .setKind(kind)                                     // We only care about Books
-                .setLimit(max)                                         // Only show 10 at a time
+
+    List<T> listEntities(Integer max, Integer offset, String sort) {
+        println "listEntities for ${kind}"
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(kind)
+                .setLimit(max)
+                .setOrderBy(StructuredQuery.OrderBy.desc("${sort}"))
                 .build()
-        QueryResults<Entity> resultList = datastore.run(query)   // Run the query
+        QueryResults<Entity> resultList = datastore.run(query)
 
         return transformEntities(resultList)
     }
 
 
-    T retrieveEntity(String id) {
+    T retrieveEntity(def id) {
+        println "retrieveEntity: ${id}"
+        Key key = getKey(id)
+        println "getting ${key} for ${kind}..."
 
-        Key key = keyFactory.newKey(id)
 
         transformEntity(datastore.get(key))
     }
 
 
-    abstract List<T> transformEntities(QueryResults<Entity> results)
+    List<T> transformEntities(QueryResults<Entity> queryResults) {
+        println "transformEntities..."
+        queryResults.collect { transformEntity(it) }
+    }
+
     abstract T transformEntity(Entity entity)
 
-    Key getKey(String id) {
-        return keyFactory.newKey(id)
+    Key getKey(def id) {
+        return keyFactory.newKey("${id}")
     }
 
 }

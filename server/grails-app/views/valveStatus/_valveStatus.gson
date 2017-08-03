@@ -1,0 +1,20 @@
+import com.nexmatix.ValveStatus
+
+model {
+    ValveStatus valveStatus
+}
+
+json {
+    valve {
+        id valveStatus.valve.id
+        serialNumber valveStatus.valve.serialNumber
+    }
+
+    updateTime valveStatus.updateTime
+    cycleCount valveStatus.cycleCount
+    cycleCountLimit valveStatus.cycleCountLimit
+    input valveStatus.input
+    leak valveStatus.leak
+    pressureFault valveStatus.pressureFault
+    pressurePoint valveStatus.pressurePoint
+}

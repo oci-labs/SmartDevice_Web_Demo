@@ -1,20 +1,22 @@
 package com.nexmatix
 
 enum AlertType {
-    DATA_FAULT('dataFault'),
-    DISCONNECTED('disconnected'),
-    LIFECYCLE_COUNT_FAULT('lifecycleFault'),
-    LIFECYCLE_COUNT_WARNING('lifecycleWarning'),
-    PRESSURE_FAULT('pressureFault'),
-    PRESSURE_WARNING('pressureWarning'),
-    VALVE_FAULT('valveFault')
+    LEAK('leak'),
+    PRESSURE_FAULT('p_fault'),
+    CYCLE_THRESHOLD('c_thresh')
+
     String id
 
     static AlertType getRandom() {
-        return values()[(int) (Math.random() * values().length)];
+        return values()[(int) (Math.random() * values().size())]
     }
 
     AlertType(String id){
         this.id = id
+    }
+
+
+    static AlertType lookup(String val) {
+        AlertType.find { it.id == val } as AlertType
     }
 }
