@@ -64,6 +64,18 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         activeItems: action.payload
       });
+    case types.UPDATE_ACTIVE_ITEMS_WITH_ITEM:
+      return Object.assign({}, state, {
+        activeItems: state.activeItems.map(item => {
+          return item.id === action.payload.id ? action.payload : item;
+        })
+      });
+    case types.UPDATE_ALL_FACILITIES_WITH_ITEM:
+      return Object.assign({}, state, {
+        allFacilities: state.allFacilities.map(fac => {
+          return fac.id === action.payload.id ? action.payload : fac;
+        })
+      });
     case types.SNOOZE_ALERT:
       let alerts = state.alerts.map(alert => {
         if (alert.id === action.payload.props.id) {

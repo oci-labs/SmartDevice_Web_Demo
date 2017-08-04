@@ -8,6 +8,6 @@ json {
     id department.id
     name department.name
     type 'department'
-    parent tmpl.facility("facility", department.facility)
+    parent tmpl.facility(department.facility)
     children tmpl.'/templates/machine'("machine", department.machines)
 }

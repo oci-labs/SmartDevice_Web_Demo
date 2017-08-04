@@ -1,0 +1,12 @@
+.addItemButton {
+  color: black;
+  cursor: pointer;
+  .addItemWrapper {
+    min-width: 300px;
+    color: rgba(102, 102, 102, 1);
+    .addItemTitle {
+      font-size: 1.2em;
+      padding: 0px 0px 5px;
+    }
+  }
+}

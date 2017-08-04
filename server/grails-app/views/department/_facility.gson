@@ -1,4 +1,4 @@
-package templates
+import com.nexmatix.Facility
 
 model {
     Facility facility
@@ -8,5 +8,4 @@ json {
     id facility.id
     name facility.name
     type 'facility'
-    children tmpl.department("department", facility.departments)
 }

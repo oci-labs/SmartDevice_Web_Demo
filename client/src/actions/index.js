@@ -18,6 +18,23 @@ function GETValveStatus(valve) {
   return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
 }
 
+function DELETEItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+    method: "delete"
+  });
+}
+
+function UPDATEItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+    body: JSON.stringify(item),
+    method: "put",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+}
+
 function GETMachinesByDepartment(departmentId) {
   return fetch(`${SERVER_URL}/api/machine/byDepartment/${departmentId}`);
 }
@@ -37,6 +54,29 @@ export function setAllAlerts(alerts) {
   };
 }
 
+export function deleteItem(item) {
+  return function(dispatch) {
+    return DELETEItem(item).then(toJson).then(response => {
+      console.log("Deleted response", response);
+    });
+  };
+}
+
+export function updateItem(item) {
+  return function(dispatch) {
+    return UPDATEItem(item).then(toJson).then(response => {
+      switch (item.type) {
+        case "facility":
+          dispatch(updateAllFacilitiesWithItem(item));
+          dispatch(updateActiveItemsWithItem(item));
+          break;
+        case "department":
+          dispatch(setSelectedDepartment(item));
+      }
+    });
+  };
+}
+
 export function throwError(error) {
   return {
     type: types.HANDLE_ERROR,
@@ -48,6 +88,13 @@ export function setActiveItems(items) {
   return {
     type: types.UPDATE_ACTIVE_ITEMS,
     payload: items
+  };
+}
+
+function updateActiveItemsWithItem(item) {
+  return {
+    type: types.UPDATE_ACTIVE_ITEMS_WITH_ITEM,
+    payload: item
   };
 }
 
@@ -136,6 +183,13 @@ function setAllFacilities(facilities) {
   return {
     type: types.SET_ALL_FACILITIES,
     payload: facilities
+  };
+}
+
+function updateAllFacilitiesWithItem(item) {
+  return {
+    type: types.UPDATE_ALL_FACILITIES_WITH_ITEM,
+    payload: item
   };
 }
 
