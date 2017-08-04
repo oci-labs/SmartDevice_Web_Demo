@@ -1,0 +1,20 @@
+
+import com.nexmatix.Valve
+
+model {
+    Valve valve
+}
+
+json {
+    id valve.id
+    serialNumber valve.serialNumber
+    sku valve.sku
+    fabricationDate valve.fabricationDate
+    shippingDate valve.shippingDate
+    updateTime valve.updateTime
+
+    station {
+        id valve.station.id
+        number valve.station.number
+    }
+}

@@ -30,17 +30,21 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
 
                 if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
 
-                ValveAlert alert = new ValveAlert(
-                        name: entity.key.name,
-                        valve: valve,
-                        description: entity.getString('description'),
-                        alertType: AlertType.lookup(entity.getString('alert_type')),
-                        detectionTime: Date.from(Instant.parse(entity.getString('detection_time'))))
+                if(valve) {
+                    ValveAlert alert = new ValveAlert(
+                            name: entity.key.name,
+                            valve: valve,
+                            description: entity.getString('description'),
+                            alertType: AlertType.lookup(entity.getString('alert_type')),
+                            detectionTime: Date.from(Instant.parse(entity.getString('detection_time'))))
 
-                if(!alert.save())
-                    alert.errors.allErrors.each { log.error "${it}" }
+                    if(!alert.save())
+                        alert.errors.allErrors.each { log.error "${it}" }
 
-                alert
+                    alert
+                } else {
+                    log.warn "Missing valve!"
+                }
             }
         }
     }

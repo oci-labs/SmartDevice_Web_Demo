@@ -11,6 +11,7 @@ class UrlMappings {
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
         "/api/machine/$action?/$id?(.$format)?" (controller: 'machine')
+        "/api/valve/station/$stationNumber" (controller: 'valve', action: 'station')
 
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
