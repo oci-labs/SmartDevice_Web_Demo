@@ -19,6 +19,8 @@ class ValveAlert extends Component {
     const alertTypes = {
       DATA_FAULT: "Data Fault",
       DISCONNECTED: "Disconnected",
+      LEAK: "Leak",
+      CYCLE_THRESHOLD: "Cycle Count",
       LIFECYCLE_COUNT_FAULT: "Count Fault",
       LIFECYCLE_COUNT_WARNING: "Count Warning",
       PRESSURE_FAULT: "Pressure Fault",

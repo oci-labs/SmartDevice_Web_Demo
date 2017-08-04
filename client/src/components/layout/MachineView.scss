@@ -12,6 +12,10 @@
     font-size: 24px;
     padding: 0px 0px 10px;
     color: white;
+    .departmentNavRight {
+      display: flex;
+      flex-direction: row;
+    }
   }
   .departmentChild {
     display: flex;

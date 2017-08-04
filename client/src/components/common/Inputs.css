@@ -1,0 +1,62 @@
+.generalWrapper {
+  margin: 20px 0px 0px; }
+
+.commonInputWrapper {
+  margin: 20px 0px 0px; }
+  .commonInputWrapper .commonInput {
+    display: flex;
+    flex: 1;
+    height: 40px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid rgba(66, 66, 66, 0.1);
+    font-weight: normal; }
+
+.commonSelectWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 40px;
+  background-color: white; }
+  .commonSelectWrapper.disabled .commonSelect {
+    background-color: rgba(66, 66, 66, 0.2); }
+    .commonSelectWrapper.disabled .commonSelect .selected span .material-icons {
+      color: rgba(66, 66, 66, 0.8) !important; }
+  .commonSelectWrapper .commonSelect {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 40px;
+    border-radius: 5px;
+    border: 2px solid rgba(66, 66, 66, 0.1);
+    font-size: .9em;
+    font-weight: normal;
+    background-color: white;
+    cursor: pointer; }
+    .commonSelectWrapper .commonSelect .selected {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 40px;
+      padding: 0px 6px; }
+      .commonSelectWrapper .commonSelect .selected span {
+        display: flex;
+        align-items: center; }
+        .commonSelectWrapper .commonSelect .selected span .material-icons {
+          color: #fdaa18 !important;
+          font-weight: bold; }
+    .commonSelectWrapper .commonSelect .optionsWrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+      background-color: white; }
+      .commonSelectWrapper .commonSelect .optionsWrapper .option {
+        padding: 0px 5px; }
+        .commonSelectWrapper .commonSelect .optionsWrapper .option:hover {
+          background-color: rgba(66, 66, 66, 0.1); }
+      .commonSelectWrapper .commonSelect .optionsWrapper.closed {
+        display: none; }

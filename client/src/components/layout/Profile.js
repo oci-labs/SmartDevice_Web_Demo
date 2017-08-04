@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import "./Profile.css";
 
 import ProfilePicture from "../profile/ProfilePicture";
-import { Column, Row } from "../layout/LayoutComponents";
+import { Column } from "../layout/LayoutComponents";
 
 const ProfileComponent = ({ viewProfile }) => {
   return (
