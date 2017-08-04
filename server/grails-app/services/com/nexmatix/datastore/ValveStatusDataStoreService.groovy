@@ -2,6 +2,7 @@ package com.nexmatix.datastore
 
 import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.QueryResults
+import com.nexmatix.ManifoldService
 import com.nexmatix.Valve
 import com.nexmatix.ValveService
 import com.nexmatix.ValveStatus
@@ -15,6 +16,7 @@ import java.time.Instant
 class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
 
     ValveService valveService
+    ManifoldService manifoldService
 
     List<ValveStatus> retrieveValveStatuses() {
         log.info "retrieveValveStatuses..."
@@ -46,6 +48,8 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
             status.pressureFault = entity.getString('p_fault')
             status.pressurePoint = entity.getLong('pp')
             status.updateTime = new Date(entity.getLong('update_time'))
+
+            manifoldService.updateManifold(entity.getLong('manifold_sn'), entity.getLong('station_num'))
 
             if (!status.save())
                 status.errors.allErrors.each { log.error "${it}" }

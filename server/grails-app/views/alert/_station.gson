@@ -6,7 +6,6 @@ model {
 
 json {
     id station.id
-    serialNumber station.serialNumber
-    manifold station.manifold.name
+    manifold station.manifold.serialNumber
     type 'station'
 }

@@ -15,10 +15,8 @@ class ValveController extends RestfulController<Valve> {
     def station(Integer stationNumber) {
         Station station = Station.findByNumber(stationNumber)
         if (station) {
-            println "station: ${station}"
             Valve valve = Valve.findByStation(station)
 
-            println "valve: ${valve}"
             [valve: valve]
         } else {
             render status: 404
