@@ -10,7 +10,8 @@ const initialState = {
   VIEW_STATE: "state:facility",
   currentStation: {},
   valveStatus: [],
-  viewProfile: true
+  viewProfile: true,
+  viewAlerts: false
 };
 
 function reducer(state = initialState, action) {
@@ -63,10 +64,10 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         activeItems: action.payload
       });
-    case types.TOGGLE_ALERT:
+    case types.SNOOZE_ALERT:
       let alerts = state.alerts.map(alert => {
         if (alert.id === action.payload.props.id) {
-          alert.isActive = !alert.isActive;
+          alert.isSnoozed = !alert.isSnoozed;
         }
         return alert;
       });
@@ -76,6 +77,10 @@ function reducer(state = initialState, action) {
     case types.TOGGLE_PROFILE:
       return Object.assign({}, state, {
         viewProfile: !state.viewProfile
+      });
+    case types.TOGGLE_ALERTS:
+      return Object.assign({}, state, {
+        viewAlerts: !state.viewAlerts
       });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {

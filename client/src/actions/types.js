@@ -18,7 +18,8 @@ export const SET_VALVE_STATUS = "selected:valve:status";
 export const UPDATE_ACTIVE_ITEMS = "items:update";
 export const SET_VIEW_STATE = "set:state";
 export const TOGGLE_PROFILE = "toggle:profile";
+export const TOGGLE_ALERTS = "toggle:alerts";
+export const SNOOZE_ALERT = "alert:snooze";
 
 export const HANDLE_ERROR = "error:handle";
 
-export const TOGGLE_ALERT = "alert:update";

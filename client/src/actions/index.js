@@ -123,11 +123,9 @@ function setValve(stationId) {
 }
 
 export function setValveStatus(valve) {
-  console.log("setValveStatus");
   return dispatch => {
     if (valve) {
       return GETValveStatus(valve).then(toJson).then(response => {
-        console.log("Valve Status", response);
         dispatch(setSelectedValveStatus(response));
       });
     }
@@ -199,12 +197,17 @@ export function setViewState(state) {
 
 export function getAllAlerts(count = 10) {
   return function(dispatch) {
-    return GETAllAlerts(count)
-      .then(toJson)
-      .then(
-        alerts => dispatch(setAllAlerts(alerts)),
-        error => dispatch(throwError(error))
-      );
+    return GETAllAlerts(count).then(toJson).then(
+      items => {
+        let alerts = items.map(item => {
+          item.isSnoozed = false;
+          return item;
+        });
+        console.log(alerts);
+        dispatch(setAllAlerts(alerts));
+      },
+      error => dispatch(throwError(error))
+    );
   };
 }
 
@@ -223,9 +226,15 @@ export function toggleProfile() {
   };
 }
 
-export function updateAlert(alert) {
+export function toggleAlerts() {
   return {
-    type: types.TOGGLE_ALERT,
+    type: types.TOGGLE_ALERTS
+  };
+}
+
+export function snoozeAlert(alert) {
+  return {
+    type: types.SNOOZE_ALERT,
     payload: alert
   };
 }
