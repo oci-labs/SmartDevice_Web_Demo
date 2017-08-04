@@ -3,7 +3,7 @@ import * as states from "../components/common/view.config";
 import { SERVER_URL } from "../config";
 
 function GETAllAlerts(count) {
-  return fetch(`${SERVER_URL}/api/alert?max=${count}`);
+  return fetch(`${SERVER_URL}/api/valveAlert?max=${count}`);
 }
 
 function GETItem(item) {
@@ -255,6 +255,7 @@ export function getAllAlerts(count = 10) {
       items => {
         let alerts = items.map(item => {
           item.isSnoozed = false;
+          item.isActive = true;
           return item;
         });
         console.log(alerts);
