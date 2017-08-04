@@ -36,8 +36,8 @@ class BootStrap {
         println "Saved _machine: ${machine.name}"
 
 
-        def manifold = new Manifold(name: "Manifold 1", machine: 1).save()
-        println "Saved manifold: ${manifold.name}"
+        def manifold = new Manifold(serialNumber: 1, machine: 1).save()
+        println "Saved manifold: ${manifold.serialNumber}"
 
         def random = new Random()
         def numbers = [0, 3, 4, 8, 9]

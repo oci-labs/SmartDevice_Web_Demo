@@ -6,7 +6,7 @@ model {
 
 json {
     id manifold.id
-    serialNumber manifold.serialNumber
+    name manifold.serialNumber
     type 'manifold'
     parent tmpl.'/templates/machine'(manifold.machine)
     children tmpl.station("station", manifold.stations)

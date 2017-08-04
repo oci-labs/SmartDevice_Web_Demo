@@ -15,7 +15,6 @@ class Station extends Component {
     fetch(`${SERVER_URL}/api/valve/station/${station.number}`)
       .then(response => response.json())
       .then(response => {
-        console.log("Station valve", response);
         this.valve = response;
       });
   };
@@ -24,7 +23,6 @@ class Station extends Component {
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
-          console.log("Station response", response);
           const latestStatus = response[0];
           this.setState({
             inFault:
@@ -44,7 +42,6 @@ class Station extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.station) {
-      console.log("Station", nextProps.station);
       this.getValve(nextProps.station);
     }
   }
