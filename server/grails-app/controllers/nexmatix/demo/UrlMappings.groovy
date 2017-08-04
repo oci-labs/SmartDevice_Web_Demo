@@ -1,5 +1,7 @@
 package nexmatix.demo
 
+import grails.util.Environment
+
 class UrlMappings {
 
     static mappings = {
@@ -13,7 +15,12 @@ class UrlMappings {
         "/api/machine/$action?/$id?(.$format)?" (controller: 'machine')
         "/api/valve/station/$stationNumber" (controller: 'valve', action: 'station')
 
-        "/"(controller: 'application', action:'index')
+        if ( Environment.current == Environment.PRODUCTION ) {
+            '/'(uri: '/index.html')
+        } else {
+            '/'(controller: 'application', action:'index')
+        }
+
         "500"(view: '/error')
         "404"(view: '/notFound')
     }
