@@ -9,20 +9,45 @@ import { Column } from "../layout/LayoutComponents";
 import { setSelectedItem } from "../../actions";
 
 class MainViewComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeItems: props.activeItems,
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    };
+  }
   componentWillMount() {
     this.props.handleSetCurrentItem();
   }
+  componentWillReceiveProps(props) {
+    this.setState({
+      activeItems: props.activeItems,
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    });
+  }
   render() {
-    let activeItems;
-    if (this.props.activeItems.length) {
-      activeItems = this.props.activeItems.map((item) =>
-        <IconGroup groupItem={item} key={item.id} />);
+    let activeItemsElements;
+    if (this.state.activeItems.length) {
+      activeItemsElements = this.state.activeItems.map(item =>
+        <IconGroup groupItem={item} key={item.id} />
+      );
     }
     return (
       <div className="mainView">
-        <Tabs />
-        <Column>
-          {activeItems}
+        <Tabs
+          facilities={this.state.facilities}
+          selectedDepartment={this.state.selectedDepartment}
+          selectedFacility={this.state.selectedFacility}
+          selectedMachine={this.state.selectedMachine}
+        />
+        <Column className="addScroll">
+          {activeItemsElements}
         </Column>
       </div>
     );
@@ -31,7 +56,11 @@ class MainViewComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    activeItems: state.activeItems
+    activeItems: state.activeItems,
+    facilities: state.allFacilities,
+    selectedDepartment: state.selectedDepartment,
+    selectedFacility: state.selectedFacility,
+    selectedMachine: state.selectedMachine
   };
 }
 

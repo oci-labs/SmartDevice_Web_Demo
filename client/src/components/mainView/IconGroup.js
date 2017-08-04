@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import "./IconGroup.css";
 import ValveIcon from "../common/ValveIcon";
+import AddItem from "../items/AddItem";
+import EditItem from "../items/EditItem";
 import Icon from "../icons/Icon";
 import { HorizontalLine, Row } from "../layout/LayoutComponents";
 import { setSelectedItem } from "../../actions";
@@ -25,12 +27,16 @@ const IconGroupComponent = ({ activeItems, groupItem, handleIconClick }) => {
       <div className="groupItemNav">
         <div className="groupItemNavLeft">
           <div className="addNew">
-            <Icon type="add" />
+            <AddItem>
+              <Icon type="add" />
+            </AddItem>
           </div>
         </div>
         {groupItem ? groupItem.name : "All"}
         <div className="groupItemNavRight">
-          <Icon type="mode_edit" />
+          <EditItem item={groupItem}>
+            <Icon type="mode_edit" />
+          </EditItem>
           <Icon type="fullscreen" />
         </div>
       </div>
