@@ -7,6 +7,7 @@ function GETAllAlerts(count) {
 }
 
 function GETItem(item) {
+  console.log("GETItem");
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
@@ -44,9 +45,11 @@ export function setActiveItems(items) {
 }
 
 export function setSelectedItem(item, keepViewState) {
+  console.log("setSelectedItem", item);
   return function(dispatch) {
     if (item) {
       GETItem(item).then(toJson).then(function(response) {
+        console.log("in GETItem response", response);
         if (item.id) {
           switch (item.type) {
             case "facility":
@@ -57,6 +60,7 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setActiveItems([response]));
               break;
             case "department":
+              console.log("Switch to department");
               dispatch(setSelectedDepartment(response));
               if (!keepViewState) {
                 dispatch(setSelectedItem(response.parent, true));

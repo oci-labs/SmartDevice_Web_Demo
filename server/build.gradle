@@ -55,7 +55,7 @@ dependencies {
 
     console "org.grails:grails-console"
     profile "org.grails.profiles:react"
-    runtime 'mysql:mysql-connector-java:6.0.5'
+    runtime "com.h2database:h2"
     runtime 'com.google.cloud.sql:mysql-socket-factory-connector-j-6:1.0.2'
     testCompile "org.grails:grails-gorm-testing-support:1.0.0"
     testCompile "org.grails:grails-web-testing-support:1.0.0"
