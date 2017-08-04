@@ -24,40 +24,30 @@ class BootStrap {
 
     def init = { servletContext ->
         println "Loading database..."
-        ["Facility A", "Facility B", "Facility C"].each { name ->
 
-            def facility = new Facility(name: name).save()
-            println "Saved facility: ${facility.name}"
+        def facility = new Facility(name: 'Facility A').save()
+        println "Saved facility: ${facility.name}"
 
-        }
 
-        (1..9).each { i ->
+        def department = new Department(name: "Department A" , facility: 1).save()
+        println "Saved department: ${department.name} belongs to ${department.facility.name}"
 
-            def department = new Department(name: "Department " + i, facility: Facility.get((i % 3) + 1)).save()
-            println "Saved department: ${department.name} belongs to ${department.facility.name}"
-        }
+        def machine = new Machine(name: "Machine AAA", department: 1).save()
+        println "Saved _machine: ${machine.name}"
 
-        (1..27).each { i ->
 
-            def machine = new Machine(name: "Machine " + toLetter(i), department: Department.get((i%9)+1)).save()
-            println "Saved _machine: ${machine.name}"
-        }
-
-        (1..108).each { i ->
-
-            def manifold = new Manifold(name: "Manifold " + i, machine: Machine.get((i%27)+1)).save()
-            println "Saved manifold: ${manifold.name}"
-        }
+        def manifold = new Manifold(name: "Manifold 1", machine: 1).save()
+        println "Saved manifold: ${manifold.name}"
 
         def random = new Random()
         def numbers = [0, 3, 4, 8, 9]
 
-        (1..648).each { i ->
+        (0..4).each { i ->
 
             def station = new Station(
                     serialNumber: "Station " + toLetter(i),
-                    manifold: (i%108)+1,
-                    number: numbers[ random.nextInt(numbers.size()) ]).save()
+                    manifold: 1,
+                    number: numbers[i]).save()
             println "Saved station: ${station.serialNumber}"
         }
 
@@ -67,7 +57,7 @@ class BootStrap {
 
         (1..200).each { i ->
 
-            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: (i%648)+1).save()
+            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: (i%5)+1).save()
             println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
 

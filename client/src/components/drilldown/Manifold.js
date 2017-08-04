@@ -1,14 +1,27 @@
 import React from "react";
+import { connect } from "react-redux";
 import Station from "./Station";
 import "./Manifold.css";
 
-const Manifold = ({ manifold }) => {
+import { setSelectedItem } from "../../actions";
+
+const ManifoldComponent = ({
+  currentStation,
+  handleStationClick,
+  manifold
+}) => {
   let stations = [];
   if (manifold && manifold.children) {
     stations = manifold.children
       .sort((a, b) => a.id - b.id)
       .map((station, index) =>
-        <Station id={++index} key={station.id} station={station} />
+        <Station
+          id={++index}
+          key={station.id}
+          station={station}
+          currentStation={currentStation}
+          onClick={handleStationClick}
+        />
       );
   }
 
@@ -22,5 +35,23 @@ const Manifold = ({ manifold }) => {
     </div>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    currentStation: state.currentStation
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleStationClick: station => {
+      dispatch(setSelectedItem(station));
+    }
+  };
+};
+
+const Manifold = connect(mapStateToProps, mapDispatchToProps)(
+  ManifoldComponent
+);
 
 export default Manifold;

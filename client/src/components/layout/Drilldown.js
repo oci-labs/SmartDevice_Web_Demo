@@ -71,15 +71,18 @@ class DrilldownComponent extends Component {
           <HorizontalLine />
           <Row className="faults">
             <ValveIcon>Valve Fault</ValveIcon>
-            <ValveIcon warning={currentValveStatus.leak === "Y"}>
+            <ValveIcon warning={currentValveStatus.leak !== "N"}>
               Leak Fault
             </ValveIcon>
-            <ValveIcon warning={currentValveStatus.pressureFault === "Y"}>
+            <ValveIcon warning={currentValveStatus.pressureFault !== "N"}>
               Pressure Fault
             </ValveIcon>
           </Row>
           <HorizontalLine />
-          <CycleCount cycleCount={currentValveStatus.cycleCount} />
+          <CycleCount
+            cycleCount={currentValveStatus.cycleCount}
+            limit={currentValveStatus.cycleCountLimit}
+          />
           <HorizontalLine />
           <Row className="drilldownData">
             <Column className="drilldownDataColumn">

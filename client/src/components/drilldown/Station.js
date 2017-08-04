@@ -5,13 +5,7 @@ import Icon from "../icons/Icon";
 import { setSelectedItem } from "../../actions";
 import "./Station.css";
 
-const StationComponent = ({
-  handleStationClick,
-  id,
-  station,
-  empty,
-  currentStation
-}) => {
+const Station = ({ onClick, id, station, empty, currentStation }) => {
   if (empty) {
     return (
       <div className="stationWrapper">
@@ -22,7 +16,7 @@ const StationComponent = ({
     );
   }
   const onStationClick = () => {
-    handleStationClick(station);
+    onClick(station);
   };
   return (
     <div
@@ -46,27 +40,11 @@ const StationComponent = ({
   );
 };
 
-StationComponent.propTypes = {
+Station.propTypes = {
   dispatch: PropTypes.func,
   active: PropTypes.bool,
   id: PropTypes.number,
   station: PropTypes.object
 };
-
-const mapStateToProps = state => {
-  return {
-    currentStation: state.currentStation
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleStationClick: station => {
-      dispatch(setSelectedItem(station));
-    }
-  };
-};
-
-const Station = connect(mapStateToProps, mapDispatchToProps)(StationComponent);
 
 export default Station;
