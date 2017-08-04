@@ -136,7 +136,7 @@ export function setSelectedItem(item, keepViewState) {
               break;
             case "station":
               dispatch(setSelectedStation(response));
-              dispatch(setValve(response.id));
+              dispatch(setValve(response.number));
               break;
             default:
               console.log("Not handled yet", response, item.type);

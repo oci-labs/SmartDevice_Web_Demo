@@ -11,16 +11,21 @@ import { setSelectedItem } from "../../actions";
 const IconGroupComponent = ({ activeItems, groupItem, handleIconClick }) => {
   let groupItemChildren = {};
   if (groupItem && groupItem.children) {
-    groupItemChildren = groupItem.children.map(function(child, index) {
-      const handleClick = () => {
-        handleIconClick(child);
-      };
-      return (
-        <ValveIcon key={index} size="large" handleClick={handleClick}>
-          {child.name}
-        </ValveIcon>
-      );
-    });
+    groupItemChildren = groupItem.children
+      .slice()
+      .sort((a, b) => {
+        return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+      })
+      .map(function(child, index) {
+        const handleClick = () => {
+          handleIconClick(child);
+        };
+        return (
+          <ValveIcon key={index} size="large" handleClick={handleClick}>
+            {child.name}
+          </ValveIcon>
+        );
+      });
   }
   return (
     <div className="groupItemContainer">
