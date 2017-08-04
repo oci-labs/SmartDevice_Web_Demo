@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Icon from "../icons/Icon";
-import { setSelectedStation } from "../../actions";
+import { setSelectedItem } from "../../actions";
 import "./Station.css";
 
 const StationComponent = ({
@@ -62,7 +62,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleStationClick: station => {
-      dispatch(setSelectedStation(station));
+      dispatch(setSelectedItem(station));
     }
   };
 };

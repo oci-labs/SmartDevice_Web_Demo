@@ -42,6 +42,22 @@
       border-radius: 50%;
       border: 1px solid rgba(231, 231, 231, 0.26);
       background-color: rgba(231, 231, 231, 0.98);
+      &.warning {
+        border: 1px solid red;
+        background-color: red;
+        .valveIconBorder {
+          display: flex;
+          justify-content: center;
+          border: 1px solid red;
+          background-color: red;
+          .valveIconCheck {
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+          }
+        }
+      }
       .valveIconBorder {
         display: flex;
         flex: 1;
@@ -69,24 +85,5 @@
     position: relative;
     top: -7px;
     text-align: center;
-  }
-}
-
-.warning {
-  &.valveIconContainer {
-    border: 1px solid red;
-    background-color: red;
-  }
-  .valveIconBorder {
-    display: flex;
-    justify-content: center;
-    border: 1px solid red;
-    background-color: red;
-    .valveIconCheck {
-      display: flex;
-      justify-content: center;
-      color: green;
-      font-weight: bold;
-    }
   }
 }

@@ -4,4 +4,4 @@ model {
     List<Facility> facilityList
 }
 
-json tmpl.'/templates/facility'("facility", facilityList)
+json tmpl.facility("facility", facilityList)

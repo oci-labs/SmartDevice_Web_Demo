@@ -11,6 +11,9 @@ export const SET_SELECTED_FACILITY = "selected:facility";
 export const SET_SELECTED_DEPARTMENT = "selected:department";
 export const SET_SELECTED_MACHINE = "selected:machine";
 export const SET_SELECTED_MANIFOLD = "selected:manifold";
+export const SET_SELECTED_STATION = "selected:station";
+export const SET_SELECTED_VALVE = "selected:valve";
+export const SET_VALVE_STATUS = "selected:valve:status";
 
 export const UPDATE_ACTIVE_ITEMS = "items:update";
 export const SET_VIEW_STATE = "set:state";
