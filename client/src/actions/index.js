@@ -7,8 +7,15 @@ function GETAllAlerts(count) {
 }
 
 function GETItem(item) {
-  console.log("GETItem");
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`);
+}
+
+function GETValve(stationId) {
+  return fetch(`${SERVER_URL}/api/valve/station/${stationId}`);
+}
+
+function GETValveStatus(valve) {
+  return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
 }
 
 function GETMachinesByDepartment(departmentId) {
@@ -45,14 +52,13 @@ export function setActiveItems(items) {
 }
 
 export function setSelectedItem(item, keepViewState) {
-  console.log("setSelectedItem", item);
   return function(dispatch) {
     if (item) {
       GETItem(item).then(toJson).then(function(response) {
-        console.log("in GETItem response", response);
         if (item.id) {
           switch (item.type) {
             case "facility":
+              console.log("facility", response);
               dispatch(setSelectedFacility(response));
               if (!keepViewState) {
                 dispatch(setViewState(states.FACILITY_STATE));
@@ -79,7 +85,11 @@ export function setSelectedItem(item, keepViewState) {
             case "manifold":
               dispatch(setSelectedManifold(response));
               dispatch(setViewState(states.MANIFOLD_STATE));
-              dispatch(setSelectedStation(getFirst(response.children)));
+              dispatch(setSelectedItem(getFirst(response.children)));
+              break;
+            case "station":
+              dispatch(setSelectedStation(response));
+              dispatch(setValve(response.id));
               break;
             default:
               console.log("Not handled yet", response, item.type);
@@ -99,6 +109,26 @@ export function setSelectedItem(item, keepViewState) {
               console.log("Not handled yet");
           }
         }
+      });
+    }
+  };
+}
+
+function setValve(stationId) {
+  return dispatch => {
+    return GETValve(stationId).then(toJson).then(response => {
+      dispatch(setSelectedValve(response));
+    });
+  };
+}
+
+export function setValveStatus(valve) {
+  console.log("setValveStatus");
+  return dispatch => {
+    if (valve) {
+      return GETValveStatus(valve).then(toJson).then(response => {
+        console.log("Valve Status", response);
+        dispatch(setSelectedValveStatus(response));
       });
     }
   };
@@ -139,6 +169,27 @@ export function setSelectedManifold(manifold) {
   };
 }
 
+export function setSelectedStation(station) {
+  return {
+    type: types.SET_CURRENT_STATION,
+    payload: station
+  };
+}
+
+export function setSelectedValve(valve) {
+  return {
+    type: types.SET_SELECTED_VALVE,
+    payload: valve
+  };
+}
+
+export function setSelectedValveStatus(valveStatus) {
+  return {
+    type: types.SET_VALVE_STATUS,
+    payload: valveStatus
+  };
+}
+
 export function setViewState(state) {
   return {
     type: types.SET_VIEW_STATE,
@@ -154,12 +205,6 @@ export function getAllAlerts(count = 10) {
         alerts => dispatch(setAllAlerts(alerts)),
         error => dispatch(throwError(error))
       );
-  };
-}
-export function setSelectedStation(station) {
-  return {
-    type: types.SET_CURRENT_STATION,
-    payload: station
   };
 }
 

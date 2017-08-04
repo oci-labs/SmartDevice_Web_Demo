@@ -9,6 +9,7 @@ const initialState = {
   selectedStation: {},
   VIEW_STATE: "state:facility",
   currentStation: {},
+  valveStatus: [],
   viewProfile: true
 };
 
@@ -45,6 +46,18 @@ function reducer(state = initialState, action) {
     case types.SET_SELECTED_MANIFOLD:
       return Object.assign({}, state, {
         selectedManifold: action.payload
+      });
+    case types.SET_SELECTED_STATION:
+      return Object.assign({}, state, {
+        currentStation: action.payload
+      });
+    case types.SET_SELECTED_VALVE:
+      return Object.assign({}, state, {
+        selectedValve: action.payload
+      });
+    case types.SET_VALVE_STATUS:
+      return Object.assign({}, state, {
+        valveStatus: action.payload
       });
     case types.UPDATE_ACTIVE_ITEMS:
       return Object.assign({}, state, {
