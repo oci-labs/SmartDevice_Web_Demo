@@ -13,6 +13,14 @@ class ValveAlertService {
 
         def data = valveAlertDataStoreService.retrieveValveAlerts()
 
+        deleteOldAlerts(data*.id)
+
         log.info "retrieved ${data.size()} alerts..."
+    }
+
+    void deleteOldAlerts(List<Long> activeAlertsIds) {
+        log.warn "Deleting old alerts..."
+        ValveAlert.executeUpdate("delete from ValveAlert where id not in :ids", [ids: activeAlertsIds])
+
     }
 }

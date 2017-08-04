@@ -8,17 +8,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 class ValveHistoryService {
-
-    @Subscriber
-    void updateLastStatus(PostInsertEvent event) {
-        if (event.entityObject instanceof ValveStatus) {
-            log.info "updateLastStatus"
-            ValveStatus status = event.entityObject as ValveStatus
-            Valve valve = status.valve
-            if(valve) {
-                valve.latestStatus = status
-                valve.save(flush: true)
-            }
-        }
-    }
+//TODO: This method will set the newly inserted ValveStatus as the "lastStatus" of a particular Valve - not used currently
+//    @Subscriber
+//    void updateLastStatus(PostInsertEvent event) {
+//        if (event.entityObject instanceof ValveStatus) {
+//            log.info "updateLastStatus"
+//            ValveStatus status = event.entityObject as ValveStatus
+//            Valve valve = status.valve
+//            if(valve) {
+//                valve.latestStatus = status
+//                valve.save(flush: true)
+//            }
+//        }
+//    }
 }
