@@ -11,7 +11,7 @@ import { Column, Row, HorizontalLine, VerticalLine } from "./LayoutComponents";
 import View from "../common/View";
 import { MANIFOLD_STATE } from "../common/view.config";
 
-import { setValveStatus } from "../../actions";
+import { setSelectedItem, setValveStatus } from "../../actions";
 
 class DrilldownComponent extends Component {
   constructor(props) {
@@ -37,19 +37,12 @@ class DrilldownComponent extends Component {
       nextProps.setValveStatus(nextProps.selectedValve);
     }
   }
+
   render() {
     const { selectedManifold, currentStation } = this.props;
     const { selectedValve, valveStatus } = this.state;
     const currentValveStatus = valveStatus[0] ? valveStatus[0] : {};
     let error, title, station;
-
-    if (selectedManifold) {
-      title = (
-        <div className="drilldownTitle">
-          {selectedManifold.name}
-        </div>
-      );
-    }
 
     if (currentStation && selectedValve && !selectedValve.error) {
       station = (
@@ -118,8 +111,12 @@ class DrilldownComponent extends Component {
     return (
       <View states={MANIFOLD_STATE}>
         <div className={`drilldown ${selectedManifold ? "show" : "hide"}`}>
-          {title}
-          <Manifold manifold={selectedManifold} />
+          <div className="drilldownTitle">{selectedManifold.name}</div>{" "}
+          <Manifold
+            manifold={selectedManifold}
+            currentStation={currentStation}
+            handleStationClick={this.props.handleStationClick}
+          />
           {error}
           {station}
         </div>
@@ -144,6 +141,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    handleStationClick: station => {
+      dispatch(setSelectedItem(station));
+    },
     setValveStatus: function(valve) {
       dispatch(setValveStatus(valve));
     }

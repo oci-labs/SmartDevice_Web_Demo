@@ -45,7 +45,7 @@ class BootStrap {
         (0..4).each { i ->
 
             def station = new Station(
-                    serialNumber: "Station " + toLetter(i),
+                    serialNumber: "Station " + toLetter(i+1),
                     manifold: 1,
                     number: numbers[i]).save()
             println "Saved station: ${station.serialNumber}"

@@ -1,15 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
 import Station from "./Station";
 import "./Manifold.css";
 
-import { setSelectedItem } from "../../actions";
-
-const ManifoldComponent = ({
-  currentStation,
-  handleStationClick,
-  manifold
-}) => {
+const Manifold = ({ currentStation, handleStationClick, manifold }) => {
   let stations = [];
   if (manifold && manifold.children) {
     stations = manifold.children
@@ -35,23 +28,5 @@ const ManifoldComponent = ({
     </div>
   );
 };
-
-const mapStateToProps = state => {
-  return {
-    currentStation: state.currentStation
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleStationClick: station => {
-      dispatch(setSelectedItem(station));
-    }
-  };
-};
-
-const Manifold = connect(mapStateToProps, mapDispatchToProps)(
-  ManifoldComponent
-);
 
 export default Manifold;

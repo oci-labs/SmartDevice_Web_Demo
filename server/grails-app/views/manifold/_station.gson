@@ -7,5 +7,6 @@ model {
 json {
     id station.id
     name station.serialNumber
+    number station.number
     type 'station'
 }
