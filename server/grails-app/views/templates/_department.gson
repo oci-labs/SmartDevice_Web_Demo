@@ -1,0 +1,11 @@
+import com.nexmatix.Department
+
+model {
+    Department department
+}
+
+json {
+    id department.id
+    name department.name
+    type 'department'
+}

@@ -1,4 +1,4 @@
-package templates
+import com.nexmatix.Facility
 
 model {
     Facility facility
