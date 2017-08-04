@@ -51,7 +51,7 @@ class DrilldownComponent extends Component {
       );
     }
 
-    if (currentStation && this.state.selectedValve) {
+    if (currentStation && selectedValve && !selectedValve.error) {
       station = (
         <div>
           <Row className="drilldownInfo">
@@ -100,6 +100,8 @@ class DrilldownComponent extends Component {
           </Row>
         </div>
       );
+    } else {
+      station = <div>There is no valve connected to this station</div>;
     }
 
     if (currentStation && currentStation.error) {

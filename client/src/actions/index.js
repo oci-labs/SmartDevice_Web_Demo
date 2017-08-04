@@ -72,7 +72,6 @@ export function updateItem(item) {
           break;
         case "department":
           dispatch(setSelectedDepartment(item));
-          console.log("update department");
       }
     });
   };
