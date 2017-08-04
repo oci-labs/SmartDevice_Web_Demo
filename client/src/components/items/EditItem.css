@@ -1,0 +1,22 @@
+.editItemButtonWrapper {
+  cursor: pointer; }
+  .editItemButtonWrapper .editItemWrapper {
+    min-width: 300px;
+    color: #666666; }
+    .editItemButtonWrapper .editItemWrapper .editItemTitle {
+      font-size: 1.2em;
+      padding: 0px 0px 5px; }
+  .editItemButtonWrapper button {
+    display: flex;
+    width: 100%;
+    margin: 22px 0px 0px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: .9em;
+    height: 40px;
+    justify-content: center; }
+    .editItemButtonWrapper button.update {
+      background-color: #fdaa18; }
+    .editItemButtonWrapper button.delete {
+      background-color: #ba2316; }

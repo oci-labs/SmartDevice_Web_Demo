@@ -5,6 +5,7 @@ import "./MachineView.css";
 import { HorizontalLine } from "../layout/LayoutComponents";
 import Icon from "../icons/Icon";
 import View from "../common/View";
+import EditItem from "../items/EditItem";
 import { DEPARTMENT_STATE } from "../common/view.config";
 import { setSelectedItem } from "../../actions";
 
@@ -36,8 +37,12 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
           {selectedDepartment.name}
         </div>
         <div className="departmentNavRight">
-          <Icon type="mode_edit" />
-          <Icon type="fullscreen" />
+          <EditItem item={selectedDepartment}>
+            <Icon type="mode_edit" />
+          </EditItem>
+          <div>
+            <Icon type="fullscreen" />
+          </div>
         </div>
       </div>
       <HorizontalLine />
