@@ -29,7 +29,7 @@ class AlertsComponent extends Component {
 
     if (this.props.alerts) {
       let alerts = this.props.alerts;
-      sortedAlerts = alerts.slice().sort(compareAlerts);
+      sortedAlerts = alerts.sort(compareAlerts);
       alertList = sortedAlerts.map(alert => {
         return (
           <ValveAlert

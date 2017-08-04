@@ -79,6 +79,7 @@ export function setSelectedItem(item, keepViewState) {
             case "manifold":
               dispatch(setSelectedManifold(response));
               dispatch(setViewState(states.MANIFOLD_STATE));
+              dispatch(setSelectedStation(getFirst(response.children)));
               break;
             default:
               console.log("Not handled yet", response, item.type);
