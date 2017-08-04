@@ -106,8 +106,8 @@ environments:
         dataSource:
             driverClassName: com.mysql.cj.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            dbCreate: create-drop
-            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvd:europe-west1:grailstest-mysql&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=nexmatixmvd&useSSL=false
+            dbCreate: update
+            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvp:us-central1:nexmatixmvd&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=nexmatixmvd&useSSL=false
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -126,3 +126,7 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+---
+googlecloud:
+    projectid: nexmatixmvp
