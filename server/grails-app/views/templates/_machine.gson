@@ -1,5 +1,3 @@
-package templates
-
 import com.nexmatix.Machine
 
 model {

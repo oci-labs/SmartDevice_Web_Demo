@@ -33,19 +33,19 @@ class BootStrap {
 
         (1..9).each { i ->
 
-            def department = new Department([name: "Department " + i, facility: (i % 3) + 1]).save()
+            def department = new Department(name: "Department " + i, facility: Facility.get((i % 3) + 1)).save()
             println "Saved department: ${department.name} belongs to ${department.facility.name}"
         }
 
         (1..27).each { i ->
 
-            def machine = new Machine(name: "Machine " + toLetter(i), department: (i%9)+1).save()
+            def machine = new Machine(name: "Machine " + toLetter(i), department: Department.get((i%9)+1)).save()
             println "Saved _machine: ${machine.name}"
         }
 
         (1..108).each { i ->
 
-            def manifold = new Manifold(name: "Manifold " + i, machine: (i%27)+1).save()
+            def manifold = new Manifold(name: "Manifold " + i, machine: Machine.get((i%27)+1)).save()
             println "Saved manifold: ${manifold.name}"
         }
 
@@ -67,13 +67,13 @@ class BootStrap {
 
         (1..200).each { i ->
 
-            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: new Timestamp(offset + (long)(Math.random() * diff)).toString(), isActive: new Random().nextBoolean(), station: (i%648)+1).save()
+            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: (i%648)+1).save()
             println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
         }
 
 
 
-        new Valve(station: Station.first(), fabricationDate: new Date(), latestStatus: null, shippingDate: new Date(), sku: 'NX-DCV-whatevs').save()
+        new Valve(station: Station.first(), fabricationDate: new Date().time, latestStatus: null, shippingDate: new Date().time, sku: 'NX-DCV-whatevs').save()
 
     }
     def destroy = {
