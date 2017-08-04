@@ -105,7 +105,7 @@ environments:
             driverClassName: com.mysql.cj.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             dbCreate: create-drop
-            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatix-mvd:europe-west1:grailstest-mysql&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=foo123&useSSL=false
+            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvd:europe-west1:grailstest-mysql&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=nexmatixmvd&useSSL=false
             properties:
                 jmxEnabled: true
                 initialSize: 5

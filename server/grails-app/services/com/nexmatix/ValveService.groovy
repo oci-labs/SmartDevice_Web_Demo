@@ -10,9 +10,9 @@ class ValveService {
 
     Valve createNewValve(Long serialNumber) {
         log.info "createNewValve: ${serialNumber}"
-        Valve valve = new Valve(serialNumber: serialNumber, sku: 'whatevs', station: Station.first()) //valveDataStoreService.retrieveEntity(serialNumber)
+        Valve valve = valveDataStoreService.retrieveEntity(serialNumber)
 
-        if(!valve.save()) {
+        if(valve && !valve.save()) {
             valve.errors.allErrors.each { log.error "${it}" }
             valve = null
         }

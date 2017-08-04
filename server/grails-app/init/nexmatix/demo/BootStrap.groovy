@@ -49,9 +49,15 @@ class BootStrap {
             println "Saved manifold: ${manifold.name}"
         }
 
+        def random = new Random()
+        def numbers = [0, 3, 4, 8, 9]
+
         (1..648).each { i ->
 
-            def station = new Station(serialNumber: "Station " + toLetter(i), manifold: (i%108)+1).save()
+            def station = new Station(
+                    serialNumber: "Station " + toLetter(i),
+                    manifold: (i%108)+1,
+                    number: numbers[ random.nextInt(numbers.size()) ]).save()
             println "Saved station: ${station.serialNumber}"
         }
 

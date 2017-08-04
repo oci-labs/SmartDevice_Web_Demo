@@ -13,7 +13,7 @@ class ValveDataJob {
     @Autowired
     ValveAlertService valveAlertService
 
-    @Scheduled(cron = "15 * * * * *")
+    @Scheduled(cron = "10 * * * * *")
     def retrieveAndSendData() {
         log.info "Retrieving data..."
 
