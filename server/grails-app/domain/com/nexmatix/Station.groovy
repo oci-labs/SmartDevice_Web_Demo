@@ -5,7 +5,6 @@ import grails.rest.Resource
 @Resource(uri='/api/station', formats = ['json'], readOnly = false)
 class Station {
 
-    String serialNumber
     Integer number
 
     static belongsTo = [manifold: Manifold]

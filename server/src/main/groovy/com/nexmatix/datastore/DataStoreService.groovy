@@ -36,17 +36,12 @@ trait DataStoreService<T> {
 
 
     T retrieveEntity(def id) {
-        println "retrieveEntity: ${id}"
         Key key = getKey(id)
-        println "getting ${key} for ${kind}..."
-
-
         transformEntity(datastore.get(key))
     }
 
 
     List<T> transformEntities(QueryResults<Entity> queryResults) {
-        println "transformEntities..."
         queryResults.collect { transformEntity(it) }
     }
 

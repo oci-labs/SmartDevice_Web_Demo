@@ -46,7 +46,7 @@ class DrilldownComponent extends Component {
     if (selectedManifold) {
       title = (
         <div className="drilldownTitle">
-          {selectedManifold.name}
+          {selectedManifold.serialNumber}
         </div>
       );
     }

@@ -45,8 +45,8 @@ class BootStrap {
 
         (1..108).each { i ->
 
-            def manifold = new Manifold(name: "Manifold " + i, machine: Machine.get((i%27)+1)).save()
-            println "Saved manifold: ${manifold.name}"
+            def manifold = new Manifold(serialNumber: i, machine: Machine.get((i%27)+1)).save()
+            println "Saved manifold: ${manifold.serialNumber}"
         }
 
         def random = new Random()
@@ -55,10 +55,9 @@ class BootStrap {
         (1..648).each { i ->
 
             def station = new Station(
-                    serialNumber: "Station " + toLetter(i),
-                    manifold: (i%108)+1,
+                    manifold: Manifold.first(),
                     number: numbers[ random.nextInt(numbers.size()) ]).save()
-            println "Saved station: ${station.serialNumber}"
+            println "Saved station: ${station.number}"
         }
 
         long offset = Timestamp.valueOf("2017-07-31 08:50:00").getTime();

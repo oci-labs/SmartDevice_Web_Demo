@@ -6,7 +6,6 @@ model {
 
 json {
     id station.id
-    name station.serialNumber
     number station.number
     type 'station'
     parent tmpl.'/templates/manifold'(station.manifold)
