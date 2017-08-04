@@ -36,3 +36,17 @@ div.alertsContainer .alert-icon-left {
 div.alertsContainer .alert-icon-right {
   margin-left: 10px;
   cursor: pointer; }
+
+div.alertsContainer .alerts-enter {
+  opacity: 0.01; }
+
+div.alertsContainer .alerts-enter.alerts-enter-active {
+  opacity: 1;
+  transition: 600ms; }
+
+div.alertsContainer .alerts-leave {
+  opacity: 1; }
+
+div.alertsContainer .alerts-leave.alerts-leave-active {
+  opacity: 0.01;
+  transition: 600ms; }
