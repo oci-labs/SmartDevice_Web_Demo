@@ -28,7 +28,7 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
             if(!ValveAlert.findByName(entity.key.name)) {
                 Valve valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
 
-                if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
+                //if(!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
 
                 if(valve) {
                     ValveAlert alert = new ValveAlert(

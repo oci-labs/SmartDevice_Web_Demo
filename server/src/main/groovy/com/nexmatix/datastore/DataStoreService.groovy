@@ -23,7 +23,7 @@ trait DataStoreService<T> {
 
 
     List<T> listEntities(Integer max, Integer offset/*, String sort*/) {
-        println "listEntities for ${kind}"
+
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind(kind)
                 .setLimit(max)
