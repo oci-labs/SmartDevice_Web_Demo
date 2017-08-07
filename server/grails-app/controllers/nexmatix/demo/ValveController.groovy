@@ -14,14 +14,15 @@ class ValveController extends RestfulController<Valve> {
     }
 
     def byStation(Integer station, Integer manifold) {
-        log.info "station: ${station}, manifold: ${manifold}"
+        println "station: ${station}, manifold: ${manifold}"
 
         Manifold m = Manifold.get(manifold)
-        log.info "manifold: ${m}"
+        println "manifold: ${m}"
         Station s = Station.findByNumberAndManifold(station, m)
-        log.info "station: ${s}"
+        println "station: ${s}"
         if (s && m) {
             Valve valve = Valve.findByStation(s)
+            println "valve ${valve}"
 
             [valve: valve]
         } else {
