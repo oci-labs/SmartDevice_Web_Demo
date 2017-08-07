@@ -20,6 +20,7 @@ class ValveController extends RestfulController<Valve> {
         log.info "manifold: ${m}"
         Station s = Station.findByNumberAndManifold(station, m)
         log.info "station: ${s}"
+
         if (s && m) {
             Valve valve = Valve.findByStation(s)
 

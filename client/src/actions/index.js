@@ -290,13 +290,15 @@ export function setViewState(state) {
 export function getAllAlerts(count = 10) {
   return function(dispatch) {
     return GETAllAlerts(count).then(toJson).then(
-      items => {
-        let alerts = items.map(item => {
-          item.isSnoozed = false;
-          item.isActive = true;
-          return item;
-        });
-        dispatch(setAllAlerts(alerts));
+      response => {
+        if (response.error !== 404) {
+          let alerts = response.map(item => {
+            item.isSnoozed = false;
+            item.isActive = true;
+            return item;
+          });
+          dispatch(setAllAlerts(alerts));
+        }
       },
       error => dispatch(throwError(error))
     );
