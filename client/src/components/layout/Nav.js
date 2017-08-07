@@ -8,12 +8,10 @@ import { toggleProfile, toggleAlerts } from "../../actions";
 
 
 const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
-    console.log(alerts);
     let activeAlerts = [];
     if (alerts) { activeAlerts = alerts.filter(alert => {
       return alert.isActive
     })}
-    console.log(activeAlerts);
 
   return (
     <div className="nav">
@@ -41,7 +39,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     toggleAlerts: function() {
-      console.log('clicked alerts');
       dispatch(toggleAlerts());
     },
     toggleProfile: function() {

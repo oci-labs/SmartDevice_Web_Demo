@@ -78,11 +78,14 @@ function reducer(state = initialState, action) {
       });
     case types.SNOOZE_ALERT:
       let alerts = state.alerts.map(alert => {
+        console.log('iterated alert', alert);
+        console.log('selected alert', action.payload.props.id)
         if (alert.id === action.payload.props.id) {
           alert.isSnoozed = !alert.isSnoozed;
         }
         return alert;
       });
+      console.log(alerts);
       return Object.assign({}, state, {
         alerts: alerts
       });
