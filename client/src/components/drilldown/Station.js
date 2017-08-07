@@ -26,10 +26,8 @@ class Station extends Component {
       });
   };
   getValveStatus = () => {
-    console.log("START GET VALVE STATUS", this.props.station);
     this.timeout = setTimeout(this.getValveStatus, 5000);
     if (this.valve) {
-      console.log("GETTING VALVE STATUS", this.valve.serialNumber);
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
