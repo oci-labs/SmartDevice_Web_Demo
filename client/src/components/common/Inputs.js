@@ -97,44 +97,49 @@ export class Select extends Component {
       this.props.disabled ||
       ((!options || options.length === 0) &&
         (!children || children.length === 0));
-    return (
-      <div className="generalWrapper">
-        <div className="commonSelectLabel">
-          {this.props.name}
-        </div>
-        <div className={`commonSelectWrapper ${disabled ? "disabled" : ""}`}>
-          <div className="commonSelect" ref={this.setWrapperRef}>
-            <div className="selected" onClick={this.toggleOptions}>
-              <div className="selectedName">
-                {selected && selected.name ? selected.name : selected}
-              </div>
-              <Icon
-                type={
-                  isOpen && !disabled
-                    ? "keyboard_arrow_up"
-                    : "keyboard_arrow_down"
-                }
-              />
-            </div>
-            <div className={`optionsWrapper ${!isOpen ? "closed" : ""}`}>
-              {React.Children.map(options ? options : children, child => {
-                const additionalProps = {
-                  handleClick: item => {
-                    this.setState({
-                      isOpen: false,
-                      selected: item
-                    });
-                    if (onChange) {
-                      onChange(item);
-                    }
+
+    if (!this.props.hideIf) {
+      return (
+        <div className="generalWrapper">
+          <div className="commonSelectLabel">
+            {this.props.name}
+          </div>
+          <div className={`commonSelectWrapper ${disabled ? "disabled" : ""}`}>
+            <div className="commonSelect" ref={this.setWrapperRef}>
+              <div className="selected" onClick={this.toggleOptions}>
+                <div className="selectedName">
+                  {selected && selected.name ? selected.name : selected}
+                </div>
+                <Icon
+                  type={
+                    isOpen && !disabled
+                      ? "keyboard_arrow_up"
+                      : "keyboard_arrow_down"
                   }
-                };
-                return React.cloneElement(child, additionalProps);
-              })}
+                />
+              </div>
+              <div className={`optionsWrapper ${!isOpen ? "closed" : ""}`}>
+                {React.Children.map(options ? options : children, child => {
+                  const additionalProps = {
+                    handleClick: item => {
+                      this.setState({
+                        isOpen: false,
+                        selected: item
+                      });
+                      if (onChange) {
+                        onChange(item);
+                      }
+                    }
+                  };
+                  return React.cloneElement(child, additionalProps);
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <div />;
+    }
   }
 }

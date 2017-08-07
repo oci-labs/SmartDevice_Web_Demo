@@ -6,3 +6,4 @@ node_modules/
 client/src/package.json
 server/devDb.mv.db
 server/devDb.trace.db
+devDb.mv.db
