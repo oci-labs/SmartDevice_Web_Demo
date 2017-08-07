@@ -25,12 +25,14 @@ class Station extends Component {
         .then(response => response.json())
         .then(response => {
           const latestStatus = response[0];
-          this.setState({
-            inFault:
-              latestStatus.cycleCount > latestStatus.cycleCountLimit ||
-              latestStatus.leak !== "N" ||
-              latestStatus.pressureFault !== "N"
-          });
+          if (latestStatus) {
+            this.setState({
+              inFault:
+                latestStatus.cycleCount > latestStatus.cycleCountLimit ||
+                latestStatus.leak !== "N" ||
+                latestStatus.pressureFault !== "N"
+            });
+          }
         });
     }
     this.timeout = setTimeout(this.getValveStatus, 5000);
