@@ -1,5 +1,7 @@
-package com.nexmatix
+package nexmatix.demo
 
+import com.nexmatix.Machine
+import com.nexmatix.Department
 import grails.rest.RestfulController
 
 class MachineController extends RestfulController<Machine> {

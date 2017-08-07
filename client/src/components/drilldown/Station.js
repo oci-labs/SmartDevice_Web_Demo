@@ -17,7 +17,11 @@ class Station extends Component {
     )
       .then(response => response.json())
       .then(response => {
-        this.valve = response;
+        if (response.error !== 404) {
+          this.valve = response;
+        } else {
+          this.valve = undefined;
+        }
         this.getValveStatus();
       });
   };
