@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Icon from "../icons/Icon";
 import "./Station.css";
 
+
+//TODO: station prop now includes valve data structure (station.valve) - use that here to render valve details
 const Station = ({onClick, id, station, empty, currentStation, inFault}) => {
 
   if (empty) {
