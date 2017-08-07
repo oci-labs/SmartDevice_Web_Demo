@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./Nav.css";
 import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
 import { Badge } from "reactstrap";
+import Icon from "../icons/Icon";
 import { toggleProfile, toggleAlerts } from "../../actions";
 
 const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {

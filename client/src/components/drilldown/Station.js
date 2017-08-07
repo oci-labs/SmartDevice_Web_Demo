@@ -12,7 +12,9 @@ class Station extends Component {
     };
   }
   getValve = station => {
-    fetch(`${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`)
+    fetch(
+      `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`
+    )
       .then(response => response.json())
       .then(response => {
         this.valve = response;
@@ -21,6 +23,7 @@ class Station extends Component {
   };
   getValveStatus = () => {
     if (this.valve) {
+      console.log("Valve", this.valve);
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
