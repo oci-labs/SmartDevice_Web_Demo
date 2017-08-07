@@ -9,7 +9,12 @@ class ValveStatusController {
 	
     def show(Long id) {
         Valve valve = Valve.findBySerialNumber(id)
-        [statusList: ValveStatus.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc'])]
+        if(valve) {
+            [statusList: ValveStatus.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc'])]
+        } else {
+            log.warn "Unable to find valve with id: ${id}"
+            render status: 404
+        }
 
     }
 

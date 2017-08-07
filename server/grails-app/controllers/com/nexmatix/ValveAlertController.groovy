@@ -9,8 +9,12 @@ class ValveAlertController {
 
     def show(Long id) {
         Valve valve = Valve.findBySerialNumber(id)
-        [alertList: ValveAlert.findAllByValve(valve, [max: params.max ?: 10, sort: 'detectionTime', order: 'desc'])]
-
+        if(valve) {
+            [alertList: ValveAlert.findAllByValve(valve, [max: params.max ?: 10, sort: 'detectionTime', order: 'desc'])]
+        } else {
+            log.warn "Unable to find valve with id: ${id}"
+            render status: 404
+        }
     }
 
     def index() {

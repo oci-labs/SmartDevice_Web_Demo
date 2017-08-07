@@ -5,11 +5,12 @@ model {
 }
 
 json {
-    valve {
-        id valveStatus.valve.id
-        serialNumber valveStatus.valve.serialNumber
+    if (valveStatus.valve) {
+        valve {
+            id valveStatus.valve.id
+            serialNumber valveStatus.valve.serialNumber
+        }
     }
-
     updateTime valveStatus.updateTime
     cycleCount valveStatus.cycleCount
     cycleCountLimit valveStatus.cycleCountLimit
