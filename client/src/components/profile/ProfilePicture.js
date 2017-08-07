@@ -1,6 +1,5 @@
 import React from "react";
 import "./ProfilePicture.css";
-import Icon from "../icons/Icon";
 import { IconEdit } from "../icons/NexmatixIcons";
 
 const ProfilePicture = () => {

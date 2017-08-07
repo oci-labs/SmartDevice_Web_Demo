@@ -122,13 +122,13 @@ export class Select extends Component {
                 {React.Children.map(options ? options : children, child => {
                   const additionalProps = {
                     handleClick: item => {
+                      if (onChange) {
+                        onChange(item);
+                      }
                       this.setState({
                         isOpen: false,
                         selected: item
                       });
-                      if (onChange) {
-                        onChange(item);
-                      }
                     }
                   };
                   return React.cloneElement(child, additionalProps);
