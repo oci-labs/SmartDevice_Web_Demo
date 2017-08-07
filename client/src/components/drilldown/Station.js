@@ -16,6 +16,7 @@ class Station extends Component {
       .then(response => response.json())
       .then(response => {
         this.valve = response;
+        this.getValveStatus();
       });
   };
   getValveStatus = () => {
@@ -34,9 +35,6 @@ class Station extends Component {
     }
     this.timeout = setTimeout(this.getValveStatus, 5000);
   };
-  componentWillMount() {
-    this.getValveStatus();
-  }
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }

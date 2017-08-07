@@ -7,3 +7,15 @@
     .addItemButton .addItemWrapper .addItemTitle {
       font-size: 1.2em;
       padding: 0px 0px 5px; }
+  .addItemButton button {
+    display: flex;
+    width: 100%;
+    margin: 22px 0px 0px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: .9em;
+    height: 40px;
+    justify-content: center; }
+    .addItemButton button.add {
+      background-color: #fdaa18; }
