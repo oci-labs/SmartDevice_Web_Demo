@@ -25,45 +25,56 @@ class BootStrap {
     def init = { servletContext ->
         println "Loading database..."
 
-        def facility = new Facility(name: 'Facility A').save()
-        println "Saved facility: ${facility.name}"
+        if(!Facility.list()) {
+            def facility = new Facility(name: 'Facility A').save()
+            println "Saved facility: ${facility.name}"
+        }
+
+        if(!Department.list()) {
+            def department = new Department(name: "Department A" , facility: Facility.first()).save()
+            println "Saved department: ${department.name} belongs to ${department.facility.name}"
+        }
+
+        if(!Machine.list()) {
+            def machine = new Machine(name: "Machine AAA", department: Department.first()).save()
+            println "Saved _machine: ${machine.name}"
+        }
 
 
-        def department = new Department(name: "Department A" , facility: 1).save()
-        println "Saved department: ${department.name} belongs to ${department.facility.name}"
-
-        def machine = new Machine(name: "Machine AAA", department: 1).save()
-        println "Saved _machine: ${machine.name}"
-
-
-        def manifold = new Manifold(serialNumber: 1, machine: 1).save()
+        def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
         println "Saved manifold: ${manifold.serialNumber}"
 
-        def random = new Random()
-        def numbers = [0, 3, 4, 8, 9]
 
-        (0..4).each { i ->
+        if(!Station.list()) {
+            def random = new Random()
+            def numbers = [0, 3, 4, 8, 9]
 
-            def station = new Station(
-                    manifold: Manifold.first(),
-                    number: numbers[ random.nextInt(numbers.size()) ]).save()
-            println "Saved station: ${station.number}"
+            (0..4).each { i ->
+
+                def station = new Station(
+                        manifold: Manifold.first(),
+                        number: numbers[ random.nextInt(numbers.size()) ]).save()
+                println "Saved station: ${station.number}"
+            }
         }
 
-        long offset = Timestamp.valueOf("2017-07-31 08:50:00").getTime();
-        long end = Timestamp.valueOf("2017-08-01 23:59:59").getTime();
-        long diff = end - offset + 1;
+        if(!Alert.list()) {
 
-        (1..200).each { i ->
+            long offset = Timestamp.valueOf("2017-07-31 08:50:00").getTime();
+            long end = Timestamp.valueOf("2017-08-01 23:59:59").getTime();
+            long diff = end - offset + 1;
 
-            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: (i%5)+1).save()
-            println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
+            (1..200).each { i ->
+
+                def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: (i%5)+1).save()
+                println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
+            }
+
         }
 
-
-
-        new Valve(station: Station.first(), fabricationDate: new Date().time, latestStatus: null, shippingDate: new Date().time, sku: 'NX-DCV-whatevs').save()
-
+        if(!Valve.list()) {
+            new Valve(station: Station.first(), fabricationDate: new Date().time, shippingDate: new Date().time, sku: 'NX-DCV-whatevs').save()
+        }
     }
     def destroy = {
     }

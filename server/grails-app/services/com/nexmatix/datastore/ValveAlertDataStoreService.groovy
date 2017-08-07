@@ -23,10 +23,10 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
 
     @Override
     ValveAlert transformEntity(Entity entity) {
-        log.debug "transformEntity: ${entity.key.id}"
+        log.debug "transformEntity: ${entity.key.name}"
         ValveAlert.withNewTransaction {
 
-            ValveAlert alert = ValveAlert.findByName("${entity.key.id}")
+            ValveAlert alert = ValveAlert.findByName("${entity.key.name}")
 
             if(!alert) {
                 Valve valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
@@ -35,7 +35,7 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
 
                 if(valve) {
                     alert = new ValveAlert(
-                            name: "${entity.key.id}",
+                            name: "${entity.key.name}",
                             valve: valve)
                 } else {
                     log.warn "Missing valve!"
