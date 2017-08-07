@@ -15,6 +15,4 @@ class Station {
         return Valve.findByStation(this)
     }
 
-  //  static hasMany = [valves: Valve] ? do we have valves or does valve data go in station
-
 }
