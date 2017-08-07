@@ -46,12 +46,12 @@ class AlertsComponent extends Component {
         (a, b) =>
           new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
-            : new Date(a.detectionTime) > new Date(b.detectionTime)
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
       alertList = activeAlerts.map((alert, i) =>
         <ValveAlert
           key={"alert-" + i}
-          id={"alert-" + i}
+          id={"alert-" + alert.id}
           leftIcon
           isActive={alert.isActive}
           isSnoozed={alert.isSnoozed}
