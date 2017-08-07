@@ -22,6 +22,10 @@ const Manifold = ({ currentStation, handleStationClick, manifold }) => {
     stations.push(<Station key={stations.length + 648} empty="true" />);
   }
 
+  if (stations.length > 10) {
+    stations = stations.slice(10);
+  }
+
   return (
     <div className="manifoldContainer">
       {stations}

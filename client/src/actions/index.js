@@ -18,6 +18,10 @@ function GETValveStatus(valve) {
   return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
 }
 
+function ADDItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}`, { method: "post" });
+}
+
 function DELETEItem(item) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
     method: "delete"
@@ -51,6 +55,14 @@ export function setAllAlerts(alerts) {
   return {
     type: types.SET_ALL_ALERTS,
     payload: alerts
+  };
+}
+
+export function addItem(item) {
+  return function(dispatch) {
+    return ADDItem(item).then(toJson).then(response => {
+      console.log("Item post", response);
+    });
   };
 }
 
@@ -268,10 +280,14 @@ export function getAllAlerts(count = 10) {
 
 export function initialize() {
   return dispatch => {
-    GETItem({ type: "facility" }).then(toJson).then(response => {
-      dispatch(setActiveItems(response));
-      dispatch(setAllFacilities(response));
-    });
+    GETItem({
+      type: "facility"
+    })
+      .then(toJson)
+      .then(response => {
+        dispatch(setActiveItems(response));
+        dispatch(setAllFacilities(response));
+      });
   };
 }
 
