@@ -73,7 +73,7 @@ class AddItemComponent extends Component {
     }
   };
   addItem = item => {
-    console.log("Current model", this.state.model);
+    this.onModalClose();
     this.props.handleAddItem(this.state.model);
   };
   handleNameChange = name => {
@@ -84,12 +84,14 @@ class AddItemComponent extends Component {
     });
   };
   handleLayerChange = layer => {
-    this.setState({
-      hasParent: layer.parentType,
-      model: Object.assign({}, this.state.model, {
-        type: layer.type
-      })
-    });
+    if (layer.type !== this.state.model.type) {
+      this.setState({
+        hasParent: layer.parentType,
+        model: Object.assign({}, this.state.model, {
+          type: layer.type
+        })
+      });
+    }
   };
   handleParentChange = parent => {
     let parentModel = {};
@@ -100,8 +102,10 @@ class AddItemComponent extends Component {
   };
   render() {
     return (
-      <div className="addItemButton" onClick={this.openModal}>
-        {this.props.children}
+      <div className="addItemButton">
+        <div onClick={this.openModal}>
+          {this.props.children}
+        </div>
         <Modal show={this.state.showModal} onClose={this.onModalClose}>
           <div className="addItemWrapper">
             <div className="addItemTitle">Add New Item</div>

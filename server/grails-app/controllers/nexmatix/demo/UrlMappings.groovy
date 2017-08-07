@@ -12,6 +12,7 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
+        post "/api/machine(.$format)?"(controller: 'machine', action:"save")
         "/api/machine/$action?/$id?(.$format)?" (controller: 'machine')
         "/api/valve/station/$stationNumber" (controller: 'valve', action: 'station')
 
