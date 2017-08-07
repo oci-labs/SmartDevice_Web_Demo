@@ -10,22 +10,32 @@ class Station extends Component {
     this.state = {
       inFault: false
     };
+    this.getValveStatus();
   }
   getValve = station => {
-    fetch(`${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`)
+    fetch(
+      `${SERVER_URL}/api/valve/station/${this.props
+        .manifoldId}/${station.number}`
+    )
       .then(response => response.json())
       .then(response => {
-        this.valve = response;
-        this.getValveStatus();
+        if (response.error !== 404) {
+          this.valve = response;
+        } else {
+          this.valve = undefined;
+        }
       });
   };
   getValveStatus = () => {
+    this.timeout = setTimeout(this.getValveStatus, 5000);
     if (this.valve) {
+      console.log("GETTING VALVE STATUS", this.valve.serialNumber);
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
           const latestStatus = response[0];
           if (latestStatus) {
+            console.log("LATEST STATUS", latestStatus);
             this.setState({
               inFault:
                 latestStatus.cycleCount > latestStatus.cycleCountLimit ||
@@ -34,17 +44,14 @@ class Station extends Component {
             });
           }
         });
+    } else if (this.props.station) {
+      this.getValve(this.props.station);
     }
-    this.timeout = setTimeout(this.getValveStatus, 5000);
   };
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.station) {
-      this.getValve(nextProps.station);
-    }
-  }
+  componentWillReceiveProps(nextProps) {}
   render() {
     const { onClick, id, station, empty, currentStation } = this.props;
     if (empty) {

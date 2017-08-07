@@ -11,9 +11,9 @@ function GETItem(item) {
 }
 
 function GETValve(station) {
-  let url = new URL(`${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`);
-
-  return fetch(url);
+  return fetch(
+    `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`
+  );
 }
 
 function GETValveStatus(valve) {
@@ -21,12 +21,24 @@ function GETValveStatus(valve) {
 }
 
 function ADDItem(item) {
-  return fetch(`${SERVER_URL}/api/${item.type}`, { method: "post" });
+  return fetch(`${SERVER_URL}/api/${item.type}`, {
+    body: JSON.stringify(item),
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
 }
 
 function DELETEItem(item) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
-    method: "delete"
+    body: JSON.stringify(item),
+    method: "delete",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
   });
 }
 
@@ -63,15 +75,27 @@ export function setAllAlerts(alerts) {
 export function addItem(item) {
   return function(dispatch) {
     return ADDItem(item).then(toJson).then(response => {
-      console.log("Item post", response);
+      switch (item.type) {
+        case "facility":
+          dispatch(setSelectedItem({ type: response.type }));
+          break;
+        case "department":
+          dispatch(setSelectedItem(response));
+          break;
+        default:
+          console.log("AddItem", response);
+          break;
+      }
     });
   };
 }
 
 export function deleteItem(item) {
   return function(dispatch) {
-    return DELETEItem(item).then(toJson).then(response => {
-      console.log("Deleted response", response);
+    return DELETEItem(item).then(response => {
+      dispatch(
+        setSelectedItem(item.parent ? item.parent : { type: item.type })
+      );
     });
   };
 }
@@ -81,11 +105,13 @@ export function updateItem(item) {
     return UPDATEItem(item).then(toJson).then(response => {
       switch (item.type) {
         case "facility":
-          dispatch(updateAllFacilitiesWithItem(item));
-          dispatch(updateActiveItemsWithItem(item));
+          dispatch(setSelectedItem({ type: response.type }));
           break;
         case "department":
           dispatch(setSelectedDepartment(item));
+          break;
+        default:
+          break;
       }
     });
   };
@@ -105,13 +131,6 @@ export function setActiveItems(items) {
   };
 }
 
-function updateActiveItemsWithItem(item) {
-  return {
-    type: types.UPDATE_ACTIVE_ITEMS_WITH_ITEM,
-    payload: item
-  };
-}
-
 export function setSelectedItem(item, keepViewState) {
   return function(dispatch) {
     if (item) {
@@ -119,7 +138,6 @@ export function setSelectedItem(item, keepViewState) {
         if (item.id) {
           switch (item.type) {
             case "facility":
-              console.log("facility", response);
               dispatch(setSelectedFacility(response));
               if (!keepViewState) {
                 dispatch(setViewState(states.FACILITY_STATE));
@@ -127,9 +145,9 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setActiveItems([response]));
               break;
             case "department":
-              console.log("Switch to department");
               dispatch(setSelectedDepartment(response));
               if (!keepViewState) {
+                // Update the selected facility to refresh the department info
                 dispatch(setSelectedItem(response.parent, true));
                 dispatch(setViewState(states.DEPARTMENT_STATE));
               } else {
@@ -140,6 +158,8 @@ export function setSelectedItem(item, keepViewState) {
               break;
             case "machine":
               dispatch(setSelectedMachine(response));
+              // Update selected department to refresh machine info
+              dispatch(setSelectedItem(response.parent, true));
               dispatch(setViewState(states.MACHINE_STATE));
               dispatch(setActiveItems([response]));
               break;
@@ -159,8 +179,12 @@ export function setSelectedItem(item, keepViewState) {
           switch (item.type) {
             case "facility":
               dispatch(setSelectedFacility({}));
+              dispatch(setAllFacilities(response));
               dispatch(setViewState(states.FACILITY_STATE));
               dispatch(setActiveItems(response));
+              break;
+            case "department":
+              dispatch(setSelectedFacility(item.parent));
               break;
             case "machine":
               dispatch(setSelectedMachine({}));
@@ -178,6 +202,7 @@ export function setSelectedItem(item, keepViewState) {
 function setValve(station) {
   return dispatch => {
     return GETValve(station).then(toJson).then(response => {
+      console.warn("Station", station);
       dispatch(setSelectedValve(response));
     });
   };
@@ -197,13 +222,6 @@ function setAllFacilities(facilities) {
   return {
     type: types.SET_ALL_FACILITIES,
     payload: facilities
-  };
-}
-
-function updateAllFacilitiesWithItem(item) {
-  return {
-    type: types.UPDATE_ALL_FACILITIES_WITH_ITEM,
-    payload: item
   };
 }
 
@@ -266,14 +284,15 @@ export function setViewState(state) {
 export function getAllAlerts(count = 10) {
   return function(dispatch) {
     return GETAllAlerts(count).then(toJson).then(
-      items => {
-        let alerts = items.map(item => {
-          item.isSnoozed = false;
-          item.isActive = true;
-          return item;
-        });
-        console.log(alerts);
-        dispatch(setAllAlerts(alerts));
+      response => {
+        if (response.error !== 404) {
+          let alerts = response.map(item => {
+            item.isSnoozed = false;
+            item.isActive = true;
+            return item;
+          });
+          dispatch(setAllAlerts(alerts));
+        }
       },
       error => dispatch(throwError(error))
     );

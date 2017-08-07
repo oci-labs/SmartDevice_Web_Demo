@@ -13,6 +13,7 @@ const Manifold = ({ currentStation, handleStationClick, manifold }) => {
           key={station.id}
           station={station}
           currentStation={currentStation}
+          manifoldId={manifold.id}
           onClick={handleStationClick}
         />
       );

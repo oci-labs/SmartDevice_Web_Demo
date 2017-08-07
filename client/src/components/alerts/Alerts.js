@@ -15,11 +15,9 @@ class AlertsComponent extends Component {
     let alertList;
     let inactiveAlertList;
     let snoozedAlertList;
-    console.log('props', this.props);
     const { alerts, handleUpdateAlert } = this.props;
 
     if (alerts) {
-      
       let activeAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === true && alert.isSnoozed === false;
       });
