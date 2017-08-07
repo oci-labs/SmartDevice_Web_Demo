@@ -2,7 +2,7 @@ package com.nexmatix
 
 import grails.rest.Resource
 
-@Resource(uri='/api/valve')
+@Resource(uri='/api/valve', formats = ['json'], readOnly = false)
 class Valve {
 
     Long serialNumber
