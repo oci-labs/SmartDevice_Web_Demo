@@ -12,7 +12,7 @@ class Station extends Component {
     };
   }
   getValve = station => {
-    fetch(`${SERVER_URL}/api/valve/station/${station.number}`)
+    fetch(`${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`)
       .then(response => response.json())
       .then(response => {
         this.valve = response;

@@ -11,9 +11,7 @@ function GETItem(item) {
 }
 
 function GETValve(station) {
-  let url = new URL(`${SERVER_URL}/api/valve/station`),
-    params = { station: station.id, manifold: station.parent.id };
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+  let url = new URL(`${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`);
 
   return fetch(url);
 }
