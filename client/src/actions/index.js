@@ -12,12 +12,11 @@ function GETItem(item) {
 
 function GETValve(station) {
   return fetch(
-    `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.id}`
+    `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`
   );
 }
 
 function GETValveStatus(valve) {
-  console.log("using GETValveStatus", valve);
   return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
 }
 
@@ -132,13 +131,6 @@ export function setActiveItems(items) {
   };
 }
 
-function updateActiveItemsWithItem(item) {
-  return {
-    type: types.UPDATE_ACTIVE_ITEMS_WITH_ITEM,
-    payload: item
-  };
-}
-
 export function setSelectedItem(item, keepViewState) {
   return function(dispatch) {
     if (item) {
@@ -210,6 +202,7 @@ export function setSelectedItem(item, keepViewState) {
 function setValve(station) {
   return dispatch => {
     return GETValve(station).then(toJson).then(response => {
+      console.warn("Station", station);
       dispatch(setSelectedValve(response));
     });
   };
@@ -217,7 +210,6 @@ function setValve(station) {
 
 export function setValveStatus(valve) {
   return dispatch => {
-    console.log("Valve", valve);
     if (valve) {
       return GETValveStatus(valve).then(toJson).then(response => {
         dispatch(setSelectedValveStatus(response));

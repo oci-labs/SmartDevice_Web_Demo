@@ -47,13 +47,13 @@ class BootStrap {
 
         if(!Station.list()) {
             def random = new Random()
-            def numbers = [0, 3, 4, 8, 9]
+            def numbers = [1, 4, 5, 9, 10]
 
             (0..4).each { i ->
 
                 def station = new Station(
                         manifold: Manifold.first(),
-                        number: numbers[ random.nextInt(numbers.size()) ]).save()
+                        number: numbers[i]).save()
                 println "Saved station: ${station.number}"
             }
         }

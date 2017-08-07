@@ -73,7 +73,6 @@ class AddItemComponent extends Component {
     }
   };
   addItem = item => {
-    console.log("Current model", this.state.model);
     this.props.handleAddItem(this.state.model);
   };
   handleNameChange = name => {
@@ -84,12 +83,14 @@ class AddItemComponent extends Component {
     });
   };
   handleLayerChange = layer => {
-    this.setState({
-      hasParent: layer.parentType,
-      model: Object.assign({}, this.state.model, {
-        type: layer.type
-      })
-    });
+    if (layer.parentType) {
+      this.setState({
+        hasParent: layer.parentType,
+        model: Object.assign({}, this.state.model, {
+          type: layer.type
+        })
+      });
+    }
   };
   handleParentChange = parent => {
     let parentModel = {};
