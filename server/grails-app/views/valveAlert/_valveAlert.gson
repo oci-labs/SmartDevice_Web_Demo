@@ -5,6 +5,7 @@ model {
 }
 
 json {
+    id valveAlert.id
     valve {
         id valveAlert.valve.id
         serialNumber valveAlert.valve.serialNumber

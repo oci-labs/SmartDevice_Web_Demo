@@ -19,7 +19,6 @@ class AlertsComponent extends Component {
     const { alerts, handleUpdateAlert } = this.props;
 
     if (alerts) {
-      console.log(alerts);
       
       let activeAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === true && alert.isSnoozed === false;
@@ -47,12 +46,12 @@ class AlertsComponent extends Component {
         (a, b) =>
           new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
-            : new Date(a.detectionTime) > new Date(b.detectionTime)
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
       alertList = activeAlerts.map((alert, i) =>
         <ValveAlert
           key={"alert-" + i}
-          id={"alert-" + i}
+          id={"alert-" + alert.id}
           leftIcon
           isActive={alert.isActive}
           isSnoozed={alert.isSnoozed}
