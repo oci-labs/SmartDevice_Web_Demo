@@ -6,8 +6,6 @@ class UrlMappings {
 
     static mappings = {
 
-        "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
-
         delete "/api/$controller/$id(.$format)?"(action:"delete")
         get "/api/$controller(.$format)?"(action:"index")
         get "/api/$controller/$id(.$format)?"(action:"show")

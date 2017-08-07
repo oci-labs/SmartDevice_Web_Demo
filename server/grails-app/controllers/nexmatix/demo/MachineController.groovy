@@ -8,8 +8,9 @@ class MachineController extends RestfulController<Machine> {
         super(Machine)
     }
 
-    def byDepartment(Long id) {
-        Department d = Department.get(id)
+    def byDepartment(Long departmentId) {
+        Department d = Department.get(departmentId)
+        println "department ${d}"
         if(d) {
             [machines: Machine.where{department == d}.list()]
         }
