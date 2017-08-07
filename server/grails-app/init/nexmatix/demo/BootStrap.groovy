@@ -40,10 +40,10 @@ class BootStrap {
             println "Saved _machine: ${machine.name}"
         }
 
-
-        def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
-        println "Saved manifold: ${manifold.serialNumber}"
-
+        if(!Manifold.list()) {
+            def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
+            println "Saved manifold: ${manifold.serialNumber}"
+        }
 
         if(!Station.list()) {
             def random = new Random()
