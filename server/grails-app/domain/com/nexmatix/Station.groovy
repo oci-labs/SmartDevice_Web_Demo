@@ -9,6 +9,12 @@ class Station {
 
     static belongsTo = [manifold: Manifold]
     static hasMany = [alerts: Alert]
+
+
+    Valve getValve() {
+        return Valve.findByStation(this)
+    }
+
   //  static hasMany = [valves: Valve] ? do we have valves or does valve data go in station
 
 }
