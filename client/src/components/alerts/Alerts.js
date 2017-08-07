@@ -15,11 +15,12 @@ class AlertsComponent extends Component {
     let alertList;
     let inactiveAlertList;
     let snoozedAlertList;
+    console.log('props', this.props);
+    const { alerts, handleUpdateAlert } = this.props;
 
-    const { handleUpdateAlert } = this.props;
-
-    if (this.props.alerts) {
-      let alerts = this.props.alerts;
+    if (alerts) {
+      console.log(alerts);
+      
       let activeAlerts = [].concat(alerts).filter(alert => {
         return alert.isActive === true && alert.isSnoozed === false;
       });
@@ -32,31 +33,31 @@ class AlertsComponent extends Component {
 
       activeAlerts.sort(
         (a, b) =>
-          new Date(a.thrownAt) < new Date(b.thrownAt)
+          new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
-            : new Date(a.thrownAt) > new Date(b.thrownAt) ? -1 : 0
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
       inactiveAlerts.sort(
         (a, b) =>
-          new Date(a.thrownAt) < new Date(b.thrownAt)
+          new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
-            : new Date(a.thrownAt) > new Date(b.thrownAt) ? -1 : 0
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
       snoozedAlerts.sort(
         (a, b) =>
-          new Date(a.thrownAt) < new Date(b.thrownAt)
+          new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
-            : new Date(a.thrownAt) > new Date(b.thrownAt)
+            : new Date(a.detectionTime) > new Date(b.detectionTime)
       );
-      alertList = activeAlerts.map(alert =>
+      alertList = activeAlerts.map((alert, i) =>
         <ValveAlert
-          key={alert.id}
-          id={alert.id}
+          key={"alert-" + i}
+          id={"alert-" + i}
           leftIcon
           isActive={alert.isActive}
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
-          time={alert.thrownAt}
+          time={alert.detectionTime}
           handleUpdate={handleUpdateAlert}
         />
       );
@@ -68,7 +69,7 @@ class AlertsComponent extends Component {
           isActive={alert.isActive}
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
-          time={alert.thrownAt}
+          time={alert.detectionTime}
           handleUpdate={handleUpdateAlert}
         />
       );
@@ -80,7 +81,7 @@ class AlertsComponent extends Component {
           isActive={alert.isActive}
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
-          time={alert.thrownAt}
+          time={alert.detectionTime}
           handleUpdate={handleUpdateAlert}
         />
       );
