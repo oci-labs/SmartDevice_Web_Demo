@@ -12,7 +12,10 @@ class Station extends Component {
     };
   }
   getValve = station => {
-    fetch(`${SERVER_URL}/api/valve/station/${station.number}`)
+    fetch(
+      `${SERVER_URL}/api/valve/station/${this.props
+        .manifoldId}/${station.number}`
+    )
       .then(response => response.json())
       .then(response => {
         this.valve = response;
@@ -21,16 +24,19 @@ class Station extends Component {
   };
   getValveStatus = () => {
     if (this.valve) {
+      console.log("Valve", this.valve);
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
           const latestStatus = response[0];
-          this.setState({
-            inFault:
-              latestStatus.cycleCount > latestStatus.cycleCountLimit ||
-              latestStatus.leak !== "N" ||
-              latestStatus.pressureFault !== "N"
-          });
+          if (latestStatus) {
+            this.setState({
+              inFault:
+                latestStatus.cycleCount > latestStatus.cycleCountLimit ||
+                latestStatus.leak !== "N" ||
+                latestStatus.pressureFault !== "N"
+            });
+          }
         });
     }
     this.timeout = setTimeout(this.getValveStatus, 5000);

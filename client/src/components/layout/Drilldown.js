@@ -42,7 +42,7 @@ class DrilldownComponent extends Component {
     const { selectedManifold, currentStation } = this.props;
     const { selectedValve, valveStatus } = this.state;
     const currentValveStatus = valveStatus[0] ? valveStatus[0] : {};
-    let error, station;
+    let error, title, station;
 
     if (currentStation && selectedValve && !selectedValve.error) {
       station = (
