@@ -14,7 +14,8 @@ class Station extends Component {
   }
   getValve = station => {
     fetch(
-      `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`
+      `${SERVER_URL}/api/valve/station/${this.props
+        .manifoldId}/${station.number}`
     )
       .then(response => response.json())
       .then(response => {
@@ -28,6 +29,7 @@ class Station extends Component {
   getValveStatus = () => {
     this.timeout = setTimeout(this.getValveStatus, 5000);
     if (this.valve) {
+      console.log("GETTING VALVE STATUS", this.valve.serialNumber);
       fetch(`${SERVER_URL}/api/valveStatus/${this.valve.serialNumber}`)
         .then(response => response.json())
         .then(response => {
