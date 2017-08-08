@@ -8,4 +8,10 @@ json {
     id station.id
     number station.number
     type 'station'
+
+    def v = station.valve
+
+    if(v) {
+        valve g.render(v)
+    }
 }

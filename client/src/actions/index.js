@@ -54,7 +54,7 @@ function UPDATEItem(item) {
 }
 
 function GETMachinesByDepartment(departmentId) {
-  return fetch(`${SERVER_URL}/api/machine/byDepartment/${departmentId}`);
+  return fetch(`${SERVER_URL}/api/machine/department/${departmentId}`);
 }
 
 function toJson(response) {
@@ -202,7 +202,6 @@ export function setSelectedItem(item, keepViewState) {
 function setValve(station) {
   return dispatch => {
     return GETValve(station).then(toJson).then(response => {
-      console.warn("Station", station);
       dispatch(setSelectedValve(response));
     });
   };

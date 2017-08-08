@@ -9,6 +9,9 @@ json {
         valve {
             id valveStatus.valve.id
             serialNumber valveStatus.valve.serialNumber
+            station {
+                id valveStatus.valve?.stationId
+            }
         }
     }
     updateTime valveStatus.updateTime
