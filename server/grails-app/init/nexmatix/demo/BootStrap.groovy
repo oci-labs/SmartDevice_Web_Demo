@@ -7,6 +7,7 @@ import com.nexmatix.Facility
 import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
+import com.nexmatix.Valve
 
 import java.sql.Timestamp
 
@@ -23,47 +24,46 @@ class BootStrap {
 
     def init = { servletContext ->
         println "Loading database..."
-        ["Facility A", "Facility B", "Facility C"].each { name ->
 
-            def facility = new Facility(name: name).save()
+        if(!Facility.list()) {
+            def facility = new Facility(name: 'Facility A').save()
             println "Saved facility: ${facility.name}"
-
         }
 
-        (1..9).each { i ->
-
-            def department = new Department([name: "Department " + i, facility: (i % 3) + 1]).save()
+        if(!Department.list()) {
+            def department = new Department(name: "Department A" , facility: Facility.first()).save()
             println "Saved department: ${department.name} belongs to ${department.facility.name}"
         }
 
-        (1..27).each { i ->
-
-            def machine = new Machine(name: "Machine " + toLetter(i), department: (i%9)+1).save()
+        if(!Machine.list()) {
+            def machine = new Machine(name: "Machine AAA", department: Department.first()).save()
             println "Saved _machine: ${machine.name}"
         }
 
-        (1..108).each { i ->
-
-            def manifold = new Manifold(name: "Manifold " + i, machine: (i%27)+1).save()
-            println "Saved manifold: ${manifold.name}"
+        if(!Manifold.list()) {
+            def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
+            println "Saved manifold: ${manifold.serialNumber}"
         }
 
-        (1..648).each { i ->
+        if(!Station.list()) {
 
-            def station = new Station(name: "Station " + toLetter(i), manifold: (i%108)+1).save()
-            println "Saved station: ${station.name}"
+            (1..10).each { i ->
+
+                def station = new Station(
+                        manifold: Manifold.first(),
+                        number: i).save()
+                println "Saved station: ${station.number}"
+            }
         }
 
-        long offset = Timestamp.valueOf("2017-07-24 00:00:00").getTime();
-        long end = Timestamp.valueOf("2017-07-25 12:00:00").getTime();
-        long diff = end - offset + 1;
-        Timestamp rand = new Timestamp(offset + (long)(Math.random() * diff));
-        (1..200).each { i ->
+        if(!Valve.list()) {
+            Manifold m = Manifold.first()
 
-            def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: rand, isActive: new Random().nextBoolean(), station: (i%648)+1).save()
-            println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
+            [1, 4, 5, 9, 10].each { i ->
+                println "Creating valve ${100000 + (i - 1)} for station #${i}..."
+                new Valve(station: Station.findByNumberAndManifold(i, m), serialNumber: 100000 + (i - 1), fabricationDate: new Date().time, shippingDate: new Date().time, updateTime: new Date().time, sku: 'NX-DCV-whatevs').save(failOnError: true)
+            }
         }
-
     }
     def destroy = {
     }

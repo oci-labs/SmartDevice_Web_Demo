@@ -1,11 +1,13 @@
+import com.nexmatix.Manifold
+
 model {
     Manifold manifold
 }
 
 json {
     id manifold.id
-    name manifold.name
+    name 'Manifold ' + manifold.serialNumber
     type 'manifold'
-    parent tmpl.machine(manifold.machine)
+    parent tmpl.'/templates/machine'(manifold.machine)
     children tmpl.station("station", manifold.stations)
 }

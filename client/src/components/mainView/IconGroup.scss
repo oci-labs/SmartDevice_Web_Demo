@@ -15,8 +15,10 @@
         width: 25px;
         border-radius: 4px;
         background-color: #fdaa18;
-        color: white;
         line-height: 36px;
+        .material-icons {
+          color: white;
+        }
       }
     }
     .groupItemNavRight {

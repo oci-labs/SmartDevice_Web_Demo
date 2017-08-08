@@ -2,7 +2,11 @@
   display: flex;
   flex-direction: column;
   min-width: 400px;
-  flex: 1 0 0; }
+  flex: 1 0 auto; }
   .mainView .mainViewItems {
     display: flex;
     justify-content: space-around; }
+
+.addScroll {
+  overflow-y: scroll;
+  overflow-x: hidden; }

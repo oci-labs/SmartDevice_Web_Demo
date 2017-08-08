@@ -1,9 +1,17 @@
+import com.nexmatix.Station
+
 model {
     Station station
 }
 
 json {
     id station.id
-    name station.name
+    number station.number
     type 'station'
+
+    def v = station.valve
+
+    if(v) {
+        valve g.render(v)
+    }
 }

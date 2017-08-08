@@ -1,10 +1,8 @@
 @keyframes makeActive {
   0% {
-    background-color: #666666;
     height: 0px;
   }
   100% {
-    background-color: #17a71d;
     height: 90px;
   }
 }
@@ -45,6 +43,16 @@
       border-style: solid;
       border-width: 0px 12px 12px 12px;
       border-color: transparent transparent #444444 transparent;
+    }
+  }
+  &.fault {
+    .stationContainer {
+      .stationIndicator {
+        background-color: rgb(217, 83, 79);
+      }
+      .stationActiveIndicator {
+        background-color: rgb(217, 83, 79);
+      }
     }
   }
   .stationContainer {

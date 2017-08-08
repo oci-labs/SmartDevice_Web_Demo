@@ -34,6 +34,8 @@ endpoints:
 
 ---
 grails:
+    resources:
+        pattern: /**
     mime:
         disable:
             accept:
@@ -84,23 +86,28 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
 
 environments:
     development:
         dataSource:
+            driverClassName: org.h2.Driver
+            username: sa
+            password:
             dbCreate: create-drop
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:h2:./devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     test:
         dataSource:
+            driverClassName: org.h2.Driver
+            username: sa
+            password:
             dbCreate: update
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
-            dbCreate: none
-            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            driverClassName: com.mysql.cj.jdbc.Driver
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            dbCreate: update
+            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvp:us-central1:nexmatixmvd&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=nexmatixmvd&useSSL=false
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -119,3 +126,7 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+---
+googlecloud:
+    projectid: nexmatixmvp

@@ -1,54 +1,99 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ValveAlert from "./ValveAlert";
+import { CSSTransitionGroup } from "react-transition-group";
 import "./Alerts.css";
 
-import { getAllAlerts, updateAlert } from "../../actions";
+import { getAllAlerts, snoozeAlert } from "../../actions";
 
 class AlertsComponent extends Component {
   componentWillMount() {
-    this.props.handleGetAllAlerts(1000);
+    this.props.handleGetAllAlerts(30);
   }
+
   render() {
-    let sortedAlerts;
     let alertList;
+    let inactiveAlertList;
+    let snoozedAlertList;
+    const { alerts, handleUpdateAlert } = this.props;
 
-    function compareAlerts(a, b) {
-      // Use toUpperCase() to ignore character casing
-      const activeA = a.isActive;
-      const activeB = b.isActive;
-
-      let comparison = 0;
-      if (activeA > activeB) {
-        comparison = -1;
-      } else if (activeA < activeB) {
-        comparison = 1;
-      }
-      return comparison;
-    }
-
-    if (this.props.alerts) {
-      let alerts = this.props.alerts;
-      sortedAlerts = alerts.slice().sort(compareAlerts);
-      alertList = sortedAlerts.map(alert => {
-        return (
-          <ValveAlert
-            key={alert.id}
-            id={alert.id}
-            leftIcon="Disconnected"
-            isActive={alert.isActive}
-            valveNumber={alert.valveSerial}
-            alertType={alert.alertType}
-            station="6/6"
-            time={alert.thrownAt}
-            handleUpdate={this.props.handleUpdateAlert}
-          />
-        );
+    if (alerts) {
+      let activeAlerts = [].concat(alerts).filter(alert => {
+        return alert.isActive === true && alert.isSnoozed === false;
       });
+      let inactiveAlerts = [].concat(alerts).filter(alert => {
+        return alert.isActive === false;
+      });
+      let snoozedAlerts = [].concat(alerts).filter(alert => {
+        return alert.isActive === true && alert.isSnoozed === true;
+      });
+
+      activeAlerts.sort(
+        (a, b) =>
+          new Date(a.detectionTime) < new Date(b.detectionTime)
+            ? 1
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
+      );
+      inactiveAlerts.sort(
+        (a, b) =>
+          new Date(a.detectionTime) < new Date(b.detectionTime)
+            ? 1
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
+      );
+      snoozedAlerts.sort(
+        (a, b) =>
+          new Date(a.detectionTime) < new Date(b.detectionTime)
+            ? 1
+            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
+      );
+      alertList = activeAlerts.map((alert, i) =>
+        <ValveAlert
+          key={"alert-" + i}
+          id={"alert-" + alert.id}
+          leftIcon
+          isActive={alert.isActive}
+          isSnoozed={alert.isSnoozed}
+          alertType={alert.alertType}
+          time={alert.detectionTime}
+          handleUpdate={handleUpdateAlert}
+        />
+      );
+      inactiveAlertList = inactiveAlerts.map(alert =>
+        <ValveAlert
+          key={alert.id}
+          id={alert.id}
+          leftIcon
+          isActive={alert.isActive}
+          isSnoozed={alert.isSnoozed}
+          alertType={alert.alertType}
+          time={alert.detectionTime}
+          handleUpdate={handleUpdateAlert}
+        />
+      );
+      snoozedAlertList = snoozedAlerts.map(alert =>
+        <ValveAlert
+          key={alert.id}
+          id={alert.id}
+          leftIcon
+          isActive={alert.isActive}
+          isSnoozed={alert.isSnoozed}
+          alertType={alert.alertType}
+          time={alert.detectionTime}
+          handleUpdate={handleUpdateAlert}
+        />
+      );
     }
     return (
       <div className="alertsContainer">
-        {alertList}
+        <CSSTransitionGroup
+          transitionName="alerts"
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={100}
+        >
+          {alertList}
+          {snoozedAlertList}
+          {inactiveAlertList}
+        </CSSTransitionGroup>
       </div>
     );
   }
@@ -65,7 +110,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(getAllAlerts(count));
     },
     handleUpdateAlert: function(alert) {
-      dispatch(updateAlert(alert));
+      dispatch(snoozeAlert(alert));
     }
   };
 }

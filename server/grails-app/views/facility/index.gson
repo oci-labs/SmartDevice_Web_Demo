@@ -1,3 +1,5 @@
+import com.nexmatix.Facility
+
 model {
     List<Facility> facilityList
 }

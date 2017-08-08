@@ -1,5 +1,7 @@
-package com.nexmatix
+package nexmatix.demo
 
+import com.nexmatix.Machine
+import com.nexmatix.Department
 import grails.rest.RestfulController
 
 class MachineController extends RestfulController<Machine> {
@@ -8,10 +10,12 @@ class MachineController extends RestfulController<Machine> {
         super(Machine)
     }
 
-    def machinesForDepartment(Long departmentId) {
-        println "DepartmentId"
+    def byDepartment(Long departmentId) {
         Department d = Department.get(departmentId)
-        if(d) [machines: Machine.where{department == d}.list()]
+        println "department ${d}"
+        if(d) {
+            [machines: Machine.where{department == d}.list()]
+        }
         else render status: 404
     }
 }

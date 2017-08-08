@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./App.css";
 
 import "whatwg-fetch";
 
@@ -11,15 +12,14 @@ import Profile from "./components/layout/Profile";
 import { Row, Column } from "./components/layout/LayoutComponents";
 
 class App extends Component {
-
   render() {
     return (
       <Row>
         <Profile />
-        <Column>
+        <Column className="fillScreen">
           <Nav />
           <Row>
-            <MainView />
+            <MainView className="addScroll" />
             <MachineView />
             <Drilldown />
             <AlertBar />

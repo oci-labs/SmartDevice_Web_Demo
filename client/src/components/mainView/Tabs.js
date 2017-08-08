@@ -15,13 +15,36 @@ import {
 import { initialize, setSelectedItem } from "../../actions";
 
 class TabsComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    };
+  }
   componentWillMount() {
     this.props.initializeFacilities();
   }
 
-  render() {
-    const { facilities, selectedFacility, selectedDepartment } = this.props;
+  componentWillReceiveProps(props) {
+    this.setState({
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    });
+  }
 
+  render() {
+    const {
+      facilities,
+      selectedDepartment,
+      selectedFacility,
+      selectedMachine
+    } = this.state;
     const addTabs = items => {
       let firstTab = [
         <Tab
@@ -48,13 +71,10 @@ class TabsComponent extends Component {
       this.props.handleItemClick(item);
     };
     const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
-    };
-    const handleMachineClick = item => {
-      this.props.handleItemClick(item);
-    };
-    const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
+      this.props.handleItemClick({
+        type: "machine",
+        parent: selectedDepartment
+      });
     };
     return (
       <div>
@@ -64,10 +84,11 @@ class TabsComponent extends Component {
         </View>
         <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
           <Tab item={selectedFacility} label={true} selected={true} />
-          <Tab item={this.props.selectedDepartment} selected={true} />
+          <Tab item={selectedDepartment} selected={true} />
           <Tab item={{ name: "Machine" }} selected={true} />
           <Dropdown
-            items={this.props.selectedDepartment.children}
+            items={selectedDepartment.children}
+            initialItem={selectedMachine}
             handleItemClick={handleMachineClick}
             handleAllClick={handleAllMachineClick}
           />
@@ -76,15 +97,6 @@ class TabsComponent extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    activeItems: state.activeItems,
-    facilities: state.allFacilities,
-    selectedDepartment: state.selectedDepartment,
-    selectedFacility: state.selectedFacility
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -97,6 +109,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const Tabs = connect(mapStateToProps, mapDispatchToProps)(TabsComponent);
+const Tabs = connect(null, mapDispatchToProps)(TabsComponent);
 
 export default Tabs;

@@ -1,3 +1,5 @@
+import com.nexmatix.Department
+
 model {
     Department department
 }
@@ -7,5 +9,5 @@ json {
     name department.name
     type 'department'
     parent tmpl.facility(department.facility)
-    children tmpl.machine("_machine", department.machines)
+    children tmpl.'/templates/machine'("machine", department.machines)
 }

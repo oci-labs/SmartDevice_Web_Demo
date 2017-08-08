@@ -15,8 +15,9 @@
         width: 25px;
         border-radius: 4px;
         background-color: #fdaa18;
-        color: white;
         line-height: 36px; }
+        .groupItemContainer .groupItemNav .groupItemNavLeft .addNew .material-icons {
+          color: white; }
     .groupItemContainer .groupItemNav .groupItemNavRight {
       display: flex;
       width: 100px;

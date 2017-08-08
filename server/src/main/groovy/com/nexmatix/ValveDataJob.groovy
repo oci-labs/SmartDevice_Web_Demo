@@ -8,13 +8,18 @@ import org.springframework.scheduling.annotation.Scheduled
 class ValveDataJob {
 
     @Autowired
-    ValveDataService valveDataService
+    ValveStatusService valveDataService
 
-    @Scheduled(cron = "* * * * * *")
+    @Autowired
+    ValveAlertService valveAlertService
+
+    @Scheduled(cron = "10 * * * * *")
     def retrieveAndSendData() {
         log.info "Retrieving data..."
 
         valveDataService.retrieveAndSend()
+        valveAlertService.retrieveAndSend()
+
     }
 
 }

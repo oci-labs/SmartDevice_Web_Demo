@@ -8,7 +8,7 @@ class Dropdown extends Component {
     super(props);
 
     this.state = {
-      selectedItem: null,
+      selectedItem: this.props.initialItem,
       show: false
     };
   }

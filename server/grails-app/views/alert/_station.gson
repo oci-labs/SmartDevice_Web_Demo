@@ -1,0 +1,11 @@
+import com.nexmatix.Station
+
+model {
+    Station station
+}
+
+json {
+    id station.id
+    manifold station.manifold.serialNumber
+    type 'station'
+}
