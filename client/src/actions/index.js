@@ -202,7 +202,6 @@ export function setSelectedItem(item, keepViewState) {
 function setValve(station) {
   return dispatch => {
     return GETValve(station).then(toJson).then(response => {
-      console.warn("Station", station);
       dispatch(setSelectedValve(response));
     });
   };
