@@ -82,6 +82,9 @@ export function addItem(item) {
         case "department":
           dispatch(setSelectedItem(response));
           break;
+        case "machine":
+          dispatch(setSelectedItem(response));
+          break;
         default:
           console.log("AddItem", response);
           break;
@@ -91,11 +94,20 @@ export function addItem(item) {
 }
 
 export function deleteItem(item) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const state = getState();
     return DELETEItem(item).then(response => {
-      dispatch(
-        setSelectedItem(item.parent ? item.parent : { type: item.type })
-      );
+      switch (item.type) {
+        case "facility":
+          dispatch(setSelectedItem({ type: "facility" }));
+          break;
+        case "department":
+          dispatch(setSelectedItem(state.selectedFacility));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(state.selectedDepartment, true));
+          break;
+      }
     });
   };
 }
@@ -108,7 +120,10 @@ export function updateItem(item) {
           dispatch(setSelectedItem({ type: response.type }));
           break;
         case "department":
-          dispatch(setSelectedDepartment(item));
+          dispatch(setSelectedItem(response));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(response));
           break;
         default:
           break;
@@ -132,24 +147,31 @@ export function setActiveItems(items) {
 }
 
 export function setSelectedItem(item, keepViewState) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const { selectedDepartment, selectedFacility } = getState();
     if (item) {
       GETItem(item).then(toJson).then(function(response) {
         if (item.id) {
           switch (item.type) {
             case "facility":
               dispatch(setSelectedFacility(response));
+              dispatch(setActiveItems([response]));
               if (!keepViewState) {
                 dispatch(setViewState(states.FACILITY_STATE));
               }
-              dispatch(setActiveItems([response]));
               break;
             case "department":
               dispatch(setSelectedDepartment(response));
+              if (
+                !selectedFacility ||
+                selectedFacility.id !== response.parent.id
+              ) {
+                dispatch(setSelectedItem(response.parent, true));
+              }
               if (!keepViewState) {
                 // Update the selected facility to refresh the department info
-                dispatch(setSelectedItem(response.parent, true));
                 dispatch(setViewState(states.DEPARTMENT_STATE));
+                dispatch(setSelectedItem(response.parent, true));
               } else {
                 GETMachinesByDepartment(item.id).then(toJson).then(response => {
                   dispatch(setActiveItems(response));
@@ -158,8 +180,12 @@ export function setSelectedItem(item, keepViewState) {
               break;
             case "machine":
               dispatch(setSelectedMachine(response));
-              // Update selected department to refresh machine info
-              dispatch(setSelectedItem(response.parent, true));
+              if (
+                !selectedDepartment ||
+                selectedDepartment.id !== response.parent.id
+              ) {
+                dispatch(setSelectedItem(response.parent, true));
+              }
               dispatch(setViewState(states.MACHINE_STATE));
               dispatch(setActiveItems([response]));
               break;
@@ -188,7 +214,7 @@ export function setSelectedItem(item, keepViewState) {
               break;
             case "machine":
               dispatch(setSelectedMachine({}));
-              dispatch(setSelectedItem(item.parent, true));
+              dispatch(setSelectedItem(selectedDepartment, true));
               break;
             default:
               console.log("Not handled yet");

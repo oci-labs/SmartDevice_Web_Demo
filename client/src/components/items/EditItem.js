@@ -65,6 +65,13 @@ class EditItemComponent extends Component {
       itemModel: Object.assign({}, this.state.itemModel, { name: name })
     });
   };
+  componentWillReceiveProps(props) {
+    if (props.item.name !== this.state.itemModel.name) {
+      this.setState({
+        itemModel: props.item
+      });
+    }
+  }
 
   render() {
     return (

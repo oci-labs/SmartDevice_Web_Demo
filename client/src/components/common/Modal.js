@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Modal.css";
 
+import Icon from "../icons/Icon";
+
 class Modal extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +41,10 @@ class Modal extends Component {
   render() {
     return (
       <div className={`background ${!this.state.show ? "hide" : ""}`}>
-        <div ref={this.setWrapperRef}>
+        <div ref={this.setWrapperRef} className="contentContainer">
+          <div className="closeButton">
+            <Icon type="close" handleClick={this.props.onClose} />
+          </div>
           {this.props.children}
         </div>
       </div>

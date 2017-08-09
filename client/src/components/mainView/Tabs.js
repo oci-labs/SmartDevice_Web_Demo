@@ -85,7 +85,6 @@ class TabsComponent extends Component {
         <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
           <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={selectedDepartment} selected={true} />
-          <Tab item={{ name: "Machine" }} selected={true} />
           <Dropdown
             items={selectedDepartment.children}
             initialItem={selectedMachine}
