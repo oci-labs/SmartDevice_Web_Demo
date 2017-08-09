@@ -24,18 +24,43 @@ export const Input = ({ model, name, onChange }) => {
   );
 };
 
-export const Option = ({ item, handleClick }) => {
-  const handleOptionClick = () => {
-    if (handleClick) {
-      handleClick(item);
+export class Option extends Component {
+  handleOptionClick = () => {
+    if (this.props.handleClick) {
+      this.props.handleClick(this.props.item);
     }
   };
-  return (
-    <div className="option" onClick={handleOptionClick}>
-      {item instanceof Object ? item.name : item}
-    </div>
-  );
-};
+  setOptionRef = node => {
+    this.wrapperRef = node;
+    this.props.setRef(node);
+  };
+  handleEnterKey = event => {
+    if (this.wrapperRef && this.wrapperRef.contains(event.target)) {
+      if (event.key === "Enter") {
+        this.props.handleClick(this.props.item);
+      }
+    }
+  };
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleEnterKey);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleEnterKey);
+  }
+  render() {
+    const { item } = this.props;
+    return (
+      <div
+        className="option"
+        onClick={this.handleOptionClick}
+        ref={this.setOptionRef}
+        tabIndex="0"
+      >
+        {item instanceof Object ? item.name : item}
+      </div>
+    );
+  }
+}
 
 export class Select extends Component {
   constructor(props) {
@@ -46,6 +71,7 @@ export class Select extends Component {
       selected: props.options ? props.options[0] : props.children[0]
     };
   }
+  currentFocus;
 
   toggleOptions = () => {
     this.setState({
@@ -65,12 +91,51 @@ export class Select extends Component {
     this.wrapperRef = node;
   };
 
+  setChildRef = childNode => {
+    if (!this.dropdownOptions) {
+      this.dropdownOptions = [];
+    }
+    this.dropdownOptions.push(childNode);
+  };
+
+  handleKeydownEvents = event => {
+    if (this.wrapperRef && this.wrapperRef.contains(event.target)) {
+      switch (event.key) {
+        case "ArrowDown":
+          if (!this.state.isOpen) {
+            this.setState({ isOpen: true });
+            this.currentFocus = 0;
+          } else {
+            if (this.currentFocus >= this.dropdownOptions.length - 1) {
+              this.currentFocus = 0;
+            } else {
+              ++this.currentFocus;
+            }
+          }
+          this.dropdownOptions[this.currentFocus].focus();
+          break;
+        case "ArrowUp":
+          if (this.currentFocus === 0 || this.currentFocus === undefined) {
+            this.setState({ isOpen: false });
+            this.wrapperRef.focus();
+          } else {
+            this.dropdownOptions[--this.currentFocus].focus();
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener("keydown", this.handleKeydownEvents);
   }
 
   componentWillUnmount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener("keydown", this.handleKeydownEvents);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,8 +154,8 @@ export class Select extends Component {
     const { children, onChange } = this.props;
     let options;
     if (this.props.options) {
-      options = this.props.options.map(function(option) {
-        return <Option item={option} />;
+      options = this.props.options.map(option => {
+        return <Option item={option} setRef={this.setChildRef} />;
       });
     }
     const disabled =
@@ -105,7 +170,7 @@ export class Select extends Component {
             {this.props.name}
           </div>
           <div className={`commonSelectWrapper ${disabled ? "disabled" : ""}`}>
-            <div className="commonSelect" ref={this.setWrapperRef}>
+            <div className="commonSelect" ref={this.setWrapperRef} tabIndex="0">
               <div className="selected" onClick={this.toggleOptions}>
                 <div className="selectedName">
                   {selected && selected.name ? selected.name : selected}
@@ -119,20 +184,24 @@ export class Select extends Component {
                 />
               </div>
               <div className={`optionsWrapper ${!isOpen ? "closed" : ""}`}>
-                {React.Children.map(options ? options : children, child => {
-                  const additionalProps = {
-                    handleClick: item => {
-                      this.setState({
-                        isOpen: false,
-                        selected: item
-                      });
-                      if (onChange) {
-                        onChange(item);
-                      }
-                    }
-                  };
-                  return React.cloneElement(child, additionalProps);
-                })}
+                {React.Children.map(
+                  options ? options : children,
+                  (child, index) => {
+                    const additionalProps = {
+                      handleClick: item => {
+                        this.setState({
+                          isOpen: false,
+                          selected: item
+                        });
+                        if (onChange) {
+                          onChange(item);
+                        }
+                      },
+                      tabIndex: "0"
+                    };
+                    return React.cloneElement(child, additionalProps);
+                  }
+                )}
               </div>
             </div>
           </div>

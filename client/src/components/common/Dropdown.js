@@ -48,6 +48,10 @@ class Dropdown extends Component {
       this.setState({
         selectedItem: newProps.items[0]
       });
+    } else if (newProps.items !== this.props.items) {
+      this.setState({
+        selectedItem: { name: "All", type: this.props.type }
+      });
     }
   }
 
@@ -86,14 +90,13 @@ class Dropdown extends Component {
     return (
       <div className="dropdownContainer">
         <div className="selectedDropdownOption">
-          <div className="dropdownItem">
+          <div className="dropdownItem" onClick={this.expandDropdown}>
             <div className="labelWrapper">
               {selectedItem ? selectedItem.name : ""}
             </div>
             <div className="iconWrapper">
               <Icon
                 type={`${show ? "keyboard_arrow_up" : "keyboard_arrow_down"}`}
-                handleClick={this.expandDropdown}
               />
             </div>
           </div>

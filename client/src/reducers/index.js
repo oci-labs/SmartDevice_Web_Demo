@@ -53,7 +53,6 @@ function reducer(state = initialState, action) {
         currentStation: action.payload
       });
     case types.SET_SELECTED_VALVE:
-      console.log("SETTING SELECTED VALVE", action.payload);
       return Object.assign({}, state, {
         selectedValve: action.payload
       });
