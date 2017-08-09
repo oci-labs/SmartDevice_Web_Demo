@@ -13,8 +13,9 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
-        "/api/machine/byDepartment/$departmentId"(controller: 'machine', action: 'byDepartment')
+        "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
+        "/api/valveStatus/manifold/$id"(controller: 'valveStatus', action: 'byManifold')
 
         if ( Environment.current == Environment.PRODUCTION ) {
             '/'(uri: '/index.html')

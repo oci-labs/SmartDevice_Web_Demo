@@ -43,13 +43,13 @@
       border: 1px solid rgba(231, 231, 231, 0.26);
       background-color: rgba(231, 231, 231, 0.98);
       &.warning {
-        border: 1px solid red;
-        background-color: red;
+        border: 1px solid rgb(217, 83, 79);
+        background-color: rgb(217, 83, 79);
         .valveIconBorder {
           display: flex;
           justify-content: center;
-          border: 1px solid red;
-          background-color: red;
+          border: 1px solid rgb(217, 83, 79);
+          background-color: rgb(217, 83, 79);
           .valveIconCheck {
             display: flex;
             justify-content: center;

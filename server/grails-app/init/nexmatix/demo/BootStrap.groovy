@@ -46,34 +46,23 @@ class BootStrap {
         }
 
         if(!Station.list()) {
-            def random = new Random()
-            def numbers = [1, 4, 5, 9, 10]
 
-            (0..4).each { i ->
+            (1..10).each { i ->
 
                 def station = new Station(
                         manifold: Manifold.first(),
-                        number: numbers[i]).save()
+                        number: i).save()
                 println "Saved station: ${station.number}"
             }
         }
 
-        if(!Alert.list()) {
-
-            long offset = Timestamp.valueOf("2017-07-31 08:50:00").getTime();
-            long end = Timestamp.valueOf("2017-08-01 23:59:59").getTime();
-            long diff = end - offset + 1;
-
-            (1..200).each { i ->
-
-                def alert = new Alert(alertType: AlertType.getRandom(), valveSerial: (Math.random() * 100000000000000L), thrownAt: Date.from(new Timestamp(offset + (long)(Math.random() * diff)).toInstant()), isActive: new Random().nextBoolean(), station: Station.first()).save()
-                println "Saved ${alert.alertType} alert at ${alert.thrownAt}"
-            }
-
-        }
-
         if(!Valve.list()) {
-            new Valve(station: Station.first(), fabricationDate: new Date().time, shippingDate: new Date().time, sku: 'NX-DCV-whatevs').save()
+            Manifold m = Manifold.first()
+
+            [1, 4, 5, 9, 10].each { i ->
+                println "Creating valve ${100000 + (i - 1)} for station #${i}..."
+                new Valve(station: Station.findByNumberAndManifold(i, m), serialNumber: 100000 + (i - 1), fabricationDate: new Date().time, shippingDate: new Date().time, updateTime: new Date().time, sku: 'NX-DCV-whatevs').save(failOnError: true)
+            }
         }
     }
     def destroy = {

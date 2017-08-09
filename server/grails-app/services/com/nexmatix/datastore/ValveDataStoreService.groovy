@@ -1,6 +1,7 @@
 package com.nexmatix.datastore
 
 import com.google.cloud.datastore.Entity
+import com.nexmatix.Manifold
 import com.nexmatix.Station
 import com.nexmatix.StationService
 import com.nexmatix.Valve
@@ -19,17 +20,23 @@ class ValveDataStoreService implements DataStoreService<Valve> {
         if(entity) {
             log.info "transformEntity: ${entity.key.name}"
 
-            Station station = Station.findByNumber(entity.getLong('station_num') as Integer)
-            if(!station) station = Station.first() //TODO: StationService.createStation(entity.getLong('station_num'))
+            Manifold manifold = Manifold.findBySerialNumber(entity.getLong('manifold_sn'))
+            if(!manifold) {
+                log.error "Unexpected manifold ${entity.getLong('manifold_sn')}"  //TODO: manifoldService.createManifold(entity.getLong('manifold_sn'))
+                return null
+            } else {
+                Station station = Station.findByNumberAndManifold(entity.getLong('station_num') as Integer, manifold)
+                if(!station) station = stationService.createStation(entity.getLong('station_num') as Integer, manifold)
 
-            return new Valve(
-                    serialNumber: entity.key.name.toLong(),
-                    fabricationDate: entity.getLong('fab_date'),
-                    shippingDate: entity.getLong('ship_date'),
-                    sku: entity.getString('sku'),
-                    updateTime: entity.getLong('update_time'),
-                    station: station
-            )
+                return new Valve(
+                        serialNumber: entity.key.name.toLong(),
+                        fabricationDate: entity.getLong('fab_date'),
+                        shippingDate: entity.getLong('ship_date'),
+                        sku: entity.getString('sku'),
+                        updateTime: entity.getLong('update_time'),
+                        station: station
+                )
+            }
         } else {
             log.warn "No entity!"
         }

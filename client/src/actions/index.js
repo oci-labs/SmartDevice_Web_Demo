@@ -54,7 +54,7 @@ function UPDATEItem(item) {
 }
 
 function GETMachinesByDepartment(departmentId) {
-  return fetch(`${SERVER_URL}/api/machine/byDepartment/${departmentId}`);
+  return fetch(`${SERVER_URL}/api/machine/department/${departmentId}`);
 }
 
 function toJson(response) {
