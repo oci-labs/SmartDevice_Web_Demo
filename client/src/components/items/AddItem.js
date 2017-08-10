@@ -35,16 +35,6 @@ class AddItemComponent extends Component {
       name: "Machine",
       type: "machine",
       parentType: "department"
-    },
-    {
-      name: "Manifold",
-      type: "manifold",
-      parentType: "machine"
-    },
-    {
-      name: "Station",
-      type: "station",
-      parentType: "manifold"
     }
   ];
   parents = [];
@@ -92,6 +82,13 @@ class AddItemComponent extends Component {
       })
     });
   };
+  handleSNChange = serialNumber => {
+    this.setState({
+      model: Object.assign({}, this.state.model, {
+        serialNumber: serialNumber
+      })
+    });
+  };
   handleLayerChange = layer => {
     if (layer.parentType) {
       this.setState({
@@ -124,6 +121,11 @@ class AddItemComponent extends Component {
             <div className="addItemTitle">Add New Item</div>
             <HorizontalLine />
             <Input name="Name" onChange={this.handleNameChange} />
+            <Input
+              name="Serial Number"
+              hide={this.state.model.type !== "manifold"}
+              onChange={this.handleSNChange}
+            />
             <Select
               name="Layer"
               onChange={this.updateParents}
