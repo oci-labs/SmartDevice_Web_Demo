@@ -81,7 +81,3 @@ bootRun {
 bootRun {
     systemProperties System.properties
 }
-
-grails {
-    pathingJar = true
-}
