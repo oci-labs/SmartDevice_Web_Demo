@@ -6,6 +6,7 @@ import Tabs from "../mainView/Tabs";
 import IconGroup from "../mainView/IconGroup";
 import { Col, Row } from "reactstrap";
 import MachineView from "./MachineView";
+import Drilldown from "./Drilldown";
 
 
 
@@ -49,11 +50,12 @@ class MainViewComponent extends Component {
           selectedFacility={this.state.selectedFacility}
           selectedMachine={this.state.selectedMachine}
         />
-        <Row noGutters>
-          <Col xs="7">
+        <Row>
+          <Col xs="12" sm="4" md="5" lg="7" xl="8">
             {activeItemsElements}
           </Col>
           <MachineView />
+          <Drilldown />
         </Row>
 
       </div>

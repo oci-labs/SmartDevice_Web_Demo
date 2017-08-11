@@ -50,8 +50,8 @@ class App extends Component {
                       <Col xs="12" sm="7" md="8" lg="9" xl="10">
                         <Row noGutters>
                           <MainView className="addScroll" />
-                          <MachineView />
-                          <Drilldown />
+                          {/*<MachineView />*/}
+
                         </Row>
                       </Col>
                       <Col xs="0" sm="5" md="4" lg="3" xl="2" className="leftZero">
@@ -66,7 +66,7 @@ class App extends Component {
                         <Row noGutters>
                           <MainView className="addScroll" />
 
-                          <Drilldown />
+                          {/*<Drilldown />*/}
                         </Row>
                       </Col>
                       <Col xs="0">
@@ -82,7 +82,7 @@ class App extends Component {
           <Col className="col-0 col-sm-0 no-gutters">
             <Profile />
           </Col>
-          <Col className="col-12s col-sm-12 no-gutters">
+          <Col className="col-12 col-sm-12 no-gutters">
             <Row noGutters>
               <Col xs="12"><Nav toggleProfile={this.toggleProfile} toggleAlerts={this.toggleAlerts} /></Col>
             </Row>
@@ -93,8 +93,8 @@ class App extends Component {
                     <Col xs="2" sm="7" md="8" lg="9" xl="10">
                       <Row noGutters>
                         <MainView className="addScroll" />
-                        <MachineView />
-                        <Drilldown />
+                        {/*<MachineView />*/}
+                        {/*<Drilldown />*/}
                       </Row>
                     </Col>
                     <Col xs="10" sm="5" md="4" lg="3" xl="2">
@@ -107,8 +107,8 @@ class App extends Component {
                   <Row noGutters>
                     <Col xs="12">
                       <MainView className="addScroll" />
-                      <MachineView />
-                      <Drilldown />
+                      {/*<MachineView />*/}
+                      {/*<Drilldown />*/}
                     </Col>
                     <Col xs="0">
                       <Alerts />

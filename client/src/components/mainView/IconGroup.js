@@ -22,8 +22,8 @@ const IconGroupComponent = ({ activeItems, groupItem, handleIconClick }) => {
           handleIconClick(child);
         };
         return (
-          <Col xs="12" sm="6" md="4" lg="3">
-            <ValveIcon key={index} size="large" handleClick={handleClick}>
+          <Col key={index} xs="12" sm="6" md="4" lg="3">
+            <ValveIcon size="large" handleClick={handleClick}>
               {child.name}
             </ValveIcon>
           </Col>

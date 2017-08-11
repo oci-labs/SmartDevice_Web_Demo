@@ -109,8 +109,8 @@ class DrilldownComponent extends Component {
     }
 
     return (
-      <View states={MANIFOLD_STATE}>
-        <div className={`drilldown ${selectedManifold ? "show" : "hide"}`}>
+      <View states={MANIFOLD_STATE} colClass="col-12 col-sm-8 col-md-7 col-lg-5 col-xl-4">
+        <div className="drilldown">
           <div className="drilldownTitle">{selectedManifold.name}</div>{" "}
           <Manifold
             manifold={selectedManifold}
