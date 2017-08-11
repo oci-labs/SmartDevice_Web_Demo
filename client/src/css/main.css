@@ -22,6 +22,7 @@ html {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    min-height: 100%;
 }
 
 html.no-cssgradients {
@@ -39,6 +40,7 @@ body {
     -moz-box-shadow: 0 0 0.3em #4D8618;
     -webkit-box-shadow: 0 0 0.3em #4D8618;
     box-shadow: 0 0 0.3em #4D8618;
+    min-height: 100%;
 }
 
 #grailsLogo {

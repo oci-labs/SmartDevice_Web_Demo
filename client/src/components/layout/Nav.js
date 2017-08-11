@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import "./Nav.css";
 import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
 import { Badge } from "reactstrap";
-import { toggleProfile, toggleAlerts } from "../../actions";
+//import { toggleProfile, toggleAlerts } from "../../actions";
 
 const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
+
   let activeAlerts = [];
   if (alerts) {
     activeAlerts = alerts.filter(alert => {
@@ -43,17 +44,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleAlerts: function() {
-      dispatch(toggleAlerts());
-    },
-    toggleProfile: function() {
-      dispatch(toggleProfile());
-    }
-  };
-};
 
-const Nav = connect(mapStateToProps, mapDispatchToProps)(NavComponent);
+const Nav = connect(mapStateToProps)(NavComponent);
 
 export default Nav;

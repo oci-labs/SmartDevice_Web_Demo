@@ -6,7 +6,7 @@ const CycleCount = ({ cycleCount, limit }) => {
   const percentage = cycleCount / (limit ? limit : CYCLE_COUNT_THRESHOLD) * 100;
   const gaugeStyle = {
     width: percentage + "%",
-    backgroundColor: percentage > 80 ? "#d9534f" : "#17a71d"
+    backgroundColor: percentage >= 100 ? "#d9534f" : percentage > 99 ? "#f7a104" : "#17a71d"
   };
   return (
     <div className="cycleCountContainer">

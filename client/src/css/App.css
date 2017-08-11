@@ -1,8 +1,8 @@
-.container {
-  color: #484848;
-  line-height: 1.28;
-  font-size: 1.2em;
-}
+/*.container {*/
+  /*color: #484848;*/
+  /*line-height: 1.28;*/
+  /*font-size: 1.2em;*/
+/*}*/
 
 
 .grails-icon img {
@@ -116,6 +116,19 @@ a:hover {
   fill: currentColor;
 }
 
+.container-fluid.full {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+.col-0, .col-sm-0, col-md-0, col-lg-0 {
+  width: 0px !important;
+  left: -1000px;
+}
+.leftZero {
+  left: 0px !important;
+}
 
 @media (max-width: 767px) {
 

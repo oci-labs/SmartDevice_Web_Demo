@@ -4,7 +4,8 @@ import "./MainView.css";
 
 import Tabs from "../mainView/Tabs";
 import IconGroup from "../mainView/IconGroup";
-import { Column } from "../layout/LayoutComponents";
+import { Row } from "reactstrap";
+
 
 import { setSelectedItem } from "../../actions";
 
@@ -46,9 +47,9 @@ class MainViewComponent extends Component {
           selectedFacility={this.state.selectedFacility}
           selectedMachine={this.state.selectedMachine}
         />
-        <Column className="addScroll">
-          {activeItemsElements}
-        </Column>
+        {activeItemsElements}
+
+
       </div>
     );
   }
