@@ -31,7 +31,7 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
     });
   }
   return (
-    <View states={[DEPARTMENT_STATE]} className="machineView">
+    <View states={[DEPARTMENT_STATE]} className="machineView col-5">
       <div className="departmentTitle">
         <div>
           {selectedDepartment.name}

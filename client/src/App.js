@@ -48,9 +48,11 @@ class App extends Component {
                   return (
                     <Row noGutters>
                       <Col xs="12" sm="7" md="8" lg="9" xl="10">
-                        <MainView className="addScroll" />
-                        <MachineView />
-                        <Drilldown />
+                        <Row noGutters>
+                          <MainView className="addScroll" />
+                          <MachineView />
+                          <Drilldown />
+                        </Row>
                       </Col>
                       <Col xs="0" sm="5" md="4" lg="3" xl="2" className="leftZero">
                         <Alerts />
@@ -61,9 +63,11 @@ class App extends Component {
                   return (
                     <Row noGutters>
                       <Col xs="12">
-                        <MainView className="addScroll" />
-                        <MachineView />
-                        <Drilldown />
+                        <Row noGutters>
+                          <MainView className="addScroll" />
+
+                          <Drilldown />
+                        </Row>
                       </Col>
                       <Col xs="0">
                         <Alerts />
@@ -87,9 +91,11 @@ class App extends Component {
                 return (
                   <Row noGutters>
                     <Col xs="2" sm="7" md="8" lg="9" xl="10">
-                      <MainView className="addScroll" />
-                      <MachineView />
-                      <Drilldown />
+                      <Row noGutters>
+                        <MainView className="addScroll" />
+                        <MachineView />
+                        <Drilldown />
+                      </Row>
                     </Col>
                     <Col xs="10" sm="5" md="4" lg="3" xl="2">
                       <Alerts />

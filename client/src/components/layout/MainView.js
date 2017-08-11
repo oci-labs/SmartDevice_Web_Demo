@@ -4,7 +4,9 @@ import "./MainView.css";
 
 import Tabs from "../mainView/Tabs";
 import IconGroup from "../mainView/IconGroup";
-import { Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
+import MachineView from "./MachineView";
+
 
 
 import { setSelectedItem } from "../../actions";
@@ -47,10 +49,16 @@ class MainViewComponent extends Component {
           selectedFacility={this.state.selectedFacility}
           selectedMachine={this.state.selectedMachine}
         />
-        {activeItemsElements}
-
+        <Row noGutters>
+          <Col xs="7">
+            {activeItemsElements}
+          </Col>
+          <MachineView />
+        </Row>
 
       </div>
+
+
     );
   }
 }
