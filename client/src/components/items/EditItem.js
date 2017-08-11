@@ -66,11 +66,10 @@ class EditItemComponent extends Component {
 
   getParentOptions = item => {
     if (item && item.parent) {
-      console.log("Item", item);
       fetch(`${SERVER_URL}/api/${item.parent.type}/`)
         .then(response => response.json())
         .then(response => {
-          console.log("ParentOptions", response);
+          console.log("parents", response);
           this.setState({
             parents: response
           });
@@ -87,6 +86,7 @@ class EditItemComponent extends Component {
   handleParentChange = parent => {
     let parentModel = {};
     parentModel[parent.type] = parent.id;
+    parentModel.parent = parent;
     this.setState({
       itemModel: Object.assign({}, this.state.itemModel, parentModel)
     });
