@@ -7,6 +7,7 @@ import ValveIcon from "../common/ValveIcon";
 import Manifold from "../drilldown/Manifold";
 import CycleCount from "../drilldown/CycleCount";
 import Icon from "../icons/Icon";
+import EditItem from "../items/EditItem";
 import { Column, Row, HorizontalLine, VerticalLine } from "./LayoutComponents";
 import View from "../common/View";
 import { MANIFOLD_STATE } from "../common/view.config";
@@ -111,7 +112,12 @@ class DrilldownComponent extends Component {
     return (
       <View states={MANIFOLD_STATE}>
         <div className={`drilldown ${selectedManifold ? "show" : "hide"}`}>
-          <div className="drilldownTitle">{selectedManifold.name}</div>{" "}
+          <div className="drilldownTitle">
+            {selectedManifold.name}
+            <EditItem item={selectedManifold}>
+              <Icon type="edit" />
+            </EditItem>
+          </div>
           <Manifold
             manifold={selectedManifold}
             currentStation={currentStation}
