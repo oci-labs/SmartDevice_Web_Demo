@@ -150,9 +150,12 @@ export class Select extends Component {
         selected: null
       });
     }
-    if (nextProps.model) {
+    if (nextProps.model && nextProps.options) {
+      const selected = nextProps.options.find(option => {
+        return option.name === nextProps.model.name;
+      });
       this.setState({
-        selected: nextProps.model
+        selected: selected
       });
     }
   }

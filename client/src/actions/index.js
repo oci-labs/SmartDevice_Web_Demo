@@ -129,6 +129,9 @@ export function updateItem(item) {
         case "facility":
           dispatch(setSelectedItem({ type: response.type }));
           break;
+        case "manifold":
+          dispatch(setSelectedItem(response, null, true));
+          break;
         default:
           dispatch(setSelectedItem(response));
           break;
@@ -151,7 +154,7 @@ export function setActiveItems(items) {
   };
 }
 
-export function setSelectedItem(item, keepViewState) {
+export function setSelectedItem(item, keepViewState, forceRefresh) {
   return function(dispatch, getState) {
     const {
       selectedDepartment,
@@ -191,9 +194,9 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setSelectedMachine(response));
               if (
                 !selectedDepartment ||
-                selectedDepartment.id !== response.parent.id
+                selectedDepartment.id !== response.parent.id ||
+                forceRefresh
               ) {
-                console.log("Machine", response);
                 dispatch(setSelectedItem(response.parent, true));
               }
               if (!keepViewState) {
@@ -202,13 +205,13 @@ export function setSelectedItem(item, keepViewState) {
               dispatch(setActiveItems([response]));
               break;
             case "manifold":
-              console.log("setManifold", response);
               dispatch(setSelectedManifold(response));
               if (
                 !selectedMachine ||
-                selectedMachine.id !== response.parent.id
+                selectedMachine.id !== response.parent.id ||
+                forceRefresh
               ) {
-                dispatch(setSelectedItem(response.parent, true));
+                dispatch(setSelectedItem(response.parent, true, forceRefresh));
               }
               dispatch(setViewState(states.MANIFOLD_STATE));
               if (response.children.length > 0) {
