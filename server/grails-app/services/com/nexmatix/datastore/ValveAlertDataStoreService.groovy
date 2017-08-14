@@ -38,7 +38,7 @@ class ValveAlertDataStoreService implements DataStoreService<ValveAlert> {
                             name: "${entity.key.name}",
                             valve: valve)
                 } else {
-                    log.warn "Missing valve!"
+                    log.warn "Missing valve ${entity.getLong('valve_sn')}"
                     return null
                 }
             } else {
