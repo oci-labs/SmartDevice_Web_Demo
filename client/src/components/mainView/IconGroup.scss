@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .groupItemContainer {
   padding: 20px 25px;
   .groupItemNav {
@@ -14,7 +16,7 @@
         height: 25px;
         width: 25px;
         border-radius: 4px;
-        background-color: #fdaa18;
+        background-color: $primary-color;
         line-height: 36px;
         .material-icons {
           color: white;

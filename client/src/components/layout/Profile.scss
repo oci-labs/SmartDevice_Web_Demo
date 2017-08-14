@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .profile {
   display: none;
   min-width: 210px;
@@ -20,7 +22,7 @@
     font-size: .9em;
     color: #6b6b6b;
     .logout {
-      color: #fdaa18;
+      color: $primary-color;
       text-decoration: underline;
       cursor: pointer;
     }
@@ -31,7 +33,7 @@
     margin-top: 40px;
     font-size: 1.2em;
     background-color: transparent;
-    border: 2px solid #fdaa18;
+    border: 2px solid $primary-color;
     border-radius: 4px;
   }
 }

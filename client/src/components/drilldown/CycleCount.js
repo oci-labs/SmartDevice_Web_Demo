@@ -11,7 +11,7 @@ const CycleCount = ({ cycleCount, limit }) => {
   return (
     <div className="cycleCountContainer">
       <div className="cycleCount">
-        <div className="cycleCountGauge" style={gaugeStyle} />
+        <div className={`cycleCountGauge ${percentage > 80 ? 'warning' : ''}`} style={gaugeStyle} />
       </div>
       <div className="cycleCountLabel">
         Cycle Count: {cycleCount} / {limit}

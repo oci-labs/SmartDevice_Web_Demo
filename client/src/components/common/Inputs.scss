@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .generalWrapper {
   margin: 20px 0px 0px;
 }
@@ -57,7 +59,7 @@
         display: flex;
         align-items: center;
         .material-icons {
-          color: #fdaa18 !important;
+          color: $primary-color !important;
           font-weight: bold;
         }
       }
