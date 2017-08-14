@@ -35,10 +35,10 @@ class App extends Component {
         <Container fluid className="full">
       { viewProfile ?
         <Row noGutters>
-          <Col className="col-10 col-sm-3 col-md-2 no-gutters">
+          <Col className="col-11 col-md-3 col-lg-2 no-gutters">
             <Profile />
           </Col>
-          <Col className="col-1 col-sm-9 col-md-10 no-gutters">
+          <Col className="col-1 col-md-9 col-lg-10 no-gutters">
             <Row noGutters>
               <Col xs="12"><Nav toggleProfile={this.toggleProfile} toggleAlerts={this.toggleAlerts} /></Col>
             </Row>
@@ -47,14 +47,14 @@ class App extends Component {
                 if (viewAlerts) {
                   return (
                     <Row noGutters>
-                      <Col xs="12" sm="7" md="8" lg="9" xl="10">
-                        <Row noGutters>
+                      <Col className="hidden-sm-down" md="8" lg="9" xl="10">
+
                           <MainView className="addScroll" />
                           {/*<MachineView />*/}
 
-                        </Row>
+
                       </Col>
-                      <Col xs="0" sm="5" md="4" lg="3" xl="2" className="leftZero">
+                      <Col sm="5" md="4" lg="3" xl="2" className="leftZero hidden-xs-down">
                         <Alerts />
                       </Col>
                     </Row>
@@ -62,14 +62,12 @@ class App extends Component {
                 } else {
                   return (
                     <Row noGutters>
-                      <Col xs="12">
-                        <Row noGutters>
+                      <Col md="12" className="hidden-sm-down">
+
                           <MainView className="addScroll" />
 
-                          {/*<Drilldown />*/}
-                        </Row>
                       </Col>
-                      <Col xs="0">
+                      <Col className="hidden-sm-down">
                         <Alerts />
                       </Col>
                     </Row>
@@ -79,7 +77,7 @@ class App extends Component {
           </Col>
         </Row>:
         <Row noGutters>
-          <Col className="col-0 col-sm-0 no-gutters">
+          <Col className="hidden-xl-down no-gutters">
             <Profile />
           </Col>
           <Col className="col-12 col-sm-12 no-gutters">
@@ -90,14 +88,14 @@ class App extends Component {
               if (viewAlerts) {
                 return (
                   <Row noGutters>
-                    <Col xs="2" sm="7" md="8" lg="9" xl="10">
-                      <Row noGutters>
+                    <Col className="hidden-xs-down" sm="7" md="8" lg="9" xl="10">
+
                         <MainView className="addScroll" />
                         {/*<MachineView />*/}
                         {/*<Drilldown />*/}
-                      </Row>
+
                     </Col>
-                    <Col xs="10" sm="5" md="4" lg="3" xl="2">
+                    <Col xs="12" sm="5" md="4" lg="3" xl="2">
                       <Alerts />
                     </Col>
                   </Row>
@@ -110,7 +108,7 @@ class App extends Component {
                       {/*<MachineView />*/}
                       {/*<Drilldown />*/}
                     </Col>
-                    <Col xs="0">
+                    <Col className="hidden-xs-up">
                       <Alerts />
                     </Col>
                   </Row>

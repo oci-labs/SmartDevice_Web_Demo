@@ -3,7 +3,8 @@
   background-color: #444444;
   color: #cbcbcb;
   border-right: 1px solid black;
-  height: 100%;
+  height: calc(100vh - 108px);
+  overflow-y: scroll;
   flex: 1 0 0;
   .drilldownTitle {
     font-size: 20px;
