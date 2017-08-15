@@ -31,8 +31,8 @@ const IconGroupComponent = ({ activeItems, groupItem, handleIconClick }) => {
       });
   }
   return (
-      <div className="groupItemContainer col-12">
-        <div className="groupItemNav col-12">
+      <div className="groupItemContainer">
+        <div className="groupItemNav">
           <div className="groupItemNavLeft">
             <div className="addNew">
               <AddItem>
@@ -40,7 +40,7 @@ const IconGroupComponent = ({ activeItems, groupItem, handleIconClick }) => {
               </AddItem>
             </div>
           </div>
-          {groupItem ? groupItem.name : "All"}
+          <div className="groupItemNavCenter">{groupItem ? groupItem.name : "All"}</div>
           <div className="groupItemNavRight">
             <EditItem item={groupItem}>
               <Icon type="mode_edit" />

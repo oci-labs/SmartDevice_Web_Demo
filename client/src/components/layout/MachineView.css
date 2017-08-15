@@ -3,7 +3,7 @@
   flex-direction: column;
   padding: 20px 15px !important;
   background-color: #444444;
-  height: calc(100vh - 108px); }
+  height: calc(100vh - 104px); }
   .machineView .departmentTitle {
     display: flex;
     flex-direction: row;

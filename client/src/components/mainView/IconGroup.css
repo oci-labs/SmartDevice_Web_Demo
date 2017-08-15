@@ -5,22 +5,25 @@
     justify-content: space-between;
     padding: 3px 5px;
     font-size: 18px;
-    font-weight: bold; }
-    .groupItemContainer .groupItemNav .groupItemNavLeft {
-      width: 100px; }
-      .groupItemContainer .groupItemNav .groupItemNavLeft .addNew {
-        display: flex;
-        justify-content: center;
-        height: 25px;
-        width: 25px;
-        border-radius: 4px;
-        background-color: #fdaa18;
-        line-height: 36px; }
-        .groupItemContainer .groupItemNav .groupItemNavLeft .addNew .material-icons {
-          color: white; }
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+    flex-flow: row;
+    width: 100%; }
+    .groupItemContainer .groupItemNav .groupItemNavLeft .addNew {
+      display: flex;
+      justify-content: center;
+      height: 25px;
+      width: 25px;
+      border-radius: 4px;
+      background-color: #fdaa18;
+      line-height: 36px; }
+      .groupItemContainer .groupItemNav .groupItemNavLeft .addNew .material-icons {
+        color: white; }
+    .groupItemContainer .groupItemNav .groupItemNavCenter {
+      padding-left: 35px; }
     .groupItemContainer .groupItemNav .groupItemNavRight {
       display: flex;
-      width: 100px;
       justify-content: flex-end; }
       .groupItemContainer .groupItemNav .groupItemNavRight .material-icons {
         font-size: 30px; }

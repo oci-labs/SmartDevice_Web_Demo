@@ -2,10 +2,10 @@
   display: none;
   min-width: 200px;
   max-width: 275px;
-  height: calc(100% - 46px);
   height: calc(100vh - 46px);
   overflow-y: scroll;
   background-color: #444444;
+  border-left: 1px solid #222;
   color: white; }
   .alertBar.show {
     display: flex;

@@ -77,7 +77,7 @@ class TabsComponent extends Component {
       });
     };
     return (
-      <div style={{"zIndex": "999"}}>
+      <div>
         <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
