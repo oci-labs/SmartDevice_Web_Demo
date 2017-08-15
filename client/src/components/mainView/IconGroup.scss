@@ -8,8 +8,12 @@
     padding: 3px 5px;
     font-size: 18px;
     font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+    flex-flow: row;
+    width: 100%;
+
     .groupItemNavLeft {
-      width: 100px;
       .addNew {
         display: flex;
         justify-content: center;
@@ -23,9 +27,11 @@
         }
       }
     }
+    .groupItemNavCenter {
+      padding-left: 35px;
+    }
     .groupItemNavRight {
       display: flex;
-      width: 100px;
       justify-content: flex-end;
       .material-icons {
         font-size: 30px;

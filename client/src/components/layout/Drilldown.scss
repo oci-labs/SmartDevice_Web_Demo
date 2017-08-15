@@ -1,13 +1,12 @@
 @import '../../custom.config.scss';
 
 .drilldown {
-  min-width: 250px;
-  max-width: 420px;
-  padding: 15px 30px;
+  padding: 15px;
   background-color: #444444;
   color: #cbcbcb;
-  border-right: 1px solid black;
-  height: 100%;
+  height: calc(100vh - 108px);
+  overflow-y: auto;
+  overflow-x: hidden;
   flex: 1 0 0;
   .drilldownTitle {
     display: flex;

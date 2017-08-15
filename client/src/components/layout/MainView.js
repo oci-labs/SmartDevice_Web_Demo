@@ -4,7 +4,10 @@ import "./MainView.css";
 
 import Tabs from "../mainView/Tabs";
 import IconGroup from "../mainView/IconGroup";
-import { Column } from "../layout/LayoutComponents";
+import { Col, Row } from "reactstrap";
+import MachineView from "./MachineView";
+import Drilldown from "./Drilldown";
+
 
 import { setSelectedItem } from "../../actions";
 
@@ -16,7 +19,8 @@ class MainViewComponent extends Component {
       facilities: props.facilities,
       selectedDepartment: props.selectedDepartment,
       selectedFacility: props.selectedFacility,
-      selectedMachine: props.selectedMachine
+      selectedMachine: props.selectedMachine,
+      viewState: props.viewState
     };
   }
   componentWillMount() {
@@ -28,16 +32,19 @@ class MainViewComponent extends Component {
       facilities: props.facilities,
       selectedDepartment: props.selectedDepartment,
       selectedFacility: props.selectedFacility,
-      selectedMachine: props.selectedMachine
+      selectedMachine: props.selectedMachine,
+      viewState: props.viewState
     });
   }
   render() {
+    const { viewProfile, viewAlerts } = this.props;
     let activeItemsElements;
     if (this.state.activeItems.length) {
       activeItemsElements = this.state.activeItems.map(item =>
         <IconGroup groupItem={item} key={item.id} />
       );
     }
+    let viewState = this.state.viewState;
     return (
       <div className="mainView">
         <Tabs
@@ -46,10 +53,61 @@ class MainViewComponent extends Component {
           selectedFacility={this.state.selectedFacility}
           selectedMachine={this.state.selectedMachine}
         />
-        <Column className="addScroll">
-          {activeItemsElements}
-        </Column>
+
+        {(function() {
+          switch(viewState) {
+            case 'state:department':
+            case 'state:manifold':
+            case 'state:station':
+              if (viewProfile && viewAlerts) {
+                return (
+                  <Row className="mainContent no-gutters">
+                    <Col className="hidden-lg-down" xl="7">
+                      {activeItemsElements}
+                    </Col>
+                    <MachineView />
+                    <Drilldown />
+                  </Row>
+                );
+              } else if (viewProfile || viewAlerts) {
+                return (
+                  <Row className="mainContent no-gutters">
+                    <Col className="hidden-md-down" lg="6" xl="7">
+                      {activeItemsElements}
+                    </Col>
+                    <MachineView />
+                    <Drilldown />
+                  </Row>
+                  );
+              } else {
+                return (
+                  <Row className="mainContent no-gutters">
+                    <Col className="hidden-sm-down" md="5" lg="7" xl="8">
+                      {activeItemsElements}
+                    </Col>
+                    <MachineView />
+                    <Drilldown />
+                  </Row>
+                );
+              }
+
+            case 'state:facility':
+            case 'state:machine':
+            case 'default':
+              return (
+                <Row className="mainContent no-gutters">
+                  <Col xs="12">
+                    {activeItemsElements}
+                  </Col>
+                  <MachineView />
+                  <Drilldown />
+                </Row>
+              );
+          }
+        })()}
       </div>
+
+
     );
   }
 }
@@ -60,7 +118,10 @@ function mapStateToProps(state) {
     facilities: state.allFacilities,
     selectedDepartment: state.selectedDepartment,
     selectedFacility: state.selectedFacility,
-    selectedMachine: state.selectedMachine
+    selectedMachine: state.selectedMachine,
+    viewState: state.VIEW_STATE,
+    viewProfile: state.viewProfile,
+    viewAlerts: state.viewAlerts
   };
 }
 

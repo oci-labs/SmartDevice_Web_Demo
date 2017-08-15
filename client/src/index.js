@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import reducer from "./reducers";
+import 'bootstrap/dist/css/bootstrap.css';
 import "./css/App.css";
 import "./css/grails.css";
 import "./css/main.css";

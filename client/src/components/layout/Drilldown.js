@@ -40,7 +40,7 @@ class DrilldownComponent extends Component {
   }
 
   render() {
-    const { selectedManifold, currentStation } = this.props;
+    const { selectedManifold, currentStation, viewProfile, viewAlerts } = this.props;
     const { selectedValve, valveStatus } = this.state;
     const currentValveStatus = valveStatus[0] ? valveStatus[0] : {};
     let error, station;
@@ -110,8 +110,8 @@ class DrilldownComponent extends Component {
     }
 
     return (
-      <View states={MANIFOLD_STATE}>
-        <div className={`drilldown ${selectedManifold ? "show" : "hide"}`}>
+      <View states={MANIFOLD_STATE} colClass={" col-12" + (viewProfile && viewAlerts ? "  col-xl-5" : viewProfile||viewAlerts ? " col-lg-6 col-xl-5" : " col-12 col-md-7 col-lg-5 col-xl-4")}>
+        <div className="drilldown">
           <div className="drilldownTitle">
             {selectedManifold.name}
             <EditItem item={selectedManifold}>
@@ -141,7 +141,9 @@ const mapStateToProps = state => {
     selectedManifold: state.selectedManifold,
     currentStation: state.currentStation,
     selectedValve: state.selectedValve,
-    valveStatus: state.valveStatus
+    valveStatus: state.valveStatus,
+    viewProfile: state.viewProfile,
+    viewAlerts:state.viewAlerts
   };
 };
 

@@ -1,14 +1,12 @@
 @import '../../custom.config.scss';
 
 .profile {
-  display: none;
-  min-width: 210px;
   height: 100vh;
   background-color: #444444;
+  border-right: 1px solid #222;
   color: white;
   padding: 30px 15px;
   &.show {
-    display: flex;
     animation-name: showProfile;
     animation-duration: 4s;
   }

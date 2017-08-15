@@ -1,52 +1,51 @@
-div.alertsContainer .alert {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: space-between;
-  margin: 15px;
-  padding: 10px;
-  box-shadow: none; }
+.alertBar {
+  height: calc(100% - 46px);
+  height: calc(100vh - 46px);
+  overflow: auto;
+  background-color: #444444;
+  border-left: solid 1px #222;
+  color: white; }
 
-div.alertsContainer .alert-danger {
-  background: #ba2316;
-  color: white;
-  border: 1px solid #7f332d; }
-
-div.alertsContainer .alert-info {
-  background: #777;
-  color: white;
-  border: 1px solid #555; }
-
-div.alertsContainer .alert.disabled {
-  background: #555;
-  color: #777;
-  border: 1px solid #555; }
-
-div.alertsContainer .alert-content {
-  line-height: 13px;
-  text-shadow: none;
-  flex-grow: 1; }
-
-div.alertsContainer .alert-details {
-  font-size: 9px; }
-
-div.alertsContainer .alert-icon-left {
-  margin-right: 10px; }
-
-div.alertsContainer .alert-icon-right {
-  margin-left: 10px;
-  cursor: pointer; }
-
-div.alertsContainer .alerts-enter {
-  opacity: 0.01; }
-
-div.alertsContainer .alerts-enter.alerts-enter-active {
-  opacity: 1;
-  transition: 600ms; }
-
-div.alertsContainer .alerts-leave {
-  opacity: 1; }
-
-div.alertsContainer .alerts-leave.alerts-leave-active {
-  opacity: 0.01;
-  transition: 600ms; }
+div.alertsContainer {
+  max-width: 400px; }
+  div.alertsContainer .alert {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 8px;
+    box-shadow: none; }
+  div.alertsContainer .alert-danger {
+    background: #ba2316;
+    color: white;
+    border: 1px solid #7f332d; }
+  div.alertsContainer .alert-info {
+    background: #777;
+    color: white;
+    border: 1px solid #555; }
+  div.alertsContainer .alert.disabled {
+    background: #555;
+    color: #777;
+    border: 1px solid #555; }
+  div.alertsContainer .alert-content {
+    line-height: 13px;
+    text-shadow: none;
+    flex-grow: 1; }
+  div.alertsContainer .alert-details {
+    font-size: 9px; }
+  div.alertsContainer .alert-icon-left {
+    margin-right: 10px; }
+  div.alertsContainer .alert-icon-right {
+    margin-left: 10px;
+    cursor: pointer; }
+  div.alertsContainer .alerts-enter {
+    opacity: 0.01; }
+  div.alertsContainer .alerts-enter.alerts-enter-active {
+    opacity: 1;
+    transition: 600ms; }
+  div.alertsContainer .alerts-leave {
+    opacity: 1; }
+  div.alertsContainer .alerts-leave.alerts-leave-active {
+    opacity: 0.01;
+    transition: 600ms; }

@@ -1,5 +1,6 @@
 .manifoldContainer {
-  display: flex; }
+  display: flex;
+  overflow-x: auto; }
 
 .valveOuterContainer {
   position: relative;
