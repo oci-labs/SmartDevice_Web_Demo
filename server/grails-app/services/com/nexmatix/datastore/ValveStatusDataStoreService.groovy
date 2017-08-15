@@ -33,7 +33,7 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
             ValveStatus status = ValveStatus.findByName(entity.key.name)
             Valve valve = null
             if (!status) {
-                log.warn "New status..."
+                log.warn "New status for valve: ${entity.getLong('valve_sn')}"
                 status = new ValveStatus(name: entity.key.name)
                 valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
                 if (!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))

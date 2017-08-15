@@ -33,7 +33,6 @@ class ValveStatusController {
                 (select id from Station where manifold = :manifold))""",
                     [manifold: Station.where { manifold == m}.get()])
 
-            println statuses
             [statuses: statuses]
 
         } else {
