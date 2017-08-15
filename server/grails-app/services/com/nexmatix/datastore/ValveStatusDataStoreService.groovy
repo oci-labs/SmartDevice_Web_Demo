@@ -37,13 +37,10 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
                 status = new ValveStatus(name: entity.key.name)
                 valve = Valve.findBySerialNumber(entity.getLong('valve_sn'))
                 if (!valve) valve = valveService.createNewValve(entity.getLong('valve_sn'))
-                else {
-                    valve = valveService.updateValve(valve)
-                }
             }
 
             status.name = entity.key.name
-            if(valve) status.valve = valve
+            if(valve) status.valve = valveService.updateValve(valve)
             status.cycleCount = entity.getLong('cc')
             status.cycleCountLimit = entity.getLong('ccl')
             status.input = entity.getString('input')
