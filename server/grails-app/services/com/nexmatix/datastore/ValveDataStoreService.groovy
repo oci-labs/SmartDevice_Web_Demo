@@ -17,26 +17,21 @@ class ValveDataStoreService implements DataStoreService<Valve> {
     @Override
     Valve transformEntity(Entity entity) {
 
-        if(entity) {
+        if (entity) {
             log.info "transformEntity: ${entity.key.name}"
 
-            Manifold manifold = Manifold.findBySerialNumber(entity.getLong('manifold_sn'))
-            if(!manifold) {
-                log.error "Unexpected manifold ${entity.getLong('manifold_sn')}"  //TODO: manifoldService.createManifold(entity.getLong('manifold_sn'))
-                return null
-            } else {
-                Station station = Station.findByNumberAndManifold(entity.getLong('station_num') as Integer, manifold)
-                if(!station) station = stationService.createStation(entity.getLong('station_num') as Integer, manifold)
 
-                return new Valve(
-                        serialNumber: entity.key.name.toLong(),
-                        fabricationDate: entity.getLong('fab_date'),
-                        shippingDate: entity.getLong('ship_date'),
-                        sku: entity.getString('sku'),
-                        updateTime: entity.getLong('update_time'),
-                        station: station
-                )
-            }
+            Station station = Station.findByNumberAndManifold(entity.getLong('station_num') as Integer, Manifold.first())
+            if (!station) station = stationService.createStation(entity.getLong('station_num') as Integer, Manifold.first())
+
+            return new Valve(
+                    serialNumber: entity.key.name.toLong(),
+                    fabricationDate: entity.getLong('fab_date'),
+                    shippingDate: entity.getLong('ship_date'),
+                    sku: entity.getString('sku'),
+                    updateTime: entity.getLong('update_time'),
+                    station: station
+            )
         } else {
             log.warn "No entity!"
         }

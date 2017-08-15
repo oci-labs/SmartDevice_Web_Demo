@@ -10,6 +10,8 @@
       display: flex;
       background-color: #17a71d;
       border-radius: 4px; }
+      .cycleCountContainer .cycleCount .cycleCountGauge.warning {
+        background-color: #d9534f; }
   .cycleCountContainer .cycleCountLabel {
     display: flex;
     justify-content: center;

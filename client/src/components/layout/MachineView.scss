@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .machineView {
   display: flex;
   flex-direction: column;
@@ -23,12 +25,12 @@
     padding: 8px;
     margin: 6px;
     border-radius: 4px;
-    color: #f1a31b;
+    color: $primary-color;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     &:hover {
-      background-color: #ba2316;
+      background-color: $secondary-color;
       color: white;
     }
   }

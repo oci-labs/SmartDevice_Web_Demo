@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .addItemButton {
   color: black;
   cursor: pointer;
@@ -21,7 +23,7 @@
     justify-content: center;
 
     &.add {
-      background-color: #fdaa18;
+      background-color: $primary-color;
     }
   }
 }

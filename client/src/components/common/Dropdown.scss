@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .dropdownContainer {
   position: relative;
   display: inline-block;
@@ -36,7 +38,7 @@
   }
   .iconWrapper {
     padding: 5px 0px 5px 0px;
-    color: #fdaa18;
+    color: $primary-color;
     cursor: pointer;
   }
 }

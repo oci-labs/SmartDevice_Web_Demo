@@ -3,12 +3,15 @@ import "./Inputs.css";
 
 import Icon from "../icons/Icon";
 
-export const Input = ({ model, name, onChange }) => {
+export const Input = ({ hide, model, name, onChange }) => {
   const handleOnChange = event => {
     if (onChange) {
       onChange(event.target.value);
     }
   };
+  if (hide) {
+    return null;
+  }
   return (
     <div className="commonInputWrapper">
       <div className="commonInputLabel">
@@ -145,6 +148,14 @@ export class Select extends Component {
     ) {
       this.setState({
         selected: null
+      });
+    }
+    if (nextProps.model && nextProps.options) {
+      const selected = nextProps.options.find(option => {
+        return option.name === nextProps.model.name;
+      });
+      this.setState({
+        selected: selected
       });
     }
   }

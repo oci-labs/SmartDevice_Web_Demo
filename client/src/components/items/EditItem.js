@@ -6,6 +6,7 @@ import Modal from "../common/Modal";
 import { HorizontalLine } from "../layout/LayoutComponents";
 import { Input, Select } from "../common/Inputs";
 import { deleteItem, updateItem } from "../../actions";
+import { SERVER_URL } from "../../config";
 
 class EditItemComponent extends Component {
   constructor(props) {
@@ -13,8 +14,11 @@ class EditItemComponent extends Component {
 
     this.state = {
       itemModel: props.item,
+      parents: [],
       showModal: false
     };
+
+    this.getParentOptions(props.item);
   }
 
   openModal = () => {
@@ -60,16 +64,39 @@ class EditItemComponent extends Component {
     this.props.handleUpdateItem(this.state.itemModel);
   };
 
+  getParentOptions = item => {
+    if (item && item.parent) {
+      fetch(`${SERVER_URL}/api/${item.parent.type}/`)
+        .then(response => response.json())
+        .then(response => {
+          this.setState({
+            parents: response
+          });
+        });
+    }
+  };
+
   handleNameChange = name => {
     this.setState({
       itemModel: Object.assign({}, this.state.itemModel, { name: name })
     });
   };
+
+  handleParentChange = parent => {
+    let parentModel = {};
+    parentModel[parent.type] = parent.id;
+    parentModel.parent = parent;
+    this.setState({
+      itemModel: Object.assign({}, this.state.itemModel, parentModel)
+    });
+  };
+
   componentWillReceiveProps(props) {
     if (props.item.name !== this.state.itemModel.name) {
       this.setState({
         itemModel: props.item
       });
+      this.getParentOptions(props.item);
     }
   }
 
@@ -87,6 +114,13 @@ class EditItemComponent extends Component {
               name="Name"
               model={this.state.itemModel.name}
               onChange={this.handleNameChange}
+            />
+            <Select
+              name="Parent"
+              hideIf={!this.state.itemModel.parent}
+              model={this.state.itemModel.parent}
+              onChange={this.handleParentChange}
+              options={this.state.parents}
             />
             {() => {
               if (this.state.itemModel.type !== "facility") {

@@ -87,7 +87,7 @@ class TabsComponent extends Component {
           <Tab item={selectedDepartment} selected={true} />
           <Dropdown
             items={selectedDepartment.children}
-            initialItem={selectedMachine}
+            model={selectedMachine}
             handleItemClick={handleMachineClick}
             handleAllClick={handleAllMachineClick}
           />

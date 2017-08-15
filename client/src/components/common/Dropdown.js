@@ -8,7 +8,7 @@ class Dropdown extends Component {
     super(props);
 
     this.state = {
-      selectedItem: this.props.initialItem,
+      selectedItem: this.props.model,
       show: false
     };
   }
@@ -48,9 +48,15 @@ class Dropdown extends Component {
       this.setState({
         selectedItem: newProps.items[0]
       });
-    } else if (newProps.items !== this.props.items) {
+    }
+    if (
+      newProps.items &&
+      newProps.model &&
+      newProps.items.some(item => item.id === newProps.model.id)
+    ) {
+      console.log("Model name", newProps.model.name);
       this.setState({
-        selectedItem: { name: "All", type: this.props.type }
+        selectedItem: newProps.model
       });
     }
   }

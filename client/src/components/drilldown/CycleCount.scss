@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .cycleCountContainer {
   margin: 20px 0px 10px;
   .cycleCount {
@@ -5,11 +7,14 @@
     height: 40px;
     padding: 3px;
     border-radius: 4px;
-    background-color: #e8e8e8;
+    background-color: $background-color;
     .cycleCountGauge {
       display: flex;
-      background-color: #17a71d;
+      background-color: $valid-color;
       border-radius: 4px;
+      &.warning {
+        background-color: $warning-color;
+      }
     }
   }
   .cycleCountLabel {

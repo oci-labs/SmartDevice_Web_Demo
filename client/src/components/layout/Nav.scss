@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .nav {
   display: flex;
   flex-direction: row;
@@ -7,7 +9,7 @@
   .toggleProfile {
     display: flex;
     justify-content: center;
-    background-color: #fdaa18;
+    background-color: $primary-color;
     height: 45px;
     width: 45px;
     padding: 10px;

@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .valveIconWrapper {
   display: flex;
   justify-content: center;
@@ -72,7 +74,7 @@
           flex: 1;
           top: calc(50% - 24px);
           align-items: center;
-          color: #17a71d;
+          color: $valid-color;
           .material-icons {
             font-size: 3em;
           }
