@@ -24,19 +24,21 @@ class ValveService {
         log.info "updateValve: ${valve.serialNumber}"
         Valve newValve = valveDataStoreService.retrieveEntity(valve.serialNumber)
 
+        def oldSku = valve.sku
         valve.station = newValve.station
         valve.fabricationDate = newValve.fabricationDate
         valve.shippingDate = newValve.shippingDate
         valve.sku = newValve.sku
         valve.updateTime = newValve.updateTime
 
-        newValve.discard()
+        log.warn "old SKU: ${oldSku} - new SKU: ${newValve.sku}"
 
         if(valve && !valve.save()) {
             valve.errors.allErrors.each { log.error "${it}" }
             valve = null
         }
 
+        newValve.discard()
         return valve
     }
 }

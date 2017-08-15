@@ -8,19 +8,6 @@ class ValveStatusController {
 	static responseFormats = ['json', 'xml']
 
     def index() {
-//        def valveStatus = new ValveStatus(valve: Valve.first())
-//
-//        valveStatus.name = "dsadasas"
-//        valveStatus.updateTime = new Date()
-//        valveStatus.cycleCount = 10000
-//        valveStatus.cycleCountLimit = 111111
-//        valveStatus.input = "sdadas"
-//        valveStatus.leak = "adadsa"
-//        valveStatus.pressureFault = "asdasd"
-//        valveStatus.pressurePoint = 1312321.232
-//
-//        valveStatus.save(flush: true, failOnError: true)
-
         [statuses: ValveStatus.list()]
     }
 
