@@ -13,7 +13,8 @@ class ValveAlert extends Component {
       isActive,
       isSnoozed,
       time,
-      handleUpdate
+      handleUpdate,
+      onAlertClick
     } = this.props;
     const alertTypes = {
       DATA_FAULT: "Data Fault",
@@ -43,10 +44,16 @@ class ValveAlert extends Component {
     const handleClick = () => {
       handleUpdate(this);
     };
+    const handleAlertClick = () => {
+      if (onAlertClick) {
+        onAlertClick(this.props.alert.valve);
+      }
+    };
     return (
       <Alert
         color={isSnoozed ? "info" : isActive && !isSnoozed ? "danger" : ""}
         className={!isActive ? "disabled" : ""}
+        onClick={handleAlertClick}
       >
         {leftIcon &&
           <div className="alert-icon-left" style={{ height: "24px" }}>

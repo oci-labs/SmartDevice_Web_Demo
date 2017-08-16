@@ -54,7 +54,6 @@ class Dropdown extends Component {
       newProps.model &&
       newProps.items.some(item => item.id === newProps.model.id)
     ) {
-      console.log("Model name", newProps.model.name);
       this.setState({
         selectedItem: newProps.model
       });
