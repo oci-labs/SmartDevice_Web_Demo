@@ -12,10 +12,9 @@ class ValveStatusService {
         log.info "retrieveAndSend"
 
         def data = valveStatusDataStoreService.retrieveValveStatuses()
+        log.info "retrieved ${data.size()} statuses..."
 
         deleteOldStatuses(data*.id)
-
-        log.info "retrieved ${data.size()} statuses..."
     }
 
     void deleteOldStatuses(List<Long> activeStatusIds) {

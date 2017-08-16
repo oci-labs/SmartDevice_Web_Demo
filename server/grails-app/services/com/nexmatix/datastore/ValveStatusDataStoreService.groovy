@@ -40,7 +40,7 @@ class ValveStatusDataStoreService implements DataStoreService<ValveStatus> {
             }
 
             status.name = entity.key.name
-            if(valve) status.valve = valveService.updateValve(valve)
+            status.valve = valveService.updateValve(valve ?: status.valve)
             status.cycleCount = entity.getLong('cc')
             status.cycleCountLimit = entity.getLong('ccl')
             status.input = entity.getString('input')
