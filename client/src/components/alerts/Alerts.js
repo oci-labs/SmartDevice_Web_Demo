@@ -86,6 +86,7 @@ class AlertsComponent extends Component {
       );
     }
     return (
+      <div className="alertBar">
       <div className="alertsContainer">
         <CSSTransitionGroup
           transitionName="alerts"
@@ -96,6 +97,7 @@ class AlertsComponent extends Component {
           {snoozedAlertList}
           {inactiveAlertList}
         </CSSTransitionGroup>
+      </div>
       </div>
     );
   }

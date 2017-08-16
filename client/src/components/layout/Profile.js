@@ -7,7 +7,7 @@ import { Column } from "../layout/LayoutComponents";
 
 const ProfileComponent = ({ viewProfile }) => {
   return (
-    <div className={`profile ${viewProfile ? "show" : ""}`}>
+    <div className="profile">
       <Column>
         <ProfilePicture />
         <div className="profileTitle">Brian Jenkins</div>

@@ -3,12 +3,13 @@ package com.nexmatix
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
+import static grails.async.Promises.*
 
 @Slf4j
 class ValveDataJob {
 
     @Autowired
-    ValveStatusService valveDataService
+    ValveStatusService valveStatusService
 
     @Autowired
     ValveAlertService valveAlertService
@@ -17,8 +18,17 @@ class ValveDataJob {
     def retrieveAndSendData() {
         log.info "Retrieving data..."
 
-        valveDataService.retrieveAndSend()
-        valveAlertService.retrieveAndSend()
+        def updateStatuses = task {
+            valveStatusService.retrieveAndSend()
+        }
+
+        def updateAlerts = task {
+            valveAlertService.retrieveAndSend()
+        }
+
+        onComplete([updateStatuses,updateAlerts]) {
+            log.info "completed updates."
+        }
 
     }
 

@@ -12,7 +12,6 @@ class MachineController extends RestfulController<Machine> {
 
     def byDepartment(Long departmentId) {
         Department d = Department.get(departmentId)
-        println "department ${d}"
         if(d) {
             [machines: Machine.where{department == d}.list()]
         }

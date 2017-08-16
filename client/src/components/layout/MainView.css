@@ -1,8 +1,12 @@
 .mainView {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
-  flex: 1 0 auto; }
+  flex: 1 0 auto;
+  height: 100%; }
+  .mainView .mainContent {
+    padding-top: 62px; }
+  .mainView .row {
+    height: 100%; }
   .mainView .mainViewItems {
     display: flex;
     justify-content: space-around; }
