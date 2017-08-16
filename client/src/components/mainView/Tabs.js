@@ -78,11 +78,11 @@ class TabsComponent extends Component {
     };
     return (
       <div>
-        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
+        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs" id="navTabs">
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
         </View>
-        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
+        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs" id="navTabs">
           <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={selectedDepartment} selected={true} />
           <Dropdown
