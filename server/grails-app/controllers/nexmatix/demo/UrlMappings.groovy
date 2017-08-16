@@ -15,7 +15,7 @@ class UrlMappings {
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
-        "/api/valveStatus/manifold/$id"(controller: 'valveStatus', action: 'byManifold')
+        "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
 
         if ( Environment.current == Environment.PRODUCTION ) {
             '/'(uri: '/index.html')

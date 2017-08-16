@@ -1,3 +1,4 @@
+import com.nexmatix.Station
 import com.nexmatix.ValveStatus
 
 model {
@@ -9,9 +10,9 @@ json {
     if (valveStatus.valve) {
         valve {
             id valveStatus.valve.id
-            serialNumber valveStatus.valve.serialNumber
+            serialNumber valveStatus.valveSerialNumber
             station {
-                id valveStatus.valve?.stationId
+                id valveStatus.station.id
             }
         }
     }

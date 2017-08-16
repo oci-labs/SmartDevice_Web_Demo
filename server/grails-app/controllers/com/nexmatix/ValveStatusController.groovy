@@ -1,37 +1,30 @@
 package com.nexmatix
 
-
-import grails.rest.*
-import grails.converters.*
+import org.springframework.beans.factory.annotation.Autowired
 
 class ValveStatusController {
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
+
+    static datasource = 'smartDeviceDataSource'
+
+    @Autowired ValveStatusService valveStatusService
+    @Autowired ValveService valveService
 
     def index() {
-        [statuses: ValveStatus.list()]
+        def statuses = ValveStatus.withNewSession { valveStatusService.list([max: params.max ?: 10, sort: 'updateTime', order: 'desc']) }
+        [statuses: statuses]
     }
 
-    def byManifold(Long id) {
-        Manifold m = Manifold.get(id)
+    def byManifold(Integer serialNumber) {
+        def statuses = ValveStatus.withSession { valveStatusService.findAllByManifoldSerialNumber(serialNumber) }
 
-        if(m) {
-            def statuses = ValveStatus.executeQuery("""from ValveStatus where valve.id in 
-                (select id from Valve where station.id in 
-                (select id from Station where manifold = :manifold))""",
-                    [manifold: Station.where { manifold == m}.get()])
-
-            [statuses: statuses]
-
-        } else {
-            log.warn "Unable to find manifold with id: ${id}"
-            render status: 404
-        }
+        [statuses: statuses]
     }
 
-    def show(Long id) {
-        Valve valve = Valve.findBySerialNumber(id)
-        if(valve) {
-            [statusList: ValveStatus.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc'])]
+    def show(Integer id) {
+        Valve valve = valveService.findBySerialNumber(id)
+        if (valve) {
+            [statusList: ValveStatus.withSession { valveStatusService.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc']) }]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404

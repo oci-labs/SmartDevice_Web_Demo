@@ -39,6 +39,7 @@ class ValveStatus {
 
 
     Valve getValve() {
+        println "getValve for ${id}"
         return Valve.findBySerialNumber(valveSerialNumber)
     }
 }

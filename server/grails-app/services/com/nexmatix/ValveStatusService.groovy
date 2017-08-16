@@ -1,27 +1,15 @@
 package com.nexmatix
 
-import com.nexmatix.datastore.ValveStatusDataStoreService
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.services.Service
 
-@Transactional
-class ValveStatusService {
+@Service(ValveStatus)
+interface ValveStatusService {
 
     static datasource = 'smartDeviceDataSource'
 
-    //ValveStatusDataStoreService valveStatusDataStoreService
+    List<ValveStatus> list(Map args)
 
-    def retrieveAndSend() {
-        log.info "retrieveAndSend"
+    List<ValveStatus> findAllByValve(Valve valve, Map args)
 
-        def data = [[id: '']] //valveStatusDataStoreService.retrieveValveStatuses()
-        log.info "retrieved ${data.size()} statuses..."
-
-        //deleteOldStatuses(data*.id)
-    }
-
-    void deleteOldStatuses(List<Long> activeStatusIds) {
-        log.warn "Deleting old statuses..."
-        ValveStatus.executeUpdate("delete from ValveStatus where id not in :ids", [ids: activeStatusIds])
-
-    }
+    List<ValveStatus> findAllByManifoldSerialNumber(Integer manifoldSerialNumber)
 }

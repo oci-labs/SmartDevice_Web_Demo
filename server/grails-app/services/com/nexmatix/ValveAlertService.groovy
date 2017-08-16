@@ -1,28 +1,15 @@
 package com.nexmatix
 
 import com.nexmatix.datastore.ValveAlertDataStoreService
+import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
 
-@Transactional
-class ValveAlertService {
+@Service(ValveAlert)
+interface ValveAlertService {
 
     static datasource = 'smartDeviceDataSource'
 
-    //ValveAlertDataStoreService valveAlertDataStoreService
+    List<ValveAlert> findAllByValve(Valve valve, Map args)
 
-    def retrieveAndSend() {
-        log.info "retrieveAndSend"
-
-        def data = [[id: '']] //valveAlertDataStoreService.retrieveValveAlerts()
-
-        //deleteOldAlerts(data*.id)
-
-        log.info "retrieved ${data.size()} alerts..."
-    }
-
-    void deleteOldAlerts(List<Long> activeAlertsIds) {
-        log.warn "Deleting old alerts..."
-        ValveAlert.executeUpdate("delete from ValveAlert where id not in :ids", [ids: activeAlertsIds])
-
-    }
+    List<ValveAlert> list(Map args)
 }
