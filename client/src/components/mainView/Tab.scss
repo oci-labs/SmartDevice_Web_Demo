@@ -1,6 +1,8 @@
 .tabContainer {
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   &.tabLabel {
     .tabMain {
       font-size: 20px;
