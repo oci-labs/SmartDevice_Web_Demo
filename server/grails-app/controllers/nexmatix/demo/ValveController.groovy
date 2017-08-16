@@ -38,4 +38,17 @@ class ValveController extends RestfulController<Valve> {
         }
 
     }
+
+    def bySerialNumber(Long serialNumber) {
+        Valve v = Valve.findBySerialNumber(serialNumber)
+
+        println Valve.list()
+
+        if(v) {
+            println v
+            [valve: v]
+        } else {
+            render status: 404
+        }
+    }
 }

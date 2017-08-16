@@ -10,7 +10,8 @@ div.alertsContainer .alert {
 div.alertsContainer .alert-danger {
   background: #ba2316;
   color: white;
-  border: 1px solid #7f332d; }
+  border: 1px solid #7f332d;
+  cursor: pointer; }
 
 div.alertsContainer .alert-info {
   background: #777;

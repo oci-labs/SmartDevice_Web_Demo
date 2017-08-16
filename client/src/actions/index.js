@@ -16,6 +16,10 @@ function GETValve(station) {
   );
 }
 
+function GETValveBySerialNumber(valve) {
+  return fetch(`${SERVER_URL}/api/valve/bySerialNumber/${valve.serialNumber}`);
+}
+
 function GETValveStatus(valve) {
   return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
 }
@@ -162,7 +166,9 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
     const {
       selectedDepartment,
       selectedFacility,
-      selectedMachine
+      selectedMachine,
+      selectedManifold,
+      currentStation
     } = getState();
     if (item) {
       GETItem(item).then(toJson).then(function(response) {
@@ -189,7 +195,6 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 dispatch(setSelectedItem(response.parent, true));
               } else if (!forceRefresh) {
                 GETMachinesByDepartment(item.id).then(toJson).then(response => {
-                  console.log("GETMachjinesByDepartments");
                   dispatch(setActiveItems(response));
                 });
               }
@@ -218,12 +223,24 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 dispatch(setSelectedItem(response.parent, true, forceRefresh));
               }
               dispatch(setViewState(states.MANIFOLD_STATE));
-              if (response.children.length > 0) {
+              const currentStationIsChild = child => {
+                return child.id === currentStation.id;
+              };
+              if (
+                response.children.length > 0 &&
+                !response.children.find(currentStationIsChild)
+              ) {
                 dispatch(setSelectedItem(getFirst(response.children)));
               }
               break;
             case "station":
               dispatch(setSelectedStation(response));
+              if (
+                !selectedManifold ||
+                selectedManifold.id !== response.parent.id
+              ) {
+                dispatch(setSelectedItem(response.parent, true));
+              }
               dispatch(setValve(response));
               break;
             default:
@@ -258,6 +275,16 @@ function setValve(station) {
     return GETValve(station).then(toJson).then(response => {
       dispatch(setSelectedValve(response));
     });
+  };
+}
+
+export function showValve(valve) {
+  return dispatch => {
+    if (valve) {
+      return GETValveBySerialNumber(valve).then(toJson).then(response => {
+        dispatch(setSelectedItem(response.station));
+      });
+    }
   };
 }
 
