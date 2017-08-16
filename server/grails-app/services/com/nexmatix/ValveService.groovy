@@ -6,6 +6,8 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class ValveService {
 
+    static datasource = 'smartDeviceDataSource'
+
     ValveDataStoreService valveDataStoreService
 
     Valve createNewValve(Long serialNumber) {

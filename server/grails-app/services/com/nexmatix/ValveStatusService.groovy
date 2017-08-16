@@ -6,15 +6,17 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ValveStatusService {
 
-    ValveStatusDataStoreService valveStatusDataStoreService
+    static datasource = 'smartDeviceDataSource'
+
+    //ValveStatusDataStoreService valveStatusDataStoreService
 
     def retrieveAndSend() {
         log.info "retrieveAndSend"
 
-        def data = valveStatusDataStoreService.retrieveValveStatuses()
+        def data = [[id: '']] //valveStatusDataStoreService.retrieveValveStatuses()
         log.info "retrieved ${data.size()} statuses..."
 
-        deleteOldStatuses(data*.id)
+        //deleteOldStatuses(data*.id)
     }
 
     void deleteOldStatuses(List<Long> activeStatusIds) {

@@ -11,9 +11,27 @@ class Valve {
     Long fabricationDate
     Long shippingDate
     Long updateTime
-    Station station
+    Integer manifoldSerialNumber
+    Integer stationNumber
 
     static constraints = {
         latestStatus nullable: true
     }
+
+
+    static mapping =  {
+        datasource "smartDeviceDataSource"
+
+        serialNumber column: 'valve_sn'
+        fabricationDate column: 'fab_date'
+        shippingDate column: "ship_date"
+        stationNumber column: "station_num"
+        manifoldSerialNumber column:"manifold_sn"
+    }
+
+
+    Station getStation() {
+        return Station.findByManifoldAndNumber(Manifold.findBySerialNumber(manifoldSerialNumber), stationNumber)
+    }
+
 }

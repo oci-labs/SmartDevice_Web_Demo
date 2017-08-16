@@ -6,14 +6,16 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class ValveAlertService {
 
-    ValveAlertDataStoreService valveAlertDataStoreService
+    static datasource = 'smartDeviceDataSource'
+
+    //ValveAlertDataStoreService valveAlertDataStoreService
 
     def retrieveAndSend() {
         log.info "retrieveAndSend"
 
-        def data = valveAlertDataStoreService.retrieveValveAlerts()
+        def data = [[id: '']] //valveAlertDataStoreService.retrieveValveAlerts()
 
-        deleteOldAlerts(data*.id)
+        //deleteOldAlerts(data*.id)
 
         log.info "retrieved ${data.size()} alerts..."
     }

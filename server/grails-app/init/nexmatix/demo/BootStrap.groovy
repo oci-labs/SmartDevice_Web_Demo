@@ -61,7 +61,7 @@ class BootStrap {
 
             [1, 4, 5, 9, 10].each { i ->
                 println "Creating valve ${100000 + (i - 1)} for station #${i}..."
-                def valve = new Valve(station: Station.findByNumberAndManifold(i, m), serialNumber: 100000 + (i - 1), fabricationDate: new Date().time, shippingDate: new Date().time, updateTime: new Date().time, sku: "lalalalal+${1}")
+                def valve = new Valve(stationNumber: Station.findByNumberAndManifold(i, m).number, manifoldSerialNumber: Manifold.first().serialNumber, serialNumber: 100000 + (i - 1), fabricationDate: new Date().time, shippingDate: new Date().time, updateTime: new Date().time, sku: "lalalalal+${1}")
                 valve.save(failOnError: true)
                 println "Valve saved with sku: ${valve.sku}"
             }
