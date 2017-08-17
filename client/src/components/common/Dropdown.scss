@@ -4,7 +4,7 @@
   position: relative;
   display: inline-block;
   border-right: 1px solid rgba(111, 111, 111, 0.5);
-  overflow-y: scroll;
+  overflow-y: auto;
   .dropdownItem {
     display: flex;
     flex-direction: row;
