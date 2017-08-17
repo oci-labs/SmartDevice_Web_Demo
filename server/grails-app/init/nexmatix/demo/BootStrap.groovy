@@ -10,6 +10,7 @@ import com.nexmatix.Station
 import com.nexmatix.Valve
 import com.nexmatix.ValveAlert
 import com.nexmatix.ValveStatus
+import grails.util.Environment
 
 import java.sql.Timestamp
 
@@ -68,28 +69,29 @@ class BootStrap {
                 println "Valve saved with sku: ${valve.sku}"
             }
 
-            Valve.list().each { valve ->
-                println "Creating valve status for valve #${valve.serialNumber}..."
-                new ValveStatus(cycleCount: 1000,
-                        cycleCountLimit: 1010,
-                        input: "A",
-                        leak: "N",
-                        manifoldSerialNumber: Manifold.first().serialNumber,
-                        stationNumber: valve.stationNumber,
-                        valveSerialNumber: valve.serialNumber,
-                        pressurePoint: 100.0,
-                        pressureFault: "N",
-                        updateTime: new Date()).save(failOnError: true)
+            if(Environment.isDevelopmentMode()) {
+                Valve.list().each { valve ->
+                    println "Creating valve status for valve #${valve.serialNumber}..."
+                    new ValveStatus(cycleCount: 1000,
+                            cycleCountLimit: 1010,
+                            input: "A",
+                            leak: "N",
+                            manifoldSerialNumber: Manifold.first().serialNumber,
+                            stationNumber: valve.stationNumber,
+                            valveSerialNumber: valve.serialNumber,
+                            pressurePoint: 100.0,
+                            pressureFault: "N",
+                            updateTime: new Date()).save(failOnError: true)
 
-                new ValveAlert(
-                        detectionTime: new Date(),
-                        alertType: AlertType.LEAK,
-                        valveSerialNumber: valve.serialNumber,
-                        stationNumber: valve.stationNumber,
-                        manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                    new ValveAlert(
+                            detectionTime: new Date(),
+                            alertType: AlertType.LEAK,
+                            valveSerialNumber: valve.serialNumber,
+                            stationNumber: valve.stationNumber,
+                            manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                }
+
             }
-
-
         }
     }
     def destroy = {

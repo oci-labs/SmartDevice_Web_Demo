@@ -36,7 +36,7 @@ class TabsComponent extends Component {
     console.log('tabs', document.getElementById('navTabs').children);
     console.log('tab-rect', document.getElementById('navTabs').getBoundingClientRect());
 
-    let firstTab = document.getElementById('navTabs').firstChild;
+    //TODO: is this line needed? let firstTab = document.getElementById('navTabs').firstChild;
     let lastTab = document.getElementById('navTabs').lastChild;
 
     if (lastTab.getBoundingClientRect().right > document.body.getBoundingClientRect()) {

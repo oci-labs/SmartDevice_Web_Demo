@@ -121,6 +121,8 @@ export function deleteItem(item) {
         case "manifold":
           dispatch(setSelectedItem(state.selectedMachine));
           break;
+        default:
+          return null;
       }
     });
   };

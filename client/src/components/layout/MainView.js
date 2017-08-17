@@ -103,6 +103,8 @@ class MainViewComponent extends Component {
                   <Drilldown />
                 </Row>
               );
+            default:
+              return null;
           }
         })()}
       </div>

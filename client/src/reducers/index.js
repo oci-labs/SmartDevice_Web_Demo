@@ -78,7 +78,7 @@ function reducer(state = initialState, action) {
       });
     case types.SNOOZE_ALERT:
       let alerts = state.alerts.map(alert => {
-        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g))) {
+        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g), 10)) {
           alert.isSnoozed = !alert.isSnoozed;
         }
         return alert;
