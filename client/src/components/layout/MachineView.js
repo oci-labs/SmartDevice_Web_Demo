@@ -31,7 +31,7 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProf
     });
   }
   return (
-    <View states={[DEPARTMENT_STATE]} className={"machineView col-12" + (viewProfile && viewAlerts ? "  col-xl-5" : viewProfile||viewAlerts ? " col-lg-6 col-xl-5" : " col-12 col-md-7 col-lg-5 col-xl-4")}>
+    <View states={[DEPARTMENT_STATE]} className={"" + (viewProfile && viewAlerts ? "machineView col-12 col-xl-5" : viewProfile||viewAlerts ? "machineView col-12 col-lg-6 col-xl-5" : "machineView col-12 col-12 col-md-7 col-lg-5 col-xl-4")}>
       <div className="departmentTitle">
         <div>
           {selectedDepartment.name}

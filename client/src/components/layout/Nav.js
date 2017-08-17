@@ -5,7 +5,7 @@ import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
 import { Badge } from "reactstrap";
 //import { toggleProfile, toggleAlerts } from "../../actions";
 
-const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
+const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
 
   let activeAlerts = [];
   if (alerts) {
@@ -19,9 +19,9 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
       <div className="toggleProfile" onClick={toggleProfile}>
         <IconMenu width="24" height="24" color="#fff" />
       </div>
-      <div className="companyTitle">Continental</div>
+      <div className={viewProfile ? "companyTitle hidden-sm-down" : "companyTitle"}>Continental</div>
       <div className="spacing" />
-      <div className="rightNavIcons">
+      <div className={viewProfile ? "rightNavIcons hidden-sm-down" : "rightNavIcons"}>
         <IconExpand width="32" height="32" color="#777" />
         <IconNotification
           width="32"
@@ -40,7 +40,8 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile }) => {
 
 function mapStateToProps(state) {
   return {
-    alerts: state.alerts
+    alerts: state.alerts,
+    viewProfile: state.viewProfile
   };
 }
 

@@ -252,3 +252,69 @@ a:hover {
 
 
 }
+
+
+/* Hack for Safari flexbox issue */
+.profileContainer {
+  margin-left: -1px !important;
+  padding-left: 1px !important;
+}
+
+
+/* Hide classes */
+
+.hidden-xl-down {
+  display: none !important;
+}
+@media (min-width: 1200px) {
+  .hidden-xl-up {
+    display: none !important;
+  }
+}
+@media (max-width: 1199px) {
+  .hidden-lg-down {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .hidden-lg-up {
+    display: none !important;
+  }
+}
+@media (max-width: 991px) {
+  .hidden-md-down {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .hidden-md-up {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-sm-down {
+    display: none !important;
+  }
+}
+@media (min-width: 544px) {
+  .hidden-sm-up {
+    display: none !important;
+  }
+}
+@media (max-width: 543px) {
+  .hidden-xs-down {
+    display: none !important;
+  }
+}
+.hidden-xs-up {
+  display: none !important;
+}
+
+@media (max-width: 365px) {
+  .nav .companyTitle {
+    padding: 5px 8px;
+  }
+  .nav .rightNavIcons {
+    padding: 5px;
+  }
+}
