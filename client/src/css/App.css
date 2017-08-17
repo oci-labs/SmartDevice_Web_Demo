@@ -255,7 +255,7 @@ a:hover {
 
 
 /* Hack for Safari flexbox issue */
-div[class^=' col']  {
+div[class^='col']  {
   margin-left: -1px !important;
   padding-left: 1px !important;
 }
