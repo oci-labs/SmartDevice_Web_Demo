@@ -2,7 +2,6 @@ package com.nexmatix
 
 class ValveAlert {
 
-    String name
     Date detectionTime
     String alertType
     Integer valveSerialNumber
@@ -10,7 +9,7 @@ class ValveAlert {
     Integer manifoldSerialNumber
 
     static mapping = {
-        datasource "smartDeviceDataSource"
+        datasource "smartDeviceConnection"
 
         detectionTime column: "detection_time"
         alertType column: "alert_type"

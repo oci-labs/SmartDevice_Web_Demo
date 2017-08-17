@@ -1,7 +1,9 @@
 package com.nexmatix
 
+import grails.gorm.transactions.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 
+@Transactional(readOnly = true)
 class ValveAlertController {
 	static responseFormats = ['json', 'xml']
 
@@ -10,7 +12,7 @@ class ValveAlertController {
     def show(Long id) {
         Valve valve = Valve.findBySerialNumber(id)
         if(valve) {
-            [alertList: ValveAlert.withNewSession { valveAlertService.findAllByValve(valve, [max: params.max ?: 10, sort: 'detectionTime', order: 'desc']) }]
+            [alertViewData: ValveAlert.withNewSession { valveAlertService.findAllByValveForView(valve) }]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404
@@ -18,7 +20,7 @@ class ValveAlertController {
     }
 
     def index() {
-        [alertList: ValveAlert.withNewSession { valveAlertService.list([max: params.max ?: 10, sort: 'detectionTime', order: 'desc']) }]
+        [alertViewData: ValveAlert.withNewSession { valveAlertService.listForView() }]
     }
 
 }

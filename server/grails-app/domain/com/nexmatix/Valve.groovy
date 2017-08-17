@@ -5,7 +5,7 @@ import grails.rest.Resource
 @Resource(uri='/api/valve')
 class Valve {
 
-    Long serialNumber
+    Integer serialNumber
     String sku
     ValveStatus latestStatus
     Long fabricationDate
@@ -20,7 +20,7 @@ class Valve {
 
 
     static mapping =  {
-        datasource "smartDeviceDataSource"
+        datasource "smartDeviceConnection"
 
         serialNumber column: 'valve_sn'
         fabricationDate column: 'fab_date'

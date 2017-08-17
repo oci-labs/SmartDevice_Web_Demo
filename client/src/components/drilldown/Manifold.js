@@ -23,6 +23,7 @@ class Manifold extends React.Component {
   getValveStatus = () => {
     this.timeout = setTimeout(this.getValveStatus, 5000);
     const { manifold } = this.props;
+    console.log(manifold);
 
     fetch(`${SERVER_URL}/api/valveStatus/manifold/${manifold.serialNumber}`)
       .then(response => response.json())

@@ -3,13 +3,13 @@ package com.nexmatix
 import com.nexmatix.Station
 import com.nexmatix.Valve
 import com.nexmatix.model.ValveDetails
+import grails.gorm.transactions.Transactional
 
 /**
  * Created by zak on 7/25/17.
  */
 class ValveStatus {
 
-    String name
     Integer cycleCount
     Integer cycleCountLimit
     String input
@@ -22,7 +22,7 @@ class ValveStatus {
     Date updateTime
 
     static mapping = {
-        datasource "smartDeviceDataSource"
+        datasource "smartDeviceConnection"
 
         cycleCount column: 'cc'
         cycleCountLimit column: 'ccl'
@@ -31,15 +31,6 @@ class ValveStatus {
         stationNumber column: "station_num"
         manifoldSerialNumber column:"manifold_sn"
         updateTime column:"timestamp"
-    }
-
-    Station getStation() {
-        return valve.station
-    }
-
-
-    Valve getValve() {
-        println "getValve for ${id}"
-        return Valve.findBySerialNumber(valveSerialNumber)
+        updateTime column:"timestamp"
     }
 }

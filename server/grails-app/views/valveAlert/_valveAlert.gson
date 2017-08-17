@@ -1,17 +1,20 @@
-import com.nexmatix.ValveAlert
+import com.nexmatix.model.ValveAlertViewData
 
 model {
-    ValveAlert valveAlert
+    ValveAlertViewData data
 }
 
 json {
-    id valveAlert.id
+    id data.valveAlert.id
     valve {
-        id valveAlert.valve.id
-        serialNumber valveAlert.valve.serialNumber
+        id data.valve.id
+        serialNumber data.valve.serialNumber
+        station {
+            id data.stationId
+        }
     }
 
-    description valveAlert.description
-    detectionTime valveAlert.detectionTime
-    alertType valveAlert.alertType
+    description data.valveAlert.description
+    detectionTime data.valveAlert.detectionTime
+    alertType data.valveAlert.alertType
 }

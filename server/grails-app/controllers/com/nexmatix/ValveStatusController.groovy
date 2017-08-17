@@ -1,30 +1,31 @@
 package com.nexmatix
 
+import grails.gorm.transactions.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 
+@Transactional(readOnly = true)
 class ValveStatusController {
     static responseFormats = ['json', 'xml']
-
-    static datasource = 'smartDeviceDataSource'
 
     @Autowired ValveStatusService valveStatusService
     @Autowired ValveService valveService
 
     def index() {
-        def statuses = ValveStatus.withNewSession { valveStatusService.list([max: params.max ?: 10, sort: 'updateTime', order: 'desc']) }
-        [statuses: statuses]
+        def statusViewData = ValveStatus.withNewSession { valveStatusService.listForView() }
+
+        [statusViewData: statusViewData]
     }
 
     def byManifold(Integer serialNumber) {
-        def statuses = ValveStatus.withSession { valveStatusService.findAllByManifoldSerialNumber(serialNumber) }
+        def statusViewData = ValveStatus.withNewSession { valveStatusService.findAllByManifoldSerialNumberForView(serialNumber) }
 
-        [statuses: statuses]
+        [statusViewData: statusViewData]
     }
 
     def show(Integer id) {
-        Valve valve = valveService.findBySerialNumber(id)
+        Valve valve = ValveStatus.withNewSession { valveService.findBySerialNumber(id) }
         if (valve) {
-            [statusList: ValveStatus.withSession { valveStatusService.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc']) }]
+            [statusViewData: ValveStatus.withNewSession { valveStatusService.findAllByValveForView(valve) }]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404
