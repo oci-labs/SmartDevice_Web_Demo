@@ -34,10 +34,10 @@ endpoints:
 
 ---
 grails:
-  transaction:
-    chainedTransactionManagerPostProcessor:
-      enabled: true
-      blacklistPattern: '.*'
+    transaction:
+        chainedTransactionManagerPostProcessor:
+            enabled: true
+            blacklistPattern: '.*'
     resources:
         pattern: /**
     mime:

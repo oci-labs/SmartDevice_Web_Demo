@@ -1,13 +1,14 @@
 package nexmatix.demo
 
-import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
 import com.nexmatix.Valve
 import com.nexmatix.ValveService
+import grails.gorm.transactions.Transactional
 import grails.rest.*
 import org.springframework.beans.factory.annotation.Autowired
 
+@Transactional("smartDeviceDataSource")
 class ValveController extends RestfulController<Valve> {
     static responseFormats = ['json']
 
