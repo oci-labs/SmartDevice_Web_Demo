@@ -69,7 +69,6 @@ class EditItemComponent extends Component {
       fetch(`${SERVER_URL}/api/${item.parent.type}/`)
         .then(response => response.json())
         .then(response => {
-          console.log("parents", response);
           this.setState({
             parents: response
           });
