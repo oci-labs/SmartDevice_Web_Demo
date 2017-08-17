@@ -19,7 +19,7 @@ class App extends Component {
         <Container fluid className="full">
       { viewProfile ?
         <Row noGutters>
-          <Col className="col-11 col-md-3 col-lg-2 no-gutters">
+          <Col className="col-11 col-md-3 col-lg-2 no-gutters profileContainer">
             <Profile />
           </Col>
           <Col className="col-1 col-md-9 col-lg-10 no-gutters">
@@ -55,7 +55,7 @@ class App extends Component {
           </Col>
         </Row>:
         <Row noGutters>
-          <Col className="hidden-xl-down no-gutters">
+          <Col className="hidden-xl-down no-gutters profileContainer">
             <Profile />
           </Col>
           <Col className="col-12 col-sm-12 no-gutters">
