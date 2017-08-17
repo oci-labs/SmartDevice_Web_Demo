@@ -36,7 +36,7 @@ class Manifold extends React.Component {
     const { statuses } = this.state;
 
     let stations = [];
-    if (manifold && manifold.children) {
+    if (manifold && manifold.children && !statuses.error) {
       stations = manifold.children
         .sort((a, b) => a.id - b.id)
         .map((station, index) => {

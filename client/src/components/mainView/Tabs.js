@@ -5,6 +5,8 @@ import "./Tabs.css";
 import Tab from "./Tab";
 import View from "../common/View";
 import Dropdown from "../common/Dropdown";
+import ReactScrollbar from "react-scrollbar-js";
+
 import {
   DEPARTMENT_STATE,
   FACILITY_STATE,
@@ -28,6 +30,23 @@ class TabsComponent extends Component {
   componentWillMount() {
     this.props.initializeFacilities();
   }
+
+  componentDidMount() {
+    console.log('body rect', document.body.getBoundingClientRect());
+    console.log('tabs', document.getElementById('navTabs').children);
+    console.log('tab-rect', document.getElementById('navTabs').getBoundingClientRect());
+
+    let firstTab = document.getElementById('navTabs').firstChild;
+    let lastTab = document.getElementById('navTabs').lastChild;
+
+    if (lastTab.getBoundingClientRect().right > document.body.getBoundingClientRect()) {
+      console.log('scrollable');
+    } else {
+      console.log('not scrollable');
+    }
+  }
+
+
 
   componentWillReceiveProps(props) {
     this.setState({
@@ -76,13 +95,14 @@ class TabsComponent extends Component {
         parent: selectedDepartment
       });
     };
+
     return (
-      <div>
-        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
+      <ReactScrollbar style={{width: '100%', height: '80px'}}>
+        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs" id="navTabs">
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
         </View>
-        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
+        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs" id="navTabs">
           <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={selectedDepartment} selected={true} />
           <Dropdown
@@ -92,7 +112,7 @@ class TabsComponent extends Component {
             handleAllClick={handleAllMachineClick}
           />
         </View>
-      </div>
+      </ReactScrollbar>
     );
   }
 }
