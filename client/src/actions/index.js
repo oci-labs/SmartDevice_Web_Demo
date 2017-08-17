@@ -87,7 +87,7 @@ export function addItem(item) {
           dispatch(setSelectedItem(response));
           break;
         case "machine":
-          dispatch(setSelectedItem(response));
+          dispatch(setSelectedItem(response, null, true));
           break;
         case "manifold":
           dispatch(setSelectedItem(response));
@@ -112,7 +112,7 @@ export function deleteItem(item) {
           dispatch(setSelectedItem(state.selectedFacility));
           break;
         case "machine":
-          dispatch(setSelectedItem(state.selectedDepartment, true));
+          dispatch(setSelectedItem(state.selectedDepartment));
           break;
         case "manifold":
           dispatch(setSelectedItem(state.selectedMachine));
@@ -128,6 +128,9 @@ export function updateItem(item) {
       switch (item.type) {
         case "facility":
           dispatch(setSelectedItem({ type: response.type }));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(response, null, true));
           break;
         case "manifold":
           dispatch(setSelectedItem(response, null, true));
@@ -184,8 +187,9 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 // Update the selected facility to refresh the department info
                 dispatch(setViewState(states.DEPARTMENT_STATE));
                 dispatch(setSelectedItem(response.parent, true));
-              } else {
+              } else if (!forceRefresh) {
                 GETMachinesByDepartment(item.id).then(toJson).then(response => {
+                  console.log("GETMachjinesByDepartments");
                   dispatch(setActiveItems(response));
                 });
               }
@@ -197,7 +201,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 selectedDepartment.id !== response.parent.id ||
                 forceRefresh
               ) {
-                dispatch(setSelectedItem(response.parent, true));
+                dispatch(setSelectedItem(response.parent, true, forceRefresh));
               }
               if (!keepViewState) {
                 dispatch(setViewState(states.MACHINE_STATE));
