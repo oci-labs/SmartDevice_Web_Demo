@@ -241,6 +241,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
               ) {
                 dispatch(setSelectedItem(response.parent, true));
               }
+              dispatch(setViewState(states.MANIFOLD_STATE));
               dispatch(setValve(response));
               break;
             default:
