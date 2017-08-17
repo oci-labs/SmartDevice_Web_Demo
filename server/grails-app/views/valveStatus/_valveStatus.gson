@@ -5,6 +5,7 @@ model {
 }
 
 json {
+    id valveStatus.id
     if (valveStatus.valve) {
         valve {
             id valveStatus.valve.id

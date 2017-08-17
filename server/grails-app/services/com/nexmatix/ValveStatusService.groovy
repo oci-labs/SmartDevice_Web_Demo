@@ -12,7 +12,14 @@ class ValveStatusService {
         log.info "retrieveAndSend"
 
         def data = valveStatusDataStoreService.retrieveValveStatuses()
+        log.info "retrieved ${data.size()} statuses..."
 
-        log.info "retrieved ${data.size()} records..."
+        deleteOldStatuses(data*.id)
+    }
+
+    void deleteOldStatuses(List<Long> activeStatusIds) {
+        log.warn "Deleting old statuses..."
+        ValveStatus.executeUpdate("delete from ValveStatus where id not in :ids", [ids: activeStatusIds])
+
     }
 }
