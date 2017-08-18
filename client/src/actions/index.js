@@ -285,7 +285,9 @@ export function showValve(valve) {
   return dispatch => {
     if (valve) {
       return GETValveBySerialNumber(valve).then(toJson).then(response => {
-        dispatch(setSelectedItem(response.station));
+        dispatch(
+          setSelectedItem({ type: "station", id: response.stationNumber })
+        );
       });
     }
   };
