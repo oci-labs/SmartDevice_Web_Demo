@@ -1,61 +1,68 @@
-div.alertsContainer {
-  .alert {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    justify-content: space-between;
-    margin: 15px;
-    padding: 10px;
-    box-shadow: none;
-  }
-  .alert-danger {
-    background: #ba2316;
-    color: white;
-    border: 1px solid #7f332d;
-    cursor: pointer;
-  }
-  .alert-info {
-    background: #777;
-    color: white;
-    border: 1px solid #555;
-  }
-  .alert.disabled {
-    background: #555;
-    color: #777;
-    border: 1px solid #555;
-  }
-  .alert-content {
-    line-height: 13px;
-    text-shadow: none;
-    flex-grow: 1;
-  }
-  .alert-details {
-    font-size: 9px;
-  }
+div.alertBar {
+  height: calc(100vh - 46px);
+  overflow-y: auto;
+  background-color: #444444;
+  border-left: 1px solid #222;
+  color: white;
+  div.alertsContainer {
+    .alert {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: space-between;
+      margin: 15px;
+      padding: 10px;
+      box-shadow: none;
+    }
+    .alert-danger {
+      background: #ba2316;
+      color: white;
+      border: 1px solid #7f332d;
+      cursor: pointer;
+    }
+    .alert-info {
+      background: #777;
+      color: white;
+      border: 1px solid #555;
+    }
+    .alert.disabled {
+      background: #555;
+      color: #777;
+      border: 1px solid #555;
+    }
+    .alert-content {
+      line-height: 13px;
+      text-shadow: none;
+      flex-grow: 1;
+    }
+    .alert-details {
+      font-size: 9px;
+    }
 
-  .alert-icon-left {
-    margin-right: 10px;
-  }
+    .alert-icon-left {
+      margin-right: 10px;
+    }
 
-  .alert-icon-right {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  .alerts-enter {
-    opacity: 0.01;
-  }
+    .alert-icon-right {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .alerts-enter {
+      opacity: 0.01;
+    }
 
-  .alerts-enter.alerts-enter-active {
-    opacity: 1;
-    transition: 600ms;
-  }
+    .alerts-enter.alerts-enter-active {
+      opacity: 1;
+      transition: 600ms;
+    }
 
-  .alerts-leave {
-    opacity: 1;
-  }
+    .alerts-leave {
+      opacity: 1;
+    }
 
-  .alerts-leave.alerts-leave-active {
-    opacity: 0.01;
-    transition: 600ms;
+    .alerts-leave.alerts-leave-active {
+      opacity: 0.01;
+      transition: 600ms;
+    }
   }
 }

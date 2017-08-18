@@ -97,7 +97,7 @@ class TabsComponent extends Component {
     };
 
     return (
-      <ReactScrollbar style={{width: '100%', height: '80px'}}>
+      <ReactScrollbar style={{width: '100%', height: '66px'}}>
         <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs" id="navTabs">
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
