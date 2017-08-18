@@ -5,6 +5,7 @@ import com.nexmatix.model.ValveStatusViewData
 import grails.gorm.services.Join
 import grails.gorm.services.Query
 import grails.gorm.services.Service
+import org.springframework.beans.factory.annotation.Autowired
 
 
 interface IValveStatusService {
@@ -35,8 +36,12 @@ abstract class ValveStatusService implements IValveStatusService {
     private static transformViewData(List<ValveStatus> statuses) {
         List<ValveStatusViewData> viewData = []
         statuses.each { status ->
-            Valve v = Valve.findBySerialNumber(status.valveSerialNumber)
-            viewData << new ValveStatusViewData(valveStatus: status, valve: v, stationId: v.station.id)
+            Valve valve = Valve.findBySerialNumber(status.valveSerialNumber)
+            if(valve) {
+                viewData << new ValveStatusViewData(valveStatus: status, valve: valve, stationId: valve.station.id)
+            }else {
+                log.warn "Missing valve ${status.valveSerialNumber}"
+            }
         }
 
         viewData

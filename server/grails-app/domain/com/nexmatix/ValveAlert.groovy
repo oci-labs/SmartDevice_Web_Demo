@@ -1,6 +1,9 @@
 package com.nexmatix
 
-class ValveAlert {
+import groovy.transform.EqualsAndHashCode
+import org.apache.commons.lang.builder.HashCodeBuilder
+
+class ValveAlert implements Serializable {
 
     Date detectionTime
     String alertType
@@ -8,9 +11,14 @@ class ValveAlert {
     Integer stationNumber
     Integer manifoldSerialNumber
 
+    static constraints = {
+        manifoldSerialNumber nullable: true, maxSize: 11
+        stationNumber nullable: true, maxSize: 11
+    }
+
     static mapping = {
         datasource "smartDeviceConnection"
-
+        id composite: ['alertType', 'valveSerialNumber'], generator: 'assigned'
         detectionTime column: "detection_time"
         alertType column: "alert_type"
         valveSerialNumber column: "valve_sn"
@@ -23,9 +31,24 @@ class ValveAlert {
     }
 
     Valve getValve() {
-        return Valve.findBySerialNumber(valveSerialNumber)
+        return Valve.get(valveSerialNumber)
     }
 
-    static constraints = {
+
+    boolean equals(other) {
+        if (!(other instanceof ValveAlert)) {
+            return false
+        }
+
+        (other.alertType == alertType
+                && other.valveSerialNumber == valveSerialNumber)
     }
+
+    int hashCode() {
+        def builder = new HashCodeBuilder()
+        builder.append alertType
+        builder.append valveSerialNumber
+        builder.toHashCode()
+    }
+
 }

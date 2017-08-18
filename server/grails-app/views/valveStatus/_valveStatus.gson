@@ -5,9 +5,9 @@ model {
 }
 
 json {
-    id data.valveStatus.id
+    id data.valveStatus.valveSerialNumber
     valve {
-        id data.valve.id
+        id data.valve.serialNumber
         serialNumber data.valve.serialNumber
         station {
             id data.stationId

@@ -1,14 +1,9 @@
 package com.nexmatix
 
-import com.nexmatix.Station
-import com.nexmatix.Valve
-import com.nexmatix.model.ValveDetails
-import grails.gorm.transactions.Transactional
+import groovy.transform.EqualsAndHashCode
+import org.apache.commons.lang.builder.HashCodeBuilder
 
-/**
- * Created by zak on 7/25/17.
- */
-class ValveStatus {
+class ValveStatus implements Serializable {
 
     Integer cycleCount
     Integer cycleCountLimit
@@ -23,14 +18,34 @@ class ValveStatus {
 
     static mapping = {
         datasource "smartDeviceConnection"
-
+        id composite: ['manifoldSerialNumber', 'stationNumber', 'valveSerialNumber'], generator: 'assigned'
+        version false
         cycleCount column: 'cc'
         cycleCountLimit column: 'ccl'
         pressureFault column: 'p_fault'
         pressurePoint column: 'pp'
         stationNumber column: "station_num"
         manifoldSerialNumber column:"manifold_sn"
+        valveSerialNumber column: 'valve_sn'
         updateTime column:"timestamp"
-        updateTime column:"timestamp"
+    }
+
+
+    boolean equals(other) {
+        if (!(other instanceof ValveStatus)) {
+            return false
+        }
+
+        (other.manifoldSerialNumber == manifoldSerialNumber
+                && other.stationNumber == stationNumber
+                && other.valveSerialNumber == valveSerialNumber)
+    }
+
+    int hashCode() {
+        def builder = new HashCodeBuilder()
+        builder.append manifoldSerialNumber
+        builder.append stationNumber
+        builder.append valveSerialNumber
+        builder.toHashCode()
     }
 }

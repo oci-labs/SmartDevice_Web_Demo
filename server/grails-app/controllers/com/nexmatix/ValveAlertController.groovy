@@ -8,11 +8,13 @@ class ValveAlertController {
 	static responseFormats = ['json', 'xml']
 
     @Autowired ValveAlertService valveAlertService
+    @Autowired ValveService valveService
 
-    def show(Long id) {
-        Valve valve = Valve.findBySerialNumber(id)
+    def show(Integer id) {
+        Valve valve = Valve.withNewSession { valveService.findBySerialNumber(id) }
         if(valve) {
-            [alertViewData: ValveAlert.withNewSession { valveAlertService.findAllByValveForView(valve) }]
+            def alertViewData = ValveAlert.withNewSession { valveAlertService.findAllByValveForView(valve) }
+            [alertViewData: alertViewData]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404

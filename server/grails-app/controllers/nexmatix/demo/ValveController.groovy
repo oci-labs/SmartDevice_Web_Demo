@@ -5,55 +5,49 @@ import com.nexmatix.Station
 import com.nexmatix.Valve
 import com.nexmatix.ValveService
 import grails.gorm.transactions.Transactional
-import grails.rest.*
-import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.transaction.PlatformTransactionManager
 
-class ValveController extends RestfulController<Valve> {
+class ValveController {
     static responseFormats = ['json']
 
-    @Autowired ValveService valveService
-    @Autowired HibernateDatastore hibernateDatastore
+    @Autowired
+    ValveService valveService
 
-    PlatformTransactionManager getTransactionManager() {
-        hibernateDatastore.getDatastoreForConnection("smartDeviceConnection").getTransactionManager()
+    @Transactional(readOnly = true)
+    def index(Integer max) {
+        println "index.... "
+        params.max = Math.min(max ?: 10, 100)
+        respond Valve.withNewSession {
+            valveService.list(params)
+        }
     }
 
-    ValveController() {
-        super(Valve)
+    @Transactional(readOnly = true)
+    def show(Integer id) {
+        respond Valve.withNewSession { Valve.get(id) }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     def byStation(Integer station, Integer manifold) {
-
+        log.info "byStation ${station}/${manifold}"
         Manifold m = Manifold.get(manifold)
         Station s = Station.findByNumberAndManifold(station, m)
         if (s && m) {
-            Valve valve = Valve.withSession { valveService.findByStationNumberAndManifoldSerialNumber(s.number, m.serialNumber)}
-            if(valve) {
+            Valve valve = Valve.withSession {
+                valveService.findByStationNumberAndManifoldSerialNumber(s.number, m.serialNumber)
+            }
+            if (valve) {
                 [valve: valve]
             } else {
+                log.warn "Missing valve for manifold ${m.serialNumber}, station ${s.number}"
                 render status: 404
             }
 
         } else {
+            log.warn "Missing ${s ? 'manifold ' + manifold : 'station ' + station}"
             render status: 404
         }
 
     }
 
-    @Transactional
-    def bySerialNumber(Long serialNumber) {
-        Valve v = Valve.findBySerialNumber(serialNumber)
-
-        println Valve.list()
-
-        if(v) {
-            println v
-            [valve: v]
-        } else {
-            render status: 404
-        }
-    }
 }

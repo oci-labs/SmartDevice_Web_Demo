@@ -15,7 +15,6 @@ class UrlMappings {
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
-        "/api/valve/bySerialNumber/$serialNumber"(controller: 'valve', action: 'bySerialNumber')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
 
         if ( Environment.current == Environment.PRODUCTION ) {

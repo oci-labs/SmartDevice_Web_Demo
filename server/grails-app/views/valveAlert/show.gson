@@ -1,7 +1,7 @@
 import com.nexmatix.model.ValveAlertViewData
 
 model {
-    List<ValveAlertViewData> alertList
+    List<ValveAlertViewData> alertViewData
 }
 
-json tmpl.valveAlert("data", alertList)
+json tmpl.valveAlert("data", alertViewData)

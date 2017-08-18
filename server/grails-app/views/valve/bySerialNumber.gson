@@ -6,7 +6,7 @@ model {
 }
 
 json {
-    id valve.id
+    id valve.serialNumber
     serialNumber valve.serialNumber
     sku valve.sku
     fabricationDate valve.fabricationDate

@@ -9,7 +9,7 @@ interface IValveAlertService {
     static datasource = 'smartDeviceConnection'
 
     @Query("from $ValveAlert as alert where alert.valveSerialNumber = ${valve.serialNumber}")
-    List<ValveAlert> findAllByValve(Valve valve, Map args)
+    List<ValveAlert> findAllByValve(Valve valve)
     List<ValveAlert> list(Map args)
 }
 
@@ -17,18 +17,22 @@ interface IValveAlertService {
 abstract class ValveAlertService implements IValveAlertService {
 
     List<ValveAlertViewData> findAllByValveForView(Valve valve) {
-        transformViewData(findAllByValve(valve, null))
+        transformViewData(findAllByValve(valve))
     }
 
     List<ValveAlertViewData> listForView() {
-        transformViewData(list(null))
+        transformViewData(list())
     }
 
     private static transformViewData(List<ValveAlert> alerts) {
         List<ValveAlertViewData> viewData = []
         alerts.each { alert ->
-            Valve v = Valve.findBySerialNumber(alert.valveSerialNumber)
-            viewData << new ValveAlertViewData(valveAlert: alert, valve: v, stationId: v.station.id)
+            Valve valve = Valve.findBySerialNumber(alert.valveSerialNumber)
+            if(valve) {
+                viewData << new ValveAlertViewData(valveAlert: alert, valve: valve, stationId: valve.station.id)
+            } else {
+                log.warn "Missing valve ${alert.valveSerialNumber}"
+            }
         }
 
         viewData

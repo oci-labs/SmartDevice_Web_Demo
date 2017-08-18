@@ -17,6 +17,7 @@ class ValveStatusController {
     }
 
     def byManifold(Integer serialNumber) {
+        log.info "byManifold ${serialNumber}"
         def statusViewData = ValveStatus.withNewSession { valveStatusService.findAllByManifoldSerialNumberForView(serialNumber) }
 
         [statusViewData: statusViewData]
