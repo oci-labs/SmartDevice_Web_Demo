@@ -504,21 +504,6 @@ h8 {
     color: #db4800
 }
 
-.row {
-    position: relative;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 5%
-}
-
-.row:before, .row:after {
-    content: " ";
-    display: table
-}
-
-.row:after {
-    clear: both
-}
 
 .band {
     background: #4298b8;
@@ -1052,8 +1037,13 @@ html, body, .st-container, .st-pusher, .st-content {
 .presentations .urls {
 }
 
+.col-*.no-gutters {
+    padding-left: -15px;
+    padding-right: -15px;
+}
+
 @media screen and (max-width: 767px) {
-    .presentations .img.screenshot, .video .metadata {
-        float: none;
-    }
+    /*.presentations .img.screenshot, .video .metadata {*/
+        /*float: none;*/
+    /*}*/
 }

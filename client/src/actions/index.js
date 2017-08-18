@@ -3,11 +3,62 @@ import * as states from "../components/common/view.config";
 import { SERVER_URL } from "../config";
 
 function GETAllAlerts(count) {
-  return fetch(`${SERVER_URL}/api/alert?max=${count}`);
+  return fetch(`${SERVER_URL}/api/valveAlert?max=${count}`);
 }
 
 function GETItem(item) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`);
+}
+
+function GETValve(station) {
+  return fetch(
+    `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`
+  );
+}
+
+function GETValveBySerialNumber(valve) {
+  return fetch(`${SERVER_URL}/api/valve/bySerialNumber/${valve.serialNumber}`);
+}
+
+function GETValveStatus(valve) {
+  return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`);
+}
+
+function ADDItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}`, {
+    body: JSON.stringify(item),
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+function DELETEItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+    body: JSON.stringify(item),
+    method: "delete",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+function UPDATEItem(item) {
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+    body: JSON.stringify(item),
+    method: "put",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+function GETMachinesByDepartment(departmentId) {
+  return fetch(`${SERVER_URL}/api/machine/department/${departmentId}`);
 }
 
 function toJson(response) {
@@ -15,14 +66,84 @@ function toJson(response) {
 }
 
 export function getFirst(items) {
-  return items.reduce((a, b) =>
-    a.id < b.id ? a : b);
+  if (items) {
+    return items.reduce((a, b) => (a.id < b.id ? a : b), {});
+  } else {
+    return items;
+  }
 }
 
 export function setAllAlerts(alerts) {
   return {
     type: types.SET_ALL_ALERTS,
     payload: alerts
+  };
+}
+
+export function addItem(item) {
+  return function(dispatch) {
+    return ADDItem(item).then(toJson).then(response => {
+      switch (item.type) {
+        case "facility":
+          dispatch(setSelectedItem({ type: response.type }));
+          break;
+        case "department":
+          dispatch(setSelectedItem(response));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(response, null, true));
+          break;
+        case "manifold":
+          dispatch(setSelectedItem(response));
+          break;
+        default:
+          console.log("AddItem", response);
+          break;
+      }
+    });
+  };
+}
+
+export function deleteItem(item) {
+  return function(dispatch, getState) {
+    const state = getState();
+    return DELETEItem(item).then(response => {
+      switch (item.type) {
+        case "facility":
+          dispatch(setSelectedItem({ type: "facility" }));
+          break;
+        case "department":
+          dispatch(setSelectedItem(state.selectedFacility));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(state.selectedDepartment));
+          break;
+        case "manifold":
+          dispatch(setSelectedItem(state.selectedMachine));
+          break;
+      }
+    });
+  };
+}
+
+export function updateItem(item) {
+  return function(dispatch) {
+    return UPDATEItem(item).then(toJson).then(response => {
+      switch (item.type) {
+        case "facility":
+          dispatch(setSelectedItem({ type: response.type }));
+          break;
+        case "machine":
+          dispatch(setSelectedItem(response, null, true));
+          break;
+        case "manifold":
+          dispatch(setSelectedItem(response, null, true));
+          break;
+        default:
+          dispatch(setSelectedItem(response));
+          break;
+      }
+    });
   };
 }
 
@@ -40,32 +161,88 @@ export function setActiveItems(items) {
   };
 }
 
-export function setSelectedItem(item, keepViewState) {
-  return function(dispatch) {
+export function setSelectedItem(item, keepViewState, forceRefresh) {
+  return function(dispatch, getState) {
+    const {
+      selectedDepartment,
+      selectedFacility,
+      selectedMachine,
+      selectedManifold,
+      currentStation
+    } = getState();
     if (item) {
       GETItem(item).then(toJson).then(function(response) {
         if (item.id) {
           switch (item.type) {
             case "facility":
               dispatch(setSelectedFacility(response));
+              dispatch(setActiveItems([response]));
               if (!keepViewState) {
                 dispatch(setViewState(states.FACILITY_STATE));
               }
-              dispatch(setActiveItems([response]));
               break;
             case "department":
-              dispatch(setSelectedItem(response.parent, true));
               dispatch(setSelectedDepartment(response));
-              dispatch(setViewState(states.DEPARTMENT_STATE));
+              if (
+                !selectedFacility ||
+                selectedFacility.id !== response.parent.id
+              ) {
+                dispatch(setSelectedItem(response.parent, true));
+              }
+              if (!keepViewState) {
+                // Update the selected facility to refresh the department info
+                dispatch(setViewState(states.DEPARTMENT_STATE));
+                dispatch(setSelectedItem(response.parent, true));
+              } else if (!forceRefresh) {
+                GETMachinesByDepartment(item.id).then(toJson).then(response => {
+                  dispatch(setActiveItems(response));
+                });
+              }
               break;
             case "machine":
               dispatch(setSelectedMachine(response));
-              dispatch(setViewState(states.MACHINE_STATE));
+              if (
+                !selectedDepartment ||
+                selectedDepartment.id !== response.parent.id ||
+                forceRefresh
+              ) {
+                dispatch(setSelectedItem(response.parent, true, forceRefresh));
+              }
+              if (!keepViewState) {
+                dispatch(setViewState(states.MACHINE_STATE));
+              }
               dispatch(setActiveItems([response]));
               break;
             case "manifold":
               dispatch(setSelectedManifold(response));
+              if (
+                !selectedMachine ||
+                selectedMachine.id !== response.parent.id ||
+                forceRefresh
+              ) {
+                dispatch(setSelectedItem(response.parent, true, forceRefresh));
+              }
               dispatch(setViewState(states.MANIFOLD_STATE));
+              const currentStationIsChild = child => {
+                return child.id === currentStation.id;
+              };
+              if (
+                response.children.length > 0 &&
+                !response.children.find(currentStationIsChild)
+              ) {
+                dispatch(setSelectedItem(getFirst(response.children)));
+              }
+              break;
+            case "station":
+              dispatch(setSelectedStation(response));
+              if (
+                !selectedManifold ||
+                selectedManifold.id !== response.parent.id
+              ) {
+                dispatch(setSelectedItem(response.parent, true));
+              }
+              dispatch(setViewState(states.MANIFOLD_STATE));
+              dispatch(setValve(response));
               break;
             default:
               console.log("Not handled yet", response, item.type);
@@ -74,18 +251,49 @@ export function setSelectedItem(item, keepViewState) {
           switch (item.type) {
             case "facility":
               dispatch(setSelectedFacility({}));
+              dispatch(setAllFacilities(response));
               dispatch(setViewState(states.FACILITY_STATE));
               dispatch(setActiveItems(response));
               break;
+            case "department":
+              dispatch(setSelectedFacility(item.parent));
+              break;
             case "machine":
               dispatch(setSelectedMachine({}));
-              dispatch(setSelectedItem(item.parent));
-              dispatch(setActiveItems(response));
+              dispatch(setSelectedItem(selectedDepartment, true));
               break;
             default:
-              console.log("Not handled yet");
+              console.log("Not handled yet - all items", item.type);
           }
         }
+      });
+    }
+  };
+}
+
+function setValve(station) {
+  return dispatch => {
+    return GETValve(station).then(toJson).then(response => {
+      dispatch(setSelectedValve(response));
+    });
+  };
+}
+
+export function showValve(valve) {
+  return dispatch => {
+    if (valve) {
+      return GETValveBySerialNumber(valve).then(toJson).then(response => {
+        dispatch(setSelectedItem(response.station));
+      });
+    }
+  };
+}
+
+export function setValveStatus(valve) {
+  return dispatch => {
+    if (valve) {
+      return GETValveStatus(valve).then(toJson).then(response => {
+        dispatch(setSelectedValveStatus(response));
       });
     }
   };
@@ -126,6 +334,27 @@ export function setSelectedManifold(manifold) {
   };
 }
 
+export function setSelectedStation(station) {
+  return {
+    type: types.SET_CURRENT_STATION,
+    payload: station
+  };
+}
+
+export function setSelectedValve(valve) {
+  return {
+    type: types.SET_SELECTED_VALVE,
+    payload: valve
+  };
+}
+
+export function setSelectedValveStatus(valveStatus) {
+  return {
+    type: types.SET_VALVE_STATUS,
+    payload: valveStatus
+  };
+}
+
 export function setViewState(state) {
   return {
     type: types.SET_VIEW_STATE,
@@ -135,33 +364,50 @@ export function setViewState(state) {
 
 export function getAllAlerts(count = 10) {
   return function(dispatch) {
-    return GETAllAlerts(count)
-      .then(toJson)
-      .then(
-        alerts => dispatch(setAllAlerts(alerts)),
-        error => dispatch(throwError(error))
-      );
-  };
-}
-export function setSelectedStation(station) {
-  return {
-    type: types.SET_CURRENT_STATION,
-    payload: station
+    return GETAllAlerts(count).then(toJson).then(
+      response => {
+        if (response.error !== 404) {
+          let alerts = response.map(item => {
+            item.isSnoozed = false;
+            item.isActive = true;
+            return item;
+          });
+          dispatch(setAllAlerts(alerts));
+        }
+      },
+      error => dispatch(throwError(error))
+    );
   };
 }
 
 export function initialize() {
   return dispatch => {
-    GETItem({ type: "facility" }).then(toJson).then(response => {
-      dispatch(setActiveItems(response));
-      dispatch(setAllFacilities(response));
-    });
+    GETItem({
+      type: "facility"
+    })
+      .then(toJson)
+      .then(response => {
+        dispatch(setActiveItems(response));
+        dispatch(setAllFacilities(response));
+      });
   };
 }
 
-export function updateAlert(alert) {
+export function toggleProfile() {
   return {
-    type: types.TOGGLE_ALERT,
+    type: types.TOGGLE_PROFILE
+  };
+}
+
+export function toggleAlerts() {
+  return {
+    type: types.TOGGLE_ALERTS
+  };
+}
+
+export function snoozeAlert(alert) {
+  return {
+    type: types.SNOOZE_ALERT,
     payload: alert
   };
 }

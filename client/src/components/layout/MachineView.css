@@ -1,10 +1,9 @@
 .machineView {
   display: flex;
   flex-direction: column;
-  padding: 20px 25px;
-  min-width: 350px;
-  max-width: 400px;
-  background-color: #444444; }
+  padding: 20px 15px !important;
+  background-color: #444444;
+  height: calc(100vh - 104px); }
   .machineView .departmentTitle {
     display: flex;
     flex-direction: row;
@@ -12,6 +11,9 @@
     font-size: 24px;
     padding: 0px 0px 10px;
     color: white; }
+    .machineView .departmentTitle .departmentNavRight {
+      display: flex;
+      flex-direction: row; }
   .machineView .departmentChild {
     display: flex;
     flex-direction: row;
@@ -19,7 +21,7 @@
     padding: 8px;
     margin: 6px;
     border-radius: 4px;
-    color: #f1a31b;
+    color: #fdaa18;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer; }

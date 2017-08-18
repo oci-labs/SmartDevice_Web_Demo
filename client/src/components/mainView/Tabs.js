@@ -5,6 +5,8 @@ import "./Tabs.css";
 import Tab from "./Tab";
 import View from "../common/View";
 import Dropdown from "../common/Dropdown";
+import ReactScrollbar from "react-scrollbar-js";
+
 import {
   DEPARTMENT_STATE,
   FACILITY_STATE,
@@ -15,13 +17,53 @@ import {
 import { initialize, setSelectedItem } from "../../actions";
 
 class TabsComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    };
+  }
   componentWillMount() {
     this.props.initializeFacilities();
   }
 
-  render() {
-    const { facilities, selectedFacility, selectedDepartment } = this.props;
+  componentDidMount() {
+    console.log('body rect', document.body.getBoundingClientRect());
+    console.log('tabs', document.getElementById('navTabs').children);
+    console.log('tab-rect', document.getElementById('navTabs').getBoundingClientRect());
 
+    let firstTab = document.getElementById('navTabs').firstChild;
+    let lastTab = document.getElementById('navTabs').lastChild;
+
+    if (lastTab.getBoundingClientRect().right > document.body.getBoundingClientRect()) {
+      console.log('scrollable');
+    } else {
+      console.log('not scrollable');
+    }
+  }
+
+
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      facilities: props.facilities,
+      selectedDepartment: props.selectedDepartment,
+      selectedFacility: props.selectedFacility,
+      selectedMachine: props.selectedMachine
+    });
+  }
+
+  render() {
+    const {
+      facilities,
+      selectedDepartment,
+      selectedFacility,
+      selectedMachine
+    } = this.state;
     const addTabs = items => {
       let firstTab = [
         <Tab
@@ -48,43 +90,32 @@ class TabsComponent extends Component {
       this.props.handleItemClick(item);
     };
     const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
+      this.props.handleItemClick({
+        type: "machine",
+        parent: selectedDepartment
+      });
     };
-    const handleMachineClick = item => {
-      this.props.handleItemClick(item);
-    };
-    const handleAllMachineClick = () => {
-      this.props.handleItemClick({ type: "machine" });
-    };
+
     return (
-      <div>
-        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs">
+      <ReactScrollbar style={{width: '100%', height: '66px'}}>
+        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs" id="navTabs">
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
         </View>
-        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs">
+        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs" id="navTabs">
           <Tab item={selectedFacility} label={true} selected={true} />
-          <Tab item={this.props.selectedDepartment} selected={true} />
-          <Tab item={{ name: "Machine" }} selected={true} />
+          <Tab item={selectedDepartment} selected={true} />
           <Dropdown
-            items={this.props.selectedDepartment.children}
+            items={selectedDepartment.children}
+            model={selectedMachine}
             handleItemClick={handleMachineClick}
             handleAllClick={handleAllMachineClick}
           />
         </View>
-      </div>
+      </ReactScrollbar>
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    activeItems: state.activeItems,
-    facilities: state.allFacilities,
-    selectedDepartment: state.selectedDepartment,
-    selectedFacility: state.selectedFacility
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -97,6 +128,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const Tabs = connect(mapStateToProps, mapDispatchToProps)(TabsComponent);
+const Tabs = connect(null, mapDispatchToProps)(TabsComponent);
 
 export default Tabs;

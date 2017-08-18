@@ -1,9 +1,15 @@
 .alertBar {
+    display: none;
     min-width: 200px;
-    max-width: 250px;
-    height: 100%;
+    max-width: 275px;
+    height: calc(100vh - 46px);
     overflow-y: scroll;
     background-color: #444444;
+    border-left: 1px solid #222;
     color: white;
-    flex: 1 0 0;
+    &.show {
+        display: flex;
+        animation-name: showAlerts;
+        animation-duration: 4s;
+    }
 }

@@ -5,10 +5,11 @@ import "./MachineView.css";
 import { HorizontalLine } from "../layout/LayoutComponents";
 import Icon from "../icons/Icon";
 import View from "../common/View";
+import EditItem from "../items/EditItem";
 import { DEPARTMENT_STATE } from "../common/view.config";
 import { setSelectedItem } from "../../actions";
 
-const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
+const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProfile, viewAlerts }) => {
   let machines;
 
   if (selectedDepartment.children) {
@@ -30,14 +31,18 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
     });
   }
   return (
-    <View states={[DEPARTMENT_STATE]} className="machineView">
+    <View states={[DEPARTMENT_STATE]} className={"" + (viewProfile && viewAlerts ? "machineView col-12 col-xl-5" : viewProfile||viewAlerts ? "machineView col-12 col-lg-6 col-xl-5" : "machineView col-12 col-12 col-md-7 col-lg-5 col-xl-4")}>
       <div className="departmentTitle">
         <div>
           {selectedDepartment.name}
         </div>
         <div className="departmentNavRight">
-          <Icon type="mode_edit" />
-          <Icon type="fullscreen" />
+          <EditItem item={selectedDepartment}>
+            <Icon type="mode_edit" />
+          </EditItem>
+          <div>
+            <Icon type="fullscreen" />
+          </div>
         </div>
       </div>
       <HorizontalLine />
@@ -48,7 +53,9 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedDepartment: state.selectedDepartment
+    selectedDepartment: state.selectedDepartment,
+    viewProfile:state.viewProfile,
+    viewAlerts: state.viewAlerts
   };
 };
 

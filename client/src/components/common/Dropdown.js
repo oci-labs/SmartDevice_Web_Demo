@@ -8,7 +8,7 @@ class Dropdown extends Component {
     super(props);
 
     this.state = {
-      selectedItem: null,
+      selectedItem: this.props.model,
       show: false
     };
   }
@@ -49,6 +49,15 @@ class Dropdown extends Component {
         selectedItem: newProps.items[0]
       });
     }
+    if (
+      newProps.items &&
+      newProps.model &&
+      newProps.items.some(item => item.id === newProps.model.id)
+    ) {
+      this.setState({
+        selectedItem: newProps.model
+      });
+    }
   }
 
   render() {
@@ -86,14 +95,13 @@ class Dropdown extends Component {
     return (
       <div className="dropdownContainer">
         <div className="selectedDropdownOption">
-          <div className="dropdownItem">
+          <div className="dropdownItem" onClick={this.expandDropdown}>
             <div className="labelWrapper">
               {selectedItem ? selectedItem.name : ""}
             </div>
             <div className="iconWrapper">
               <Icon
                 type={`${show ? "keyboard_arrow_up" : "keyboard_arrow_down"}`}
-                handleClick={this.expandDropdown}
               />
             </div>
           </div>

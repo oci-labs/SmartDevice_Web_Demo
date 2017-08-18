@@ -1,3 +1,5 @@
+@import '../../custom.config.scss';
+
 .groupItemContainer {
   padding: 20px 25px;
   .groupItemNav {
@@ -6,22 +8,30 @@
     padding: 3px 5px;
     font-size: 18px;
     font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+    flex-flow: row;
+    width: 100%;
+
     .groupItemNavLeft {
-      width: 100px;
       .addNew {
         display: flex;
         justify-content: center;
         height: 25px;
         width: 25px;
         border-radius: 4px;
-        background-color: #fdaa18;
-        color: white;
+        background-color: $primary-color;
         line-height: 36px;
+        .material-icons {
+          color: white;
+        }
       }
+    }
+    .groupItemNavCenter {
+      padding-left: 35px;
     }
     .groupItemNavRight {
       display: flex;
-      width: 100px;
       justify-content: flex-end;
       .material-icons {
         font-size: 30px;

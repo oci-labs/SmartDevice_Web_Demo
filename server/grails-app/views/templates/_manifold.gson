@@ -1,0 +1,12 @@
+import com.nexmatix.Manifold
+
+model {
+    Manifold manifold
+}
+
+json {
+    id manifold.id
+    name 'Manifold ' + manifold.serialNumber
+    serialNumber manifold.serialNumber
+    type 'manifold'
+}

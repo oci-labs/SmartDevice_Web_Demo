@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  margin: 12px; }
   .valveIconWrapper.clickable {
     cursor: pointer; }
     .valveIconWrapper.clickable:hover .valveIconBorder {
@@ -33,6 +34,19 @@
       border-radius: 50%;
       border: 1px solid rgba(231, 231, 231, 0.26);
       background-color: rgba(231, 231, 231, 0.98); }
+      .valveIconWrapper .iconContainer .valveIconContainer.warning {
+        border: 1px solid #d9534f;
+        background-color: #d9534f; }
+        .valveIconWrapper .iconContainer .valveIconContainer.warning .valveIconBorder {
+          display: flex;
+          justify-content: center;
+          border: 1px solid #d9534f;
+          background-color: #d9534f; }
+          .valveIconWrapper .iconContainer .valveIconContainer.warning .valveIconBorder .valveIconCheck {
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-weight: bold; }
       .valveIconWrapper .iconContainer .valveIconContainer .valveIconBorder {
         display: flex;
         flex: 1;
@@ -55,18 +69,3 @@
     position: relative;
     top: -7px;
     text-align: center; }
-
-.warning.valveIconContainer {
-  border: 1px solid red;
-  background-color: red; }
-
-.warning .valveIconBorder {
-  display: flex;
-  justify-content: center;
-  border: 1px solid red;
-  background-color: red; }
-  .warning .valveIconBorder .valveIconCheck {
-    display: flex;
-    justify-content: center;
-    color: green;
-    font-weight: bold; }

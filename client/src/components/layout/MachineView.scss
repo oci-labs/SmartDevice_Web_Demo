@@ -1,10 +1,11 @@
+@import '../../custom.config.scss';
+
 .machineView {
   display: flex;
   flex-direction: column;
-  padding: 20px 25px;
-  min-width: 350px;
-  max-width: 400px;
+  padding: 20px 15px!important;
   background-color: #444444;
+  height: calc(100vh - 104px);
   .departmentTitle {
     display: flex;
     flex-direction: row;
@@ -12,6 +13,10 @@
     font-size: 24px;
     padding: 0px 0px 10px;
     color: white;
+    .departmentNavRight {
+      display: flex;
+      flex-direction: row;
+    }
   }
   .departmentChild {
     display: flex;
@@ -20,12 +25,12 @@
     padding: 8px;
     margin: 6px;
     border-radius: 4px;
-    color: #f1a31b;
+    color: $primary-color;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     &:hover {
-      background-color: #ba2316;
+      background-color: $secondary-color;
       color: white;
     }
   }

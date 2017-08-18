@@ -1,0 +1,7 @@
+import com.nexmatix.ValveStatus
+
+model {
+    List<ValveStatus> statusList
+}
+
+json tmpl.valveStatus("valveStatus", statusList)

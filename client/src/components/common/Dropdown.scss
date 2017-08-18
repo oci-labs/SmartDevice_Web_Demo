@@ -1,11 +1,15 @@
+@import '../../custom.config.scss';
+
 .dropdownContainer {
   position: relative;
   display: inline-block;
   border-right: 1px solid rgba(111, 111, 111, 0.5);
+  overflow-y: auto;
   .dropdownItem {
     display: flex;
     flex-direction: row;
     padding: 10px 20px;
+    min-width: 140px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -32,10 +36,11 @@
   }
   .labelWrapper {
     padding: 5px 0px;
+    white-space: nowrap;
   }
   .iconWrapper {
     padding: 5px 0px 5px 0px;
-    color: #fdaa18;
+    color: $primary-color;
     cursor: pointer;
   }
 }

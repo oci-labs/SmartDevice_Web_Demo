@@ -1,56 +1,50 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import "./Nav.css";
+import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
+import { Badge } from "reactstrap";
+//import { toggleProfile, toggleAlerts } from "../../actions";
 
-import { Row } from "../layout/LayoutComponents";
+const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
 
-class NavComponent extends Component {
-  render() {
-    return (
-      <div className="nav">
-        <Row>
-          <div>
-            Selected Facility:{" "}
-            {this.props.selectedFacility
-              ? this.props.selectedFacility.name
-              : "None"}
-          </div>
-          <div>
-            Selected Department:{" "}
-            {this.props.selectedDepartment
-              ? this.props.selectedDepartment.name
-              : "None"}
-          </div>
-          <div>
-            Selected Machine:{" "}
-            {this.props.selectedMachine
-              ? this.props.selectedMachine.name
-              : "None"}
-          </div>
-          <div>
-            Selected Manifold:{" "}
-            {this.props.selectedManifold
-              ? this.props.selectedManifold.name
-              : "None"}
-          </div>
-          <div>
-            VIEW_STATE: {this.props.VIEW_STATE ? this.props.VIEW_STATE : "None"}
-          </div>
-        </Row>
-      </div>
-    );
+  let activeAlerts = [];
+  if (alerts) {
+    activeAlerts = alerts.filter(alert => {
+      return alert.isActive;
+    });
   }
+
+  return (
+    <div className="nav">
+      <div className="toggleProfile" onClick={toggleProfile}>
+        <IconMenu width="24" height="24" color="#fff" />
+      </div>
+      <div className={viewProfile ? "companyTitle hidden-sm-down" : "companyTitle"}>Continental</div>
+      <div className="spacing" />
+      <div className={viewProfile ? "rightNavIcons hidden-sm-down" : "rightNavIcons"}>
+        <IconExpand width="32" height="32" color="#777" />
+        <IconNotification
+          width="32"
+          height="32"
+          color="#777"
+          onClick={toggleAlerts}
+        />
+        {activeAlerts.length > 0 &&
+          <Badge color="danger" pill onClick={toggleAlerts}>
+            {activeAlerts.length}
+          </Badge>}
+      </div>
+    </div>
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    alerts: state.alerts,
+    viewProfile: state.viewProfile
+  };
 }
 
-const mapStateToProps = state => {
-  return {
-    selectedFacility: state.selectedFacility,
-    selectedDepartment: state.selectedDepartment,
-    selectedMachine: state.selectedMachine,
-    selectedManifold: state.selectedManifold,
-    VIEW_STATE: state.VIEW_STATE
-  };
-};
 
 const Nav = connect(mapStateToProps)(NavComponent);
 

@@ -1,42 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Icon from "../icons/Icon";
-import { setSelectedStation } from "../../actions";
 import "./Station.css";
 
-const StationComponent = ({
-  handleStationClick,
-  id,
-  station,
-  empty,
-  currentStation
-}) => {
+
+//TODO: station prop now includes valve data structure (station.valve) - use that here to render valve details
+const Station = ({onClick, id, station, empty, currentStation, inFault}) => {
+
   if (empty) {
     return (
       <div className="stationWrapper">
         <div className="stationEmptyContainer">
-          <Icon type="add" />
+          <Icon type="add"/>
         </div>
       </div>
     );
   }
   const onStationClick = () => {
-    handleStationClick(station);
+    onClick(station);
   };
+  const isActive = currentStation.id === station.id;
+
+
   return (
     <div
-      className={`stationWrapper ${currentStation.id === station.id
-        ? "active"
+      className={`stationWrapper ${isActive ? "active" : ""} ${inFault
+        ? "fault"
         : ""}`}
     >
       <div className="stationContainer" onClick={onStationClick}>
-        <div className="stationIndicator" />
-        <div
-          className={`${currentStation.id === station.id
-            ? "stationActiveIndicator"
-            : ""}`}
-        >
+        <div className="stationIndicator"/>
+        <div className={`${isActive ? "stationActiveIndicator" : ""}`}>
           <div className="stationLabel">
             {id}
           </div>
@@ -46,27 +40,12 @@ const StationComponent = ({
   );
 };
 
-StationComponent.propTypes = {
+Station.propTypes = {
   dispatch: PropTypes.func,
   active: PropTypes.bool,
   id: PropTypes.number,
-  station: PropTypes.object
+  station: PropTypes.object,
+  inFault: PropTypes.bool
 };
-
-const mapStateToProps = state => {
-  return {
-    currentStation: state.currentStation
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleStationClick: station => {
-      dispatch(setSelectedStation(station));
-    }
-  };
-};
-
-const Station = connect(mapStateToProps, mapDispatchToProps)(StationComponent);
 
 export default Station;

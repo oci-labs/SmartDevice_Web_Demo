@@ -13,7 +13,7 @@ const ValveIcon = ({ children, handleClick, size, warning }) => {
           <div className="valveIconBorder">
             <Icon
               className="valveIconCheck"
-              type={`${warning ? "dashboard" : "check"}`}
+              type={`${warning ? "alarm_on" : "check"}`}
             />
           </div>
         </div>

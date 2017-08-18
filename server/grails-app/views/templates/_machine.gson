@@ -1,0 +1,11 @@
+import com.nexmatix.Machine
+
+model {
+    Machine machine
+}
+
+json {
+    id machine.id
+    name machine.name
+    type 'machine'
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const ViewComponent = ({ children, className, currentState, states }) => {
+const ViewComponent = ({ children, className, currentState, states, colClass, id }) => {
   let show = false;
   if (Array.isArray(states)) {
     show = states.some(function(state) {
@@ -12,7 +12,7 @@ const ViewComponent = ({ children, className, currentState, states }) => {
   }
   if (show) {
     return (
-      <div className={className}>
+      <div id={id} className={`${className} ${colClass}`}>
         {children}
       </div>
     );

@@ -4,7 +4,7 @@ export const Row = ({ className, children }) => {
   const rowStyle = {
     display: "flex",
     flexDirection: "row",
-    flex: "1 0 0",
+    flex: "1 0 auto",
     justifyContent: "space-around"
   };
   return (
@@ -18,7 +18,7 @@ export const Column = ({ className, children }) => {
   const columnStyle = {
     display: "flex",
     flexDirection: "column",
-    flex: "1 0 0"
+    flex: "1 0 auto"
   };
   return (
     <div className={className} style={columnStyle}>

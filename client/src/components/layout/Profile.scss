@@ -1,6 +1,37 @@
+@import '../../custom.config.scss';
+
 .profile {
-    min-width: 210px;
-    height: 100vh;
-    background-color: #444444;
+  height: 100vh;
+  background-color: #444444;
+  border-right: 1px solid #222;
+  color: white;
+  padding: 30px 15px;
+  &.show {
+    animation-name: showProfile;
+    animation-duration: 4s;
+  }
+  .profileTitle {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 1.5em;
+  }
+  .profileRoles {
+    text-align: center;
+    font-size: .9em;
+    color: #6b6b6b;
+    .logout {
+      color: $primary-color;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  .adminButton {
     color: white;
+    height: 40px;
+    margin-top: 40px;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: 2px solid $primary-color;
+    border-radius: 4px;
+  }
 }

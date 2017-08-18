@@ -5,9 +5,9 @@ import grails.rest.Resource
 @Resource(uri='/api/manifold', formats = ['json'], readOnly = false)
 class Manifold {
 
-    String name
+    Long serialNumber
+    Machine machine
 
-    static belongsTo = [machine: Machine]
     static hasMany = [stations: Station]
 
     static constraints = {
