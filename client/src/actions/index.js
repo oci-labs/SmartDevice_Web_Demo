@@ -17,7 +17,7 @@ function GETValve(station) {
 }
 
 function GETValveBySerialNumber(valve) {
-  return fetch(`${SERVER_URL}/api/valve/bySerialNumber/${valve.serialNumber}`);
+  return fetch(`${SERVER_URL}/api/valve/${valve.serialNumber}`);
 }
 
 function GETValveStatus(valve) {
@@ -121,6 +121,8 @@ export function deleteItem(item) {
         case "manifold":
           dispatch(setSelectedItem(state.selectedMachine));
           break;
+        default:
+          return null;
       }
     });
   };

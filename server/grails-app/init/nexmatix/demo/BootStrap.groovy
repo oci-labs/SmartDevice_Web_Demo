@@ -8,6 +8,9 @@ import com.nexmatix.Machine
 import com.nexmatix.Manifold
 import com.nexmatix.Station
 import com.nexmatix.Valve
+import com.nexmatix.ValveAlert
+import com.nexmatix.ValveStatus
+import grails.util.Environment
 
 import java.sql.Timestamp
 
@@ -19,33 +22,46 @@ class BootStrap {
         def thirdLetter = number % 26
         def secondLetter = (number - thirdLetter) / 26
         def firstLetter = (number - thirdLetter - (secondLetter * 26)) / 26
-        return String.valueOf((char)(firstLetter + 65)) + String.valueOf((char)(secondLetter + 65)) + String.valueOf((char)(thirdLetter + 65))
+        return String.valueOf((char) (firstLetter + 65)) + String.valueOf((char) (secondLetter + 65)) + String.valueOf((char) (thirdLetter + 65))
     }
 
     def init = { servletContext ->
-        println "Loading database..."
+        println "Loading database... 0.20"
 
-        if(!Facility.list()) {
+        println "Checking facilities..."
+        if (!Facility.list()) {
             def facility = new Facility(name: 'Facility A').save()
             println "Saved facility: ${facility.name}"
+        } else {
+            println "Facility: ${Facility.count()}"
         }
 
-        if(!Department.list()) {
-            def department = new Department(name: "Department A" , facility: Facility.first()).save()
+        println "Checking departments..."
+        if (!Department.list()) {
+            def department = new Department(name: "Department A", facility: Facility.first()).save()
             println "Saved department: ${department.name} belongs to ${department.facility.name}"
+        } else {
+            println "Department: ${Department.count()}"
         }
 
-        if(!Machine.list()) {
+        println "Checking machines..."
+        if (!Machine.list()) {
             def machine = new Machine(name: "Machine AAA", department: Department.first()).save()
             println "Saved _machine: ${machine.name}"
+        } else {
+            println "Machine: ${Machine.count()}"
         }
 
-        if(!Manifold.list()) {
+        println "Checking manifolds..."
+        if (!Manifold.list()) {
             def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
             println "Saved manifold: ${manifold.serialNumber}"
+        } else {
+            println "Manifold: ${Manifold.count()}"
         }
 
-        if(!Station.list()) {
+        println "Checking stations..."
+        if (!Station.list()) {
 
             (1..10).each { i ->
 
@@ -54,18 +70,60 @@ class BootStrap {
                         number: i).save()
                 println "Saved station: ${station.number}"
             }
+        } else {
+            println "Station: ${Station.count()}"
         }
 
-        if(!Valve.list()) {
+        println "Checking valves..."
+        if (!Valve.list()) {
+            println "No valves..."
             Manifold m = Manifold.first()
+
+            println "Manifold: ${m}"
 
             [1, 4, 5, 9, 10].each { i ->
                 println "Creating valve ${100000 + (i - 1)} for station #${i}..."
-                def valve = new Valve(station: Station.findByNumberAndManifold(i, m), serialNumber: 100000 + (i - 1), fabricationDate: new Date().time, shippingDate: new Date().time, updateTime: new Date().time, sku: "lalalalal+${1}")
-                valve.save(failOnError: true)
-                println "Valve saved with sku: ${valve.sku}"
+                def valve = new Valve(stationNumber: Station.findByNumberAndManifold(i, m).number, manifoldSerialNumber: Manifold.first().serialNumber, serialNumber: 100000 + (i - 1), fabricationDate: new Date(), shippingDate: new Date(), updateTime: new Date(), sku: "NX-DCV-SM-BLU-2-V0-L1-S0-00")
+                if(!valve.save(flush: true)) {
+                    valve.errors.allErrors.each { println it }
+                }
+                println "Valve saved with serialNumber: ${valve.serialNumber}"
             }
+
+            println "Valves: ${Valve.count()}"
+
+            if(Environment.isDevelopmentMode()) {
+                println "Development mode..."
+                Valve.list().each { valve ->
+                    println "Creating valve status for valve #${valve.serialNumber}..."
+                    new ValveStatus(cycleCount: 1000,
+                            cycleCountLimit: 1010,
+                            input: "A",
+                            leak: "N",
+                            manifoldSerialNumber: Manifold.first().serialNumber,
+                            stationNumber: valve.stationNumber,
+                            valveSerialNumber: valve.serialNumber,
+                            pressurePoint: 100.0,
+                            pressureFault: "N",
+                            updateTime: new Date()).save(failOnError: true)
+
+                    new ValveAlert(
+                            detectionTime: new Date(),
+                            alertType: AlertType.PRESSURE_FAULT.id,
+                            valveSerialNumber: valve.serialNumber,
+                            stationNumber: valve.stationNumber,
+                            manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                }
+
+            }
+        } else {
+            println "Valves: ${Valve.count()}"
+            println "ValveAlerts: ${ValveAlert.count()}"
+            println "ValveStatuses: ${ValveStatus.count()}"
+
         }
+
+        println "Completed BootStrap."
     }
     def destroy = {
     }

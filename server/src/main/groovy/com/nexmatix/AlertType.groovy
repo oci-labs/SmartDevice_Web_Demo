@@ -2,8 +2,8 @@ package com.nexmatix
 
 enum AlertType {
     LEAK('leak'),
-    PRESSURE_FAULT('p_fault'),
-    CYCLE_THRESHOLD('c_thresh')
+    PRESSURE_FAULT('pressure fault'),
+    CYCLE_THRESHOLD('cycle count')
 
     String id
 

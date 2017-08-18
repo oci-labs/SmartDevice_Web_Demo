@@ -5,7 +5,7 @@ import grails.rest.Resource
 @Resource(uri='/api/manifold', formats = ['json'], readOnly = false)
 class Manifold {
 
-    Long serialNumber
+    Integer serialNumber
     Machine machine
 
     static hasMany = [stations: Station]

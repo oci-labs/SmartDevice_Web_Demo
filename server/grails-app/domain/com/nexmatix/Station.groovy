@@ -12,7 +12,7 @@ class Station {
 
 
     Valve getValve() {
-        return Valve.findByStation(this)
+        return Valve.withNewSession { Valve.findByManifoldSerialNumberAndStationNumber(this.manifold.serialNumber, this.number) }
     }
 
 }

@@ -5,7 +5,7 @@ import { IconEdit } from "../icons/NexmatixIcons";
 const ProfilePicture = () => {
   return (
     <div className="profilePicture">
-      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" />
+      <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png" alt="profile" />
       <div className="editProfilePicture">
         <IconEdit width="15" height="15" color="#777" />
       </div>

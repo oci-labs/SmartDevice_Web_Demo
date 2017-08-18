@@ -1,37 +1,32 @@
 package com.nexmatix
 
+import grails.gorm.transactions.Transactional
+import org.springframework.beans.factory.annotation.Autowired
 
-import grails.rest.*
-import grails.converters.*
-
+@Transactional(readOnly = true)
 class ValveStatusController {
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
+
+    @Autowired ValveStatusService valveStatusService
+    @Autowired ValveService valveService
 
     def index() {
-        [statuses: ValveStatus.list()]
+        def statusViewData = ValveStatus.withNewSession { valveStatusService.listForView() }
+
+        [statusViewData: statusViewData]
     }
 
-    def byManifold(Long id) {
-        Manifold m = Manifold.get(id)
+    def byManifold(Integer serialNumber) {
+        log.info "byManifold ${serialNumber}"
+        def statusViewData = ValveStatus.withNewSession { valveStatusService.findAllByManifoldSerialNumberForView(serialNumber) }
 
-        if(m) {
-            def statuses = ValveStatus.executeQuery("""from ValveStatus where valve.id in 
-                (select id from Valve where station.id in 
-                (select id from Station where manifold = :manifold))""",
-                    [manifold: Station.where { manifold == m}.get()])
-
-            [statuses: statuses]
-
-        } else {
-            log.warn "Unable to find manifold with id: ${id}"
-            render status: 404
-        }
+        [statusViewData: statusViewData]
     }
 
-    def show(Long id) {
-        Valve valve = Valve.findBySerialNumber(id)
-        if(valve) {
-            [statusList: ValveStatus.findAllByValve(valve, [max: params.max ?: 10, sort: 'updateTime', order: 'desc'])]
+    def show(Integer id) {
+        Valve valve = ValveStatus.withNewSession { valveService.findBySerialNumber(id) }
+        if (valve) {
+            [statusViewData: ValveStatus.withNewSession { valveStatusService.findAllByValveForView(valve) }]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404
