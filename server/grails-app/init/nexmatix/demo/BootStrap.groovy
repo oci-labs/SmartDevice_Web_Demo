@@ -26,7 +26,7 @@ class BootStrap {
     }
 
     def init = { servletContext ->
-        println "Loading database... 0.19"
+        println "Loading database... 0.20"
 
         println "Checking facilities..."
         if (!Facility.list()) {

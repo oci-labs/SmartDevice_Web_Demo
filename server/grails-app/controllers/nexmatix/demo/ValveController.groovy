@@ -33,7 +33,7 @@ class ValveController {
         Manifold m = Manifold.get(manifold)
         Station s = Station.findByNumberAndManifold(station, m)
         if (s && m) {
-            Valve valve = Valve.withSession {
+            Valve valve = Valve.withNewSession {
                 valveService.findByStationNumberAndManifoldSerialNumber(s.number, m.serialNumber)
             }
             if (valve) {
