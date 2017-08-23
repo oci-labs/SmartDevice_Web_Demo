@@ -371,12 +371,19 @@ export function getAllAlerts(count = 10) {
     return GETAllAlerts(count).then(toJson).then(
       response => {
         if (response.error !== 404) {
+          let itemsInFault = [];
           let alerts = response.map(item => {
             item.isSnoozed = false;
             item.isActive = true;
+            itemsInFault.push(`station.${item.valve.station.id}`);
+            itemsInFault.push(`manifold.${item.valve.manifold.id}`);
+            itemsInFault.push(`machine.${item.valve.machine.id}`);
+            itemsInFault.push(`department.${item.valve.department.id}`);
+            itemsInFault.push(`facility.${item.valve.facility.id}`);
             return item;
           });
           dispatch(setAllAlerts(alerts));
+          dispatch(setItemsInFault(itemsInFault));
         }
       },
       error => dispatch(throwError(error))
@@ -413,5 +420,12 @@ export function snoozeAlert(alert) {
   return {
     type: types.SNOOZE_ALERT,
     payload: alert
+  };
+}
+
+export function setItemsInFault(itemsInFault) {
+  return {
+    type: types.SET_ITEMS_IN_FAULT,
+    payload: itemsInFault
   };
 }
