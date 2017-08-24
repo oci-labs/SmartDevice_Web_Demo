@@ -28,8 +28,13 @@ abstract class ValveAlertService implements IValveAlertService {
         List<ValveAlertViewData> viewData = []
         alerts.each { alert ->
             Valve valve = Valve.findBySerialNumber(alert.valveSerialNumber)
+            Station station = Station.get(valve.station.id)
+            Manifold manifold = station.manifold
+            Machine machine = manifold.machine
+            Department department = machine.department
+            Facility facility = department.facility
             if(valve) {
-                viewData << new ValveAlertViewData(valveAlert: alert, valve: valve, stationId: valve.station.id)
+                viewData << new ValveAlertViewData(valveAlert: alert, valve: valve, stationId: station.number, manifoldId: manifold.serialNumber, machineId: machine.id, departmentId: department.id, facilityId: facility.id)
             } else {
                 log.warn "Missing valve ${alert.valveSerialNumber}"
             }

@@ -22,8 +22,8 @@ export const SET_VIEW_STATE = "set:state";
 export const TOGGLE_PROFILE = "toggle:profile";
 export const TOGGLE_ALERTS = "toggle:alerts";
 export const SNOOZE_ALERT = "alert:snooze";
+export const SET_ITEMS_IN_FAULT = "set:itemsInFault";
 
 export const DELETE_ITEM = "delete:item";
 
 export const HANDLE_ERROR = "error:handle";
-

@@ -9,4 +9,8 @@ class ValveAlertViewData {
     ValveAlert valveAlert
     Valve valve
     Long stationId
+    Integer manifoldId
+    Long machineId
+    Long departmentId
+    Long facilityId
 }
