@@ -19,6 +19,7 @@ class ValveAlert implements Serializable {
     static mapping = {
         datasource "smartDeviceConnection"
         id composite: ['alertType', 'valveSerialNumber'], generator: 'assigned'
+        version false
         detectionTime column: "detection_time"
         alertType column: "alert_type"
         valveSerialNumber column: "valve_sn"
