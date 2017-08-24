@@ -10,7 +10,7 @@ class ValveAlertController {
 
     @Autowired ValveAlertService valveAlertService
     @Autowired ValveService valveService
-    @Secured(['ROLE_ADMIN', )
+    @Secured(['ROLE_ADMIN', 'AUTH_USER'])
     def show(Integer id) {
         Valve valve = Valve.withNewSession { valveService.findBySerialNumber(id) }
         if(valve) {
@@ -21,7 +21,7 @@ class ValveAlertController {
             render status: 404
         }
     }
-
+    @Secured(['ROLE_ADMIN', 'AUTH_USER'])
     def index() {
         [alertViewData: ValveAlert.withNewSession { valveAlertService.listForView() }]
     }
