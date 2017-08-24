@@ -1,6 +1,7 @@
 package com.nexmatix
 
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 
 @Transactional(readOnly = true)
@@ -9,7 +10,7 @@ class ValveAlertController {
 
     @Autowired ValveAlertService valveAlertService
     @Autowired ValveService valveService
-
+    @Secured(['ROLE_ADMIN', )
     def show(Integer id) {
         Valve valve = Valve.withNewSession { valveService.findBySerialNumber(id) }
         if(valve) {

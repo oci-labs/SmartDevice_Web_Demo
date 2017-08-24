@@ -4,9 +4,10 @@
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.nexmatix.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.nexmatix.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.nexmatix.Role'
-grails.plugin.springsecurity.rest.login.endpointUrl = '/login'
+grails.plugin.springsecurity.rest.login.endpointUrl = '/api/login'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
+	[pattern: '/api/login',         access: ['permitAll']],
 	[pattern: '/error',          access: ['permitAll']],
 	[pattern: '/index',          access: ['permitAll']],
 	[pattern: '/index.gsp',      access: ['permitAll']],
