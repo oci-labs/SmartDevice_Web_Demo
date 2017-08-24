@@ -2,6 +2,7 @@ import * as types from "../actions/types";
 
 const initialState = {
   activeItems: [],
+  itemsInFault: [],
   selectedFacility: {},
   selectedDepartment: {},
   selectedMachine: {},
@@ -94,6 +95,10 @@ function reducer(state = initialState, action) {
     case types.TOGGLE_ALERTS:
       return Object.assign({}, state, {
         viewAlerts: !state.viewAlerts
+      });
+    case types.SET_ITEMS_IN_FAULT:
+      return Object.assign({}, state, {
+        itemsInFault: action.payload
       });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {

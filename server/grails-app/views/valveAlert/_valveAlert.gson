@@ -13,9 +13,22 @@ json {
         station {
             id data.stationId
         }
+        manifold {
+            id data.manifoldId
+        }
+        machine {
+            id data.machineId
+        }
+        department {
+            id data.departmentId
+        }
+        facility {
+            id data.facilityId
+        }
     }
 
     description data.valveAlert.description
     detectionTime data.valveAlert.detectionTime
     alertType AlertType.lookup(data.valveAlert.alertType)
+
 }
