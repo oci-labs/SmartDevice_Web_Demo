@@ -450,11 +450,9 @@ export function postCurrentUser(username, password) {
     return POSTUserAuth(username, password).then(toJson).then(
       response => {
         if(!response.error) {
-          console.log(response);
           dispatch(setCurrentUser(response));
           dispatch(getAllAlerts(30));
           dispatch(initialize());
-
         }
       },
       error => dispatch(throwError(error))
@@ -469,12 +467,19 @@ export function getAllAlerts(count = 10) {
       return GETAllAlerts(count, state.currentUser.access_token).then(toJson).then(
         response => {
           if (!response.error) {
-            let alerts = response.map(item => {
-              item.isSnoozed = false;
-              item.isActive = true;
-              return item;
-            });
-            dispatch(setAllAlerts(alerts));
+        let itemsInFault = [];
+        let alerts = response.map(item => {
+        item.isSnoozed = false;
+        item.isActive = true;
+        itemsInFault.push(`station.${item.valve.station.id}`);
+        itemsInFault.push(`manifold.${item.valve.manifold.id}`);
+        itemsInFault.push(`machine.${item.valve.machine.id}`);
+        itemsInFault.push(`department.${item.valve.department.id}`);
+        itemsInFault.push(`facility.${item.valve.facility.id}`);
+        return item;
+      });
+        dispatch(setAllAlerts(alerts));
+        dispatch(setItemsInFault(itemsInFault));
           }
         },
         error => dispatch(throwError(error))
@@ -520,5 +525,12 @@ export function snoozeAlert(alert) {
   return {
     type: types.SNOOZE_ALERT,
     payload: alert
+  };
+}
+
+export function setItemsInFault(itemsInFault) {
+  return {
+    type: types.SET_ITEMS_IN_FAULT,
+    payload: itemsInFault
   };
 }

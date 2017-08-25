@@ -11,3 +11,5 @@ server/hs_err_pid2496.log
 server/hs_err_pid30944.log
 devDb.trace.db
 *.patch
+server/*.log
+
