@@ -23,6 +23,9 @@ class LoginComponent extends Component {
       password: password
     });
   }
+  handleLogin = () => {
+    this.props.handleLogin(this.state.username, this.state.password)
+  }
   render() {
     const {currentUser, handleLogin } = this.props;
     return (
@@ -38,7 +41,7 @@ class LoginComponent extends Component {
           model={this.state.password}
           onChange={this.handlePwChange}
         />
-        <button className="loginButton" onClick={this.props.handleLogin(this.state.username, this.state.password)}>Login</button>
+        <button className="loginButton" onClick={this.handleLogin}>Login</button>
       </div>
     )
   }
