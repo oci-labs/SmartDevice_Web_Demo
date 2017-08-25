@@ -1,9 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import Station from "./Station";
 import "./Manifold.css";
 import { SERVER_URL } from "../../config";
 
-class Manifold extends React.Component {
+class ManifoldComponent extends React.Component {
   constructor() {
     super();
 
@@ -22,10 +23,15 @@ class Manifold extends React.Component {
 
   getValveStatus = () => {
     this.timeout = setTimeout(this.getValveStatus, 5000);
-    const { manifold } = this.props;
+    const { manifold, currentUser } = this.props;
     console.log(manifold);
 
-    fetch(`${SERVER_URL}/api/valveStatus/manifold/${manifold.serialNumber}`)
+    fetch(`${SERVER_URL}/api/valveStatus/manifold/${manifold.serialNumber}`, {
+      method: 'get',
+      headers: {
+        Authorization: "Bearer " + currentUser.access_token
+      }
+    })
       .then(response => response.json())
       .then(json => {
         this.setState({ statuses: json });
@@ -79,5 +85,13 @@ class Manifold extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+const Manifold = connect(mapStateToProps)(ManifoldComponent);
 
 export default Manifold;

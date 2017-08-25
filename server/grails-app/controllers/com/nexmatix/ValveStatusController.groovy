@@ -1,9 +1,11 @@
 package com.nexmatix
 
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 
 @Transactional(readOnly = true)
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class ValveStatusController {
     static responseFormats = ['json', 'xml']
 

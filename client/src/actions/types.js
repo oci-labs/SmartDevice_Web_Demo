@@ -14,6 +14,7 @@ export const SET_SELECTED_MANIFOLD = "selected:manifold";
 export const SET_SELECTED_STATION = "selected:station";
 export const SET_SELECTED_VALVE = "selected:valve";
 export const SET_VALVE_STATUS = "selected:valve:status";
+export const SET_CURRENT_USER = "user:set:current";
 
 export const UPDATE_ACTIVE_ITEMS = "items:update";
 export const UPDATE_ACTIVE_ITEMS_WITH_ITEM = "items:update:withItem";

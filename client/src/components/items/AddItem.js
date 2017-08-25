@@ -49,9 +49,15 @@ class AddItemComponent extends Component {
     });
   };
   updateParents = item => {
+    const token = this.props.currentUser.access_token;
     this.handleLayerChange(item);
     if (item.parentType) {
-      fetch(`${SERVER_URL}/api/${item.parentType}/`)
+      fetch(`${SERVER_URL}/api/${item.parentType}/`, {
+        method: 'get',
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
         .then(response => {
           return response.json();
         })
@@ -147,6 +153,12 @@ class AddItemComponent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     handleAddItem: function(item) {
@@ -155,6 +167,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const AddItem = connect(null, mapDispatchToProps)(AddItemComponent);
+const AddItem = connect(mapStateToProps, mapDispatchToProps)(AddItemComponent);
 
 export default AddItem;

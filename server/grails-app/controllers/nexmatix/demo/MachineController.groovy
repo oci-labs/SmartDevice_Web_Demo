@@ -2,8 +2,9 @@ package nexmatix.demo
 
 import com.nexmatix.Machine
 import com.nexmatix.Department
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class MachineController extends RestfulController<Machine> {
     static responseFormats = ['json']
     MachineController() {

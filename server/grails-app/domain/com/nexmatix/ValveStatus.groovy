@@ -1,8 +1,9 @@
 package com.nexmatix
 
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.transform.EqualsAndHashCode
 import org.apache.commons.lang.builder.HashCodeBuilder
-
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class ValveStatus implements Serializable {
 
     Integer cycleCount

@@ -65,8 +65,14 @@ class EditItemComponent extends Component {
   };
 
   getParentOptions = item => {
+    const token = this.props.currentUser.access_token;
     if (item && item.parent) {
-      fetch(`${SERVER_URL}/api/${item.parent.type}/`)
+      fetch(`${SERVER_URL}/api/${item.parent.type}/`, {
+        method: 'get',
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
         .then(response => response.json())
         .then(response => {
           this.setState({
@@ -146,6 +152,12 @@ class EditItemComponent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     handleDeleteItem: item => {
@@ -157,6 +169,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const EditItem = connect(null, mapDispatchToProps)(EditItemComponent);
+const EditItem = connect(mapStateToProps, mapDispatchToProps)(EditItemComponent);
 
 export default EditItem;
