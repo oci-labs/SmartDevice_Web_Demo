@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./AddItem.css";
-import { SERVER_URL } from "../../config";
+import { authRequest } from '../../services/authRequestService';
 
 import Modal from "../common/Modal";
 import { HorizontalLine } from "../layout/LayoutComponents";
@@ -49,23 +49,14 @@ class AddItemComponent extends Component {
     });
   };
   updateParents = item => {
-    const token = this.props.currentUser.access_token;
+    let _self = this;
     this.handleLayerChange(item);
     if (item.parentType) {
-      fetch(`${SERVER_URL}/api/${item.parentType}/`, {
-        method: 'get',
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      })
-        .then(response => {
-          return response.json();
+      authRequest(`/api/${item.parentTtype}/`, 'get', result => {
+        _self.setState({
+          parents: result
         })
-        .then(response => {
-          this.setState({
-            parents: response
-          });
-        });
+      });
     } else {
       if (this.state.model.type !== item.type) {
         console.log("needs to change");

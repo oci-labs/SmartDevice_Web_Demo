@@ -127,7 +127,7 @@ class BootStrap {
         }
         if(User.count() < 1) {
             def adminRole = new Role(authority: 'ROLE_ADMIN').save()
-            def testUser = new User(username: 'me', password: 'password').save()
+            def testUser = new User(username: 'demoDan', password: 'password').save()
 
             UserRole.create testUser, adminRole
 

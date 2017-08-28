@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Input, Select } from "../common/Inputs";
 import "./Profile.css";
-
+import { setCurrentUser } from "../../actions/index"
 import ProfilePicture from "../profile/ProfilePicture";
 import { Column } from "../layout/LayoutComponents";
-import Login from "../layout/Login";
+import Login from "../auth/Login";
 
-const ProfileComponent = ({ viewProfile, currentUser }) => {
+const ProfileComponent = ({ viewProfile, currentUser, handleLogout }) => {
   return (
     <div className="profile">
       { currentUser ?
@@ -15,7 +15,7 @@ const ProfileComponent = ({ viewProfile, currentUser }) => {
           <ProfilePicture />
           <div className="profileTitle">Brian Jenkins</div>
           <div className="profileRoles">
-            <span>Technician</span> | <span className="logout">Logout</span>
+            <span>Technician</span> | <span className="logout" onClick={handleLogout}>Logout</span>
           </div>
           <button className="adminButton">Admin</button>
         </Column> :
@@ -35,6 +35,14 @@ const mapStateToProps = state => {
   };
 };
 
-const Profile = connect(mapStateToProps)(ProfileComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    handleLogout: () => {
+      dispatch(setCurrentUser(null))
+    }
+  }
+}
+
+const Profile = connect(mapStateToProps, mapDispatchToProps)(ProfileComponent);
 
 export default Profile;

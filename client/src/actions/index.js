@@ -134,7 +134,8 @@ export function setAllAlerts(alerts) {
 
 export function addItem(item) {
   return (dispatch, getState) => {
-    const token = getState().currentUser.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if (token) {
       return ADDItem(item, token).then(toJson).then(response => {
         switch (item.type) {
@@ -164,7 +165,8 @@ export function addItem(item) {
 export function deleteItem(item) {
   return function(dispatch, getState) {
     const state = getState();
-    const token = state.currentUSer.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if(token) {
       return DELETEItem(item, token).then(response => {
         switch (item.type) {
@@ -192,7 +194,8 @@ export function deleteItem(item) {
 
 export function updateItem(item) {
   return function(dispatch, getState) {
-    const token = getState().currentUser.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if (token) {
       return UPDATEItem(item, token).then(toJson).then(response => {
         switch (item.type) {
@@ -241,122 +244,130 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
       currentUser
     } = getState();
     if (item && currentUser) {
-      GETItem(item, currentUser.access_token).then(toJson).then(function(response) {
-        if (item.id) {
-          switch (item.type) {
-            case "facility":
-              dispatch(setSelectedFacility(response));
-              dispatch(setActiveItems([response]));
-              if (!keepViewState) {
+      const user = getState().currentUser;
+      const token = user && user.access_token;
+      if (token) {
+        GETItem(item, token).then(toJson).then(function(response) {
+          if (item.id) {
+            switch (item.type) {
+              case "facility":
+                dispatch(setSelectedFacility(response));
+                dispatch(setActiveItems([response]));
+                if (!keepViewState) {
+                  dispatch(setViewState(states.FACILITY_STATE));
+                }
+                break;
+              case "department":
+                dispatch(setSelectedDepartment(response));
+                if (
+                  !selectedFacility ||
+                  selectedFacility.id !== response.parent.id
+                ) {
+                  dispatch(setSelectedItem(response.parent, true));
+                }
+                if (!keepViewState) {
+                  // Update the selected facility to refresh the department info
+                  dispatch(setViewState(states.DEPARTMENT_STATE));
+                  dispatch(setSelectedItem(response.parent, true));
+                } else if (!forceRefresh) {
+                  GETMachinesByDepartment(item.id, token).then(toJson).then(response => {
+                    dispatch(setActiveItems(response));
+                  });
+                }
+                break;
+              case "machine":
+                dispatch(setSelectedMachine(response));
+                if (
+                  !selectedDepartment ||
+                  selectedDepartment.id !== response.parent.id ||
+                  forceRefresh
+                ) {
+                  dispatch(setSelectedItem(response.parent, true, forceRefresh));
+                }
+                if (!keepViewState) {
+                  dispatch(setViewState(states.MACHINE_STATE));
+                }
+                dispatch(setActiveItems([response]));
+                break;
+              case "manifold":
+                dispatch(setSelectedManifold(response));
+                if (
+                  !selectedMachine ||
+                  selectedMachine.id !== response.parent.id ||
+                  forceRefresh
+                ) {
+                  dispatch(setSelectedItem(response.parent, true, forceRefresh));
+                }
+                dispatch(setViewState(states.MANIFOLD_STATE));
+                const currentStationIsChild = child => {
+                  return child.id === currentStation.id;
+                };
+                if (
+                  response.children.length > 0 &&
+                  !response.children.find(currentStationIsChild)
+                ) {
+                  dispatch(setSelectedItem(getFirst(response.children)));
+                }
+                break;
+              case "station":
+                dispatch(setSelectedStation(response));
+                if (
+                  !selectedManifold ||
+                  selectedManifold.id !== response.parent.id
+                ) {
+                  dispatch(setSelectedItem(response.parent, true));
+                }
+                dispatch(setViewState(states.MANIFOLD_STATE));
+                dispatch(setValve(response));
+                break;
+              default:
+                console.log("Not handled yet", response, item.type);
+            }
+          } else {
+            switch (item.type) {
+              case "facility":
+                dispatch(setSelectedFacility({}));
+                dispatch(setAllFacilities(response));
                 dispatch(setViewState(states.FACILITY_STATE));
-              }
-              break;
-            case "department":
-              dispatch(setSelectedDepartment(response));
-              if (
-                !selectedFacility ||
-                selectedFacility.id !== response.parent.id
-              ) {
-                dispatch(setSelectedItem(response.parent, true));
-              }
-              if (!keepViewState) {
-                // Update the selected facility to refresh the department info
-                dispatch(setViewState(states.DEPARTMENT_STATE));
-                dispatch(setSelectedItem(response.parent, true));
-              } else if (!forceRefresh) {
-                GETMachinesByDepartment(item.id).then(toJson).then(response => {
-                  dispatch(setActiveItems(response));
-                });
-              }
-              break;
-            case "machine":
-              dispatch(setSelectedMachine(response));
-              if (
-                !selectedDepartment ||
-                selectedDepartment.id !== response.parent.id ||
-                forceRefresh
-              ) {
-                dispatch(setSelectedItem(response.parent, true, forceRefresh));
-              }
-              if (!keepViewState) {
-                dispatch(setViewState(states.MACHINE_STATE));
-              }
-              dispatch(setActiveItems([response]));
-              break;
-            case "manifold":
-              dispatch(setSelectedManifold(response));
-              if (
-                !selectedMachine ||
-                selectedMachine.id !== response.parent.id ||
-                forceRefresh
-              ) {
-                dispatch(setSelectedItem(response.parent, true, forceRefresh));
-              }
-              dispatch(setViewState(states.MANIFOLD_STATE));
-              const currentStationIsChild = child => {
-                return child.id === currentStation.id;
-              };
-              if (
-                response.children.length > 0 &&
-                !response.children.find(currentStationIsChild)
-              ) {
-                dispatch(setSelectedItem(getFirst(response.children)));
-              }
-              break;
-            case "station":
-              dispatch(setSelectedStation(response));
-              if (
-                !selectedManifold ||
-                selectedManifold.id !== response.parent.id
-              ) {
-                dispatch(setSelectedItem(response.parent, true));
-              }
-              dispatch(setViewState(states.MANIFOLD_STATE));
-              dispatch(setValve(response));
-              break;
-            default:
-              console.log("Not handled yet", response, item.type);
+                dispatch(setActiveItems(response));
+                break;
+              case "department":
+                dispatch(setSelectedFacility(item.parent));
+                break;
+              case "machine":
+                dispatch(setSelectedMachine({}));
+                dispatch(setSelectedItem(selectedDepartment, true));
+                break;
+              default:
+                console.log("Not handled yet - all items", item.type);
+            }
           }
-        } else {
-          switch (item.type) {
-            case "facility":
-              dispatch(setSelectedFacility({}));
-              dispatch(setAllFacilities(response));
-              dispatch(setViewState(states.FACILITY_STATE));
-              dispatch(setActiveItems(response));
-              break;
-            case "department":
-              dispatch(setSelectedFacility(item.parent));
-              break;
-            case "machine":
-              dispatch(setSelectedMachine({}));
-              dispatch(setSelectedItem(selectedDepartment, true));
-              break;
-            default:
-              console.log("Not handled yet - all items", item.type);
-          }
-        }
-      });
+        });
+      } else {
+        return dispatch(throwError('Unauthorized'));
+      }
     }
   };
 }
 
 function setValve(station) {
   return (dispatch, getState) => {
-    const token = getState().currentUser.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if (token) {
       return GETValve(station, token).then(toJson).then(response => {
         dispatch(setSelectedValve(response));
       });
     } else {
-      return
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
 
 export function showValve(valve) {
   return (dispatch, getState) => {
-    const token = getState().currentUser.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if (valve && token) {
       return GETValveBySerialNumber(valve,  token).then(toJson).then(response => {
         dispatch(
@@ -364,14 +375,15 @@ export function showValve(valve) {
         );
       });
     } else {
-      return
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
 
 export function setValveStatus(valve) {
   return (dispatch, getState) => {
-    const token = getState().currentUser.access_token;
+    const user = getState().currentUser;
+    const token = user && user.access_token;
     if (valve && token) {
       return GETValveStatus(valve, token).then(toJson).then(response => {
         dispatch(setSelectedValveStatus(response));

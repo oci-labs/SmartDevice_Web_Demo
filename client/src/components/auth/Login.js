@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input } from "../common/Inputs";
-import { postCurrentUser } from "../../actions";
+import { postCurrentUser } from "../../actions/index";
 //import "./Login.css";
 
 class LoginComponent extends Component {
