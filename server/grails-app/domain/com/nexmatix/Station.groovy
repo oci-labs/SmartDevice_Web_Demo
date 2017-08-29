@@ -1,8 +1,10 @@
 package com.nexmatix
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.Resource
 
 @Resource(uri='/api/station', formats = ['json'], readOnly = false)
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class Station {
 
     Integer number
@@ -12,7 +14,7 @@ class Station {
 
 
     Valve getValve() {
-        return Valve.findByStation(this)
+        return Valve.withNewSession { Valve.findByManifoldSerialNumberAndStationNumber(this.manifold.serialNumber, this.number) }
     }
 
 }

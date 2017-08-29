@@ -86,9 +86,23 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-
+dataSources:
+    smartDeviceConnection:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        username: root
+        password: mysql
+        dbCreate: create-drop
+        url: jdbc:mysql://localhost/smartdevice_repo?autoReconnect=true&serverTimezone=UTC
 environments:
     development:
+        dataSources:
+            smartDeviceConnection:
+                driverClassName: org.h2.Driver
+                username: sa
+                password:
+                dbCreate: create-drop
+                url: jdbc:h2:./devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
         dataSource:
             driverClassName: org.h2.Driver
             username: sa
@@ -103,11 +117,39 @@ environments:
             dbCreate: update
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
+        dataSources:
+            smartDeviceConnection:
+                driverClassName: com.mysql.cj.jdbc.Driver
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                dbCreate: update
+                username: root
+                password: nexmatixmvd
+                url: jdbc:mysql://google/smartdevice_repo?cloudSqlInstance=nexmatixmvp-dev:us-central1:nexmatixmvd&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false
+                properties:
+                    jmxEnabled: true
+                    initialSize: 5
+                    maxActive: 50
+                    minIdle: 5
+                    maxIdle: 25
+                    maxWait: 10000
+                    maxAge: 600000
+                    timeBetweenEvictionRunsMillis: 5000
+                    minEvictableIdleTimeMillis: 60000
+                    validationQuery: SELECT 1
+                    validationQueryTimeout: 3
+                    validationInterval: 15000
+                    testOnBorrow: true
+                    testWhileIdle: true
+                    testOnReturn: false
+                    jdbcInterceptors: ConnectionState
+                    defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
         dataSource:
             driverClassName: com.mysql.cj.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             dbCreate: update
-            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvp:us-central1:nexmatixmvd&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=nexmatixmvd&useSSL=false
+            username: root
+            password: nexmatixmvd
+            url: jdbc:mysql://google/demo1?cloudSqlInstance=nexmatixmvp-dev:us-central1:nexmatixmvd&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -129,4 +171,4 @@ environments:
 
 ---
 googlecloud:
-    projectid: nexmatixmvp
+    projectid: nexmatixmvp-dev

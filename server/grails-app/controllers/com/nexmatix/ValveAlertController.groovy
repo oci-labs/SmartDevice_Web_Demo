@@ -1,16 +1,22 @@
 package com.nexmatix
 
+import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
+import org.springframework.beans.factory.annotation.Autowired
 
-import grails.rest.*
-import grails.converters.*
-
+@Transactional(readOnly = true)
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class ValveAlertController {
 	static responseFormats = ['json', 'xml']
 
-    def show(Long id) {
-        Valve valve = Valve.findBySerialNumber(id)
+    @Autowired ValveAlertService valveAlertService
+    @Autowired ValveService valveService
+
+    def show(Integer id) {
+        Valve valve = Valve.withNewSession { valveService.findBySerialNumber(id) }
         if(valve) {
-            [alertList: ValveAlert.findAllByValve(valve, [max: params.max ?: 10, sort: 'detectionTime', order: 'desc'])]
+            def alertViewData = ValveAlert.withNewSession { valveAlertService.findAllByValveForView(valve) }
+            [alertViewData: alertViewData]
         } else {
             log.warn "Unable to find valve with id: ${id}"
             render status: 404
@@ -18,7 +24,7 @@ class ValveAlertController {
     }
 
     def index() {
-        [alertList: ValveAlert.list(([max: params.max ?: 10, sort: 'detectionTime', order: 'desc']))]
+        [alertViewData: ValveAlert.withNewSession { valveAlertService.listForView() }]
     }
 
 }

@@ -6,7 +6,7 @@ import Modal from "../common/Modal";
 import { HorizontalLine } from "../layout/LayoutComponents";
 import { Input, Select } from "../common/Inputs";
 import { deleteItem, updateItem } from "../../actions";
-import { SERVER_URL } from "../../config";
+import { authRequest } from "../../services/authRequestService"
 
 class EditItemComponent extends Component {
   constructor(props) {
@@ -65,14 +65,13 @@ class EditItemComponent extends Component {
   };
 
   getParentOptions = item => {
+    let _self = this;
     if (item && item.parent) {
-      fetch(`${SERVER_URL}/api/${item.parent.type}/`)
-        .then(response => response.json())
-        .then(response => {
-          this.setState({
-            parents: response
-          });
-        });
+      authRequest(`/api/${item.parent.type}/`, 'get', result => {
+        _self.setState({
+          parents: result
+        })
+      });
     }
   };
 
@@ -146,6 +145,12 @@ class EditItemComponent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     handleDeleteItem: item => {
@@ -157,6 +162,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const EditItem = connect(null, mapDispatchToProps)(EditItemComponent);
+const EditItem = connect(mapStateToProps, mapDispatchToProps)(EditItemComponent);
 
 export default EditItem;

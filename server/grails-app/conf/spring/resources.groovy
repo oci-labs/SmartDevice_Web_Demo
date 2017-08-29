@@ -1,6 +1,6 @@
-import com.nexmatix.ValveDataJob
-
+import com.nexmatix.UserPasswordEncoderListener
 // Place your Spring DSL code here
 beans = {
-    valveDataJob(ValveDataJob)
+    userPasswordEncoderListener(UserPasswordEncoderListener, ref('hibernateDatastore'))
+
 }

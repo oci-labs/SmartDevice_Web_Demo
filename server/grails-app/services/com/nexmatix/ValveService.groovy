@@ -1,44 +1,15 @@
 package com.nexmatix
 
-import com.nexmatix.datastore.ValveDataStoreService
-import grails.gorm.transactions.Transactional
+import grails.gorm.services.Service
 
-@Transactional
-class ValveService {
+@Service(Valve)
+interface ValveService {
 
-    ValveDataStoreService valveDataStoreService
+    static datasource = 'smartDeviceConnection'
 
-    Valve createNewValve(Long serialNumber) {
-        log.info "createNewValve: ${serialNumber}"
-        Valve valve = valveDataStoreService.retrieveEntity(serialNumber)
+    List<Valve> list(Map args)
 
-        if(valve && !valve.save()) {
-            valve.errors.allErrors.each { log.error "${it}" }
-            valve = null
-        }
+    Valve findByStationNumberAndManifoldSerialNumber(Integer stationNumber, Integer manifoldSerialNumber)
 
-        return valve
-    }
-
-    Valve updateValve(Valve valve) {
-        log.info "updateValve: ${valve.serialNumber}"
-        Valve newValve = valveDataStoreService.retrieveEntity(valve.serialNumber)
-
-        def oldSku = valve.sku
-        valve.station = newValve.station
-        valve.fabricationDate = newValve.fabricationDate
-        valve.shippingDate = newValve.shippingDate
-        valve.sku = newValve.sku
-        valve.updateTime = newValve.updateTime
-
-        log.warn "old SKU: ${oldSku} - new SKU: ${newValve.sku}"
-
-        if(valve && !valve.save()) {
-            valve.errors.allErrors.each { log.error "${it}" }
-            valve = null
-        }
-
-        newValve.discard()
-        return valve
-    }
+    Valve findBySerialNumber(Integer serialNumber)
 }

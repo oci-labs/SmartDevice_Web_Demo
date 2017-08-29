@@ -3,7 +3,7 @@ import "./Inputs.css";
 
 import Icon from "../icons/Icon";
 
-export const Input = ({ hide, model, name, onChange }) => {
+export const Input = ({ hide, model, name, onChange, type = 'text' }) => {
   const handleOnChange = event => {
     if (onChange) {
       onChange(event.target.value);
@@ -19,6 +19,7 @@ export const Input = ({ hide, model, name, onChange }) => {
       </div>
       <input
         className="commonInput"
+        type={type}
         name={name}
         value={model}
         onChange={handleOnChange}

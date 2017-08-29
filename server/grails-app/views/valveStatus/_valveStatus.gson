@@ -1,25 +1,24 @@
-import com.nexmatix.ValveStatus
+import com.nexmatix.model.ValveStatusViewData
 
 model {
-    ValveStatus valveStatus
+    ValveStatusViewData data
 }
 
 json {
-    id valveStatus.id
-    if (valveStatus.valve) {
-        valve {
-            id valveStatus.valve.id
-            serialNumber valveStatus.valve.serialNumber
-            station {
-                id valveStatus.valve?.stationId
-            }
+    id data.valveStatus.valveSerialNumber
+    valve {
+        id data.valve.serialNumber
+        serialNumber data.valve.serialNumber
+        station {
+            id data.stationId
         }
     }
-    updateTime valveStatus.updateTime
-    cycleCount valveStatus.cycleCount
-    cycleCountLimit valveStatus.cycleCountLimit
-    input valveStatus.input
-    leak valveStatus.leak
-    pressureFault valveStatus.pressureFault
-    pressurePoint valveStatus.pressurePoint
+
+    updateTime data.valveStatus.updateTime
+    cycleCount data.valveStatus.cycleCount
+    cycleCountLimit data.valveStatus.cycleCountLimit
+    input data.valveStatus.input
+    leak data.valveStatus.leak
+    pressureFault data.valveStatus.pressureFault
+    pressurePoint data.valveStatus.pressurePoint
 }

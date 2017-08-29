@@ -2,6 +2,7 @@ import * as types from "../actions/types";
 
 const initialState = {
   activeItems: [],
+  itemsInFault: [],
   selectedFacility: {},
   selectedDepartment: {},
   selectedMachine: {},
@@ -11,7 +12,8 @@ const initialState = {
   currentStation: {},
   valveStatus: [],
   viewProfile: true,
-  viewAlerts: false
+  viewAlerts: false,
+  currentUser: null
 };
 
 function reducer(state = initialState, action) {
@@ -78,7 +80,7 @@ function reducer(state = initialState, action) {
       });
     case types.SNOOZE_ALERT:
       let alerts = state.alerts.map(alert => {
-        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g))) {
+        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g), 10)) {
           alert.isSnoozed = !alert.isSnoozed;
         }
         return alert;
@@ -95,6 +97,10 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         viewAlerts: !state.viewAlerts
       });
+    case types.SET_ITEMS_IN_FAULT:
+      return Object.assign({}, state, {
+        itemsInFault: action.payload
+      });
     case types.HANDLE_ERROR:
       return Object.assign({}, state, {
         error: action.payload
@@ -102,6 +108,10 @@ function reducer(state = initialState, action) {
     case types.SET_VIEW_STATE:
       return Object.assign({}, state, {
         VIEW_STATE: action.payload
+      });
+    case types.SET_CURRENT_USER:
+      return Object.assign({}, state, {
+        currentUser: action.payload
       });
     default:
       return state;

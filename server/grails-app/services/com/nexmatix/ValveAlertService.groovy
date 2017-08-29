@@ -1,26 +1,45 @@
 package com.nexmatix
 
-import com.nexmatix.datastore.ValveAlertDataStoreService
-import grails.gorm.transactions.Transactional
+import com.nexmatix.model.ValveAlertViewData
+import grails.gorm.services.Query
+import grails.gorm.services.Service
 
-@Transactional
-class ValveAlertService {
+interface IValveAlertService {
 
-    ValveAlertDataStoreService valveAlertDataStoreService
+    static datasource = 'smartDeviceConnection'
 
-    def retrieveAndSend() {
-        log.info "retrieveAndSend"
+    @Query("from $ValveAlert as alert where alert.valveSerialNumber = ${valve.serialNumber}")
+    List<ValveAlert> findAllByValve(Valve valve)
+    List<ValveAlert> list(Map args)
+}
 
-        def data = valveAlertDataStoreService.retrieveValveAlerts()
+@Service(ValveAlert)
+abstract class ValveAlertService implements IValveAlertService {
 
-        deleteOldAlerts(data*.id)
-
-        log.info "retrieved ${data.size()} alerts..."
+    List<ValveAlertViewData> findAllByValveForView(Valve valve) {
+        transformViewData(findAllByValve(valve))
     }
 
-    void deleteOldAlerts(List<Long> activeAlertsIds) {
-        log.warn "Deleting old alerts..."
-        ValveAlert.executeUpdate("delete from ValveAlert where id not in :ids", [ids: activeAlertsIds])
+    List<ValveAlertViewData> listForView() {
+        transformViewData(list())
+    }
 
+    private static transformViewData(List<ValveAlert> alerts) {
+        List<ValveAlertViewData> viewData = []
+        alerts.each { alert ->
+            Valve valve = Valve.findBySerialNumber(alert.valveSerialNumber)
+            Station station = Station.get(valve.station.id)
+            Manifold manifold = station.manifold
+            Machine machine = manifold.machine
+            Department department = machine.department
+            Facility facility = department.facility
+            if(valve) {
+                viewData << new ValveAlertViewData(valveAlert: alert, valve: valve, stationId: station.number, manifoldId: manifold.serialNumber, machineId: machine.id, departmentId: department.id, facilityId: facility.id)
+            } else {
+                log.warn "Missing valve ${alert.valveSerialNumber}"
+            }
+        }
+
+        viewData
     }
 }

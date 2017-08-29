@@ -13,10 +13,11 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
+
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
-        "/api/valve/bySerialNumber/$serialNumber"(controller: 'valve', action: 'bySerialNumber')
-        "/api/valveStatus/manifold/$id"(controller: 'valveStatus', action: 'byManifold')
+        "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
+        get "/secure"(controller: 'secure', action: 'index')
 
         if ( Environment.current == Environment.PRODUCTION ) {
             '/'(uri: '/index.html')
@@ -26,5 +27,6 @@ class UrlMappings {
 
         "500"(view: '/error')
         "404"(view: '/notFound')
+        "401"(view: '/unauthenticated')
     }
 }

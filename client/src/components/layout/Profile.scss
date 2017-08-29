@@ -25,7 +25,7 @@
       cursor: pointer;
     }
   }
-  .adminButton {
+  .adminButton, .loginButton {
     color: white;
     height: 40px;
     margin-top: 40px;
@@ -33,5 +33,15 @@
     background-color: transparent;
     border: 2px solid $primary-color;
     border-radius: 4px;
+  }
+  .loginWrapper {
+    margin-top: -30px;
+    .loginButton{
+      width: 100%;
+      margin-top: 20px;
+    }
+    input {
+      color: #202020;
+    }
   }
 }

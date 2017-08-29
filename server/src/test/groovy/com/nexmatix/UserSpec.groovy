@@ -1,9 +1,9 @@
 package com.nexmatix
 
-import grails.testing.services.ServiceUnitTest
+import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class ValveServiceSpec extends Specification implements ServiceUnitTest<ValveService>{
+class UserSpec extends Specification implements DomainUnitTest<User> {
 
     def setup() {
     }

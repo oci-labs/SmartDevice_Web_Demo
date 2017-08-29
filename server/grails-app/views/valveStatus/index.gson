@@ -1,7 +1,7 @@
-import com.nexmatix.ValveStatus
+import com.nexmatix.model.ValveStatusViewData
 
 model {
-    List<ValveStatus> statuses
+    List<ValveStatusViewData> statusViewData
 }
 
-json tmpl.valveStatus("valveStatus", statuses)
+json tmpl.valveStatus("data", statusViewData)
