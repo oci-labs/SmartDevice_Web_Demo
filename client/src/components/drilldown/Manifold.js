@@ -1,7 +1,7 @@
 import React from "react";
 import Station from "./Station";
 import "./Manifold.css";
-import { SERVER_URL } from "../../config";
+import { authRequest } from "../../services/authRequestService"
 
 class Manifold extends React.Component {
   constructor() {
@@ -21,15 +21,12 @@ class Manifold extends React.Component {
   }
 
   getValveStatus = () => {
+    let _self = this;
     this.timeout = setTimeout(this.getValveStatus, 5000);
     const { manifold } = this.props;
-    console.log(manifold);
-
-    fetch(`${SERVER_URL}/api/valveStatus/manifold/${manifold.serialNumber}`)
-      .then(response => response.json())
-      .then(json => {
-        this.setState({ statuses: json });
-      });
+    authRequest(`/api/valveStatus/manifold/${manifold.serialNumber}`, 'get', result => {
+      _self.setState({statuses: result});
+    });
   };
 
   render() {

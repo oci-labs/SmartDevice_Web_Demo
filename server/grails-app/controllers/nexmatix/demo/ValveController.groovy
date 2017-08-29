@@ -5,8 +5,9 @@ import com.nexmatix.Station
 import com.nexmatix.Valve
 import com.nexmatix.ValveService
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
-
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class ValveController {
     static responseFormats = ['json']
 

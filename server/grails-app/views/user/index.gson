@@ -1,0 +1,8 @@
+import com.nexmatix.User
+
+model {
+	Iterable<User> userList
+}
+
+json tmpl.user(userList ?: [])
+

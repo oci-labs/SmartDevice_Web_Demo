@@ -6,7 +6,10 @@ import com.nexmatix.Department
 import com.nexmatix.Facility
 import com.nexmatix.Machine
 import com.nexmatix.Manifold
+import com.nexmatix.Role
 import com.nexmatix.Station
+import com.nexmatix.User
+import com.nexmatix.UserRole
 import com.nexmatix.Valve
 import com.nexmatix.ValveAlert
 import com.nexmatix.ValveStatus
@@ -122,6 +125,24 @@ class BootStrap {
             println "ValveStatuses: ${ValveStatus.count()}"
 
         }
+        if(User.count() < 1) {
+            def adminRole = new Role(authority: 'ROLE_ADMIN').save()
+            def testUser = new User(username: 'demoDan', password: 'password').save()
+
+            UserRole.create testUser, adminRole
+
+            UserRole.withSession {
+                it.flush()
+                it.clear()
+            }
+
+            assert User.count() == 1
+            assert Role.count() == 1
+            assert UserRole.count() == 1
+
+            println "Created User account."
+        }
+
 
         println "Completed BootStrap."
     }

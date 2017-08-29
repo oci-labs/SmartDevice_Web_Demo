@@ -19,7 +19,7 @@
       color: #fdaa18;
       text-decoration: underline;
       cursor: pointer; }
-  .profile .adminButton {
+  .profile .adminButton, .profile .loginButton {
     color: white;
     height: 40px;
     margin-top: 40px;
@@ -27,3 +27,10 @@
     background-color: transparent;
     border: 2px solid #fdaa18;
     border-radius: 4px; }
+  .profile .loginWrapper {
+    margin-top: -30px; }
+    .profile .loginWrapper .loginButton {
+      width: 100%;
+      margin-top: 20px; }
+    .profile .loginWrapper input {
+      color: #202020; }

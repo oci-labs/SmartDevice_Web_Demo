@@ -1,0 +1,82 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Nexmatix",
+		"_postman_id": "ad5edb82-c771-be78-7c99-71eb73569f23",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"var token = jsonData.access_token;",
+							"postman.setEnvironmentVariable(\"token\", token);",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:8080/api/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"demoDan\",\n\t\"password\": \"password\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ValveAlert Authenticated",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/api/valveAlert?max=30",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"valveAlert"
+					],
+					"query": [
+						{
+							"key": "max",
+							"value": "30",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

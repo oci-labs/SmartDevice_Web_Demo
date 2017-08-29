@@ -12,7 +12,8 @@ const initialState = {
   currentStation: {},
   valveStatus: [],
   viewProfile: true,
-  viewAlerts: false
+  viewAlerts: false,
+  currentUser: null
 };
 
 function reducer(state = initialState, action) {
@@ -107,6 +108,10 @@ function reducer(state = initialState, action) {
     case types.SET_VIEW_STATE:
       return Object.assign({}, state, {
         VIEW_STATE: action.payload
+      });
+    case types.SET_CURRENT_USER:
+      return Object.assign({}, state, {
+        currentUser: action.payload
       });
     default:
       return state;
