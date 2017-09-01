@@ -463,7 +463,7 @@ export function postCurrentUser(username, password) {
       response => {
         if(!response.error) {
           dispatch(setCurrentUser(response));
-          dispatch(getAllAlerts(30));
+          dispatch(getAlerts(30));
           dispatch(initialize());
         }
       },
@@ -472,7 +472,7 @@ export function postCurrentUser(username, password) {
   };
 };
 
-export function getAllAlerts(count = 10) {
+export function getAlerts(count = 10) {
   return function(dispatch, getState) {
     const state = getState();
     if (state.currentUser) {
