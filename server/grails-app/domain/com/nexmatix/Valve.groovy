@@ -37,8 +37,36 @@ class Valve {
     }
 
 
+    Manifold getManifold() {
+        Manifold m = Manifold.findBySerialNumber(manifoldSerialNumber)
+        if(!m) {
+            println "Missing manifold - creating...."
+            m = new Manifold(serialNumber: manifoldSerialNumber, machine: Machine.first())
+            println "new manifold: ${m}"
+            Station s = new Station(manifold: m, number: stationNumber)
+            println "new station: ${s}"
+            m.addToStations(s)
+
+            if(!m.save(flush: true)) {
+                m.errors.allErrors.each { println it }
+            }
+            println "Created manifold: ${m.serialNumber}"
+        }
+
+        m
+    }
+
     Station getStation() {
-        return Station.findByManifoldAndNumber(Manifold.findBySerialNumber(manifoldSerialNumber), stationNumber)
+        Manifold m = manifold
+        Station s = Station.findByManifoldAndNumber(m, stationNumber)
+        if(!s) {
+            println "Missing station ${stationNumber}, creating..."
+            s = new Station(manifold: m, number: stationNumber)
+            s.save(flush: true)
+            println "Created station: ${s.number}"
+        }
+
+        s
     }
 
 }
