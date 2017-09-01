@@ -7,7 +7,7 @@ import grails.web.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 
-@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class SnoozedAlertController extends RestfulController<SnoozedAlert> {
     static responseFormats = ['json']
 
@@ -22,13 +22,17 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
     @Transactional
     def save() {
         User user = userService.get(params.userId)
-        ValveAlert alert = valveAlertService.get(params.alertType, params.serialNumber)
+
+        ValveAlert alert = ValveAlert.withNewSession {
+            valveAlertService.get(AlertType."${params.alertType}".id,
+                    params.serialNumber.toInteger())
+        }
 
         if (!user) {
             log.warn "Missing user ${params.userId}"
             render status: HttpStatus.NOT_FOUND
         } else if (!alert) {
-            log.warn "Missing user ${params.alertId}"
+            log.warn "Missing alert ${params.alertType} for ${params.serialNumber}"
             render status: HttpStatus.NOT_FOUND
         } else {
             def snoozedAlert = new SnoozedAlert(alert: alert, user: user, snoozedAt: new Date())
