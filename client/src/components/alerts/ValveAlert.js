@@ -41,8 +41,13 @@ class ValveAlert extends Component {
         minute: "2-digit"
       })
       .replace(/,/g, "");
-    const handleClick = () => {
-      handleUpdate(this);
+    const handleSnoozeClick = () => {
+      const alert = {
+        alertId: this.props.id,
+        alertType: this.props.alertType,
+        valveId: this.props.alert.valve.id
+      }
+      handleUpdate(alert);
     };
     const handleAlertClick = () => {
       if (onAlertClick) {
@@ -53,10 +58,9 @@ class ValveAlert extends Component {
       <Alert
         color={isSnoozed ? "info" : isActive && !isSnoozed ? "danger" : ""}
         className={!isActive ? "disabled" : ""}
-        onClick={handleAlertClick}
       >
         {leftIcon &&
-          <div className="alert-icon-left" style={{ height: "24px" }}>
+          <div className="alert-icon-left" style={{ height: "24px" }} onClick={handleAlertClick}>
             {(() => {
               switch (alertType) {
                 case "DISCONNECTED":
@@ -72,7 +76,7 @@ class ValveAlert extends Component {
             })()}
           </div>}
         {/* this.props.alertContent */}
-        <div className="alert-content">
+        <div className="alert-content" onClick={handleAlertClick}>
           <strong>
             {alertTypes[alertType]}
           </strong>
@@ -84,7 +88,7 @@ class ValveAlert extends Component {
         <div
           className="alert-icon-right"
           style={{ height: "24px" }}
-          onClick={handleClick}
+          onClick={handleSnoozeClick}
         >
           {isActive &&
             !isSnoozed &&

@@ -4,13 +4,19 @@ import ValveAlert from "./ValveAlert";
 import { CSSTransitionGroup } from "react-transition-group";
 import "./Alerts.css";
 
-import { getAllAlerts, showValve, snoozeAlert } from "../../actions";
+import { getAlerts, showValve, snoozeAlert } from "../../actions";
 
 class AlertsComponent extends Component {
-  componentWillMount() {
-    this.props.handleGetAllAlerts(30);
+  constructor(props) {
+    super(props);
+    this.setAlertCheck();
   }
-
+  setAlertCheck = () => {
+    this.props.handleGetAlerts(30);
+    this.timeout = setTimeout(() => {
+      this.setAlertCheck();
+    }, 5000);
+  };
   render() {
     let alertList;
     let inactiveAlertList;
@@ -113,8 +119,8 @@ function mapDispatchToProps(dispatch) {
     handleAlertClick: function(valve) {
       dispatch(showValve(valve));
     },
-    handleGetAllAlerts: function(count) {
-      dispatch(getAllAlerts(count));
+    handleGetAlerts: function(count) {
+      dispatch(getAlerts(count));
     },
     handleUpdateAlert: function(alert) {
       dispatch(snoozeAlert(alert));

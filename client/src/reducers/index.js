@@ -13,7 +13,8 @@ const initialState = {
   valveStatus: [],
   viewProfile: true,
   viewAlerts: false,
-  currentUser: null
+  currentUser: null,
+  snoozedAlerts: []
 };
 
 function reducer(state = initialState, action) {
@@ -78,16 +79,9 @@ function reducer(state = initialState, action) {
           return fac.id === action.payload.id ? action.payload : fac;
         })
       });
-    case types.SNOOZE_ALERT:
-      let alerts = state.alerts.map(alert => {
-        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g), 10)) {
-          alert.isSnoozed = !alert.isSnoozed;
-        }
-        return alert;
-      });
-      console.log(alerts);
+    case types.SET_SNOOZED_ALERT:
       return Object.assign({}, state, {
-        alerts: alerts
+        snoozedAlerts: state.snoozedAlerts.concat(action.payload)
       });
     case types.TOGGLE_PROFILE:
       return Object.assign({}, state, {

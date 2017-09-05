@@ -12,6 +12,9 @@ class Station {
     static belongsTo = [manifold: Manifold]
     static hasMany = [alerts: Alert]
 
+    static constraints = {
+        alerts nullable: true
+    }
 
     Valve getValve() {
         return Valve.withNewSession { Valve.findByManifoldSerialNumberAndStationNumber(this.manifold.serialNumber, this.number) }
