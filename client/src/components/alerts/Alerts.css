@@ -46,3 +46,46 @@ div.alertBar {
   div.alertBar div.alertsContainer .alerts-leave.alerts-leave-active {
     opacity: 0.01;
     transition: 600ms; }
+  div.alertBar div.alertsContainer .snoozeWrapper {
+    position: relative; }
+    div.alertBar div.alertsContainer .snoozeWrapper .snoozeOptions {
+      border: 1px solid #333;
+      position: absolute;
+      width: 180px;
+      background: #777;
+      color: #fff;
+      right: -10px;
+      top: 10px;
+      z-index: 999;
+      border-radius: 6px; }
+      div.alertBar div.alertsContainer .snoozeWrapper .snoozeOptions li {
+        list-style: none;
+        font-size: 18px;
+        line-height: 40px;
+        padding-left: 10px;
+        border-top: 1px solid #333; }
+      div.alertBar div.alertsContainer .snoozeWrapper .snoozeOptions li:hover {
+        background: #444; }
+      div.alertBar div.alertsContainer .snoozeWrapper .snoozeOptions li:first-child {
+        border-top: none;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px; }
+      div.alertBar div.alertsContainer .snoozeWrapper .snoozeOptions li:last-child {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px; }
+    div.alertBar div.alertsContainer .snoozeWrapper .snoozeOverlay {
+      position: fixed;
+      z-index: 990;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.7); }
+  div.alertBar div.alertsContainer .snoozeWrapper.closed .snoozeOverlay {
+    display: none; }
+  div.alertBar div.alertsContainer .snoozeWrapper.closed .snoozeOptions {
+    display: none; }
+  div.alertBar div.alertsContainer .snoozeWrapper.open .snoozeOverlay {
+    display: block; }
+  div.alertBar div.alertsContainer .snoozeWrapper.open .snoozeOptions {
+    display: block; }

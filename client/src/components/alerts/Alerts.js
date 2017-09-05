@@ -21,7 +21,7 @@ class AlertsComponent extends Component {
     let alertList;
     let inactiveAlertList;
     let snoozedAlertList;
-    const { alerts, handleAlertClick, handleUpdateAlert } = this.props;
+    const { alerts, handleAlertClick } = this.props;
 
     if (alerts) {
       let activeAlerts = [].concat(alerts).filter(alert => {
@@ -62,7 +62,6 @@ class AlertsComponent extends Component {
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
           time={alert.detectionTime}
-          handleUpdate={handleUpdateAlert}
           onAlertClick={handleAlertClick}
         />
       );
@@ -75,7 +74,6 @@ class AlertsComponent extends Component {
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
           time={alert.detectionTime}
-          handleUpdate={handleUpdateAlert}
         />
       );
       snoozedAlertList = snoozedAlerts.map(alert =>
@@ -87,7 +85,6 @@ class AlertsComponent extends Component {
           isSnoozed={alert.isSnoozed}
           alertType={alert.alertType}
           time={alert.detectionTime}
-          handleUpdate={handleUpdateAlert}
         />
       );
     }
@@ -121,9 +118,6 @@ function mapDispatchToProps(dispatch) {
     },
     handleGetAlerts: function(count) {
       dispatch(getAlerts(count));
-    },
-    handleUpdateAlert: function(alert) {
-      dispatch(snoozeAlert(alert));
     }
   };
 }

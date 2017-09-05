@@ -48,13 +48,23 @@ export function getAlerts(count = 10) {
   };
 }
 
+function POSTSnoozedAlert() {
+
+}
+
 export function toggleAlerts() {
   return {
     type: types.TOGGLE_ALERTS
   };
 }
 
-export function snoozeAlert(alert) {
+export function snoozeAlert(duration, alert) {
+  return function (dispatch, getState) {
+    console.log(duration)
+  }
+}
+
+export function setSnoozeAlert(alert) {
   return {
     type: types.SET_SNOOZED_ALERT,
     payload: alert
