@@ -106,6 +106,17 @@ export function getFirst(items) {
   }
 }
 
+function GETUserObj(username, token) {
+  return fetch(`${SERVER_URL}/api/user?username=${username}`, {
+    method: "get",
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json"
+    }
+  })
+}
+
 function POSTUserAuth(username, password) {
   return fetch(`${SERVER_URL}/api/login`, {
     body:JSON.stringify({username: username, password: password}),
@@ -462,9 +473,16 @@ export function postCurrentUser(username, password) {
     return POSTUserAuth(username, password).then(toJson).then(
       response => {
         if(!response.error) {
-          dispatch(setCurrentUser(response));
-          dispatch(getAllAlerts(30));
-          dispatch(initialize());
+          let user = response;
+          GETUserObj(username, response.access_token).then(toJson).then(
+            response => {
+              user.id = response.id;
+              console.log(user)
+              dispatch(setCurrentUser(user));
+              dispatch(getAllAlerts(30));
+              dispatch(initialize());
+            }
+          )
         }
       },
       error => dispatch(throwError(error))
