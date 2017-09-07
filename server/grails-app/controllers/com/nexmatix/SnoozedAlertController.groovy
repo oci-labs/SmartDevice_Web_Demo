@@ -41,7 +41,7 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
                 snoozedAlert.errors.allErrors.each { log.error "${it}" }
             }
 
-            respond snoozedAlert
+             [snoozedAlert: snoozedAlert]
         }
 
 

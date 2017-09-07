@@ -1,0 +1,13 @@
+import com.nexmatix.SnoozedAlert
+
+model {
+    SnoozedAlert snoozedAlert
+}
+
+json {
+    id snoozedAlert.id
+    userId snoozedAlert.user.id
+    snoozedAt snoozedAlert.snoozedAt
+    duration snoozedAlert.duration
+    valveAlertId snoozedAlert.valveAlertId
+}

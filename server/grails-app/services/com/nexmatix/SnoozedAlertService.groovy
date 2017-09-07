@@ -14,7 +14,7 @@ class SnoozedAlertService {
 
         users.each { user ->
 
-            List<SnoozedAlert> alerts = SnoozedAlert.findAllByUser(user)
+            List<SnoozedAlert> alerts = snoozedAlert.findAllByUser(user)
             alerts.each { alert ->
                 if(new Date().time - alert.snoozedAt.time > alert.duration) {
                     log.warn "Deleting snoozed alert..."
