@@ -35,7 +35,7 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
             log.warn "Missing alert ${params.alertType} for ${params.serialNumber}"
             render status: HttpStatus.NOT_FOUND
         } else {
-            def snoozedAlert = new SnoozedAlert(alert: alert, user: user, snoozedAt: new Date())
+            def snoozedAlert = new SnoozedAlert(valveAlert: alert, user: user, snoozedAt: new Date())
 
             if (!snoozedAlert.save()) {
                 snoozedAlert.errors.allErrors.each { log.error "${it}" }

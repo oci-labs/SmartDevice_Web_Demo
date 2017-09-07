@@ -20,7 +20,12 @@ class SnoozedAlert {
     }
 
     void setValveAlert(ValveAlert v) {
-        valveAlertId = [(v.alertType): v.valveSerialNumber]
+
+        String typeString = v.alertType
+        String typeVal =  AlertType.lookup("pressure fault")
+
+        valveAlertId = [typeVal: v.valveSerialNumber]
+        println valveAlertId
     }
 
     static transients = ['valveAlert']
