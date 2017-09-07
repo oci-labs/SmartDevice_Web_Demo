@@ -7,6 +7,19 @@ class SnoozedAlertService {
 
     UserService userService
 
+    def findAllByUsernameForView(String username) {
+        def usernameQuery = User.where {
+            username == username
+        }
+        User foundUser = usernameQuery.get()
+
+        def snoozedAlertsQuery = SnoozedAlert.where {
+            user.id == foundUser.id
+        }
+        List<SnoozedAlert> foundAlerts = snoozedAlertsQuery.list()
+
+        foundAlerts
+    }
 
     void updateSnoozedAlerts() {
 
