@@ -13,10 +13,10 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
-
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
+        "/api/notification/$valveId"(controller: 'alertNotification', action: 'send')
         get "/secure"(controller: 'secure', action: 'index')
 
         if ( Environment.current == Environment.PRODUCTION ) {

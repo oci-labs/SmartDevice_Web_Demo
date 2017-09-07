@@ -10,6 +10,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
 	[pattern: '/api/login',      access: ['permitAll']],
 	[pattern: '/api/logout',     access: ['permitAll']],
+	[pattern: '/api/notification/**',   access: ['permitAll']],
 	[pattern: '/error',          access: ['permitAll']],
 	[pattern: '/index',          access: ['permitAll']],
 	[pattern: '/index.html',      access: ['permitAll']],
@@ -30,7 +31,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 					'-exceptionTranslationFilter,' +
 					'-authenticationProcessingFilter,' +
 					'-securityContextPersistenceFilter,' +
-					'-rememberMeAuthentiicationFilter'
+					'-rememberMeAuthenticationFilter'
 	],
 	//Traditional chain
 	[
