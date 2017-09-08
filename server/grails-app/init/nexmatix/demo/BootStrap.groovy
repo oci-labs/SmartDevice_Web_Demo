@@ -142,7 +142,21 @@ class BootStrap {
 
             println "Created User account."
         }
+        if(User.count() < 2) {
+            def adminRole = new Role(authority: 'ROLE_ADMIN').save()
+            def testUser = new User(username: 'demoDena', password: 'password').save()
 
+            UserRole.create testUser, adminRole
+
+            UserRole.withSession {
+                it.flush()
+                it.clear()
+            }
+
+            assert User.count() == 2
+
+            println "Created User account."
+        }
 
         println "Completed BootStrap."
     }

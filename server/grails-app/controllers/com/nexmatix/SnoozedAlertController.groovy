@@ -24,7 +24,7 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
     @Override
     @Transactional
     def save() {
-        User user = userService.get(params.userId)
+        User user = userService.findByUsername(params.username)
 
         ValveAlert alert = ValveAlert.withNewSession {
             valveAlertService.get(AlertType."${params.alertType}".id,
@@ -32,7 +32,7 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
         }
 
         if (!user) {
-            log.warn "Missing user ${params.userId}"
+            log.warn "Missing user ${params.username}"
             render status: HttpStatus.NOT_FOUND
         } else if (!alert) {
             log.warn "Missing alert ${params.alertType} for ${params.serialNumber}"

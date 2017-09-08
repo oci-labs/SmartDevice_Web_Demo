@@ -13,7 +13,7 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
-        post "/api/snoozedAlert/$userId/$alertType/$serialNumber"(controller: 'snoozedAlert', action: 'save')
+        post "/api/snoozedAlert/$username/$alertType/$serialNumber"(controller: 'snoozedAlert', action: 'save')
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
