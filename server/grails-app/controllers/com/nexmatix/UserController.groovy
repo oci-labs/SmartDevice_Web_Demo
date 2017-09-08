@@ -3,7 +3,7 @@ package com.nexmatix
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-@Secured('ROLE_ADMIN')
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class UserController {
 
     UserService userService
@@ -18,6 +18,10 @@ class UserController {
 
     def show(Long id) {
         respond userService.get(id)
+    }
+
+    def byUsername(String username) {
+        respond userService.findByUsername(params.username)
     }
 
     def save(User user) {

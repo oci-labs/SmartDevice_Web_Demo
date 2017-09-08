@@ -19,6 +19,7 @@ class UrlMappings {
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
         get "/api/snoozedAlert/user/$username"(controller: 'snoozedAlert', action: 'byUsername')
+        get "/api/user/username/$username"(controller: 'user', action: 'byUsername')
         get "/secure"(controller: 'secure', action: 'index')
 
         if ( Environment.current == Environment.PRODUCTION ) {
