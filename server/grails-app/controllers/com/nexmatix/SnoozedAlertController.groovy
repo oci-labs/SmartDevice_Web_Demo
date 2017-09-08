@@ -55,7 +55,7 @@ class SnoozedAlertController extends RestfulController<SnoozedAlert> {
         def snoozedAlerts = snoozedAlertService.findAllByUsernameForView(username)
         println "snoozed alerts ${snoozedAlerts}"
 
-        [snoozedAlert: snoozedAlerts]
+        respond snoozedAlerts
     }
 
 
