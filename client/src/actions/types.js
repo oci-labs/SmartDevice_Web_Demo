@@ -16,7 +16,7 @@ export const SET_SELECTED_VALVE = "selected:valve";
 export const SET_VALVE_STATUS = "selected:valve:status";
 export const SET_CURRENT_USER = "user:set:current";
 export const SET_SNOOZED_ALERT = "user:set:snoozed";
-
+export const SET_CREDENTIALS = "set:credentials"
 export const UPDATE_ACTIVE_ITEMS = "items:update";
 export const UPDATE_ACTIVE_ITEMS_WITH_ITEM = "items:update:withItem";
 export const UPDATE_ALL_FACILITIES_WITH_ITEM = "facilities:update:all:withItem";

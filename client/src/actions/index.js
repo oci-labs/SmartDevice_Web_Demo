@@ -105,8 +105,8 @@ export function getFirst(items) {
 
 export function addItem(item) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return ADDItem(item, token).then(toJson).then(response => {
         switch (item.type) {
@@ -136,8 +136,8 @@ export function addItem(item) {
 export function deleteItem(item) {
   return function(dispatch, getState) {
     const state = getState();
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if(token) {
       return DELETEItem(item, token).then(response => {
         switch (item.type) {
@@ -165,8 +165,8 @@ export function deleteItem(item) {
 
 export function updateItem(item) {
   return function(dispatch, getState) {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return UPDATEItem(item, token).then(toJson).then(response => {
         switch (item.type) {
@@ -215,8 +215,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
       currentUser
     } = getState();
     if (item && currentUser) {
-      const user = getState().currentUser;
-      const token = user && user.access_token;
+      const credentials = getState().credentials;
+      const token = credentials && credentials.access_token;
       if (token) {
         GETItem(item, token).then(toJson).then(function(response) {
           if (item.id) {
@@ -323,8 +323,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
 
 function setValve(station) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return GETValve(station, token).then(toJson).then(response => {
         dispatch(setSelectedValve(response));
@@ -337,8 +337,8 @@ function setValve(station) {
 
 export function showValve(valve) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveBySerialNumber(valve,  token).then(toJson).then(response => {
         dispatch(
@@ -353,8 +353,8 @@ export function showValve(valve) {
 
 export function setValveStatus(valve) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveStatus(valve, token).then(toJson).then(response => {
         dispatch(setSelectedValveStatus(response));
@@ -435,7 +435,7 @@ export function initialize() {
     if(state.currentUser) {
       GETItem({
         type: "facility"
-      }, state.currentUser.access_token)
+      }, state.credentials.access_token)
         .then(toJson)
         .then(response => {
           dispatch(setActiveItems(response));

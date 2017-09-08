@@ -5,7 +5,7 @@ import { SERVER_URL } from "../config";
 
 
 function GETUserObj(username, token) {
-  return fetch(`${SERVER_URL}/api/user?username=${username}`, {
+  return fetch(`${SERVER_URL}/api/user/username/${username}`, {
     method: "get",
     headers: {
       Accept: "application/json",
@@ -33,29 +33,43 @@ export function setCurrentUser(user) {
     payload: user
   }
 }
+export function getCurrentUser(credentials) {
+  const {access_token, username} = credentials;
+  return function(dispatch) {
+    return GETUserObj(username, access_token).then(toJson).then(
+      response => {
+        if(!response.error) {
+          dispatch(setCurrentUser(response));
+          dispatch(getAlerts(30));
+          dispatch(initialize());
 
+        }
+      }
+    )
+  }
+}
 
-export function postCurrentUser(username, password) {
+export function postUserAuth(username, password) {
   return function(dispatch) {
     return POSTUserAuth(username, password).then(toJson).then(
       response => {
         if(!response.error) {
-          let user = response;
-          GETUserObj(username, response.access_token).then(toJson).then(
-            response => {
-              user.id = response[0].id;
-              console.log(user);
-              dispatch(setCurrentUser(user));
-              dispatch(getAlerts(30));
-              dispatch(initialize());
-            }
-          )
+
+          dispatch(setCredentials(response));
+          dispatch(getCurrentUser(response));
         }
       },
       error => dispatch(throwError(error))
-    );
-  };
-};
+    )
+  }
+}
+
+export function setCredentials(credentials) {
+  return {
+    type: types.SET_CREDENTIALS,
+    payload: credentials
+  }
+}
 
 export function toggleProfile() {
   return {

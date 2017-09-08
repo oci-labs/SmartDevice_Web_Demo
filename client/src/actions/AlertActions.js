@@ -21,8 +21,8 @@ export function setAllAlerts(alerts) {
 export function getAlerts(count = 10) {
   return function(dispatch, getState) {
     const state = getState();
-    if (state.currentUser) {
-      return GETAllAlerts(count, state.currentUser.access_token).then(toJson).then(
+    if (state.credentials) {
+      return GETAllAlerts(count, state.credentials.access_token).then(toJson).then(
         response => {
           if (!response.error) {
             let itemsInFault = [];
