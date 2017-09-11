@@ -13,10 +13,13 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
+        post "/api/snoozedAlert/$username/$alertType/$serialNumber/$duration"(controller: 'snoozedAlert', action: 'save')
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
+        get "/api/snoozedAlert/user/$username"(controller: 'snoozedAlert', action: 'byUsername')
+        get "/api/user/username/$username"(controller: 'user', action: 'byUsername')
         get "/secure"(controller: 'secure', action: 'index')
 
         if ( Environment.current == Environment.PRODUCTION ) {

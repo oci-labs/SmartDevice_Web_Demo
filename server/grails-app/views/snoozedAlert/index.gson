@@ -1,0 +1,7 @@
+import com.nexmatix.SnoozedAlert
+
+model {
+    List<SnoozedAlert> snoozedAlerts
+}
+
+json tmpl.snoozedAlert("snoozedAlert", snoozedAlerts)
