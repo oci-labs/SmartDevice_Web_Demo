@@ -18,74 +18,77 @@ class AlertsComponent extends Component {
     }, 5000);
   };
   render() {
-    let alertList;
-    let inactiveAlertList;
-    let snoozedAlertList;
-    const { alerts, handleAlertClick } = this.props;
+    const { alerts, snoozedAlerts, handleAlertClick } = this.props;
+    let renderActive,
+        renderSnoozed;
 
-    if (alerts) {
-      let activeAlerts = [].concat(alerts).filter(alert => {
-        return alert.isActive === true && alert.isSnoozed === false;
-      });
-      let inactiveAlerts = [].concat(alerts).filter(alert => {
-        return alert.isActive === false;
-      });
-      let snoozedAlerts = [].concat(alerts).filter(alert => {
-        return alert.isActive === true && alert.isSnoozed === true;
+    if (alerts.length > 0) {
+
+      let snoozedAlertList = alerts.filter(alert => {
+        return snoozedAlerts.some(snoozed => {
+          let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+          let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+          console.log(snoozedAlertType + " === " + alert.alertType + " and " + snoozedAlertId + " === " + alert.id);
+          console.log((snoozedAlertType === alert.alertType && snoozedAlertId === alert.id));
+          return snoozedAlertType === alert.alertType && snoozedAlertId === alert.id
+        });
       });
 
-      activeAlerts.sort(
+      let activeAlertList = alerts.filter(alert => {
+        return !snoozedAlerts.some(snoozed => {
+          let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+          let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+          console.log(!(snoozedAlertType === alert.alertType && snoozedAlertId === alert.id));
+          return snoozedAlertType === alert.alertType && snoozedAlertId === alert.id
+        });
+      });
+
+      snoozedAlertList.sort(
         (a, b) =>
           new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
-      inactiveAlerts.sort(
+      activeAlertList.sort(
         (a, b) =>
           new Date(a.detectionTime) < new Date(b.detectionTime)
             ? 1
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
-      snoozedAlerts.sort(
-        (a, b) =>
-          new Date(a.detectionTime) < new Date(b.detectionTime)
-            ? 1
-            : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
-      );
-      alertList = activeAlerts.map((alert, i) =>
+      console.log(snoozedAlertList);
+      console.log(activeAlertList);
+      renderActive = activeAlertList.map((alert, i) =>
         <ValveAlert
           key={"alert-" + i}
           id={"alert-" + alert.id}
           alert={alert}
           leftIcon
-          isActive={alert.isActive}
-          isSnoozed={alert.isSnoozed}
+          isActive={true}
+          isSnoozed={false}
           alertType={alert.alertType}
           time={alert.detectionTime}
           onAlertClick={handleAlertClick}
         />
       );
-      inactiveAlertList = inactiveAlerts.map(alert =>
+
+      renderSnoozed = snoozedAlertList.map(alert =>
         <ValveAlert
           key={alert.id}
           id={alert.id}
           leftIcon
-          isActive={alert.isActive}
-          isSnoozed={alert.isSnoozed}
+          isActive={true}
+          isSnoozed={true}
           alertType={alert.alertType}
           time={alert.detectionTime}
         />
       );
-      snoozedAlertList = snoozedAlerts.map(alert =>
-        <ValveAlert
-          key={alert.id}
-          id={alert.id}
-          leftIcon
-          isActive={alert.isActive}
-          isSnoozed={alert.isSnoozed}
-          alertType={alert.alertType}
-          time={alert.detectionTime}
-        />
+    } else {
+      return (
+        <div className="alertBar">
+          <div className="alertsContainer">
+            <p>No Alerts</p>
+          </div>
+        </div>
       );
     }
     return (
@@ -96,9 +99,8 @@ class AlertsComponent extends Component {
           transitionEnterTimeout={300}
           transitionLeaveTimeout={100}
         >
-          {alertList}
-          {snoozedAlertList}
-          {inactiveAlertList}
+          {renderActive}
+          {renderSnoozed}
         </CSSTransitionGroup>
       </div>
       </div>
@@ -108,7 +110,8 @@ class AlertsComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    alerts: state.alerts
+    alerts: state.alerts,
+    snoozedAlerts: state.snoozedAlerts
   };
 }
 function mapDispatchToProps(dispatch) {

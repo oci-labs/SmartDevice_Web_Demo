@@ -14,8 +14,9 @@ const initialState = {
   viewProfile: true,
   viewAlerts: false,
   currentUser: null,
+  alerts: [],
   snoozedAlerts: [],
-  credentials: null
+  credentials: null,
 };
 
 function reducer(state = initialState, action) {
@@ -80,9 +81,9 @@ function reducer(state = initialState, action) {
           return fac.id === action.payload.id ? action.payload : fac;
         })
       });
-    case types.SET_SNOOZED_ALERT:
+    case types.SET_SNOOZED_ALERTS:
       return Object.assign({}, state, {
-        snoozedAlerts: state.snoozedAlerts.concat(action.payload)
+        snoozedAlerts: action.payload
       });
     case types.TOGGLE_PROFILE:
       return Object.assign({}, state, {

@@ -48,8 +48,13 @@ export function getAlerts(count = 10) {
   };
 }
 
-function POSTSnoozedAlert() {
-
+function POSTSnoozedAlert(snoozedAlert, username, token) {
+    return fetch(`${SERVER_URL}/api/snoozedAlert/${username}/${snoozedAlert.alertType}/${snoozedAlert.alertId}/${snoozedAlert.duration}`, {
+      method: 'post',
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
 }
 
 export function toggleAlerts() {
@@ -58,15 +63,56 @@ export function toggleAlerts() {
   };
 }
 
-export function snoozeAlert(duration, alert) {
+export function snoozeAlert(snoozed) {
   return function (dispatch, getState) {
-    console.log(duration)
+    const username = getState().currentUser.username;
+    const token = getState().credentials.access_token;
+    const snoozedAlerts = getState().snoozedAlerts;
+    POSTSnoozedAlert(snoozed, username, token).then(toJson).then(
+      response => {
+        if (!response.error) {
+          // let alerts = snoozedAlerts;
+          // alerts.push(response);
+          // console.log(alerts);
+          dispatch(getSnoozedAlerts());
+        }
+      },
+      error => dispatch(throwError(error))
+    )
   }
 }
 
-export function setSnoozeAlert(alert) {
+// export function setSnoozeAlert(alert) {
+//   return {
+//     type: types.SET_SNOOZED_ALERT,
+//     payload: alert
+//   };
+// }
+function GETSnoozedAlerts(username, token) {
+  return fetch(`${SERVER_URL}/api/snoozedAlert/user/${username}`, {
+    method: 'get',
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+}
+export function getSnoozedAlerts() {
+  return function(dispatch, getState) {
+    const username = getState().currentUser.username;
+    const token = getState().credentials.access_token;
+    if (username) {
+      return GETSnoozedAlerts(username, token).then(toJson).then(
+        response => {
+          dispatch(setSnoozedAlerts(response))
+        },
+        error => dispatch(throwError(error))
+      )
+    }
+  }
+}
+export function setSnoozedAlerts(alerts) {
   return {
-    type: types.SET_SNOOZED_ALERT,
-    payload: alert
-  };
+    type: types.SET_SNOOZED_ALERTS,
+    payload: alerts
+  }
 }

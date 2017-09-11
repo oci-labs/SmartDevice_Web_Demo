@@ -7,9 +7,12 @@ class SnoozedAlert {
 
     User user
     Date snoozedAt
-    Long duration = 120000l
+    Long duration
 
     Map<String, Integer> valveAlertId
+
+    static belongsTo = [user: User]
+
     private ValveAlert valveAlert
 
     ValveAlert getValveAlert() {

@@ -14,7 +14,7 @@ class ValveController {
     @Autowired
     ValveService valveService
 
-    @Transactional(readOnly = true)
+    @Transactional
     def index(Integer max) {
         println "index.... "
         params.max = Math.min(max ?: 10, 100)
@@ -23,12 +23,12 @@ class ValveController {
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     def show(Integer id) {
         respond Valve.withNewSession { Valve.get(id) }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     def byStation(Integer station, Integer manifold) {
         log.info "byStation ${station}/${manifold}"
         Manifold m = Manifold.get(manifold)

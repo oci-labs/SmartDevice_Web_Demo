@@ -1,6 +1,6 @@
 import * as types from "./types";
 import { toJson, throwError, initialize } from "./index";
-import { getAlerts } from "./AlertActions"
+import { getAlerts, getSnoozedAlerts } from "./AlertActions";
 import { SERVER_URL } from "../config";
 
 
@@ -42,6 +42,7 @@ export function getCurrentUser(credentials) {
           dispatch(setCurrentUser(response));
           dispatch(getAlerts(30));
           dispatch(initialize());
+          dispatch(getSnoozedAlerts());
 
         }
       }

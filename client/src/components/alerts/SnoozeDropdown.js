@@ -21,11 +21,13 @@ class SnoozeDropdownComponent extends React.Component {
     });
   }
   handleSnoozeAlertClick(duration) {
-    console.log(duration);
     let snoozedAlert = {
-      key: "value"
+      alertId: this.props.alert.id,
+      alertType: this.props.alert.alertType,
+      duration: duration
     }
     this.props.handleSnoozeAlert(snoozedAlert);
+    this.toggle();
   }
   render() {
     return (
