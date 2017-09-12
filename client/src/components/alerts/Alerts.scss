@@ -64,5 +64,64 @@ div.alertBar {
       opacity: 0.01;
       transition: 600ms;
     }
+    .snoozeWrapper {
+      position: relative;
+      .snoozeOptions {
+        border: 1px solid #333;
+        position: absolute;
+        width: 180px;
+        background: #777;
+        color: #fff;
+        right: -18px;
+        top: 10px;
+        z-index: 999;
+        border-radius: 6px;
+        li {
+          list-style: none;
+          font-size: 18px;
+          line-height: 40px;
+          padding-left: 10px;
+          border-top: 1px solid #333;
+        }
+        li:hover {
+          background: #444;
+        }
+        li:first-child {
+          border-top: none;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+        }
+        li:last-child {
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+      .snoozeOverlay {
+        position: fixed;
+        z-index: 990;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255,255,255,0.7);
+      }
+    }
+
+    .snoozeWrapper.closed {
+      .snoozeOverlay {
+        display: none;
+      }
+      .snoozeOptions {
+        display: none;
+      }
+    }
+    .snoozeWrapper.open {
+      .snoozeOverlay {
+        display: block;
+      }
+      .snoozeOptions {
+        display: block;
+      }
+    }
   }
 }

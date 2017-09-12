@@ -1,8 +1,5 @@
 package com.nexmatix
 
-import grails.plugin.springsecurity.annotation.Secured
-import grails.rest.Resource
-@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class Valve {
 
     Integer serialNumber

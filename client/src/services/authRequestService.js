@@ -1,20 +1,20 @@
 import store from "../store";
 import { SERVER_URL } from "../config";
 
-function getCurrentUser() {
+function getCredentials() {
   let state = store.getState();
-  return state.currentUser;
+  return state.credentials;
 }
 
 export function authRequest(url, method, cb) {
-  let currentUser = getCurrentUser();
+  let credentials = getCredentials();
 
-  if (currentUser) {
+  if (credentials) {
     // make request, return result
     fetch(SERVER_URL + url, {
       method: method,
       headers: {
-        Authorization: "Bearer " + currentUser.access_token
+        Authorization: "Bearer " + credentials.access_token
       }
     })
       .then(response => response.json())
