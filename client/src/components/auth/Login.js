@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input } from "../common/Inputs";
-import { postCurrentUser } from "../../actions/index";
+import { postUserAuth } from "../../actions/index";
 //import "./Login.css";
 
 class LoginComponent extends Component {
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     handleLogin: function(username, password) {
-      dispatch(postCurrentUser(username, password));
+      dispatch(postUserAuth(username, password));
     }
   }
 }

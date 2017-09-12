@@ -2,15 +2,10 @@ import * as types from "./types";
 import * as states from "../components/common/view.config";
 import { SERVER_URL } from "../config";
 
-function GETAllAlerts(count, token) {
-  console.log("Test change");
-  return fetch(`${SERVER_URL}/api/valveAlert?max=${count}`, {
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
-}
+export * from "./UserActions";
+export * from "./AlertActions";
+
+
 
 function GETItem(item, token) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
@@ -96,7 +91,7 @@ function GETMachinesByDepartment(departmentId, token) {
   });
 }
 
-function toJson(response) {
+export function toJson(response) {
   return response.json();
 }
 
@@ -108,35 +103,11 @@ export function getFirst(items) {
   }
 }
 
-function POSTUserAuth(username, password) {
-  return fetch(`${SERVER_URL}/api/login`, {
-    body: JSON.stringify({ username: username, password: password }),
-    method: "post",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    }
-  });
-}
-
-export function setCurrentUser(user) {
-  return {
-    type: types.SET_CURRENT_USER,
-    payload: user
-  };
-}
-
-export function setAllAlerts(alerts) {
-  return {
-    type: types.SET_ALL_ALERTS,
-    payload: alerts
-  };
-}
 
 export function addItem(item) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return ADDItem(item, token)
         .then(toJson)
@@ -168,9 +139,9 @@ export function addItem(item) {
 export function deleteItem(item) {
   return function(dispatch, getState) {
     const state = getState();
-    const user = getState().currentUser;
-    const token = user && user.access_token;
-    if (token) {
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
+    if(token) {
       return DELETEItem(item, token).then(response => {
         switch (item.type) {
           case "facility":
@@ -197,8 +168,8 @@ export function deleteItem(item) {
 
 export function updateItem(item) {
   return function(dispatch, getState) {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return UPDATEItem(item, token)
         .then(toJson)
@@ -249,8 +220,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
       currentUser
     } = getState();
     if (item && currentUser) {
-      const user = getState().currentUser;
-      const token = user && user.access_token;
+      const credentials = getState().credentials;
+      const token = credentials && credentials.access_token;
       if (token) {
         GETItem(item, token)
           .then(toJson)
@@ -365,8 +336,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
 
 function setValve(station) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (token) {
       return GETValve(station, token)
         .then(toJson)
@@ -381,8 +352,8 @@ function setValve(station) {
 
 export function showValve(valve) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveBySerialNumber(valve, token)
         .then(toJson)
@@ -399,8 +370,8 @@ export function showValve(valve) {
 
 export function setValveStatus(valve) {
   return (dispatch, getState) => {
-    const user = getState().currentUser;
-    const token = user && user.access_token;
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveStatus(valve, token)
         .then(toJson)
@@ -476,65 +447,13 @@ export function setViewState(state) {
   };
 }
 
-export function postCurrentUser(username, password) {
-  return function(dispatch) {
-    return POSTUserAuth(username, password)
-      .then(toJson)
-      .then(
-        response => {
-          if (!response.error) {
-            dispatch(setCurrentUser(response));
-            dispatch(getAllAlerts(30));
-            dispatch(initialize());
-          }
-        },
-        error => dispatch(throwError(error))
-      );
-  };
-}
-
-export function getAllAlerts(count = 10) {
-  return function(dispatch, getState) {
-    const state = getState();
-    if (state.currentUser) {
-      return GETAllAlerts(count, state.currentUser.access_token)
-        .then(toJson)
-        .then(
-          response => {
-            if (!response.error) {
-              let itemsInFault = [];
-              let alerts = response.map(item => {
-                item.isSnoozed = false;
-                item.isActive = true;
-                itemsInFault.push(`station.${item.valve.station.id}`);
-                itemsInFault.push(`manifold.${item.valve.manifold.id}`);
-                itemsInFault.push(`machine.${item.valve.machine.id}`);
-                itemsInFault.push(`department.${item.valve.department.id}`);
-                itemsInFault.push(`facility.${item.valve.facility.id}`);
-                return item;
-              });
-              dispatch(setAllAlerts(alerts));
-              dispatch(setItemsInFault(itemsInFault));
-            }
-          },
-          error => dispatch(throwError(error))
-        );
-    } else {
-      return "unauthenticated.";
-    }
-  };
-}
-
 export function initialize() {
   return (dispatch, getState) => {
     const state = getState();
-    if (state.currentUser) {
-      GETItem(
-        {
-          type: "facility"
-        },
-        state.currentUser.access_token
-      )
+    if(state.currentUser) {
+      GETItem({
+        type: "facility"
+      }, state.credentials.access_token)
         .then(toJson)
         .then(response => {
           dispatch(setActiveItems(response));
@@ -546,24 +465,7 @@ export function initialize() {
   };
 }
 
-export function toggleProfile() {
-  return {
-    type: types.TOGGLE_PROFILE
-  };
-}
 
-export function toggleAlerts() {
-  return {
-    type: types.TOGGLE_ALERTS
-  };
-}
-
-export function snoozeAlert(alert) {
-  return {
-    type: types.SNOOZE_ALERT,
-    payload: alert
-  };
-}
 
 export function setItemsInFault(itemsInFault) {
   return {
