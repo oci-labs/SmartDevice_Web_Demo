@@ -4,7 +4,7 @@ import ValveAlert from "./ValveAlert";
 import { CSSTransitionGroup } from "react-transition-group";
 import "./Alerts.css";
 
-import { getAlerts, showValve, snoozeAlert } from "../../actions";
+import { getAlerts, showValve } from "../../actions";
 
 class AlertsComponent extends Component {
   constructor(props) {
@@ -19,28 +19,48 @@ class AlertsComponent extends Component {
   };
   render() {
     const { alerts, snoozedAlerts, handleAlertClick } = this.props;
-    let renderActive,
-        renderSnoozed;
+    let renderActive, renderSnoozed;
 
     if (alerts.length > 0) {
-
       let snoozedAlertList = alerts.filter(alert => {
-        return snoozedAlerts.some(snoozed => {
-          let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-          let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
-          console.log(snoozedAlertType + " === " + alert.alertType + " and " + snoozedAlertId + " === " + alert.id);
-          console.log((snoozedAlertType === alert.alertType && snoozedAlertId === alert.id));
-          return snoozedAlertType === alert.alertType && snoozedAlertId === alert.id
-        });
+        return (
+          snoozedAlerts.length > 0 &&
+          snoozedAlerts.some(snoozed => {
+            let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+            let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+            console.log(
+              snoozedAlertType +
+                " === " +
+                alert.alertType +
+                " and " +
+                snoozedAlertId +
+                " === " +
+                alert.id
+            );
+            console.log(
+              snoozedAlertType === alert.alertType &&
+                snoozedAlertId === alert.id
+            );
+            return (
+              snoozedAlertType === alert.alertType &&
+              snoozedAlertId === alert.id
+            );
+          })
+        );
       });
 
       let activeAlertList = alerts.filter(alert => {
-        return !snoozedAlerts.some(snoozed => {
-          let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-          let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
-          console.log(!(snoozedAlertType === alert.alertType && snoozedAlertId === alert.id));
-          return snoozedAlertType === alert.alertType && snoozedAlertId === alert.id
-        });
+        return (
+          snoozedAlerts.length > 0 &&
+          !snoozedAlerts.some(snoozed => {
+            let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+            let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+            return (
+              snoozedAlertType === alert.alertType &&
+              snoozedAlertId === alert.id
+            );
+          })
+        );
       });
 
       snoozedAlertList.sort(
@@ -55,9 +75,7 @@ class AlertsComponent extends Component {
             ? 1
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
-      console.log(snoozedAlertList);
-      console.log(activeAlertList);
-      renderActive = activeAlertList.map((alert, i) =>
+      renderActive = activeAlertList.map((alert, i) => (
         <ValveAlert
           key={"alert-" + i}
           id={"alert-" + alert.id}
@@ -69,9 +87,9 @@ class AlertsComponent extends Component {
           time={alert.detectionTime}
           onAlertClick={handleAlertClick}
         />
-      );
+      ));
 
-      renderSnoozed = snoozedAlertList.map(alert =>
+      renderSnoozed = snoozedAlertList.map(alert => (
         <ValveAlert
           key={alert.id}
           id={alert.id}
@@ -81,7 +99,7 @@ class AlertsComponent extends Component {
           alertType={alert.alertType}
           time={alert.detectionTime}
         />
-      );
+      ));
     } else {
       return (
         <div className="alertBar">
@@ -93,16 +111,16 @@ class AlertsComponent extends Component {
     }
     return (
       <div className="alertBar">
-      <div className="alertsContainer">
-        <CSSTransitionGroup
-          transitionName="alerts"
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={100}
-        >
-          {renderActive}
-          {renderSnoozed}
-        </CSSTransitionGroup>
-      </div>
+        <div className="alertsContainer">
+          <CSSTransitionGroup
+            transitionName="alerts"
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={100}
+          >
+            {renderActive}
+            {renderSnoozed}
+          </CSSTransitionGroup>
+        </div>
       </div>
     );
   }

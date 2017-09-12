@@ -31,6 +31,7 @@ class IconGroupComponent extends Component {
           });
         }
       });
+      return listener;
     });
   };
 
@@ -43,7 +44,7 @@ class IconGroupComponent extends Component {
   }
 
   render() {
-    const { activeItems, groupItem, handleIconClick } = this.props;
+    const { groupItem, handleIconClick } = this.props;
     let groupItemChildren = {};
     if (groupItem && groupItem.children) {
       groupItemChildren = groupItem.children
