@@ -15,9 +15,33 @@ class IconGroupComponent extends Component {
     super(props);
 
     this.state = {
-      warning: false
+      warnings: {}
     };
   }
+
+  setWarnings = item => {
+    item.children.map(child => {
+      const id = child.id ? child.id : child.serialNumber;
+      const listener = listen(`${child.type}.${id}`, true, value => {
+        if (this.state.warnings[id] !== value) {
+          const newWarning = {};
+          newWarning[id] = value;
+          this.setState({
+            warnings: Object.assign({}, this.state.warnings, newWarning)
+          });
+        }
+      });
+    });
+  };
+
+  componentWillMount() {
+    this.setWarnings(this.props.groupItem);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setWarnings(nextProps.groupItem);
+  }
+
   render() {
     const { activeItems, groupItem, handleIconClick } = this.props;
     let groupItemChildren = {};
@@ -32,19 +56,12 @@ class IconGroupComponent extends Component {
             handleIconClick(child);
           };
           const id = child.id ? child.id : child.serialNumber;
-          const listener = listen(`${child.type}.${id}`, true, value => {
-            if (this.state.warning !== value) {
-              this.setState({
-                warning: value
-              });
-            }
-          });
           return (
             <Col key={index} xs="12" sm="6" md="4" lg="3">
               <ValveIcon
                 size="large"
                 handleClick={handleClick}
-                warning={this.state.warning}
+                warning={this.state.warnings[id]}
               >
                 {child.name}
               </ValveIcon>
