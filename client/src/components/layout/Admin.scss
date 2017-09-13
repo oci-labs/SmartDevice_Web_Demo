@@ -1,0 +1,16 @@
+@import "../../custom.config.scss";
+
+.admin {
+  width: 100%;
+  margin: 12px;
+
+  .addUserButton {
+    color: black;
+    margin: 5px;
+    height: 40px;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: 2px solid $primary-color;
+    border-radius: 4px;
+  }
+}

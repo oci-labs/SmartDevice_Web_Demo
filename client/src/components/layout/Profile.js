@@ -1,12 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./Profile.css";
-import { setCurrentUser } from "../../actions/index";
+import {
+  goToPreviousViewState,
+  setCurrentUser,
+  setViewState
+} from "../../actions/index";
+import * as states from "../common/view.config";
+import View from "../common/View";
 import ProfilePicture from "../profile/ProfilePicture";
 import { Column } from "../layout/LayoutComponents";
 import Login from "../auth/Login";
 
-const ProfileComponent = ({ viewProfile, currentUser, handleLogout }) => {
+const ProfileComponent = ({
+  viewProfile,
+  currentUser,
+  goToAdminState,
+  goToPreviousState,
+  handleLogout
+}) => {
   return (
     <div className="profile">
       {currentUser ? (
@@ -19,7 +31,20 @@ const ProfileComponent = ({ viewProfile, currentUser, handleLogout }) => {
               Logout
             </span>
           </div>
-          <button className="adminButton">Admin</button>
+          <View className="adminButton" states={[states.ADMIN_STATE]}>
+            <button onClick={goToPreviousState}>Back to Main View</button>
+          </View>
+          <View
+            className="adminButton"
+            states={[
+              states.DEPARTMENT_STATE,
+              states.FACILITY_STATE,
+              states.MACHINE_STATE,
+              states.MANIFOLD_STATE
+            ]}
+          >
+            <button onClick={goToAdminState}>Admin</button>
+          </View>
         </Column>
       ) : (
         <Column>
@@ -39,6 +64,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    goToAdminState: () => {
+      dispatch(setViewState(states.ADMIN_STATE));
+    },
+    goToPreviousState: () => {
+      dispatch(goToPreviousViewState());
+    },
     handleLogout: () => {
       dispatch(setCurrentUser(null));
     }

@@ -3,10 +3,20 @@ import "./Inputs.css";
 
 import Icon from "../icons/Icon";
 
-export const Input = ({ hide, model, name, onChange, type = 'text' }) => {
+export const Input = ({
+  hide,
+  model,
+  name,
+  isValid,
+  onChange,
+  type = "text"
+}) => {
   const handleOnChange = event => {
     if (onChange) {
       onChange(event.target.value);
+    }
+    if (isValid) {
+      isValid(event.target.value);
     }
   };
   if (hide) {
@@ -14,9 +24,7 @@ export const Input = ({ hide, model, name, onChange, type = 'text' }) => {
   }
   return (
     <div className="commonInputWrapper">
-      <div className="commonInputLabel">
-        {name}
-      </div>
+      <div className="commonInputLabel">{name}</div>
       <input
         className="commonInput"
         type={type}
@@ -178,9 +186,7 @@ export class Select extends Component {
     if (!this.props.hideIf) {
       return (
         <div className="generalWrapper">
-          <div className="commonSelectLabel">
-            {this.props.name}
-          </div>
+          <div className="commonSelectLabel">{this.props.name}</div>
           <div className={`commonSelectWrapper ${disabled ? "disabled" : ""}`}>
             <div className="commonSelect" ref={this.setWrapperRef} tabIndex="0">
               <div className="selected" onClick={this.toggleOptions}>
@@ -189,9 +195,11 @@ export class Select extends Component {
                 </div>
                 <Icon
                   type={
-                    isOpen && !disabled
-                      ? "keyboard_arrow_up"
-                      : "keyboard_arrow_down"
+                    isOpen && !disabled ? (
+                      "keyboard_arrow_up"
+                    ) : (
+                      "keyboard_arrow_down"
+                    )
                   }
                 />
               </div>

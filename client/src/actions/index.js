@@ -5,8 +5,6 @@ import { SERVER_URL } from "../config";
 export * from "./UserActions";
 export * from "./AlertActions";
 
-
-
 function GETItem(item, token) {
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
     method: "get",
@@ -39,6 +37,15 @@ function GETValveBySerialNumber(valve, token) {
 
 function GETValveStatus(valve, token) {
   return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`, {
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+}
+
+function GETUsers(token) {
+  return fetch(`${SERVER_URL}/api/users`, {
     method: "get",
     headers: {
       Authorization: "Bearer " + token
@@ -103,7 +110,6 @@ export function getFirst(items) {
   }
 }
 
-
 export function addItem(item) {
   return (dispatch, getState) => {
     const credentials = getState().credentials;
@@ -141,7 +147,7 @@ export function deleteItem(item) {
     const state = getState();
     const credentials = getState().credentials;
     const token = credentials && credentials.access_token;
-    if(token) {
+    if (token) {
       return DELETEItem(item, token).then(response => {
         switch (item.type) {
           case "facility":
@@ -384,6 +390,18 @@ export function setValveStatus(valve) {
   };
 }
 
+export function getAllUsers() {
+  return (dispatch, getState) => {
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
+    return GETUsers(token)
+      .then(toJson)
+      .then(response => {
+        console.log("getAllUsers response", response);
+      });
+  };
+}
+
 function setAllFacilities(facilities) {
   return {
     type: types.SET_ALL_FACILITIES,
@@ -447,13 +465,22 @@ export function setViewState(state) {
   };
 }
 
+export function goToPreviousViewState() {
+  return {
+    type: types.GO_TO_PREVIOUS_VIEW_STATE
+  };
+}
+
 export function initialize() {
   return (dispatch, getState) => {
     const state = getState();
-    if(state.currentUser) {
-      GETItem({
-        type: "facility"
-      }, state.credentials.access_token)
+    if (state.currentUser) {
+      GETItem(
+        {
+          type: "facility"
+        },
+        state.credentials.access_token
+      )
         .then(toJson)
         .then(response => {
           dispatch(setActiveItems(response));
@@ -464,8 +491,6 @@ export function initialize() {
     }
   };
 }
-
-
 
 export function setItemsInFault(itemsInFault) {
   return {
