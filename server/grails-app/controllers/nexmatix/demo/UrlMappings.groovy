@@ -15,7 +15,7 @@ class UrlMappings {
 
         post "/api/snoozedAlert/$username/$alertType/$serialNumber/$duration"(controller: 'snoozedAlert', action: 'save')
 
-        post "/api/notification/$valveId"(controller: 'alertNotification', action: 'send')
+        post "/notification/$valveId"(controller: 'alertNotification', action: 'send')
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
