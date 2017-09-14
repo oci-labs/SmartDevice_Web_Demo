@@ -15,6 +15,7 @@ const initialState = {
   viewProfile: true,
   viewAlerts: false,
   currentUser: null,
+  users: [],
   alerts: [],
   snoozedAlerts: [],
   credentials: null
@@ -115,6 +116,10 @@ function reducer(state = initialState, action) {
     case types.SET_CURRENT_USER:
       return Object.assign({}, state, {
         currentUser: action.payload
+      });
+    case types.SET_ALL_USERS:
+      return Object.assign({}, state, {
+        users: action.payload
       });
     case types.SET_CREDENTIALS:
       return Object.assign({}, state, {

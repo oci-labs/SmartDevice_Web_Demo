@@ -15,6 +15,7 @@ export const SET_SELECTED_STATION = "selected:station";
 export const SET_SELECTED_VALVE = "selected:valve";
 export const SET_VALVE_STATUS = "selected:valve:status";
 export const SET_CURRENT_USER = "user:set:current";
+export const SET_ALL_USERS = "user:set:all";
 export const SET_SNOOZED_ALERTS = "user:set:snoozed";
 export const SET_CREDENTIALS = "set:credentials";
 export const UPDATE_ACTIVE_ITEMS = "items:update";

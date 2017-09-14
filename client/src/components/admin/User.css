@@ -1,0 +1,15 @@
+.user {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 8px; }
+  .user:hover {
+    background-color: rgba(55, 55, 55, 0.12); }
+  .user .field {
+    width: 30%;
+    text-align: center; }
+  .user .field-15 {
+    width: 15%;
+    text-align: center; }
+  .user .userDelete {
+    cursor: pointer; }

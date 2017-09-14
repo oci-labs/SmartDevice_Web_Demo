@@ -1,56 +1,47 @@
 import * as types from "./types";
 import * as states from "../components/common/view.config";
 import { SERVER_URL } from "../config";
+import store from "../store";
 
 export * from "./UserActions";
 export * from "./AlertActions";
 
-function GETItem(item, token) {
-  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
-    method: "get",
-    headers: {
+export function secureFetch(url, params) {
+  const credentials = store.getState().credentials;
+  const token = credentials && credentials.access_token;
+  let tokenHeader = {};
+  if (token) {
+    tokenHeader = {
       Authorization: "Bearer " + token
-    }
-  });
+    };
+  }
+  const secureHeaders = Object.assign(
+    {},
+    params ? params.headers : {},
+    tokenHeader
+  );
+  return fetch(
+    `${SERVER_URL}${url}`,
+    Object.assign({}, params, { headers: secureHeaders })
+  );
+}
+
+function GETItem(item, token) {
+  return secureFetch(`/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
 function GETValve(station, token) {
-  return fetch(
-    `${SERVER_URL}/api/valve/station/${station.parent.id}/${station.number}`,
-    {
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    }
+  return secureFetch(
+    `/api/valve/station/${station.parent.id}/${station.number}`
   );
 }
 
 function GETValveBySerialNumber(valve, token) {
-  return fetch(`${SERVER_URL}/api/valve/${valve.serialNumber}`, {
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
+  return secureFetch(`/api/valve/${valve.serialNumber}`);
 }
 
 function GETValveStatus(valve, token) {
-  return fetch(`${SERVER_URL}/api/valveStatus/${valve.serialNumber}`, {
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
-}
-
-function GETUsers(token) {
-  return fetch(`${SERVER_URL}/api/users`, {
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
+  return secureFetch(`/api/valveStatus/${valve.serialNumber}`);
 }
 
 function ADDItem(item, token) {
@@ -90,16 +81,11 @@ function UPDATEItem(item, token) {
 }
 
 function GETMachinesByDepartment(departmentId, token) {
-  return fetch(`${SERVER_URL}/api/machine/department/${departmentId}`, {
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
+  return secureFetch(`/api/machine/department/${departmentId}`);
 }
 
 export function toJson(response) {
-  return response.json();
+  return response.status === 200 ? response.json() : response;
 }
 
 export function getFirst(items) {
@@ -387,18 +373,6 @@ export function setValveStatus(valve) {
     } else {
       return;
     }
-  };
-}
-
-export function getAllUsers() {
-  return (dispatch, getState) => {
-    const credentials = getState().credentials;
-    const token = credentials && credentials.access_token;
-    return GETUsers(token)
-      .then(toJson)
-      .then(response => {
-        console.log("getAllUsers response", response);
-      });
   };
 }
 

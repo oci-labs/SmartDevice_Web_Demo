@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { toJson, throwError, initialize } from "./index";
+import { toJson, secureFetch, throwError, initialize } from "./index";
 import { getAlerts, getSnoozedAlerts } from "./AlertActions";
 import { SERVER_URL } from "../config";
 
@@ -10,6 +10,15 @@ function GETUserObj(username, token) {
       Accept: "application/json",
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"
+    }
+  });
+}
+
+function GETUsers(token) {
+  return fetch(`${SERVER_URL}/api/user`, {
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token
     }
   });
 }
@@ -25,14 +34,20 @@ function POSTUserAuth(username, password) {
   });
 }
 
-function POSTNewUser(username, password, email) {
-  return fetch(`${SERVER_URL}/api/user/addUser`, {
-    // body: JSON.stringify({ username, password, email }),
-    method: "get",
+function POSTNewUser(user) {
+  return secureFetch(`/api/user`, {
+    method: "post",
+    body: JSON.stringify(user),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     }
+  });
+}
+
+function DELETEUser(user) {
+  return secureFetch(`/api/user/${user.id}`, {
+    method: "delete"
   });
 }
 
@@ -58,12 +73,43 @@ export function getCurrentUser(credentials) {
   };
 }
 
-export function addNewUser(username, password, email) {
-  return function(dispatch) {
-    return POSTNewUser(username, password, email)
+function setAllUsers(users) {
+  return {
+    type: types.SET_ALL_USERS,
+    payload: users
+  };
+}
+
+export function getAllUsers() {
+  return (dispatch, getState) => {
+    const credentials = getState().credentials;
+    const token = credentials && credentials.access_token;
+    return GETUsers(token)
       .then(toJson)
       .then(response => {
-        console.log("New user response", response);
+        dispatch(setAllUsers(response));
+      });
+  };
+}
+
+export function addNewUser(user) {
+  return dispatch => {
+    return POSTNewUser(user)
+      .then(toJson)
+      .then(response => {
+        console.log("User added", response);
+        dispatch(getAllUsers());
+      });
+  };
+}
+
+export function deleteUser(user) {
+  return dispatch => {
+    return DELETEUser(user)
+      .then(toJson)
+      .then(response => {
+        console.log("User deleted", response);
+        dispatch(getAllUsers());
       });
   };
 }

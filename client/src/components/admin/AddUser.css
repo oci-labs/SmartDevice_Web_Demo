@@ -1,0 +1,17 @@
+.addUser {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center; }
+  .addUser .addUserModalButton {
+    display: flex;
+    width: 100%;
+    margin: 22px 0px 0px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.9em;
+    height: 40px;
+    justify-content: center; }
+    .addUser .addUserModalButton.add {
+      background-color: #fdaa18; }

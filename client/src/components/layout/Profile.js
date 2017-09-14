@@ -24,7 +24,7 @@ const ProfileComponent = ({
       {currentUser ? (
         <Column>
           <ProfilePicture />
-          <div className="profileTitle">Brian Jenkins</div>
+          <div className="profileTitle">{currentUser.username}</div>
           <div className="profileRoles">
             <span>Technician</span> |{" "}
             <span className="logout" onClick={handleLogout}>
@@ -32,7 +32,7 @@ const ProfileComponent = ({
             </span>
           </div>
           <View className="adminButton" states={[states.ADMIN_STATE]}>
-            <button onClick={goToPreviousState}>Back to Main View</button>
+            <button onClick={goToPreviousState}>Main View</button>
           </View>
           <View
             className="adminButton"

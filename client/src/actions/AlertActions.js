@@ -26,7 +26,7 @@ export function getAlerts(count = 10) {
         .then(toJson)
         .then(
           response => {
-            if (!response.error) {
+            if (!response.error && response.length > 1) {
               let itemsInFault = [];
               let alerts = response.map(item => {
                 item.isActive = true;

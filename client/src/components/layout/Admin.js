@@ -1,34 +1,42 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Admin.css";
+
+import Users from "../admin/Users";
+import AddUser from "../admin/AddUser";
 import { getAllUsers } from "../../actions";
 
 class AdminComponent extends Component {
   constructor(props) {
     super(props);
+    this.props.getUsers();
   }
-  handleAddUserClick = () => {
-    this.props.handleGetAllUsers();
-  };
   render() {
     return (
       <div className="admin">
-        <button className="addUserButton" onClick={this.handleAddUserClick}>
-          Add a User
-        </button>
+        <AddUser>
+          <button className="addUserButton">Add a User</button>
+        </AddUser>
+        <Users users={this.props.users} />
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    handleGetAllUsers: () => {
+    getUsers: () => {
       dispatch(getAllUsers());
     }
   };
 };
 
-const Admin = connect(null, mapDispatchToProps)(AdminComponent);
+const Admin = connect(mapStateToProps, mapDispatchToProps)(AdminComponent);
 
 export default Admin;
