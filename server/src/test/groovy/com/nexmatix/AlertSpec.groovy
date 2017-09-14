@@ -1,13 +1,9 @@
 package com.nexmatix
 
-import grails.test.mixin.TestFor
+import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
-@TestFor(Alert)
-class AlertSpec extends Specification {
+class AlertSpec extends Specification implements DomainUnitTest<Alert> {
 
     def setup() {
     }
