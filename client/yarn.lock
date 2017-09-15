@@ -5282,6 +5282,10 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
+react-validation@^2.10.9:
+  version "2.10.9"
+  resolved "https://registry.yarnpkg.com/react-validation/-/react-validation-2.10.9.tgz#f56e32cabcf22d53d82af34a7bed80f2b22ba7c4"
+
 react@^15.4.2:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
@@ -6484,6 +6488,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-8.2.0.tgz#3c1237290e37092355344fef78c231249dab77b9"
 
 value-equal@^0.2.0:
   version "0.2.1"

@@ -1,0 +1,8 @@
+import com.nexmatix.model.UserWithRole
+
+model {
+    List<UserWithRole> usersWithRoles
+}
+
+json tmpl.userRole("userRole", usersWithRoles ?: [])
+

@@ -1,0 +1,13 @@
+.userHeaders {
+  display: flex;
+  flex-direction: row;
+  .userHeaderfield {
+    width: 20%;
+    text-align: center;
+    font-weight: bold;
+  }
+  .userHeaderfield-15 {
+    width: 15%;
+    text-align: center;
+  }
+}

@@ -8,12 +8,17 @@ const initialState = {
   selectedMachine: {},
   selectedManifold: {},
   selectedStation: {},
+  PREVIOUS_VIEW_STATE: "state:facility",
   VIEW_STATE: "state:facility",
   currentStation: {},
   valveStatus: [],
   viewProfile: true,
   viewAlerts: false,
-  currentUser: null
+  currentUser: null,
+  users: [],
+  alerts: [],
+  snoozedAlerts: [],
+  credentials: null
 };
 
 function reducer(state = initialState, action) {
@@ -78,16 +83,9 @@ function reducer(state = initialState, action) {
           return fac.id === action.payload.id ? action.payload : fac;
         })
       });
-    case types.SNOOZE_ALERT:
-      let alerts = state.alerts.map(alert => {
-        if (alert.id === parseInt(action.payload.props.id.match(/\d+/g), 10)) {
-          alert.isSnoozed = !alert.isSnoozed;
-        }
-        return alert;
-      });
-      console.log(alerts);
+    case types.SET_SNOOZED_ALERTS:
       return Object.assign({}, state, {
-        alerts: alerts
+        snoozedAlerts: action.payload
       });
     case types.TOGGLE_PROFILE:
       return Object.assign({}, state, {
@@ -107,11 +105,25 @@ function reducer(state = initialState, action) {
       });
     case types.SET_VIEW_STATE:
       return Object.assign({}, state, {
+        PREVIOUS_VIEW_STATE: state.VIEW_STATE,
         VIEW_STATE: action.payload
+      });
+    case types.GO_TO_PREVIOUS_VIEW_STATE:
+      return Object.assign({}, state, {
+        VIEW_STATE: state.PREVIOUS_VIEW_STATE,
+        PREVIOUS_VIEW_STATE: state.VIEW_STATE
       });
     case types.SET_CURRENT_USER:
       return Object.assign({}, state, {
         currentUser: action.payload
+      });
+    case types.SET_ALL_USERS:
+      return Object.assign({}, state, {
+        users: action.payload
+      });
+    case types.SET_CREDENTIALS:
+      return Object.assign({}, state, {
+        credentials: action.payload
       });
     default:
       return state;
