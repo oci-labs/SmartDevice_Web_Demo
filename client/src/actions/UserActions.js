@@ -15,7 +15,7 @@ function GETUserObj(username, token) {
 }
 
 function GETUsers(token) {
-  return fetch(`${SERVER_URL}/api/user`, {
+  return fetch(`${SERVER_URL}/api/user/withRoles`, {
     method: "get",
     headers: {
       Authorization: "Bearer " + token
@@ -48,6 +48,13 @@ function POSTNewUser(user) {
 function DELETEUser(user) {
   return secureFetch(`/api/user/${user.id}`, {
     method: "delete"
+  });
+}
+
+function PUTUser(user) {
+  return secureFetch(`/api/user/updateRoles`, {
+    method: "put",
+    body: JSON.stringify(user)
   });
 }
 
@@ -109,6 +116,17 @@ export function deleteUser(user) {
       .then(toJson)
       .then(response => {
         console.log("User deleted", response);
+        dispatch(getAllUsers());
+      });
+  };
+}
+
+export function editUser(user) {
+  return dispatch => {
+    return PUTUser(user)
+      .then(toJson)
+      .then(response => {
+        console.log("User editted", response);
         dispatch(getAllUsers());
       });
   };

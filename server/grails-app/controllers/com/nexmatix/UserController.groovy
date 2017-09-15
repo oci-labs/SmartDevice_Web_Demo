@@ -1,5 +1,8 @@
 package com.nexmatix
 
+import com.nexmatix.model.UserWithRole
+import com.nexmatix.Role
+import com.nexmatix.UserRole
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 import grails.validation.ValidationException
@@ -23,6 +26,18 @@ class UserController {
         respond userService.findByUsername(params.username)
     }
 
+    def withRoles(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        def users = userService.list(params)
+        def usersWithRoles = users.collect { user ->
+            def roles = user.getAuthorities().collect {role ->
+                role.authority
+            }
+            userRole: new UserWithRole(user: user, roles: roles)
+        }
+        [usersWithRoles: usersWithRoles]
+    }
+
     def save(User user) {
         if (user == null) {
             render status: NOT_FOUND
@@ -30,7 +45,16 @@ class UserController {
         }
 
         try {
-            userService.save(user)
+            def savedUser = userService.save(user)
+            Role adminRole = Role.find{authority == 'ROLE_ADMIN'}
+
+            println "Role is ${adminRole.authority}"
+
+            UserRole.withSession {
+                def userRole = new UserRole(user: savedUser, role: adminRole).save()
+                it.flush()
+                it.clear()
+            }
         } catch (ValidationException e) {
             respond user.errors, view:'create'
             return
@@ -56,10 +80,14 @@ class UserController {
     }
 
     def delete(Long id) {
-        if (id == null) {
+        User u = User.get(id);
+
+        if (id == null || u == null) {
             render status: NOT_FOUND
             return
         }
+        
+        UserRole.where{user == u}.list()*.delete()
 
         userService.delete(id)
 
