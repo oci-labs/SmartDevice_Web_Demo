@@ -74,8 +74,21 @@ grails:
 grails:
     cors:
         enabled: true
+    mail:
+        host: "smtp.gmail.com"
+        port: 465
+        username: "nexmatix-mvd@objectcomputing.com"
+        password: "Sm@rtDem0"
+        props:
+          mail.smtp.auth: "true"
+          mail.smtp.socketFactory.port: "465"
+          mail.smtp.socketFactory.class: "javax.net.ssl.SSLSocketFactory"
+          mail.smtp.socketFactory.fallback: "false"
 
 allowedOrigin: http://localhost:3000 # accepted origin URL for websocket connections
+
+
+
 ---
 hibernate:
     cache:

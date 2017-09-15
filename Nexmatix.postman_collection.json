@@ -1,11 +1,5 @@
+[
 {
-	"variables": [],
-	"info": {
-		"name": "Nexmatix",
-		"_postman_id": "ad5edb82-c771-be78-7c99-71eb73569f23",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-	},
 	"item": [
 		{
 			"name": "Login",
@@ -77,6 +71,37 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Alert Notification",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/api/notification/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"notification",
+						"1"
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
 		}
 	]
+
 }
+	]

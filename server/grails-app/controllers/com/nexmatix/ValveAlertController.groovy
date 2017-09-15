@@ -4,7 +4,7 @@ import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 
-@Transactional(readOnly = true)
+@Transactional
 @Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class ValveAlertController {
 	static responseFormats = ['json', 'xml']

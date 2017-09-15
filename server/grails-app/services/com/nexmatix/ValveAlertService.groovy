@@ -11,6 +11,7 @@ interface IValveAlertService {
     @Query("from $ValveAlert as alert where alert.valveSerialNumber = ${valve.serialNumber}")
     List<ValveAlert> findAllByValve(Valve valve)
     List<ValveAlert> list(Map args)
+    ValveAlert get(String alertType, Integer valveSerialNumber)
 }
 
 @Service(ValveAlert)
@@ -22,6 +23,10 @@ abstract class ValveAlertService implements IValveAlertService {
 
     List<ValveAlertViewData> listForView() {
         transformViewData(list())
+    }
+
+    ValveAlert get(String alertType, Integer valveSerialNumber) {
+        ValveAlert.get(new ValveAlert(alertType: alertType, valveSerialNumber: valveSerialNumber))
     }
 
     private static transformViewData(List<ValveAlert> alerts) {
