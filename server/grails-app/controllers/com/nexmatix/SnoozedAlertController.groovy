@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 
-@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+@Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
 class SnoozedAlertController extends RestfulController<SnoozedAlert> {
     static responseFormats = ['json']
 

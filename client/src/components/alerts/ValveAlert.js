@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Alert } from "reactstrap";
 import Disconnect from "../icons/Disconnect";
 import Gauge from "../icons/Gauge";
-import { IconAlarm } from "../icons/NexmatixIcons";
 import "./Alerts.css";
 import SnoozeDropdown from "./SnoozeDropdown";
 
@@ -15,10 +14,9 @@ class ValveAlert extends Component {
       isActive,
       isSnoozed,
       time,
-      handleUpdate,
+      // handleUpdate,
       onAlertClick
     } = this.props;
-    const dropdownOpen = false;
 
     const alertTypes = {
       DATA_FAULT: "Data Fault",
@@ -31,10 +29,6 @@ class ValveAlert extends Component {
       PRESSURE_WARNING: "Pressure Warning",
       VALVE_FAULT: "Valve Fault"
     };
-    function toggle(dropdownOpen) {
-        dropdownOpen = !dropdownOpen;
-        return dropdownOpen;
-      };
     let today = new Date();
     today.setHours(0);
     today.setMinutes(0);
@@ -67,8 +61,12 @@ class ValveAlert extends Component {
         color={isSnoozed ? "info" : isActive && !isSnoozed ? "danger" : ""}
         className={!isActive ? "disabled" : ""}
       >
-        {leftIcon &&
-          <div className="alert-icon-left" style={{ height: "24px" }} onClick={handleAlertClick}>
+        {leftIcon && (
+          <div
+            className="alert-icon-left"
+            style={{ height: "24px" }}
+            onClick={handleAlertClick}
+          >
             {(() => {
               switch (alertType) {
                 case "DISCONNECTED":
@@ -82,25 +80,16 @@ class ValveAlert extends Component {
                   );
               }
             })()}
-          </div>}
+          </div>
+        )}
         {/* this.props.alertContent */}
         <div className="alert-content" onClick={handleAlertClick}>
-          <strong>
-            {alertTypes[alertType]}
-          </strong>
+          <strong>{alertTypes[alertType]}</strong>
           <br />
-          <span className="alert-details">
-            {displayTime}
-          </span>
+          <span className="alert-details">{displayTime}</span>
         </div>
-        <div
-          className="alert-icon-right"
-          style={{ height: "24px" }}
-        >
-          {isActive &&
-            !isSnoozed &&
-          <SnoozeDropdown alert={alert} />
-            }
+        <div className="alert-icon-right" style={{ height: "24px" }}>
+          {isActive && !isSnoozed && <SnoozeDropdown alert={alert} />}
         </div>
       </Alert>
     );

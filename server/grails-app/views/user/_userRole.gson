@@ -1,0 +1,13 @@
+import com.nexmatix.model.UserWithRole
+
+model {
+    UserWithRole userRole
+}
+
+json {
+    id userRole.user.id
+    username userRole.user.username
+    email userRole.user.email
+    passwordExpired userRole.user.passwordExpired
+    roles userRole.roles
+}

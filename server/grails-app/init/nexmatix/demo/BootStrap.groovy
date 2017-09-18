@@ -127,7 +127,8 @@ class BootStrap {
         }
         if(User.count() < 1) {
             def adminRole = new Role(authority: 'ROLE_ADMIN').save()
-            def testUser = new User(username: 'demoDan', password: 'password').save()
+            println "Role created ${adminRole.authority}"
+            def testUser = new User(username: 'demoDan', password: 'password', email: 'testEmail@nexmatixdevtest@testingnexmatix.com').save()
 
             UserRole.create testUser, adminRole
 
@@ -144,7 +145,7 @@ class BootStrap {
         }
         if(User.count() < 2) {
             def adminRole = new Role(authority: 'ROLE_ADMIN').save()
-            def testUser = new User(username: 'demoDena', password: 'password').save()
+            def testUser = new User(username: 'demoDena', password: 'password', email: 'testEmail@nexmatixdevtest@testingnexmatix.com').save()
 
             UserRole.create testUser, adminRole
 

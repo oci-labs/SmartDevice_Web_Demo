@@ -1,0 +1,8 @@
+.register {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.registerError {
+  color: red;
+}

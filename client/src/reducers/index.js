@@ -8,15 +8,17 @@ const initialState = {
   selectedMachine: {},
   selectedManifold: {},
   selectedStation: {},
+  PREVIOUS_VIEW_STATE: "state:facility",
   VIEW_STATE: "state:facility",
   currentStation: {},
   valveStatus: [],
   viewProfile: true,
   viewAlerts: false,
   currentUser: null,
+  users: [],
   alerts: [],
   snoozedAlerts: [],
-  credentials: null,
+  credentials: null
 };
 
 function reducer(state = initialState, action) {
@@ -103,11 +105,21 @@ function reducer(state = initialState, action) {
       });
     case types.SET_VIEW_STATE:
       return Object.assign({}, state, {
+        PREVIOUS_VIEW_STATE: state.VIEW_STATE,
         VIEW_STATE: action.payload
+      });
+    case types.GO_TO_PREVIOUS_VIEW_STATE:
+      return Object.assign({}, state, {
+        VIEW_STATE: state.PREVIOUS_VIEW_STATE,
+        PREVIOUS_VIEW_STATE: state.VIEW_STATE
       });
     case types.SET_CURRENT_USER:
       return Object.assign({}, state, {
         currentUser: action.payload
+      });
+    case types.SET_ALL_USERS:
+      return Object.assign({}, state, {
+        users: action.payload
       });
     case types.SET_CREDENTIALS:
       return Object.assign({}, state, {

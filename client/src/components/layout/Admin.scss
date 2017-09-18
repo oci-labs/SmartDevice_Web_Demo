@@ -1,0 +1,19 @@
+@import "../../custom.config.scss";
+
+.admin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+
+  .addUserButton {
+    color: black;
+    margin: 15px;
+    height: 40px;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: 2px solid $primary-color;
+    border-radius: 4px;
+  }
+}
