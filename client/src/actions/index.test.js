@@ -1,4 +1,3 @@
-import * as types from "./types";
 import {setAllAlerts, getFirst, setSelectedItem} from './index';
 
 const thunk = ({ dispatch, getState }) => next => action => {
@@ -29,15 +28,6 @@ it('passes dispatch and getState', () => {
   });
   //TODO: expect(store.dispatch).toHaveBeenCalledWith(types.SET_SELECTED_FACILITY);
   expect(store.getState).toHaveBeenCalled()
-});
-
-
-it('setAllAlerts returns expected action', () => {
-  const payload = {alerts: 'alerts'};
-  const action = setAllAlerts(payload);
-
-  expect(action.type).toEqual(types.SET_ALL_ALERTS);
-  expect(action.payload).toEqual(payload);
 });
 
 it('getFirst returns first item', () => {
