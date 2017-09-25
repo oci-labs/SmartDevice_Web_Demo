@@ -1,10 +1,17 @@
-import * as types from "./types";
-import * as states from "../components/common/view.config";
-import { SERVER_URL } from "../config";
-import store from "../store";
+import { setActiveItems } from '../redux-modules/active-items/actions';
+import * as states from '../components/common/view.config';
+import { SERVER_URL } from '../config';
+import store from '../store';
+import { throwError } from '../redux-modules/errors/actions';
+import {
+    setSelectedDepartment, setSelectedManifold,
+    setSelectedStation, setSelectedValve
+} from '../redux-modules/selected-context/actions';
+import { setAllFacilities } from '../redux-modules/facilities/actions';
+import { setSelectedValveStatus } from '../redux-modules/valves/actions';
 
-export * from "./UserActions";
-export * from "./AlertActions";
+export * from './UserActions';
+export * from './AlertActions';
 
 export function secureFetch(url, params) {
   const credentials = store.getState().credentials;
@@ -26,21 +33,21 @@ export function secureFetch(url, params) {
   );
 }
 
-function GETItem(item, token) {
+function GETItem(item) {
   return secureFetch(`/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
-function GETValve(station, token) {
+function GETValve(station) {
   return secureFetch(
     `/api/valve/station/${station.parent.id}/${station.number}`
   );
 }
 
-function GETValveBySerialNumber(valve, token) {
+function GETValveBySerialNumber(valve) {
   return secureFetch(`/api/valve/${valve.serialNumber}`);
 }
 
-function GETValveStatus(valve, token) {
+function GETValveStatus(valve) {
   return secureFetch(`/api/valveStatus/${valve.serialNumber}`);
 }
 
@@ -80,7 +87,7 @@ function UPDATEItem(item, token) {
   });
 }
 
-function GETMachinesByDepartment(departmentId, token) {
+function GETMachinesByDepartment(departmentId) {
   return secureFetch(`/api/machine/department/${departmentId}`);
 }
 
@@ -184,20 +191,6 @@ export function updateItem(item) {
     } else {
       return dispatch(throwError("Unauthorized"));
     }
-  };
-}
-
-export function throwError(error) {
-  return {
-    type: types.HANDLE_ERROR,
-    payload: error
-  };
-}
-
-export function setActiveItems(items) {
-  return {
-    type: types.UPDATE_ACTIVE_ITEMS,
-    payload: items
   };
 }
 
@@ -370,78 +363,7 @@ export function setValveStatus(valve) {
         .then(response => {
           dispatch(setSelectedValveStatus(response));
         });
-    } else {
-      return;
     }
-  };
-}
-
-function setAllFacilities(facilities) {
-  return {
-    type: types.SET_ALL_FACILITIES,
-    payload: facilities
-  };
-}
-
-export function setSelectedFacility(facility) {
-  return {
-    type: types.SET_SELECTED_FACILITY,
-    payload: facility
-  };
-}
-
-export function setSelectedDepartment(department) {
-  return {
-    type: types.SET_SELECTED_DEPARTMENT,
-    payload: department
-  };
-}
-
-export function setSelectedMachine(machine) {
-  return {
-    type: types.SET_SELECTED_MACHINE,
-    payload: machine
-  };
-}
-
-export function setSelectedManifold(manifold) {
-  return {
-    type: types.SET_SELECTED_MANIFOLD,
-    payload: manifold
-  };
-}
-
-export function setSelectedStation(station) {
-  return {
-    type: types.SET_CURRENT_STATION,
-    payload: station
-  };
-}
-
-export function setSelectedValve(valve) {
-  return {
-    type: types.SET_SELECTED_VALVE,
-    payload: valve
-  };
-}
-
-export function setSelectedValveStatus(valveStatus) {
-  return {
-    type: types.SET_VALVE_STATUS,
-    payload: valveStatus
-  };
-}
-
-export function setViewState(state) {
-  return {
-    type: types.SET_VIEW_STATE,
-    payload: state
-  };
-}
-
-export function goToPreviousViewState() {
-  return {
-    type: types.GO_TO_PREVIOUS_VIEW_STATE
   };
 }
 
@@ -460,15 +382,6 @@ export function initialize() {
           dispatch(setActiveItems(response));
           dispatch(setAllFacilities(response));
         });
-    } else {
-      return;
     }
-  };
-}
-
-export function setItemsInFault(itemsInFault) {
-  return {
-    type: types.SET_ITEMS_IN_FAULT,
-    payload: itemsInFault
   };
 }
