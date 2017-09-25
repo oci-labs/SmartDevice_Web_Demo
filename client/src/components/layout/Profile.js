@@ -1,19 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./Profile.css";
-import {
-  goToPreviousViewState,
-  setCurrentUser,
-  setViewState
-} from "../../actions/index";
 import * as states from "../common/view.config";
 import View from "../common/View";
 import ProfilePicture from "../profile/ProfilePicture";
 import { Column } from "../layout/LayoutComponents";
 import Login from "../auth/Login";
+import { goToPreviousViewState, setViewState } from '../../redux-modules/view/actions';
+import { setCurrentUser } from '../../redux-modules/current-user/actions';
 
 const ProfileComponent = ({
-  viewProfile,
   currentUser,
   goToAdminState,
   goToPreviousState,
@@ -57,8 +53,8 @@ const ProfileComponent = ({
 
 const mapStateToProps = state => {
   return {
-    viewProfile: state.viewProfile,
-    currentUser: state.currentUser
+    viewProfile: state.view.viewProfile,
+    currentUser: state.currentUser.username
   };
 };
 

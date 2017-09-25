@@ -41,7 +41,7 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
 function mapStateToProps(state) {
   return {
     alerts: state.alerts,
-    viewProfile: state.viewProfile
+    viewProfile: state.view.viewProfile
   };
 }
 

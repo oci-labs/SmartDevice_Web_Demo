@@ -17,8 +17,8 @@ export function GETAllAlerts(count, token) {
 export function getAlerts(count = 10) {
   return function(dispatch, getState) {
     const state = getState();
-    if (state.credentials) {
-      return GETAllAlerts(count, state.credentials.access_token)
+    if (state.currentUser.credentials) {
+      return GETAllAlerts(count, state.currentUser.credentials.access_token)
         .then(toJson)
         .then(
           response => {
@@ -61,7 +61,7 @@ function POSTSnoozedAlert(snoozedAlert, username, token) {
 export function snoozeAlert(snoozed) {
   return function(dispatch, getState) {
     const username = getState().currentUser.username;
-    const token = getState().credentials.access_token;
+    const token = getState().currentUser.credentials.access_token;
     // const snoozedAlerts = getState().snoozedAlerts;
     POSTSnoozedAlert(snoozed, username, token)
       .then(toJson)
@@ -90,7 +90,7 @@ function GETSnoozedAlerts(username, token) {
 export function getSnoozedAlerts() {
   return function(dispatch, getState) {
     const username = getState().currentUser.username;
-    const token = getState().credentials.access_token;
+    const token = getState().currentUser.credentials.access_token;
     if (username) {
       return GETSnoozedAlerts(username, token)
         .then(toJson)

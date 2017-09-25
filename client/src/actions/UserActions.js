@@ -1,8 +1,9 @@
-import { toJson, secureFetch, throwError, initialize } from './index';
+import { toJson, secureFetch, initialize } from './index';
 import { getAlerts, getSnoozedAlerts } from './AlertActions';
 import { SERVER_URL } from '../config';
 import { setCredentials, setCurrentUser } from '../redux-modules/current-user/actions';
 import { setAllUsers } from '../redux-modules/users/actions';
+import { throwError } from '../redux-modules/errors/actions';
 
 function GETUserObj(username, token) {
   return fetch(`${SERVER_URL}/api/user/username/${username}`, {
@@ -77,7 +78,7 @@ export function getCurrentUser(credentials) {
 
 export function getAllUsers() {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     return GETUsers(token)
       .then(toJson)

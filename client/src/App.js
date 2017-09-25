@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import { connect } from "react-redux";
-import {toggleProfile, toggleAlerts } from './actions';
 import "whatwg-fetch";
 
 import Alerts from "./components/alerts/Alerts";
@@ -11,6 +10,7 @@ import Nav from "./components/layout/Nav";
 import Profile from "./components/layout/Profile";
 
 import { Container, Row, Col } from "reactstrap";
+import { toggleAlerts, toggleProfile } from './redux-modules/view/actions';
 
 class App extends Component {
   render() {
@@ -103,8 +103,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    viewProfile: state.viewProfile,
-    viewAlerts: state.viewAlerts
+    viewProfile: state.view.viewProfile,
+    viewAlerts: state.view.viewAlerts
   };
 }
 function mapDispatchToProps(dispatch) {
