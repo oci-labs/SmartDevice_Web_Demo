@@ -60,7 +60,7 @@ function POSTSnoozedAlert(snoozedAlert, username, token) {
 
 export function snoozeAlert(snoozed) {
   return function(dispatch, getState) {
-    const username = getState().currentUser.username;
+    const username = getState().currentUser.user.username;
     const token = getState().currentUser.credentials.access_token;
     // const snoozedAlerts = getState().snoozedAlerts;
     POSTSnoozedAlert(snoozed, username, token)
@@ -89,7 +89,7 @@ function GETSnoozedAlerts(username, token) {
 }
 export function getSnoozedAlerts() {
   return function(dispatch, getState) {
-    const username = getState().currentUser.username;
+    const username = getState().currentUser.user.username;
     const token = getState().currentUser.credentials.access_token;
     if (username) {
       return GETSnoozedAlerts(username, token)

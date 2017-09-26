@@ -50,7 +50,7 @@ class LoginComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser.userName
+    currentUser: state.currentUser.user
   };
 }
 function mapDispatchToProps(dispatch) {

@@ -9,7 +9,7 @@ export const initialState = {
     machine: {},
     manifold: {},
     station: {},
-    valve: {}
+    valve: null
 };
 
 export default (state = initialState, action) => {

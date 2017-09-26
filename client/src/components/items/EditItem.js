@@ -147,7 +147,7 @@ class EditItemComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.currentUser.username
+    currentUser: state.currentUser.user
   }
 };
 

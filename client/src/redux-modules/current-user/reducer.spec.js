@@ -10,7 +10,7 @@ describe('Current user reducer', () => {
     it('should set the username to the payload when a SET_CURRENT_USER action is received', () => {
         const testItem = randomize('*', 10);
         const newState = reducer(initialState, setCurrentUser(testItem));
-        const expectedState = { ...initialState, username: testItem };
+        const expectedState = { ...initialState, user: testItem };
 
         expect(newState).toEqual(expectedState);
     });

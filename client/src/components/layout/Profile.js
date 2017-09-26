@@ -54,7 +54,7 @@ const ProfileComponent = ({
 const mapStateToProps = state => {
   return {
     viewProfile: state.view.viewProfile,
-    currentUser: state.currentUser.username
+    currentUser: state.currentUser.user
   };
 };
 

@@ -205,9 +205,9 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
           manifold,
           station
       },
-      currentUser: { username }
+      currentUser: { user }
     } = getState();
-    if (item && username) {
+    if (item && user) {
       const credentials = getState().currentUser.credentials;
       const token = credentials && credentials.access_token;
       if (token) {
@@ -373,7 +373,7 @@ export function setValveStatus(valve) {
 export function initialize() {
   return (dispatch, getState) => {
     const state = getState();
-    if (state.currentUser && state.currentUser.username) {
+    if (state.currentUser && state.currentUser.user) {
       GETItem(
         {
           type: "facility"

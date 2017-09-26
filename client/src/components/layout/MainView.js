@@ -150,7 +150,7 @@ function mapStateToProps(state) {
     viewState: state.view.VIEW_STATE,
     viewProfile: state.view.viewProfile,
     viewAlerts: state.view.viewAlerts,
-    currentUser: state.currentUser.username
+    currentUser: state.currentUser.user
   };
 }
 
