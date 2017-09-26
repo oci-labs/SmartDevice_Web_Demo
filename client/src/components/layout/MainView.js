@@ -143,14 +143,14 @@ class MainViewComponent extends Component {
 function mapStateToProps(state) {
   return {
     activeItems: state.activeItems,
-    facilities: state.allFacilities,
-    selectedDepartment: state.selectedDepartment,
-    selectedFacility: state.selectedFacility,
-    selectedMachine: state.selectedMachine,
-    viewState: state.VIEW_STATE,
-    viewProfile: state.viewProfile,
-    viewAlerts: state.viewAlerts,
-    currentUser: state.currentUser
+    facilities: state.facilities,
+    selectedDepartment: state.selectedContext.department,
+    selectedFacility: state.selectedContext.facility,
+    selectedMachine: state.selectedContext.machine,
+    viewState: state.view.VIEW_STATE,
+    viewProfile: state.view.viewProfile,
+    viewAlerts: state.view.viewAlerts,
+    currentUser: state.currentUser.user
   };
 }
 

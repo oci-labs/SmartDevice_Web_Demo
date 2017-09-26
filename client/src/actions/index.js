@@ -1,13 +1,21 @@
-import * as types from "./types";
-import * as states from "../components/common/view.config";
-import { SERVER_URL } from "../config";
-import store from "../store";
+import { setActiveItems } from '../redux-modules/active-items/actions';
+import * as states from '../components/common/view.config';
+import { SERVER_URL } from '../config';
+import store from '../store';
+import { throwError } from '../redux-modules/errors/actions';
+import {
+    setSelectedDepartment, setSelectedFacility, setSelectedMachine, setSelectedManifold,
+    setSelectedStation, setSelectedValve
+} from '../redux-modules/selected-context/actions';
+import { setAllFacilities } from '../redux-modules/facilities/actions';
+import { setSelectedValveStatus } from '../redux-modules/valves/actions';
+import { setViewState } from '../redux-modules/view/actions';
 
-export * from "./UserActions";
-export * from "./AlertActions";
+export * from './UserActions';
+export * from './AlertActions';
 
 export function secureFetch(url, params) {
-  const credentials = store.getState().credentials;
+  const credentials = store.getState().currentUser.credentials;
   const token = credentials && credentials.access_token;
   let tokenHeader = {};
   if (token) {
@@ -26,21 +34,21 @@ export function secureFetch(url, params) {
   );
 }
 
-function GETItem(item, token) {
+function GETItem(item) {
   return secureFetch(`/api/${item.type}/${item.id ? item.id : ""}`);
 }
 
-function GETValve(station, token) {
+function GETValve(station) {
   return secureFetch(
     `/api/valve/station/${station.parent.id}/${station.number}`
   );
 }
 
-function GETValveBySerialNumber(valve, token) {
+function GETValveBySerialNumber(valve) {
   return secureFetch(`/api/valve/${valve.serialNumber}`);
 }
 
-function GETValveStatus(valve, token) {
+function GETValveStatus(valve) {
   return secureFetch(`/api/valveStatus/${valve.serialNumber}`);
 }
 
@@ -80,7 +88,7 @@ function UPDATEItem(item, token) {
   });
 }
 
-function GETMachinesByDepartment(departmentId, token) {
+function GETMachinesByDepartment(departmentId) {
   return secureFetch(`/api/machine/department/${departmentId}`);
 }
 
@@ -98,7 +106,7 @@ export function getFirst(items) {
 
 export function addItem(item) {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
       return ADDItem(item, token)
@@ -131,7 +139,7 @@ export function addItem(item) {
 export function deleteItem(item) {
   return function(dispatch, getState) {
     const state = getState();
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
       return DELETEItem(item, token).then(response => {
@@ -139,14 +147,14 @@ export function deleteItem(item) {
           case "facility":
             dispatch(setSelectedItem({ type: "facility" }));
             break;
-          case "department":
-            dispatch(setSelectedItem(state.selectedFacility));
+            case "department":
+            dispatch(setSelectedItem(state.selectedContext.facility));
             break;
           case "machine":
-            dispatch(setSelectedItem(state.selectedDepartment));
+            dispatch(setSelectedItem(state.selectedContext.department));
             break;
           case "manifold":
-            dispatch(setSelectedItem(state.selectedMachine));
+            dispatch(setSelectedItem(state.selectedContext.machine));
             break;
           default:
             return null;
@@ -160,7 +168,7 @@ export function deleteItem(item) {
 
 export function updateItem(item) {
   return function(dispatch, getState) {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
       return UPDATEItem(item, token)
@@ -187,32 +195,20 @@ export function updateItem(item) {
   };
 }
 
-export function throwError(error) {
-  return {
-    type: types.HANDLE_ERROR,
-    payload: error
-  };
-}
-
-export function setActiveItems(items) {
-  return {
-    type: types.UPDATE_ACTIVE_ITEMS,
-    payload: items
-  };
-}
-
 export function setSelectedItem(item, keepViewState, forceRefresh) {
   return function(dispatch, getState) {
     const {
-      selectedDepartment,
-      selectedFacility,
-      selectedMachine,
-      selectedManifold,
-      currentStation,
-      currentUser
+      selectedContext: {
+          department,
+          facility,
+          machine,
+          manifold,
+          station
+      },
+      currentUser: { user }
     } = getState();
-    if (item && currentUser) {
-      const credentials = getState().credentials;
+    if (item && user) {
+      const credentials = getState().currentUser.credentials;
       const token = credentials && credentials.access_token;
       if (token) {
         GETItem(item, token)
@@ -230,8 +226,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 case "department":
                   dispatch(setSelectedDepartment(response));
                   if (
-                    !selectedFacility ||
-                    selectedFacility.id !== response.parent.id
+                    !facility ||
+                    facility.id !== response.parent.id
                   ) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
@@ -250,8 +246,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 case "machine":
                   dispatch(setSelectedMachine(response));
                   if (
-                    !selectedDepartment ||
-                    selectedDepartment.id !== response.parent.id ||
+                    !department ||
+                    department.id !== response.parent.id ||
                     forceRefresh
                   ) {
                     dispatch(
@@ -266,8 +262,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 case "manifold":
                   dispatch(setSelectedManifold(response));
                   if (
-                    !selectedMachine ||
-                    selectedMachine.id !== response.parent.id ||
+                    !machine ||
+                    machine.id !== response.parent.id ||
                     forceRefresh
                   ) {
                     dispatch(
@@ -276,7 +272,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
                   const currentStationIsChild = child => {
-                    return child.id === currentStation.id;
+                    return child.id === station.id;
                   };
                   if (
                     response.children.length > 0 &&
@@ -288,8 +284,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                 case "station":
                   dispatch(setSelectedStation(response));
                   if (
-                    !selectedManifold ||
-                    selectedManifold.id !== response.parent.id
+                    !manifold ||
+                    manifold.id !== response.parent.id
                   ) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
@@ -312,7 +308,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   break;
                 case "machine":
                   dispatch(setSelectedMachine({}));
-                  dispatch(setSelectedItem(selectedDepartment, true));
+                  dispatch(setSelectedItem(department, true));
                   break;
                 default:
                   console.log("Not handled yet - all items", item.type);
@@ -328,7 +324,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
 
 function setValve(station) {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
       return GETValve(station, token)
@@ -344,7 +340,7 @@ function setValve(station) {
 
 export function showValve(valve) {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveBySerialNumber(valve, token)
@@ -362,7 +358,7 @@ export function showValve(valve) {
 
 export function setValveStatus(valve) {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (valve && token) {
       return GETValveStatus(valve, token)
@@ -370,105 +366,25 @@ export function setValveStatus(valve) {
         .then(response => {
           dispatch(setSelectedValveStatus(response));
         });
-    } else {
-      return;
     }
-  };
-}
-
-function setAllFacilities(facilities) {
-  return {
-    type: types.SET_ALL_FACILITIES,
-    payload: facilities
-  };
-}
-
-export function setSelectedFacility(facility) {
-  return {
-    type: types.SET_SELECTED_FACILITY,
-    payload: facility
-  };
-}
-
-export function setSelectedDepartment(department) {
-  return {
-    type: types.SET_SELECTED_DEPARTMENT,
-    payload: department
-  };
-}
-
-export function setSelectedMachine(machine) {
-  return {
-    type: types.SET_SELECTED_MACHINE,
-    payload: machine
-  };
-}
-
-export function setSelectedManifold(manifold) {
-  return {
-    type: types.SET_SELECTED_MANIFOLD,
-    payload: manifold
-  };
-}
-
-export function setSelectedStation(station) {
-  return {
-    type: types.SET_CURRENT_STATION,
-    payload: station
-  };
-}
-
-export function setSelectedValve(valve) {
-  return {
-    type: types.SET_SELECTED_VALVE,
-    payload: valve
-  };
-}
-
-export function setSelectedValveStatus(valveStatus) {
-  return {
-    type: types.SET_VALVE_STATUS,
-    payload: valveStatus
-  };
-}
-
-export function setViewState(state) {
-  return {
-    type: types.SET_VIEW_STATE,
-    payload: state
-  };
-}
-
-export function goToPreviousViewState() {
-  return {
-    type: types.GO_TO_PREVIOUS_VIEW_STATE
   };
 }
 
 export function initialize() {
   return (dispatch, getState) => {
     const state = getState();
-    if (state.currentUser) {
+    if (state.currentUser && state.currentUser.user) {
       GETItem(
         {
           type: "facility"
         },
-        state.credentials.access_token
+        state.currentUser.credentials.access_token
       )
         .then(toJson)
         .then(response => {
           dispatch(setActiveItems(response));
           dispatch(setAllFacilities(response));
         });
-    } else {
-      return;
     }
-  };
-}
-
-export function setItemsInFault(itemsInFault) {
-  return {
-    type: types.SET_ITEMS_IN_FAULT,
-    payload: itemsInFault
   };
 }

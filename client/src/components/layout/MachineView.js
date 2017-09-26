@@ -53,9 +53,9 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProf
 
 const mapStateToProps = state => {
   return {
-    selectedDepartment: state.selectedDepartment,
-    viewProfile:state.viewProfile,
-    viewAlerts: state.viewAlerts
+    selectedDepartment: state.selectedContext.department,
+    viewProfile:state.view.viewProfile,
+    viewAlerts: state.view.viewAlerts
   };
 };
 

@@ -3,7 +3,7 @@ import { SERVER_URL } from "../config";
 
 function getCredentials() {
   let state = store.getState();
-  return state.credentials;
+  return state.currentUser.credentials;
 }
 
 export function authRequest(url, method, cb) {

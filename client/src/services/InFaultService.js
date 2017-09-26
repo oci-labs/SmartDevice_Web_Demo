@@ -1,7 +1,7 @@
 import store from "../store";
 
 function getItemsInFault(state) {
-  return state.itemsInFault;
+  return state.faultItems;
 }
 
 function isInFault(item) {

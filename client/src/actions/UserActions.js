@@ -1,7 +1,9 @@
-import * as types from "./types";
-import { toJson, secureFetch, throwError, initialize } from "./index";
-import { getAlerts, getSnoozedAlerts } from "./AlertActions";
-import { SERVER_URL } from "../config";
+import { toJson, secureFetch, initialize } from './index';
+import { getAlerts, getSnoozedAlerts } from './AlertActions';
+import { SERVER_URL } from '../config';
+import { setCredentials, setCurrentUser } from '../redux-modules/current-user/actions';
+import { setAllUsers } from '../redux-modules/users/actions';
+import { throwError } from '../redux-modules/errors/actions';
 
 function GETUserObj(username, token) {
   return fetch(`${SERVER_URL}/api/user/username/${username}`, {
@@ -58,12 +60,6 @@ function PUTUser(user) {
   });
 }
 
-export function setCurrentUser(user) {
-  return {
-    type: types.SET_CURRENT_USER,
-    payload: user
-  };
-}
 export function getCurrentUser(credentials) {
   const { access_token, username } = credentials;
   return function(dispatch) {
@@ -80,16 +76,9 @@ export function getCurrentUser(credentials) {
   };
 }
 
-function setAllUsers(users) {
-  return {
-    type: types.SET_ALL_USERS,
-    payload: users
-  };
-}
-
 export function getAllUsers() {
   return (dispatch, getState) => {
-    const credentials = getState().credentials;
+    const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     return GETUsers(token)
       .then(toJson)
@@ -145,18 +134,5 @@ export function postUserAuth(username, password) {
         },
         error => dispatch(throwError(error))
       );
-  };
-}
-
-export function setCredentials(credentials) {
-  return {
-    type: types.SET_CREDENTIALS,
-    payload: credentials
-  };
-}
-
-export function toggleProfile() {
-  return {
-    type: types.TOGGLE_PROFILE
   };
 }
