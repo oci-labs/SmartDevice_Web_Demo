@@ -1,7 +1,10 @@
 /* global describe, it, expect */
 
 import {
-  setViewState, goToPreviousViewState, toggleAlerts, toggleProfile,
+  setViewState,
+  goToPreviousViewState,
+  toggleAlerts,
+  toggleProfile,
   toggleUserModal
 } from './actions';
 import randomize from 'randomatic';
