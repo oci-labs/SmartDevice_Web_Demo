@@ -1,4 +1,4 @@
-package nexmatix.demo
+package com.nexmatix
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

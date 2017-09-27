@@ -1,4 +1,4 @@
-package nexmatix.demo
+package com.nexmatix
 
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured

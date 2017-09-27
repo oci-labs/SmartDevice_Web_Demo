@@ -2,7 +2,7 @@
 grails:
     profile: react
     codegen:
-        defaultPackage: nexmatix.demo
+        defaultPackage: com.nexmatix
     spring:
         transactionManagement:
             proxies: false

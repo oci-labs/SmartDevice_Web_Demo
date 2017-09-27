@@ -25,7 +25,7 @@ class SnoozedAlert {
     void setValveAlert(ValveAlert v) {
 
         String typeString = v.alertType
-        String typeVal =  AlertType.lookup("pressure fault")
+        String typeVal =  AlertType.lookup(typeString)
 
         valveAlertId = [(typeVal): v.valveSerialNumber]
 

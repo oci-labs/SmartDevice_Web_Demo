@@ -22,6 +22,8 @@ class AlertsComponent extends Component {
     let renderActive, renderSnoozed;
 
     if (alerts.length > 0) {
+      console.log("The alerts are: ", alerts);
+      console.log("The snoozed alerts are: ", snoozedAlerts);
       let snoozedAlertList = alerts.filter(alert => {
         return (
           snoozedAlerts.length > 0 &&
@@ -49,19 +51,22 @@ class AlertsComponent extends Component {
         );
       });
 
-      let activeAlertList = alerts.filter(alert => {
-        return (
-          snoozedAlerts.length > 0 &&
-          !snoozedAlerts.some(snoozed => {
-            let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-            let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
-            return (
-              snoozedAlertType === alert.alertType &&
-              snoozedAlertId === alert.id
-            );
-          })
-        );
-      });
+      let activeAlertList = alerts;
+
+      if(snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
+          activeAlertList = alerts.filter(alert => {
+              return (
+                  snoozedAlertList.length > 0 && !snoozedAlerts.some(snoozed => {
+                      let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+                      let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+                      return (
+                          snoozedAlertType === alert.alertType &&
+                          snoozedAlertId === alert.id
+                      );
+                  })
+              );
+          });
+      }
 
       snoozedAlertList.sort(
         (a, b) =>
@@ -75,6 +80,10 @@ class AlertsComponent extends Component {
             ? 1
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
+
+      console.log("The active alert list is: ", activeAlertList);
+      console.log("The snoozed alert list is: ", snoozedAlertList);
+
       renderActive = activeAlertList.map((alert, i) => (
         <ValveAlert
           key={"alert-" + i}
