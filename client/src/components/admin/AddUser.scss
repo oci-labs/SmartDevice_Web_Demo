@@ -1,14 +1,26 @@
 @import "../../custom.config.scss";
+@import "../../css/common-modal.scss";
 
 .addUser {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
+  .addUserButton {
+    color: black;
+    margin: 15px;
+    height: 40px;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: 2px solid $primary-color;
+    border-radius: 4px;
+  }
+}
+
+.addUserModal {
   .addUserModalButton {
     display: flex;
     width: 100%;
-    margin: 22px 0px 0px;
     border: none;
     border-radius: 5px;
     color: white;

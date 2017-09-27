@@ -75,18 +75,14 @@ class IconGroupComponent extends Component {
         <div className="groupItemNav">
           <div className="groupItemNavLeft">
             <div className="addNew">
-              <AddItem>
-                <Icon type="add" />
-              </AddItem>
+              <AddItem />
             </div>
           </div>
           <div className="groupItemNavCenter">
             {groupItem ? groupItem.name : "All"}
           </div>
           <div className="groupItemNavRight">
-            <EditItem item={groupItem}>
-              <Icon type="mode_edit" />
-            </EditItem>
+            <EditItem item={groupItem} />
             <Icon type="fullscreen" />
           </div>
         </div>

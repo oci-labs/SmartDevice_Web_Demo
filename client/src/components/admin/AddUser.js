@@ -1,34 +1,30 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./AddUser.css";
-import validator from "validator";
-import { addNewUser } from "../../actions";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import './AddUser.css';
+import validator from 'validator';
+import { addNewUser } from '../../actions';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input } from '../common/Inputs';
+import { toggleUserModal } from '../../redux-modules/view/actions';
+import { selectShowUserModal } from '../../selectors/view-selectors';
+import Icon from '../icons/Icon';
 
-import Modal from "../common/Modal";
-import { Input } from "../common/Inputs";
+const propTypes = {
+  handleAddUser: PropTypes.func,
+  showModal: PropTypes.bool,
+  toggleUserModal: PropTypes.func
+};
 
 class AddUserComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      password: "",
-      email: "",
-      showModal: false
+      name: '',
+      password: '',
+      email: ''
     };
   }
-
-  openModal = () => {
-    this.setState({
-      showModal: true
-    });
-  };
-
-  onModalClose = () => {
-    this.setState({
-      showModal: false
-    });
-  };
 
   handleUsernameChange = username => {
     this.setState({
@@ -50,47 +46,62 @@ class AddUserComponent extends Component {
 
   addUser = () => {
     if (!validator.isEmail(this.state.email)) {
-      console.log("is not an email");
+      console.log('is not an email');
     } else {
       this.props.handleAddUser({
         username: this.state.username,
         password: this.state.password,
         email: this.state.email
       });
-      this.onModalClose();
     }
   };
 
   render() {
     return (
       <div className="addUser">
-        <div onClick={this.openModal}>{this.props.children}</div>
-        <Modal show={this.state.showModal} onClose={this.onModalClose}>
-          <div className="addUserModalTitle">Add New User</div>
-          <Input name="Username" onChange={this.handleUsernameChange} />
-          <Input
-            name="Password"
-            type="password"
-            onChange={this.handlePasswordChange}
-          />
-          <Input name="E-mail" type="email" onChange={this.handleEmailChange} />
-          <button className="addUserModalButton" onClick={this.addUser}>
-            Add User
+        <div>
+          <button className="addUserButton" onClick={this.props.toggleUserModal}>
+            Add a User
           </button>
+        </div>
+        <Modal
+          className="commonModal addUserModal"
+          isOpen={this.props.showModal}
+          toggle={this.props.toggleUserModal}>
+          <div className="closeButton">
+            <Icon type="close" handleClick={this.props.toggleUserModal} />
+          </div>
+          <ModalHeader>Add New User</ModalHeader>
+          <ModalBody>
+            <Input name="Username" onChange={this.handleUsernameChange} />
+            <Input name="Password" type="password" onChange={this.handlePasswordChange} />
+            <Input name="E-mail" type="email" onChange={this.handleEmailChange} />
+          </ModalBody>
+          <ModalFooter>
+            <button className="addUserModalButton add" onClick={this.addUser}>
+              Add User
+            </button>
+          </ModalFooter>
         </Modal>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleAddUser: user => {
-      dispatch(addNewUser(user));
-    }
-  };
-};
+AddUserComponent.propTypes = propTypes;
 
-const AddUser = connect(null, mapDispatchToProps)(AddUserComponent);
+const mapStateToProps = state => ({
+  showModal: selectShowUserModal(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleAddUser: user => {
+    dispatch(addNewUser(user));
+    dispatch(toggleUserModal());
+  },
+  toggleUserModal: () => dispatch(toggleUserModal())
+});
+
+const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent);
 
 export default AddUser;

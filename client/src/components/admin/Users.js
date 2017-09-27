@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./Users.css";
-import { deleteUser, editUser } from "../../actions";
 
 import User from "./User";
+import { deleteUser, editUser } from '../../actions/UserActions';
 
 const UsersComponent = ({ handleUserDelete, handleUserEdit, users }) => {
   return (
