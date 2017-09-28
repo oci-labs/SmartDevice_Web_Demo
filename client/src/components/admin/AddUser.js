@@ -1,107 +1,79 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './AddUser.css';
-import validator from 'validator';
+import { actions } from 'react-redux-form';
 import { addNewUser } from '../../actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Input } from '../common/Inputs';
 import { toggleUserModal } from '../../redux-modules/view/actions';
 import { selectShowUserModal } from '../../selectors/view-selectors';
 import Icon from '../icons/Icon';
+import TextInput from '../inputs/TextInput';
+import {
+  selectFormIsValid,
+  selectNewUser
+} from '../../selectors/add-user-selectors';
 
+const displayName = 'AddUser';
 const propTypes = {
   handleAddUser: PropTypes.func,
+  isValid: PropTypes.bool,
   showModal: PropTypes.bool,
   toggleUserModal: PropTypes.func
 };
 
-class AddUserComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      password: '',
-      email: ''
-    };
-  }
-
-  handleUsernameChange = username => {
-    this.setState({
-      username
-    });
-  };
-
-  handlePasswordChange = password => {
-    this.setState({
-      password
-    });
-  };
-
-  handleEmailChange = email => {
-    this.setState({
-      email
-    });
-  };
-
-  addUser = () => {
-    if (!validator.isEmail(this.state.email)) {
-      console.log('is not an email');
-    } else {
-      this.props.handleAddUser({
-        username: this.state.username,
-        password: this.state.password,
-        email: this.state.email
-      });
-    }
-  };
-
-  render() {
-    return (
-      <div className="addUser">
-        <div>
-          <button className="addUserButton" onClick={this.props.toggleUserModal}>
-            Add a User
-          </button>
-        </div>
-        <Modal
-          className="commonModal addUserModal"
-          isOpen={this.props.showModal}
-          toggle={this.props.toggleUserModal}>
-          <div className="closeButton">
-            <Icon type="close" handleClick={this.props.toggleUserModal} />
-          </div>
-          <ModalHeader>Add New User</ModalHeader>
-          <ModalBody>
-            <Input name="Username" onChange={this.handleUsernameChange} />
-            <Input name="Password" type="password" onChange={this.handlePasswordChange} />
-            <Input name="E-mail" type="email" onChange={this.handleEmailChange} />
-          </ModalBody>
-          <ModalFooter>
-            <button className="addUserModalButton add" onClick={this.addUser}>
-              Add User
-            </button>
-          </ModalFooter>
-        </Modal>
+const AddUser = ({ toggleUserModal, showModal, handleAddUser, isValid }) => (
+  <div className="addUser">
+    <div>
+      <button className="addUserButton" onClick={toggleUserModal}>
+        Add a User
+      </button>
+    </div>
+    <Modal
+      className="commonModal addUserModal"
+      isOpen={showModal}
+      toggle={toggleUserModal}>
+      <div className="closeButton">
+        <Icon type="close" handleClick={toggleUserModal} />
       </div>
-    );
-  }
-}
+      <ModalHeader>Add New User</ModalHeader>
+      <ModalBody>
+        <TextInput model="forms.addUser.username" name="Username" />
+        <TextInput model="forms.addUser.password" name="Password" type="password" />
+        <TextInput model="forms.addUser.email" name="E-mail" type="email" />
+      </ModalBody>
+      <ModalFooter>
+        <button disabled={!isValid} className="addUserModalButton add" onClick={handleAddUser}>
+          Add User
+        </button>
+      </ModalFooter>
+    </Modal>
+  </div>
+);
 
-AddUserComponent.propTypes = propTypes;
+AddUser.displayName = displayName;
+AddUser.propTypes = propTypes;
 
 const mapStateToProps = state => ({
-  showModal: selectShowUserModal(state)
+  showModal: selectShowUserModal(state),
+  isValid: selectFormIsValid(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleAddUser: user => {
-    dispatch(addNewUser(user));
+  handleAddUser: () =>
+    dispatch((dispatch, getState) => {
+      if (selectFormIsValid(getState())) {
+        dispatch(addNewUser(selectNewUser(getState())));
+        dispatch(toggleUserModal());
+        dispatch(actions.reset('forms.addUser'));
+      } else {
+        console.log('Add user form is not valid.');
+      }
+    }),
+  toggleUserModal: () => {
+    dispatch(actions.reset('forms.addUser'));
     dispatch(toggleUserModal());
-  },
-  toggleUserModal: () => dispatch(toggleUserModal())
+  }
 });
 
-const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent);
-
-export default AddUser;
+export default connect(mapStateToProps, mapDispatchToProps)(AddUser);

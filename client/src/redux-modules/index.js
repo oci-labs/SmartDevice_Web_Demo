@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { combineForms } from 'react-redux-form';
 import activeItemsReducer from './active-items/reducer';
 import alertsReducer from './alerts/reducer';
 import currentUserReducer from './current-user/reducer';
@@ -10,17 +11,24 @@ import snoozedAlertReducer from './snoozed-alerts/reducer';
 import usersReducer from './users/reducer';
 import valvesReducer from './valves/reducer';
 import viewReducer from './view/reducer';
+import { initialState as initialUserState } from './forms/add-user';
 
 export default combineReducers({
-    activeItems: activeItemsReducer,
-    alerts: alertsReducer,
-    currentUser: currentUserReducer,
-    errors: errorsReducer,
-    facilities: facilitiesReducer,
-    faultItems: faultItemsReducer,
-    selectedContext: selectedContextReducer,
-    snoozedAlerts: snoozedAlertReducer,
-    users: usersReducer,
-    valves: valvesReducer,
-    view: viewReducer
+  activeItems: activeItemsReducer,
+  alerts: alertsReducer,
+  currentUser: currentUserReducer,
+  errors: errorsReducer,
+  facilities: facilitiesReducer,
+  faultItems: faultItemsReducer,
+  selectedContext: selectedContextReducer,
+  snoozedAlerts: snoozedAlertReducer,
+  users: usersReducer,
+  valves: valvesReducer,
+  view: viewReducer,
+  forms: combineForms(
+    {
+      addUser: initialUserState
+    },
+    'forms'
+  )
 });
