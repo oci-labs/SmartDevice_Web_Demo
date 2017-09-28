@@ -21,7 +21,6 @@ class UrlMappings {
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
         get "/api/valveAlert/snoozed/$username"(controller: 'valveAlert', action: 'byUser')
-        get "/api/snoozedAlert/user/$username"(controller: 'snoozedAlert', action: 'byUser')
         get "/api/user/username/$username"(controller: 'user', action: 'byUsername')
         get "/api/user/withRoles"(controller: 'user', action: 'withRoles')
         put "/api/user/updateRoles"(controller: 'user', action: 'updateRoles')
