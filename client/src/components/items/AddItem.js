@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./AddItem.css";
-import { authRequest } from "../../services/authRequestService";
-
-import Modal from "../common/Modal";
-import { HorizontalLine } from "../layout/LayoutComponents";
-import { Input, Select } from "../common/Inputs";
-import { addItem } from "../../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import './AddItem.css';
+import { authRequest } from '../../services/authRequestService';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input, Select } from '../common/Inputs';
+import { addItem } from '../../actions';
+import Icon from '../icons/Icon';
 
 class AddItemComponent extends Component {
   constructor(props) {
@@ -14,27 +13,28 @@ class AddItemComponent extends Component {
 
     this.state = {
       model: {
-        type: "facility"
+        type: 'facility'
       },
       showModal: false,
       parents: []
     };
     this.updateParents(this.components[0]);
   }
+
   components = [
     {
-      name: "Facility",
-      type: "facility"
+      name: 'Facility',
+      type: 'facility'
     },
     {
-      name: "Department",
-      type: "department",
-      parentType: "facility"
+      name: 'Department',
+      type: 'department',
+      parentType: 'facility'
     },
     {
-      name: "Machine",
-      type: "machine",
-      parentType: "department"
+      name: 'Machine',
+      type: 'machine',
+      parentType: 'department'
     }
   ];
   parents = [];
@@ -49,23 +49,21 @@ class AddItemComponent extends Component {
     });
   };
   updateParents = item => {
-    let _self = this;
+    const _self = this;
     this.handleLayerChange(item);
     if (item.parentType) {
-      authRequest(`/api/${item.parentTtype}/`, "get", result => {
+      authRequest(`/api/${item.parentType}/`, 'get', result => {
         _self.setState({
           parents: result
         });
       });
-    } else {
-      if (this.state.model.type !== item.type) {
-        console.log("needs to change");
+    } else if (this.state.model.type !== item.type) {
+      console.log('needs to change');
 
-        this.setState({
-          hasParent: false,
-          parents: []
-        });
-      }
+      this.setState({
+        hasParent: false,
+        parents: []
+      });
     }
   };
   addItem = item => {
@@ -75,14 +73,14 @@ class AddItemComponent extends Component {
   handleNameChange = name => {
     this.setState({
       model: Object.assign({}, this.state.model, {
-        name: name
+        name
       })
     });
   };
   handleSNChange = serialNumber => {
     this.setState({
       model: Object.assign({}, this.state.model, {
-        serialNumber: serialNumber
+        serialNumber
       })
     });
   };
@@ -101,60 +99,59 @@ class AddItemComponent extends Component {
     }
   };
   handleParentChange = parent => {
-    let parentModel = {};
+    const parentModel = {};
     parentModel[parent.type] = parent.id;
     this.setState({
       model: Object.assign({}, this.state.model, parentModel)
     });
   };
+
   render() {
     return (
       <div className="addItemButton">
-        <div onClick={this.openModal}>{this.props.children}</div>
-        <Modal show={this.state.showModal} onClose={this.onModalClose}>
-          <div className="addItemWrapper">
-            <div className="addItemTitle">Add New Item</div>
-            <HorizontalLine />
-            <Input name="Name" onChange={this.handleNameChange} />
-            <Input
-              name="Serial Number"
-              hide={this.state.model.type !== "manifold"}
-              onChange={this.handleSNChange}
-            />
-            <Select
-              name="Layer"
-              onChange={this.updateParents}
-              options={this.components}
-            />
-            <Select
-              name="Parent"
-              hideIf={!this.state.hasParent}
-              options={this.state.parents}
-              onChange={this.handleParentChange}
-            />
+        <div onClick={this.openModal}>
+          <Icon type="add" />
+        </div>
+        <Modal className="commonModal" isOpen={this.state.showModal} toggle={this.onModalClose}>
+          <div className="closeButton">
+            <Icon type="close" handleClick={this.onModalClose} />
+          </div>
+          <ModalHeader>Add New Item</ModalHeader>
+          <ModalBody>
+            <div className="addItemWrapper">
+              <Input name="Name" onChange={this.handleNameChange} />
+              <Input
+                name="Serial Number"
+                hide={this.state.model.type !== 'manifold'}
+                onChange={this.handleSNChange}
+              />
+              <Select name="Layer" onChange={this.updateParents} options={this.components} />
+              <Select
+                name="Parent"
+                hideIf={!this.state.hasParent}
+                options={this.state.parents}
+                onChange={this.handleParentChange}
+              />
+            </div>
+          </ModalBody>
+          <ModalFooter>
             <button className="add" onClick={this.addItem}>
               Add
             </button>
-          </div>
+          </ModalFooter>
         </Modal>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUser: state.currentUser.user
-  };
-};
+const mapStateToProps = state => ({
+  currentUser: state.currentUser.user
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleAddItem: function(item) {
-      dispatch(addItem(item));
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  handleAddItem: item => dispatch(addItem(item))
+});
 
 const AddItem = connect(mapStateToProps, mapDispatchToProps)(AddItemComponent);
 

@@ -14,9 +14,7 @@ class AdminComponent extends Component {
   render() {
     return (
       <div className="admin">
-        <AddUser>
-          <button className="addUserButton">Add a User</button>
-        </AddUser>
+        <AddUser />
         <Users users={this.props.users} />
       </div>
     );

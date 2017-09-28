@@ -1,3 +1,32 @@
+.commonModal {
+  color: #666666;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center; }
+  .commonModal .closeButton {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    border: 1px solid rgba(111, 111, 111, 0.7);
+    border-radius: 50%; }
+    .commonModal .closeButton span {
+      display: flex;
+      align-items: center; }
+      .commonModal .closeButton span .material-icons {
+        color: black !important;
+        font-size: 24px; }
+    .commonModal .closeButton:hover {
+      background-color: #6f6f6f; }
+      .commonModal .closeButton:hover .material-icons {
+        color: white !important; }
+
 .addItemButton {
   color: black;
   cursor: pointer; }
@@ -7,15 +36,16 @@
     .addItemButton .addItemWrapper .addItemTitle {
       font-size: 1.2em;
       padding: 0px 0px 5px; }
-  .addItemButton button {
-    display: flex;
-    width: 100%;
-    margin: 22px 0px 0px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: .9em;
-    height: 40px;
-    justify-content: center; }
-    .addItemButton button.add {
-      background-color: #fdaa18; }
+
+.commonModal button {
+  display: flex;
+  width: 100%;
+  margin: 22px 0px 0px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: .9em;
+  height: 40px;
+  justify-content: center; }
+  .commonModal button.add {
+    background-color: #fdaa18; }
