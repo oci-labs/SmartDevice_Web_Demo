@@ -31,23 +31,6 @@ class TabsComponent extends Component {
     this.props.initializeFacilities();
   }
 
-  componentDidMount() {
-    console.log('body rect', document.body.getBoundingClientRect());
-    console.log('tabs', document.getElementById('navTabs').children);
-    console.log('tab-rect', document.getElementById('navTabs').getBoundingClientRect());
-
-    //TODO: is this line needed? let firstTab = document.getElementById('navTabs').firstChild;
-    let lastTab = document.getElementById('navTabs').lastChild;
-
-    if (lastTab.getBoundingClientRect().right > document.body.getBoundingClientRect()) {
-      console.log('scrollable');
-    } else {
-      console.log('not scrollable');
-    }
-  }
-
-
-
   componentWillReceiveProps(props) {
     this.setState({
       facilities: props.facilities,
@@ -76,13 +59,13 @@ class TabsComponent extends Component {
       let additionalTabs = [];
 
       if (items && items.length) {
-        additionalTabs = items.map((item, index) =>
+        additionalTabs = items.map((item, index) => (
           <Tab
             item={item}
             key={index + 1}
             active={selectedFacility.id === item.id}
           />
-        );
+        ));
       }
       return [...firstTab, ...additionalTabs];
     };
@@ -97,12 +80,20 @@ class TabsComponent extends Component {
     };
 
     return (
-      <ReactScrollbar style={{width: '100%', height: '66px'}}>
-        <View states={[FACILITY_STATE, DEPARTMENT_STATE]} className="tabs" id="navTabs">
+      <ReactScrollbar style={{ width: "100%", height: "66px" }}>
+        <View
+          states={[FACILITY_STATE, DEPARTMENT_STATE]}
+          className="tabs"
+          id="navTabs"
+        >
           <Tab item={{ name: "Facilities" }} label={true} />
           {addTabs(facilities)}
         </View>
-        <View states={[MACHINE_STATE, MANIFOLD_STATE]} className="tabs" id="navTabs">
+        <View
+          states={[MACHINE_STATE, MANIFOLD_STATE]}
+          className="tabs"
+          id="navTabs"
+        >
           <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={selectedDepartment} selected={true} />
           <Dropdown

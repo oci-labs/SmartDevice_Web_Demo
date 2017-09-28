@@ -138,12 +138,12 @@ DrilldownComponent.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    selectedManifold: state.selectedManifold,
-    currentStation: state.currentStation,
-    selectedValve: state.selectedValve,
-    valveStatus: state.valveStatus,
-    viewProfile: state.viewProfile,
-    viewAlerts:state.viewAlerts
+    selectedManifold: state.selectedContext.manifold,
+    currentStation: state.selectedContext.station,
+    selectedValve: state.selectedContext.valve,
+    valveStatus: state.valves,
+    viewProfile: state.view.viewProfile,
+    viewAlerts: state.view.viewAlerts
   };
 };
 

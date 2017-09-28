@@ -19,7 +19,7 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
       <div className="toggleProfile" onClick={toggleProfile}>
         <IconMenu width="24" height="24" color="#fff" />
       </div>
-      <div className={viewProfile ? "companyTitle hidden-sm-down" : "companyTitle"}>Continental</div>
+      <div className={viewProfile ? "companyTitle hidden-sm-down" : "companyTitle"}>Gates</div>
       <div className="spacing" />
       <div className={viewProfile ? "rightNavIcons hidden-sm-down" : "rightNavIcons"}>
         <IconExpand width="32" height="32" color="#777" />
@@ -41,7 +41,7 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
 function mapStateToProps(state) {
   return {
     alerts: state.alerts,
-    viewProfile: state.viewProfile
+    viewProfile: state.view.viewProfile
   };
 }
 

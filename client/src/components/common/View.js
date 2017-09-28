@@ -23,7 +23,7 @@ const ViewComponent = ({ children, className, currentState, states, colClass, id
 
 const mapStateToProps = state => {
   return {
-    currentState: state.VIEW_STATE
+    currentState: state.view.VIEW_STATE
   };
 };
 

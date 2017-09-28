@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Alert } from "reactstrap";
 import Disconnect from "../icons/Disconnect";
 import Gauge from "../icons/Gauge";
-import { IconAlarm } from "../icons/NexmatixIcons";
 import "./Alerts.css";
+import SnoozeDropdown from "./SnoozeDropdown";
 
 class ValveAlert extends Component {
   render() {
     const {
+      alert,
       leftIcon,
       alertType,
       isActive,
@@ -16,6 +17,7 @@ class ValveAlert extends Component {
       handleUpdate,
       onAlertClick
     } = this.props;
+
     const alertTypes = {
       DATA_FAULT: "Data Fault",
       DISCONNECTED: "Disconnected",
@@ -41,9 +43,14 @@ class ValveAlert extends Component {
         minute: "2-digit"
       })
       .replace(/,/g, "");
-    const handleClick = () => {
-      handleUpdate(this);
-    };
+     const handleSnoozeClick = () => {
+       const alert = {
+         alertId: this.props.id,
+         alertType: this.props.alertType,
+         valveId: this.props.alert.valve.id
+       };
+       handleUpdate(alert);
+     };
     const handleAlertClick = () => {
       if (onAlertClick) {
         onAlertClick(this.props.alert.valve);
@@ -53,10 +60,13 @@ class ValveAlert extends Component {
       <Alert
         color={isSnoozed ? "info" : isActive && !isSnoozed ? "danger" : ""}
         className={!isActive ? "disabled" : ""}
-        onClick={handleAlertClick}
       >
-        {leftIcon &&
-          <div className="alert-icon-left" style={{ height: "24px" }}>
+        {leftIcon && (
+          <div
+            className="alert-icon-left"
+            style={{ height: "24px" }}
+            onClick={handleAlertClick}
+          >
             {(() => {
               switch (alertType) {
                 case "DISCONNECTED":
@@ -70,25 +80,16 @@ class ValveAlert extends Component {
                   );
               }
             })()}
-          </div>}
+          </div>
+        )}
         {/* this.props.alertContent */}
-        <div className="alert-content">
-          <strong>
-            {alertTypes[alertType]}
-          </strong>
+        <div className="alert-content" onClick={handleAlertClick}>
+          <strong>{alertTypes[alertType]}</strong>
           <br />
-          <span className="alert-details">
-            {displayTime}
-          </span>
+          <span className="alert-details">{displayTime}</span>
         </div>
-        <div
-          className="alert-icon-right"
-          style={{ height: "24px" }}
-          onClick={handleClick}
-        >
-          {isActive &&
-            !isSnoozed &&
-            <IconAlarm width="24" height="24" color="#fff" />}
+        <div className="alert-icon-right" style={{ height: "24px" }}>
+          {isActive && !isSnoozed && <SnoozeDropdown alert={alert} />}
         </div>
       </Alert>
     );

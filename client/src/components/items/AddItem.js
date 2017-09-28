@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./AddItem.css";
-import { authRequest } from '../../services/authRequestService';
+import { authRequest } from "../../services/authRequestService";
 
 import Modal from "../common/Modal";
 import { HorizontalLine } from "../layout/LayoutComponents";
@@ -52,10 +52,10 @@ class AddItemComponent extends Component {
     let _self = this;
     this.handleLayerChange(item);
     if (item.parentType) {
-      authRequest(`/api/${item.parentTtype}/`, 'get', result => {
+      authRequest(`/api/${item.parentTtype}/`, "get", result => {
         _self.setState({
           parents: result
-        })
+        });
       });
     } else {
       if (this.state.model.type !== item.type) {
@@ -110,9 +110,7 @@ class AddItemComponent extends Component {
   render() {
     return (
       <div className="addItemButton">
-        <div onClick={this.openModal}>
-          {this.props.children}
-        </div>
+        <div onClick={this.openModal}>{this.props.children}</div>
         <Modal show={this.state.showModal} onClose={this.onModalClose}>
           <div className="addItemWrapper">
             <div className="addItemTitle">Add New Item</div>
@@ -146,9 +144,9 @@ class AddItemComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.currentUser
-  }
-}
+    currentUser: state.currentUser.user
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {

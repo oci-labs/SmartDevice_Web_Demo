@@ -13,10 +13,15 @@ class User implements Serializable {
 
     String username
     String password
+    String email
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
+
+    List snoozedAlerts
+
+    static hasMany = [snoozedAlerts: SnoozedAlert]
 
     Set<Role> getAuthorities() {
         (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
