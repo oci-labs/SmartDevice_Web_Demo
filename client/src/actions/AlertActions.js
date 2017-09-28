@@ -48,10 +48,11 @@ export function getAlerts(count = 10) {
 
 function POSTSnoozedAlert(snoozedAlert, username, token) {
   return fetch(
-    `${SERVER_URL}/api/snoozedAlert/${username}/${snoozedAlert.alertType}/${snoozedAlert.alertId}/${snoozedAlert.duration}`,
+    `${SERVER_URL}/api/valveAlert/snoozed/${username}/${snoozedAlert.alertType}/${snoozedAlert.alertId}/${snoozedAlert.duration}`,
     {
       method: "post",
       headers: {
+        Accept: "application/json",
         Authorization: "Bearer " + token
       }
     }
@@ -80,9 +81,10 @@ export function snoozeAlert(snoozed) {
 }
 
 function GETSnoozedAlerts(username, token) {
-  return fetch(`${SERVER_URL}/api/snoozedAlert/user/${username}`, {
+  return fetch(`${SERVER_URL}/api/valveAlert/snoozed/${username}`, {
     method: "get",
     headers: {
+      Accept: "application/json",
       Authorization: "Bearer " + token
     }
   });

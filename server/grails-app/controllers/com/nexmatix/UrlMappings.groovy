@@ -1,4 +1,4 @@
-package nexmatix.demo
+package com.nexmatix
 
 import grails.util.Environment
 
@@ -13,14 +13,14 @@ class UrlMappings {
         put "/api/$controller/$id(.$format)?"(action:"update")
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
-        post "/api/snoozedAlert/$username/$alertType/$serialNumber/$duration"(controller: 'snoozedAlert', action: 'save')
+        post "/api/valveAlert/snoozed/$username/$alertType/$serialNumber/$duration"(controller: 'valveAlert', action: 'snooze')
 
         post "/notification/$valveSN"(controller: 'alertNotification', action: 'send')
 
         "/api/machine/department/$departmentId"(controller: 'machine', action: 'byDepartment')
         "/api/valve/station/$manifold/$station"(controller: 'valve', action: 'byStation')
         "/api/valveStatus/manifold/$serialNumber"(controller: 'valveStatus', action: 'byManifold')
-        get "/api/snoozedAlert/user/$username"(controller: 'snoozedAlert', action: 'byUsername')
+        get "/api/valveAlert/snoozed/$username"(controller: 'valveAlert', action: 'byUser')
         get "/api/user/username/$username"(controller: 'user', action: 'byUsername')
         get "/api/user/withRoles"(controller: 'user', action: 'withRoles')
         put "/api/user/updateRoles"(controller: 'user', action: 'updateRoles')

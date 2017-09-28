@@ -1,4 +1,4 @@
-package nexmatix.demo
+package com.nexmatix
 
 import com.nexmatix.Alert
 import com.nexmatix.AlertType

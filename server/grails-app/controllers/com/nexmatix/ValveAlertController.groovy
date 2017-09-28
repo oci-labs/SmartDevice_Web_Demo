@@ -3,6 +3,7 @@ package com.nexmatix
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 
 @Transactional
 @Secured(['ROLE_ADMIN', 'ROLE_AUTH'])
@@ -11,6 +12,8 @@ class ValveAlertController {
 
     @Autowired ValveAlertService valveAlertService
     @Autowired ValveService valveService
+    @Autowired SnoozedAlertService snoozedAlertService
+    @Autowired UserService userService
 
     def show(Integer id) {
         Valve valve = Valve.withNewSession { valveService.findBySerialNumber(id) }
@@ -25,6 +28,51 @@ class ValveAlertController {
 
     def index() {
         [alertViewData: ValveAlert.withNewSession { valveAlertService.listForView() }]
+    }
+
+    def byUser(String username) {
+        log.info "Snoozed alerts by username ${username}"
+        def snoozedAlerts = snoozedAlertService.findAllByUsernameForView(username)
+        log.info "snoozed alerts ${snoozedAlerts}"
+
+        [snoozedAlerts: snoozedAlerts]
+    }
+
+    @Transactional
+    def snooze() {
+        log.info "The params are ${params}"
+
+        User user = userService.findByUsername(params.username)
+
+        log.info "Found user: ${user}"
+
+        ValveAlert alert = ValveAlert.withNewSession {
+            valveAlertService.get(AlertType."${params.alertType}".id,
+                    params.serialNumber.toInteger())
+        }
+
+        log.info "Found alert: ${alert}"
+
+        if (!user) {
+            log.warn "Missing user ${params.username}"
+            render status: HttpStatus.NOT_FOUND
+        } else if (!alert) {
+            log.warn "Missing alert ${params.alertType} for ${params.serialNumber}"
+            render status: HttpStatus.NOT_FOUND
+        } else {
+            log.info "Duration is: ${params.duration}"
+            def snoozedAlert = new SnoozedAlert(valveAlert: alert, user: user, snoozedAt: new Date(), duration: params.duration)
+
+            log.info "Preparing to save snoozed alert: ${snoozedAlert}"
+
+            if (!snoozedAlert.save()) {
+                snoozedAlert.errors.allErrors.each { log.error "${it}" }
+            }
+
+            log.info "Snoozed alert is ${snoozedAlert}"
+
+            [snoozedAlert: snoozedAlert]
+        }
     }
 
 }

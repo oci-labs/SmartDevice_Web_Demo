@@ -1,4 +1,4 @@
-package nexmatix.demo
+package com.nexmatix
 
 import com.nexmatix.Machine
 import com.nexmatix.Department

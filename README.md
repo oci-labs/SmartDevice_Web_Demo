@@ -1,5 +1,7 @@
 # nexmatix-demo
 
+Note:  If you have checked out this project prior to 9/27/2017, you will need to run ./gradlew clean, as the former nexmatix.demo package has been consolidated into the com.nexmatix package (including Application.groovy)
+
 This profile provides a client/server multi-project build structure. The server Grails app is using the rest-api profile with CORS enabled. It can be started using 'grails run-app' or using the Gradle wrapper:
 ```
   ./gradlew server:bootRun
