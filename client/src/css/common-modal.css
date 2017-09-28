@@ -26,29 +26,3 @@
       background-color: #6f6f6f; }
       .commonModal .closeButton:hover .material-icons {
         color: white !important; }
-
-.addUser {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center; }
-  .addUser .addUserButton {
-    color: black;
-    margin: 15px;
-    height: 40px;
-    font-size: 1.2em;
-    background-color: transparent;
-    border: 2px solid #fdaa18;
-    border-radius: 4px; }
-
-.addUserModal .addUserModalButton {
-  display: flex;
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 0.9em;
-  height: 40px;
-  justify-content: center; }
-  .addUserModal .addUserModalButton.add {
-    background-color: #fdaa18; }

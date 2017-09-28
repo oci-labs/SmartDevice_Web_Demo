@@ -4,11 +4,3 @@
   justify-content: center;
   align-content: center;
   width: 100%; }
-  .admin .addUserButton {
-    color: black;
-    margin: 15px;
-    height: 40px;
-    font-size: 1.2em;
-    background-color: transparent;
-    border: 2px solid #fdaa18;
-    border-radius: 4px; }
