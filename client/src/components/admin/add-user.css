@@ -50,5 +50,5 @@
   font-size: 0.9em;
   height: 40px;
   justify-content: center; }
-  .addUserModal .addUserModalButton.add {
+  .addUserModal .addUserModalButton.enabled {
     background-color: #fdaa18; }

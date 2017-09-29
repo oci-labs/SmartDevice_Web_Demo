@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddUser component should render as expected 1`] = `
+<div
+  class="addUser"
+>
+  <div>
+    <button
+      class="addUserButton"
+    >
+      Add a User
+    </button>
+  </div>
+</div>
+`;
