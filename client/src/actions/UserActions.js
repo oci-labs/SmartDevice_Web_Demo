@@ -1,7 +1,7 @@
 import { toJson, secureFetch, initialize } from './index';
-import { getAlerts, getSnoozedAlerts } from './AlertActions';
+import { getAlerts, unsnoozeAlerts, getSnoozedAlerts } from './AlertActions';
 import { SERVER_URL } from '../config';
-import { setCredentials, setCurrentUser } from '../redux-modules/current-user/actions';
+import { setCredentials, setCurrentUser, userLogout } from '../redux-modules/current-user/actions';
 import { setAllUsers } from '../redux-modules/users/actions';
 import { throwError } from '../redux-modules/errors/actions';
 
@@ -70,6 +70,7 @@ export function getCurrentUser(credentials) {
           dispatch(setCurrentUser(response));
           dispatch(getAlerts(30));
           dispatch(initialize());
+          dispatch(unsnoozeAlerts());
           dispatch(getSnoozedAlerts());
         }
       });
@@ -115,7 +116,7 @@ export function editUser(user) {
     return PUTUser(user)
       .then(toJson)
       .then(response => {
-        console.log("User editted", response);
+        console.log("User edited", response);
         dispatch(getAllUsers());
       });
   };
@@ -127,12 +128,19 @@ export function postUserAuth(username, password) {
       .then(toJson)
       .then(
         response => {
-          if (!response.error) {
+          if(response.error || (response.status && response.status !== 200)) {
+              dispatch(userLogout);
+          } else {
+            console.log("The response is: ", response);
             dispatch(setCredentials(response));
             dispatch(getCurrentUser(response));
           }
         },
-        error => dispatch(throwError(error))
+        error => {
+          console.log("Error encountered logging in, ", error);
+          dispatch(throwError(error));
+          dispatch(userLogout);
+        }
       );
   };
 }

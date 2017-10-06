@@ -7,7 +7,7 @@ import ProfilePicture from "../profile/ProfilePicture";
 import { Column } from "../layout/LayoutComponents";
 import Login from "../auth/Login";
 import { goToPreviousViewState, setViewState } from '../../redux-modules/view/actions';
-import { setCurrentUser } from '../../redux-modules/current-user/actions';
+import { userLogout } from '../../redux-modules/current-user/actions';
 
 const ProfileComponent = ({
   currentUser,
@@ -67,7 +67,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(goToPreviousViewState());
     },
     handleLogout: () => {
-      dispatch(setCurrentUser(null));
+      dispatch(userLogout());
     }
   };
 };

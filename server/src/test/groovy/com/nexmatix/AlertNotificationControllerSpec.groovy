@@ -9,6 +9,9 @@ class AlertNotificationControllerSpec extends Specification implements Controlle
     void "Test the send action returns the appropriate response"() {
 
         given:
+        def users = {
+            user
+        }
         controller.mailService = Mock(MailService)
 
         when: "The send action is executed"

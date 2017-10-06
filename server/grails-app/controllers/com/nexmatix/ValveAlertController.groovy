@@ -75,4 +75,23 @@ class ValveAlertController {
         }
     }
 
+    @Transactional
+    def unsnoozeByUser() {
+        log.info "The params are ${params}"
+        def snoozedAlerts = snoozedAlertService.findAllByUsernameForView(params.username)
+        try {
+            snoozedAlerts.each { snoozedAlert ->
+                if (new Date().time - snoozedAlert.snoozedAt.time > snoozedAlert.duration) {
+                    log.info "Deleting expired snoozed alert ${snoozedAlert}"
+                    snoozedAlert.delete(flush: true)
+                }
+            }
+
+            render status: 200
+        } catch (Exception e) {
+            log.error "Exception encountered unsnoozing alerts ${e}"
+            render status: 500
+        }
+    }
+
 }
