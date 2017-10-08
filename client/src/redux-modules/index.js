@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
 import { combineForms } from 'react-redux-form';
+
+import {USER_LOGOUT} from './current-user/action-types';
+
 import activeItemsReducer from './active-items/reducer';
 import alertsReducer from './alerts/reducer';
 import currentUserReducer from './current-user/reducer';
@@ -13,7 +16,7 @@ import valvesReducer from './valves/reducer';
 import viewReducer from './view/reducer';
 import { initialState as initialUserState } from './forms/add-user';
 
-export default combineReducers({
+const reducer = combineReducers({
   activeItems: activeItemsReducer,
   alerts: alertsReducer,
   currentUser: currentUserReducer,
@@ -32,3 +35,10 @@ export default combineReducers({
     'forms'
   )
 });
+
+export const rootReducer = (state, action) => {
+  if(action.type === USER_LOGOUT) {
+    state = undefined;
+  }
+  return reducer(state, action);
+};

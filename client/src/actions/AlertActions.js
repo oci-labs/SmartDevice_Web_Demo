@@ -22,7 +22,8 @@ export function getAlerts(count = 10) {
         .then(toJson)
         .then(
           response => {
-            if (!response.error && response.length > 1) {
+            console.log("Response is: ", response);
+              if (!response.error && response.length > 0) {
               let itemsInFault = [];
               let alerts = response.map(item => {
                 item.isActive = true;
@@ -34,11 +35,15 @@ export function getAlerts(count = 10) {
                 itemsInFault.push(`facility.${item.valve.facility.id}`);
                 return item;
               });
+              console.log("Alerts are: ", alerts);
               dispatch(setAllAlerts(alerts));
               dispatch(setItemsInFault(itemsInFault));
             }
           },
-          error => dispatch(throwError(error))
+            error => {
+              console.log("The error is: ", error);
+              dispatch(throwError(error))
+            }
         );
     } else {
       return "unauthenticated.";
@@ -56,6 +61,19 @@ function POSTSnoozedAlert(snoozedAlert, username, token) {
         Authorization: "Bearer " + token
       }
     }
+  );
+}
+
+function POSTUnsnoozeAlerts(username, token) {
+  return fetch(
+      `${SERVER_URL}/api/valveAlert/unsnooze/${username}`,
+      {
+        method: "post",
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token
+          }
+      }
   );
 }
 
@@ -91,17 +109,38 @@ function GETSnoozedAlerts(username, token) {
 }
 export function getSnoozedAlerts() {
   return function(dispatch, getState) {
-    const username = getState().currentUser.user.username;
-    const token = getState().currentUser.credentials.access_token;
-    if (username) {
-      return GETSnoozedAlerts(username, token)
-        .then(toJson)
-        .then(
-          response => {
-            dispatch(setSnoozedAlerts(response));
-          },
-          error => dispatch(throwError(error))
-        );
+    if(getState().currentUser.user) {
+        const username = getState().currentUser.user.username;
+        const token = getState().currentUser.credentials.access_token;
+        if (username) {
+            return GETSnoozedAlerts(username, token)
+                .then(toJson)
+                .then(
+                    response => {
+                        dispatch(setSnoozedAlerts(response));
+                    },
+                    error => dispatch(throwError(error))
+                );
+        }
     }
+  };
+}
+
+export function unsnoozeAlerts() {
+  return function(dispatch, getState) {
+      if (getState().currentUser.user) {
+          const username = getState().currentUser.user.username;
+          const token = getState().currentUser.credentials.access_token;
+          if (username) {
+              return POSTUnsnoozeAlerts(username, token)
+                  .then(toJson)
+                  .then(
+                      response => {
+                          console.log("The response is: ", response);
+                      },
+                      error => dispatch(throwError(error))
+                  );
+          }
+      }
   };
 }

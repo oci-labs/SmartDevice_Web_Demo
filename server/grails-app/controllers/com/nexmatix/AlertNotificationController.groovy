@@ -6,19 +6,23 @@ class AlertNotificationController {
 
     def send(Integer valveSN) {
         println "Sending an alert for Valve SN: " + valveSN
+        def users = User.list()
         try {
-            mailService.sendMail {
-                from "nexmatix-mvd@objectcomputing.com"
-                to "levinsona@objectcomputing.com"
-                subject "Alert received for Valve SN ${valveSN}"
-                text "An alert has been created for Valve SN: ${valveSN}"
+            users.each { user ->
+                if (user.email) {
+                    mailService.sendMail {
+                        from "nexmatix-mvd@objectcomputing.com"
+                        to user.email
+                        subject "Alert received for Valve SN ${valveSN}"
+                        text "An alert has been created for Valve SN: ${valveSN}"
+                    }
+                    println "Sent email to ${user.email}"
+                }
             }
-            println "Sent email to levinsona@objectcomputing.com"
-
             render status: 200
         }
         catch (Exception e) {
-            println "Exception encountered sending email for Valve SN: " + ${valveSN}, e
+            println "Exception encountered sending email for Valve SN: " + $ { valveSN }, e
             render status: 500
         }
     }

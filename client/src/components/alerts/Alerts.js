@@ -4,7 +4,7 @@ import ValveAlert from "./ValveAlert";
 import { CSSTransitionGroup } from "react-transition-group";
 import "./Alerts.css";
 
-import { getAlerts, showValve } from "../../actions";
+import { getAlerts, getSnoozedAlerts, unsnoozeAlerts, showValve } from "../../actions";
 
 class AlertsComponent extends Component {
   constructor(props) {
@@ -13,9 +13,12 @@ class AlertsComponent extends Component {
   }
   setAlertCheck = () => {
     this.props.handleGetAlerts(30);
+    this.props.handleUnsnoozeAlerts();
+    this.props.handleGetSnoozedAlerts();
+    console.log("Props are: ", this.props);
     this.timeout = setTimeout(() => {
       this.setAlertCheck();
-    }, 5000);
+    }, 25000);
   };
   render() {
     const { alerts, snoozedAlerts, handleAlertClick } = this.props;
@@ -52,6 +55,8 @@ class AlertsComponent extends Component {
       });
 
       let activeAlertList = alerts;
+
+      console.log("Active alert list is: ", activeAlertList);
 
       if(snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
           activeAlertList = alerts.filter(alert => {
@@ -148,6 +153,12 @@ function mapDispatchToProps(dispatch) {
     },
     handleGetAlerts: function(count) {
       dispatch(getAlerts(count));
+    },
+    handleUnsnoozeAlerts: function() {
+          dispatch(unsnoozeAlerts());
+    },
+    handleGetSnoozedAlerts: function() {
+        dispatch(getSnoozedAlerts());
     }
   };
 }

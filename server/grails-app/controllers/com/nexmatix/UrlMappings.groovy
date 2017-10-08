@@ -14,6 +14,7 @@ class UrlMappings {
         patch "/api/$controller/$id(.$format)?"(action:"patch")
 
         post "/api/valveAlert/snoozed/$username/$alertType/$serialNumber/$duration"(controller: 'valveAlert', action: 'snooze')
+        post "/api/valveAlert/unsnooze/$username"(controller: 'valveAlert', action: 'unsnoozeByUser')
 
         post "/notification/$valveSN"(controller: 'alertNotification', action: 'send')
 
