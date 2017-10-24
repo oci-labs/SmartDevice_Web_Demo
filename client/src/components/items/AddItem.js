@@ -35,6 +35,11 @@ class AddItemComponent extends Component {
       name: 'Machine',
       type: 'machine',
       parentType: 'department'
+    },
+    {
+      name: 'Manifold',
+      type: 'manifold',
+      parentType: 'machine'
     }
   ];
   parents = [];

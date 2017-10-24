@@ -75,6 +75,7 @@ class EditItemComponent extends Component {
   };
 
   handleNameChange = name => {
+    console.log("The new name is: ", name);
     this.setState({
       itemModel: Object.assign({}, this.state.itemModel, { name })
     });

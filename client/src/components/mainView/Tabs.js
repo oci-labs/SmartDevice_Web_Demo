@@ -80,7 +80,7 @@ class TabsComponent extends Component {
     };
 
     return (
-      <ReactScrollbar style={{ width: "100%", height: "66px" }}>
+      <ReactScrollbar style={{ width: "100%", height: "66px"}}>
         <View
           states={[FACILITY_STATE, DEPARTMENT_STATE]}
           className="tabs"
@@ -96,12 +96,8 @@ class TabsComponent extends Component {
         >
           <Tab item={selectedFacility} label={true} selected={true} />
           <Tab item={selectedDepartment} selected={true} />
-          <Dropdown
-            items={selectedDepartment.children}
-            model={selectedMachine}
-            handleItemClick={handleMachineClick}
-            handleAllClick={handleAllMachineClick}
-          />
+          <Tab item={selectedMachine} label={true} />
+
         </View>
       </ReactScrollbar>
     );

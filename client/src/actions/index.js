@@ -77,6 +77,7 @@ function DELETEItem(item, token) {
 }
 
 function UPDATEItem(item, token) {
+  console.log("The updated object is: ", item);
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
     body: JSON.stringify(item),
     method: "put",
@@ -261,6 +262,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   break;
                 case "manifold":
                   dispatch(setSelectedManifold(response));
+                  console.log("The response is: ", response);
                   if (
                     !machine ||
                     machine.id !== response.parent.id ||

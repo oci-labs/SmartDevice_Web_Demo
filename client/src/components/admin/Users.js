@@ -2,10 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import "./Users.css";
 
+import { actions } from 'react-redux-form';
+
+import { toggleEditUserModal } from '../../redux-modules/view/actions';
+import { selectShowEditUserModal } from '../../selectors/view-selectors';
+import { selectFormIsValid, selectExistingUser } from '../../selectors/user-selectors';
+
 import User from "./User";
 import { deleteUser, editUser } from '../../actions/UserActions';
 
-const UsersComponent = ({ handleUserDelete, handleUserEdit, users }) => {
+const UsersComponent = ({ handleUserDelete, handleUserEdit, users, showModal, isValid, onToggleModal}) => {
   return (
     <div>
       <div className="userHeaders">
@@ -28,6 +34,9 @@ const UsersComponent = ({ handleUserDelete, handleUserEdit, users }) => {
             onDelete={deleteUser}
             onEdit={editUser}
             index={index}
+            showModal={showModal}
+            onToggleModal={onToggleModal}
+            isValid={isValid}
           />
         );
       })}
@@ -35,17 +44,34 @@ const UsersComponent = ({ handleUserDelete, handleUserEdit, users }) => {
   );
 };
 
+const mapStateToProps = state => ({
+    showModal: selectShowEditUserModal(state),
+    isValid: selectFormIsValid(state)
+});
+
 const mapDispatchToProps = dispatch => {
   return {
     handleUserDelete: user => {
+      console.log("User in delete is: ", user);
       dispatch(deleteUser(user));
     },
-    handleUserEdit: user => {
-      dispatch(editUser(user));
+    handleUserEdit: () =>
+        dispatch((dispatch, getState) => {
+            if (selectFormIsValid(getState())) {
+                dispatch(editUser(selectExistingUser(getState())));
+                dispatch(toggleEditUserModal());
+                dispatch(actions.reset('forms.addUser'));
+            } else {
+                console.log('Add user form is not valid.');
+            }
+        }),
+    onToggleModal: () => {
+        dispatch(actions.reset('forms.editUser'));
+        dispatch(toggleEditUserModal());
     }
   };
 };
 
-const Users = connect(null, mapDispatchToProps)(UsersComponent);
+const Users = connect(mapStateToProps, mapDispatchToProps)(UsersComponent);
 
 export default Users;

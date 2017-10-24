@@ -18,34 +18,19 @@ class AlertsComponent extends Component {
     console.log("Props are: ", this.props);
     this.timeout = setTimeout(() => {
       this.setAlertCheck();
-    }, 25000);
+    }, 250000);
   };
   render() {
     const { alerts, snoozedAlerts, handleAlertClick } = this.props;
     let renderActive, renderSnoozed;
 
     if (alerts.length > 0) {
-      console.log("The alerts are: ", alerts);
-      console.log("The snoozed alerts are: ", snoozedAlerts);
       let snoozedAlertList = alerts.filter(alert => {
         return (
           snoozedAlerts.length > 0 &&
           snoozedAlerts.some(snoozed => {
             let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
             let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
-            console.log(
-              snoozedAlertType +
-                " === " +
-                alert.alertType +
-                " and " +
-                snoozedAlertId +
-                " === " +
-                alert.id
-            );
-            console.log(
-              snoozedAlertType === alert.alertType &&
-                snoozedAlertId === alert.id
-            );
             return (
               snoozedAlertType === alert.alertType &&
               snoozedAlertId === alert.id
@@ -55,8 +40,6 @@ class AlertsComponent extends Component {
       });
 
       let activeAlertList = alerts;
-
-      console.log("Active alert list is: ", activeAlertList);
 
       if(snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
           activeAlertList = alerts.filter(alert => {
@@ -86,8 +69,6 @@ class AlertsComponent extends Component {
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
 
-      console.log("The active alert list is: ", activeAlertList);
-      console.log("The snoozed alert list is: ", snoozedAlertList);
 
       renderActive = activeAlertList.map((alert, i) => (
         <ValveAlert
@@ -103,9 +84,9 @@ class AlertsComponent extends Component {
         />
       ));
 
-      renderSnoozed = snoozedAlertList.map(alert => (
+      renderSnoozed = snoozedAlertList.map((alert, i) => (
         <ValveAlert
-          key={alert.id}
+          key={"alert-" + i}
           id={alert.id}
           leftIcon
           isActive={true}

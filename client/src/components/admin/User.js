@@ -2,13 +2,15 @@ import React from "react";
 import "./User.css";
 
 import Icon from "../icons/Icon";
+import EditUser from "./edit-user";
 
-const User = ({ index, onDelete, onEdit, user }) => {
+const User = ({ index, onDelete, onEdit, user, showModal, onToggleModal, isValid }) => {
   const deleteUser = () => {
     onDelete(user);
   };
   const editUser = () => {
-    onEdit(user);
+      console.log("The editUser is: ", user);
+      onEdit(user);
   };
   return (
     <div className={`user ${index % 2 === 1 ? "even" : "odd"}`}>
@@ -16,9 +18,7 @@ const User = ({ index, onDelete, onEdit, user }) => {
       <div className="field">{user.email}</div>
       <div className="field">{user.passwordExpired ? "true" : "false"}</div>
       <div className="field">{user.roles}</div>
-      <div>
-        <Icon className="userDelete" type="edit" handleClick={editUser} />
-      </div>
+      <EditUser user={user} onEditUser={onEdit} showModal={showModal} isValid={isValid} onToggleModal={onToggleModal} />
       <div>
         <Icon className="userDelete" type="delete" handleClick={deleteUser} />
       </div>

@@ -3,7 +3,8 @@ import {
   SET_VIEW_STATE,
   TOGGLE_ALERTS,
   TOGGLE_PROFILE,
-  TOGGLE_USER_MODAL
+  TOGGLE_USER_MODAL,
+  TOGGLE_EDIT_USER_MODAL
 } from './action-types';
 
 export const initialState = {
@@ -11,7 +12,8 @@ export const initialState = {
   VIEW_STATE: 'state:facility',
   viewProfile: true,
   viewAlerts: false,
-  showUserModal: false
+  showUserModal: false,
+  showEditUserModal: false
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +36,8 @@ export default (state = initialState, action) => {
       return { ...state, viewProfile: !state.viewProfile };
     case TOGGLE_USER_MODAL:
       return { ...state, showUserModal: !state.showUserModal };
+    case TOGGLE_EDIT_USER_MODAL:
+      return { ...state, showEditUserModal: !state.showEditUserModal };
     default:
       return state;
   }

@@ -54,7 +54,7 @@ function DELETEUser(user) {
 }
 
 function PUTUser(user) {
-  return secureFetch(`/api/user/updateRoles`, {
+  return secureFetch(`/api/user/update`, {
     method: "put",
     body: JSON.stringify(user)
   });
@@ -101,6 +101,7 @@ export function addNewUser(user) {
 }
 
 export function deleteUser(user) {
+  console.log("The delete user is: ", user);
   return dispatch => {
     return DELETEUser(user)
       .then(toJson)
@@ -112,6 +113,7 @@ export function deleteUser(user) {
 }
 
 export function editUser(user) {
+  console.log("User is : ", user);
   return dispatch => {
     return PUTUser(user)
       .then(toJson)

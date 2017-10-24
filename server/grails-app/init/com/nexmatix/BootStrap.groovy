@@ -57,7 +57,7 @@ class BootStrap {
 
         println "Checking manifolds..."
         if (!Manifold.list()) {
-            def manifold = new Manifold(serialNumber: 1, machine: Machine.first()).save()
+            def manifold = new Manifold(serialNumber: 1, name: 'Manifold ' + 1, machine: Machine.first()).save()
             println "Saved manifold: ${manifold.serialNumber}"
         } else {
             println "Manifold: ${Manifold.count()}"
@@ -116,8 +116,14 @@ class BootStrap {
                             valveSerialNumber: valve.serialNumber,
                             stationNumber: valve.stationNumber,
                             manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
-                }
 
+                    new ValveAlert(
+                            detectionTime: new Date(),
+                            alertType: AlertType.LEAK.id,
+                            valveSerialNumber: valve.serialNumber,
+                            stationNumber: valve.stationNumber,
+                            manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                }
             }
         } else {
             println "Valves: ${Valve.count()}"

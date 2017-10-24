@@ -19,7 +19,7 @@ const ValveIcon = ({ children, handleClick, size, warning }) => {
         </div>
       </div>
       <div className="valveIconLabel">
-        {children}
+          {children}
       </div>
     </div>
   );

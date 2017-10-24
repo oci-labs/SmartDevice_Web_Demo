@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./Drilldown.css";
 
+import { isValveInFault } from "../../services/alertService";
+
 import ValveIcon from "../common/ValveIcon";
 import Manifold from "../drilldown/Manifold";
 import CycleCount from "../drilldown/CycleCount";
@@ -65,10 +67,10 @@ class DrilldownComponent extends Component {
           <HorizontalLine />
           <Row className="faults">
             <ValveIcon>Valve Fault</ValveIcon>
-            <ValveIcon warning={currentValveStatus.leak !== "N"}>
+            <ValveIcon warning={isValveInFault(currentValveStatus, "LEAK")}>
               Leak Fault
             </ValveIcon>
-            <ValveIcon warning={currentValveStatus.pressureFault !== "N"}>
+            <ValveIcon warning={isValveInFault(currentValveStatus, "PRESSURE_FAULT")}>
               Pressure Fault
             </ValveIcon>
           </Row>

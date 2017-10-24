@@ -1253,6 +1253,14 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+chai@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-3.5.0.tgz#4d02637b067fe958bdbfdd3a40ec56fef7373247"
+  dependencies:
+    assertion-error "^1.0.1"
+    deep-eql "^0.1.3"
+    type-detect "^1.0.0"
+
 chai@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.0.tgz#331a0391b55c3af8740ae9c3b7458bc1c3805e6d"
@@ -1543,9 +1551,16 @@ cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
 
-cookie@0.3.1:
+cookie@0.3.1, cookie@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+
+cookiesync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/cookiesync/-/cookiesync-1.4.0.tgz#ba61cc83ddd7a3aa494b114b45fa13e714fa3516"
+  dependencies:
+    invariant "^2.2.2"
+    react-cookie "1.0.4"
 
 core-js@^1.0.0:
   version "1.2.7"
@@ -1798,6 +1813,12 @@ debug@2.6.8, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.3, debug@^2.6.
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+deep-eql@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
+  dependencies:
+    type-detect "0.1.1"
 
 deep-eql@^2.0.1:
   version "2.0.2"
@@ -2675,6 +2696,12 @@ flat-cache@^1.2.1:
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
+
+flux-standard-action@^0.6.0:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-0.6.1.tgz#6f34211b94834ea1c3cc30f4e7afad3d0fbf71a2"
+  dependencies:
+    lodash.isplainobject "^3.2.0"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -4008,6 +4035,20 @@ loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
+local-storage@1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/local-storage/-/local-storage-1.4.2.tgz#7ec2d3fb7f1ea91a85b160d3a785058f87bfbfa5"
+
+localsync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/localsync/-/localsync-1.4.0.tgz#3860cefcd011f851bcb5cc711f53cc6834a39170"
+  dependencies:
+    cookiesync "^1.4.0"
+    serversync "^1.4.0"
+    socketsync "^1.4.0"
+    storagesync "^1.4.0"
+    webrtcsync "^1.4.0"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -4018,6 +4059,10 @@ locate-path@^2.0.0:
 lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+
+lodash._basefor@^3.0.0:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/lodash._basefor/-/lodash._basefor-3.0.3.tgz#7550b4e9218ef09fad24343b612021c79b4c20c2"
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -4051,6 +4096,14 @@ lodash.get@~4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
+lodash.isarguments@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/lodash.isarguments/-/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
+
+lodash.isarray@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
+
 lodash.isfunction@^3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.8.tgz#4db709fc81bc4a8fd7127a458a5346c5cdce2c6b"
@@ -4058,6 +4111,21 @@ lodash.isfunction@^3.0.8:
 lodash.isobject@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-3.0.2.tgz#3c8fb8d5b5bf4bf90ae06e14f2a530a4ed935e1d"
+
+lodash.isplainobject@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-3.2.0.tgz#9a8238ae16b200432960cd7346512d0123fbf4c5"
+  dependencies:
+    lodash._basefor "^3.0.0"
+    lodash.isarguments "^3.0.0"
+    lodash.keysin "^3.0.0"
+
+lodash.keysin@^3.0.0:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.keysin/-/lodash.keysin-3.0.8.tgz#22c4493ebbedb1427962a54b445b2c8a767fb47f"
+  dependencies:
+    lodash.isarguments "^3.0.0"
+    lodash.isarray "^3.0.0"
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -4092,7 +4160,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.4:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -5342,6 +5410,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-cookie@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-cookie/-/react-cookie-1.0.4.tgz#4fe715d4c0abbcd18b671df5752c43d3109836c9"
+  dependencies:
+    cookie "^0.3.1"
+    object-assign "^4.1.0"
+
 react-dev-utils@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.0.2.tgz#1a42263e9b6aa11dcb45d69dfe5eb1b354bd5531"
@@ -5373,6 +5448,12 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react-dropdown@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-dropdown/-/react-dropdown-1.3.2.tgz#639b3e5b0a72a5abdc0fbae5c816abc68713293e"
+  dependencies:
+    classnames "^2.2.3"
 
 react-error-overlay@^1.0.9:
   version "1.0.9"
@@ -5635,15 +5716,62 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
+reduce-reducers@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/reduce-reducers/-/reduce-reducers-0.1.2.tgz#fa1b4718bc5292a71ddd1e5d839c9bea9770f14b"
+
+redux-actions@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/redux-actions/-/redux-actions-0.9.1.tgz#a72767654bc21424c3df3f6240780ffa8872783c"
+  dependencies:
+    flux-standard-action "^0.6.0"
+    reduce-reducers "^0.1.0"
+
+redux-blueprint@*:
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/redux-blueprint/-/redux-blueprint-0.2.23.tgz#8125e13a88d2c85b23eba9871200844a9236867a"
+  dependencies:
+    chai "^3.5.0"
+    redux-actions "^0.9.1"
+
+redux-idle-monitor@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/redux-idle-monitor/-/redux-idle-monitor-0.7.0.tgz#58557be71e1d912af4518f385cb393a30f36c583"
+  dependencies:
+    babel-runtime "^6.18.0"
+    invariant "^2.2.2"
+    localsync "^1.4.0"
+    redux "^3.5.2"
+    redux-actions "^0.9.1"
+    redux-blueprint "*"
+    redux-middleware "*"
+    redux-mux "*"
+
+redux-middleware@*:
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/redux-middleware/-/redux-middleware-0.1.21.tgz#87728a4b9dda6c5bba039492b38cbf7b1bdcf32c"
+  dependencies:
+    chai "^3.5.0"
+    lodash "^4.11.1"
+    redux "^3.5.2"
+    redux-actions "^0.9.1"
+    redux-blueprint "*"
+
 redux-mock-store@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.3.tgz#1b3ad299da91cb41ba30d68e3b6f024475fb9e1b"
+
+redux-mux@*:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/redux-mux/-/redux-mux-0.1.15.tgz#fd523fa91d95d1b95c0c16d73391fd37153af014"
+  dependencies:
+    chai "^3.5.0"
 
 redux-thunk@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
-redux@^3.7.2:
+redux@^3.5.2, redux@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
   dependencies:
@@ -5997,6 +6125,12 @@ serve-static@1.12.3:
     parseurl "~1.3.1"
     send "0.15.3"
 
+serversync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/serversync/-/serversync-1.4.0.tgz#75ba6051278f8b6dfddb2864a91b894f7abbaf58"
+  dependencies:
+    invariant "^2.2.2"
+
 serviceworker-cache-polyfill@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/serviceworker-cache-polyfill/-/serviceworker-cache-polyfill-4.0.0.tgz#de19ee73bef21ab3c0740a37b33db62464babdeb"
@@ -6096,6 +6230,14 @@ sntp@1.x.x:
   resolved "https://registry.yarnpkg.com/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"
   dependencies:
     hoek "2.x.x"
+
+socketsync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/socketsync/-/socketsync-1.4.0.tgz#e9676bbb4cefeaa81edc7775e4e965ec7dcd8053"
+  dependencies:
+    invariant "^2.2.2"
+    local-storage "1.4.2"
+    react-cookie "1.0.4"
 
 sockjs-client@1.1.2:
   version "1.1.2"
@@ -6242,6 +6384,13 @@ stompjs@^2.3.3:
   resolved "https://registry.yarnpkg.com/stompjs/-/stompjs-2.3.3.tgz#34178ac7bb8ee294cc5d554ad8b50f7f5459fd8e"
   optionalDependencies:
     websocket latest
+
+storagesync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/storagesync/-/storagesync-1.4.0.tgz#9b8b77a78eab9c028c8c70bd047cbacf44cd3c87"
+  dependencies:
+    invariant "^2.2.2"
+    local-storage "1.4.2"
 
 stream-browserify@^2.0.1:
   version "2.0.1"
@@ -6557,6 +6706,14 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
+
+type-detect@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
+
+type-detect@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
 type-detect@^3.0.0:
   version "3.0.0"
@@ -6886,6 +7043,12 @@ webpack@2.6.1:
     watchpack "^1.3.1"
     webpack-sources "^0.2.3"
     yargs "^6.0.0"
+
+webrtcsync@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/webrtcsync/-/webrtcsync-1.4.0.tgz#7348ea995d26668e3598820f182cd787b1ae6468"
+  dependencies:
+    invariant "^2.2.2"
 
 websocket-driver@>=0.5.1:
   version "0.6.5"

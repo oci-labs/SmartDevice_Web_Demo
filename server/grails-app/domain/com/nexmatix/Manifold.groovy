@@ -8,11 +8,13 @@ import grails.rest.Resource
 class Manifold {
 
     Integer serialNumber
+    String name
     Machine machine
 
     static hasMany = [stations: Station]
 
     static constraints = {
         stations nullable: true
+        name maxSize: 100
     }
 }

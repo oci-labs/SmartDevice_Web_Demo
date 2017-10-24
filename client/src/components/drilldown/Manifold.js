@@ -1,7 +1,8 @@
 import React from "react";
 import Station from "./Station";
 import "./Manifold.css";
-import { authRequest } from "../../services/authRequestService"
+import { authRequest } from "../../services/authRequestService";
+import { isStationInFault } from "../../services/alertService";
 
 class Manifold extends React.Component {
   constructor() {
@@ -40,10 +41,11 @@ class Manifold extends React.Component {
         .map((station, index) => {
           const status = statuses.find(s => s.valve.station.id === station.id);
           const inFault = status
-            ? status.cycleCount > status.cycleCountLimit ||
-              status.leak !== "N" ||
-              status.pressureFault !== "N"
+            ? isStationInFault(status)
             : false;
+
+          console.log("inFault? ", inFault);
+          console.log("Status : ", status);
 
           return (
             <Station

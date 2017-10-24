@@ -21,7 +21,7 @@ class IconGroupComponent extends Component {
 
   setWarnings = item => {
     item.children.map(child => {
-      const id = child.id ? child.id : child.serialNumber;
+      const id = child.id && child.type !== "manifold" ? child.id : child.serialNumber;
       const listener = listen(`${child.type}.${id}`, true, value => {
         if (this.state.warnings[id] !== value) {
           const newWarning = {};

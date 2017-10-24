@@ -4,7 +4,7 @@ import { actions } from 'react-redux-form';
 import { addNewUser } from '../../actions';
 import { toggleUserModal } from '../../redux-modules/view/actions';
 import { selectShowUserModal } from '../../selectors/view-selectors';
-import { selectFormIsValid, selectNewUser } from '../../selectors/add-user-selectors';
+import { selectFormIsValid, selectNewUser } from '../../selectors/user-selectors';
 
 const mapStateToProps = state => ({
   showModal: selectShowUserModal(state),
