@@ -50,6 +50,7 @@ class BootStrap {
         println "Checking machines..."
         if (!Machine.list()) {
             def machine = new Machine(name: "Machine AAA", department: Department.first()).save()
+            def machine2 = new Machine(name: "Machine BBB", department: Department.first()).save()
             println "Saved _machine: ${machine.name}"
         } else {
             println "Machine: ${Machine.count()}"
@@ -58,6 +59,7 @@ class BootStrap {
         println "Checking manifolds..."
         if (!Manifold.list()) {
             def manifold = new Manifold(serialNumber: 1, name: 'Manifold ' + 1, machine: Machine.first()).save()
+            def manifold2 = new Manifold(serialNumber: 2, name: 'Manifold ' + 2, machine: Machine.findByName("Machine BBB")).save()
             println "Saved manifold: ${manifold.serialNumber}"
         } else {
             println "Manifold: ${Manifold.count()}"
@@ -73,6 +75,12 @@ class BootStrap {
                         number: i).save()
                 println "Saved station: ${station.number}"
             }
+            (1..10).each { i ->
+                def nonFaultStation = new Station(
+                    manifold: Manifold.findBySerialNumber(2),
+                    number: i).save()
+            println "Saved nonFaultStation: ${nonFaultStation.number}"
+           }
         } else {
             println "Station: ${Station.count()}"
         }
@@ -93,9 +101,23 @@ class BootStrap {
                 println "Valve saved with serialNumber: ${valve.serialNumber}"
             }
 
+            Manifold second = Manifold.findBySerialNumber(2)
+            Station secondStation = Station.findByManifold(second)
+            [1, 2, 3, 4, 6, 9, 10].each { i ->
+                println "Creating valve ${200000 + (i - 1)} for station #${i}..."
+                def secondValve = new Valve(stationNumber: Station.findByNumberAndManifold(i, second).number, manifoldSerialNumber: second.serialNumber, serialNumber: 200000 + (i - 1), fabricationDate: new Date(), shippingDate: new Date(), updateTime: new Date(), sku: "NX-01-NCC-1701-BSG-SG1-S0-01-R5-${i+10}")
+                if(!secondValve.save(flush: true)) {
+                    secondValve.errors.allErrors.each { println it }
+                }
+                println "Second Valve saved with serialNumber: ${secondValve.serialNumber}"
+            }
+
             println "Valves: ${Valve.count()}"
 
             if(Environment.isDevelopmentMode()) {
+
+                Manifold first = Manifold.first()
+
                 println "Development mode..."
                 Valve.list().each { valve ->
                     println "Creating valve status for valve #${valve.serialNumber}..."
@@ -103,28 +125,32 @@ class BootStrap {
                             cycleCountLimit: 1010,
                             input: "A",
                             leak: "N",
-                            manifoldSerialNumber: Manifold.first().serialNumber,
+                            manifoldSerialNumber: valve.manifoldSerialNumber,
                             stationNumber: valve.stationNumber,
                             valveSerialNumber: valve.serialNumber,
                             pressurePoint: 100.0,
                             pressureFault: "N",
                             updateTime: new Date()).save(failOnError: true)
+                }
+                Valve.list().each { valve ->
+                    if (valve.manifoldSerialNumber.equals(first.serialNumber)) {
+                        new ValveAlert(
+                                detectionTime: new Date(),
+                                alertType: AlertType.PRESSURE_FAULT.id,
+                                valveSerialNumber: valve.serialNumber,
+                                stationNumber: valve.stationNumber,
+                                manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
 
-                    new ValveAlert(
-                            detectionTime: new Date(),
-                            alertType: AlertType.PRESSURE_FAULT.id,
-                            valveSerialNumber: valve.serialNumber,
-                            stationNumber: valve.stationNumber,
-                            manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
-
-                    new ValveAlert(
-                            detectionTime: new Date(),
-                            alertType: AlertType.LEAK.id,
-                            valveSerialNumber: valve.serialNumber,
-                            stationNumber: valve.stationNumber,
-                            manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                        new ValveAlert(
+                                detectionTime: new Date(),
+                                alertType: AlertType.LEAK.id,
+                                valveSerialNumber: valve.serialNumber,
+                                stationNumber: valve.stationNumber,
+                                manifoldSerialNumber: valve.manifoldSerialNumber).save(failOnError: true)
+                    }
                 }
             }
+
         } else {
             println "Valves: ${Valve.count()}"
             println "ValveAlerts: ${ValveAlert.count()}"

@@ -4,7 +4,6 @@ import "./Tabs.css";
 
 import Tab from "./Tab";
 import View from "../common/View";
-import Dropdown from "../common/Dropdown";
 import ReactScrollbar from "react-scrollbar-js";
 
 import {
@@ -68,15 +67,6 @@ class TabsComponent extends Component {
         ));
       }
       return [...firstTab, ...additionalTabs];
-    };
-    const handleMachineClick = item => {
-      this.props.handleItemClick(item);
-    };
-    const handleAllMachineClick = () => {
-      this.props.handleItemClick({
-        type: "machine",
-        parent: selectedDepartment
-      });
     };
 
     return (
