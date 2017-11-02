@@ -15,7 +15,7 @@ export function GETAllAlerts(count, token) {
 }
 
 export function getAlerts(count = 10) {
-  return function (dispatch, getState) {
+  return (dispatch, getState) => {
     const state = getState();
     if (state.currentUser.credentials) {
       return GETAllAlerts(count, state.currentUser.credentials.access_token)
@@ -51,6 +51,7 @@ export function getAlerts(count = 10) {
 }
 
 function POSTSnoozedAlert(snoozedAlert, username, token) {
+  /* eslint-disable max-len */
   return fetch(
     `${SERVER_URL}/api/valveAlert/snoozed/${username}/${snoozedAlert.alertType}/${snoozedAlert.alertId}/${snoozedAlert.duration}`,
     {
@@ -74,7 +75,7 @@ function POSTUnsnoozeAlerts(username, token) {
 }
 
 export function snoozeAlert(snoozed) {
-  return function(dispatch, getState) {
+  return (dispatch, getState) => {
     const username = getState().currentUser.user.username;
     const token = getState().currentUser.credentials.access_token;
     // const snoozedAlerts = getState().snoozedAlerts;
@@ -104,7 +105,7 @@ function GETSnoozedAlerts(username, token) {
   });
 }
 export function getSnoozedAlerts() {
-  return function(dispatch, getState) {
+  return (dispatch, getState) => {
     if (getState().currentUser.user) {
       const username = getState().currentUser.user.username;
       const token = getState().currentUser.credentials.access_token;
@@ -123,7 +124,7 @@ export function getSnoozedAlerts() {
 }
 
 export function unsnoozeAlerts() {
-  return function(dispatch, getState) {
+  return (dispatch, getState) => {
     if (getState().currentUser.user) {
       const username = getState().currentUser.user.username;
       const token = getState().currentUser.credentials.access_token;

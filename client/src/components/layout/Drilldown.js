@@ -143,8 +143,8 @@ class DrilldownComponent extends Component {
 }
 
 DrilldownComponent.propTypes = {
-  selectedManifold: PropTypes.object,
-  currentStation: PropTypes.object
+  currentStation: PropTypes.object,
+  selectedManifold: PropTypes.object
 };
 
 const mapStateToProps = state => ({

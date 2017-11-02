@@ -4,6 +4,16 @@ import {Navbar, NavDropdown, Nav, MenuItem} from 'react-bootstrap';
 import grailsLogo from './images/grails-cupsonly-logo-white.svg';
 import 'whatwg-fetch';
 
+function getMenuItems(plugins) {
+  if (!plugins) return null;
+
+  return plugins.map(plugin => (
+    <MenuItem eventKey="4.1" key={plugin.name}>
+      {plugin.name} - {plugin.version}
+    </MenuItem>
+  ));
+}
+
 function AppNav({serverInfo}) {
   const {
     environment,
@@ -58,13 +68,7 @@ function AppNav({serverInfo}) {
           </NavDropdown>
 
           <NavDropdown eventKey="4" title="Installed Plugins " id="plugins">
-            {plugins
-              ? plugins.map(plugin => (
-                <MenuItem eventKey="4.1" key={plugin.name}>
-                    {plugin.name} - {plugin.version}
-                </MenuItem>
-                ))
-              : null}
+            {getMenuItems(plugins)}
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>

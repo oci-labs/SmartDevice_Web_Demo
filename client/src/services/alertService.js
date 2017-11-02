@@ -8,7 +8,7 @@ export function isStationInFault(station) {
   const itemsInAlert = [];
   const alerts = getAlerts(store.getState());
 
-  alerts.map(alert => {
+  alerts.forEach(alert => {
     if (alert.valve.id === station.valve.id) {
       itemsInAlert.push(alert);
     }
@@ -21,7 +21,7 @@ export function isValveInFault(valve, alertType) {
   const itemsInAlert = [];
   const alerts = getAlerts(store.getState());
 
-  alerts.map(alert => {
+  alerts.forEach(alert => {
     if (alert.valve.id === valve.id && alert.alertType === alertType) {
       itemsInAlert.push(alert);
     }
@@ -34,7 +34,7 @@ export function isInFault(item) {
   const itemsInAlert = [];
   const alerts = getAlerts(store.getState());
 
-  alerts.map(alert => {
+  alerts.forEach(alert => {
     switch (item.type) {
       case 'facility':
         if (alert.valve.facility.id === item.id) {

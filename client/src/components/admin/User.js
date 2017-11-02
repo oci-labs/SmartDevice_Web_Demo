@@ -16,10 +16,12 @@ const User = ({
   const deleteUser = () => {
     onDelete(user);
   };
+  /*
   const editUser = () => {
     console.log('The editUser is: ', user);
     onEdit(user);
   };
+  */
   return (
     <div className={`user ${index % 2 === 1 ? 'even' : 'odd'}`}>
       <div className="field">{user.username}</div>

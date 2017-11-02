@@ -173,7 +173,7 @@ export class Select extends Component {
     let options;
     if (this.props.options) {
       options = this.props.options.map(option => (
-        <Option item={option} setRef={this.setChildRef} />
+        <Option key={option} item={option} setRef={this.setChildRef} />
       ));
     }
     const disabled =
@@ -200,31 +200,25 @@ export class Select extends Component {
                 />
               </div>
               <div className={`optionsWrapper ${!isOpen ? 'closed' : ''}`}>
-                {React.Children.map(
-                  options ? options : children,
-                  (child, index) => {
-                    const additionalProps = {
-                      handleClick: item => {
-                        this.setState({
-                          isOpen: false,
-                          selected: item
-                        });
-                        if (onChange) {
-                          onChange(item);
-                        }
-                      },
-                      tabIndex: '0'
-                    };
-                    return React.cloneElement(child, additionalProps);
-                  }
-                )}
+                {React.Children.map(options ? options : children, child => {
+                  const additionalProps = {
+                    handleClick: item => {
+                      this.setState({
+                        isOpen: false,
+                        selected: item
+                      });
+                      if (onChange) onChange(item);
+                    },
+                    tabIndex: '0'
+                  };
+                  return React.cloneElement(child, additionalProps);
+                })}
               </div>
             </div>
           </div>
         </div>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   }
 }

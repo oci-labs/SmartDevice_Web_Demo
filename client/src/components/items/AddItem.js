@@ -71,7 +71,7 @@ class AddItemComponent extends Component {
       });
     }
   };
-  addItem = item => {
+  addItem = () => {
     this.props.handleAddItem(this.state.model);
     this.onModalClose();
   };

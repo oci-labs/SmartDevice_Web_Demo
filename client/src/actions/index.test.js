@@ -1,4 +1,5 @@
-import {setAllAlerts, getFirst, setSelectedItem} from './index';
+import {expect, jest} from 'jest';
+import {getFirst, setSelectedItem} from './index';
 
 const thunk = ({dispatch, getState}) => next => action => {
   if (typeof action === 'function') {

@@ -3,14 +3,7 @@ import {connect} from 'react-redux';
 import './Tab.css';
 import {setSelectedItem} from '../../actions';
 
-const TabComponent = ({
-  active,
-  item,
-  defaultName,
-  handleTabClick,
-  label,
-  selected
-}) => {
+const TabComponent = ({active, item, handleTabClick, label, selected}) => {
   const tabClick = () => {
     handleTabClick(item);
   };

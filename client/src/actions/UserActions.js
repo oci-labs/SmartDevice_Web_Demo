@@ -65,9 +65,10 @@ function PUTUser(user) {
 }
 
 export function getCurrentUser(credentials) {
+  /* eslint-disable camelcase */
   const {access_token, username} = credentials;
-  return function(dispatch) {
-    return GETUserObj(username, access_token)
+  return dispatch =>
+    GETUserObj(username, access_token)
       .then(toJson)
       .then(response => {
         if (!response.error) {
@@ -78,7 +79,6 @@ export function getCurrentUser(credentials) {
           dispatch(getSnoozedAlerts());
         }
       });
-  };
 }
 
 export function getAllUsers() {
@@ -126,8 +126,8 @@ export function editUser(user) {
 }
 
 export function postUserAuth(username, password) {
-  return function(dispatch) {
-    return POSTUserAuth(username, password)
+  return dispatch =>
+    POSTUserAuth(username, password)
       .then(toJson)
       .then(
         response => {
@@ -145,5 +145,4 @@ export function postUserAuth(username, password) {
           dispatch(userLogout);
         }
       );
-  };
 }

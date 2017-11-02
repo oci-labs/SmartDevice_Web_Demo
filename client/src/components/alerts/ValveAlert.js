@@ -14,7 +14,7 @@ class ValveAlert extends Component {
       isActive,
       isSnoozed,
       time,
-      handleUpdate,
+      //handleUpdate,
       onAlertClick
     } = this.props;
 
@@ -43,6 +43,7 @@ class ValveAlert extends Component {
         minute: '2-digit'
       })
       .replace(/,/g, '');
+    /*
     const handleSnoozeClick = () => {
       const alert = {
         alertId: this.props.id,
@@ -51,6 +52,7 @@ class ValveAlert extends Component {
       };
       handleUpdate(alert);
     };
+    */
     const handleAlertClick = () => {
       if (onAlertClick) {
         onAlertClick(this.props.alert.valve);

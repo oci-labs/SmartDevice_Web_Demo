@@ -140,12 +140,12 @@ export function addItem(item) {
 }
 
 export function deleteItem(item) {
-  return function (dispatch, getState) {
+  return (dispatch, getState) => {
     const state = getState();
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
-      return DELETEItem(item, token).then(response => {
+      return DELETEItem(item, token).then(() => {
         switch (item.type) {
           case 'facility':
             dispatch(setSelectedItem({type: 'facility'}));
@@ -169,7 +169,7 @@ export function deleteItem(item) {
 }
 
 export function updateItem(item) {
-  return function (dispatch, getState) {
+  return (dispatch, getState) => {
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
@@ -197,7 +197,7 @@ export function updateItem(item) {
 }
 
 export function setSelectedItem(item, keepViewState, forceRefresh) {
-  return function(dispatch, getState) {
+  return (dispatch, getState) => {
     const {
       selectedContext: {department, facility, machine, manifold, station},
       currentUser: {user}
@@ -206,6 +206,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
       const credentials = getState().currentUser.credentials;
       const token = credentials && credentials.access_token;
       if (token) {
+        /* eslint-disable complexity */
         GETItem(item, token)
           .then(toJson)
           .then(response => {
@@ -251,7 +252,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   dispatch(setActiveItems([response]));
                   break;
-                case 'manifold':
+                case 'manifold': {
                   dispatch(setSelectedManifold(response));
                   console.log('The response is: ', response);
                   if (
@@ -273,6 +274,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                     dispatch(setSelectedItem(getFirst(response.children)));
                   }
                   break;
+                }
                 case 'station':
                   dispatch(setSelectedStation(response));
                   if (!manifold || manifold.id !== response.parent.id) {

@@ -22,8 +22,8 @@ class App extends Component {
     } = this.props;
     return (
       <Container fluid className="full">
-        { viewProfile ?
-            <Row noGutters>
+        {viewProfile ? (
+          <Row noGutters>
             <Col className="col-11 col-md-3 col-lg-2 no-gutters profileContainer">
               <Profile />
             </Col>
@@ -54,18 +54,17 @@ class App extends Component {
                       </Col>
                     </Row>
                   );
-                } else {
-                  return (
-                    <Row noGutters>
-                      <Col md="12" className="hidden-sm-down">
-                        <MainView className="addScroll" />
-                      </Col>
-                      <Col className="hidden-xs-up">
-                        <Alerts />
-                      </Col>
-                    </Row>
-                  );
                 }
+                return (
+                  <Row noGutters>
+                    <Col md="12" className="hidden-sm-down">
+                      <MainView className="addScroll" />
+                    </Col>
+                    <Col className="hidden-xs-up">
+                      <Alerts />
+                    </Col>
+                  </Row>
+                );
               })()}
             </Col>
           </Row>
@@ -103,20 +102,19 @@ class App extends Component {
                       </Col>
                     </Row>
                   );
-                } else {
-                  return (
-                    <Row noGutters>
-                      <Col xs="12">
-                        <MainView className="addScroll" />
-                        {/*<MachineView />*/}
-                        {/*<Drilldown />*/}
-                      </Col>
-                      <Col className="hidden-xs-up">
-                        <Alerts />
-                      </Col>
-                    </Row>
-                  );
                 }
+                return (
+                  <Row noGutters>
+                    <Col xs="12">
+                      <MainView className="addScroll" />
+                      {/*<MachineView />*/}
+                      {/*<Drilldown />*/}
+                    </Col>
+                    <Col className="hidden-xs-up">
+                      <Alerts />
+                    </Col>
+                  </Row>
+                );
               })()}
             </Col>
           </Row>

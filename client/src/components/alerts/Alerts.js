@@ -32,7 +32,7 @@ class AlertsComponent extends Component {
     if (alerts.length > 0) {
       const snoozedAlertList = alerts.filter(
         alert =>
-        snoozedAlerts.length > 0 &&
+          snoozedAlerts.length > 0 &&
           snoozedAlerts.some(snoozed => {
             const snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
             const snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
@@ -41,22 +41,23 @@ class AlertsComponent extends Component {
               snoozedAlertId === alert.id
             );
           })
-      ));
+      );
 
       let activeAlertList = alerts;
 
       if (snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
         activeAlertList = alerts.filter(
           alert =>
-          snoozedAlertList.length > 0 && !snoozedAlerts.some(snoozed => {
-                      const snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-                      const snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
-                      return (
-                          snoozedAlertType === alert.alertType &&
-                          snoozedAlertId === alert.id
-                      );
-                  })
-              ));
+            snoozedAlertList.length > 0 &&
+            !snoozedAlerts.some(snoozed => {
+              const snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+              const snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+              return (
+                snoozedAlertType === alert.alertType &&
+                snoozedAlertId === alert.id
+              );
+            })
+        );
       }
 
       snoozedAlertList.sort(

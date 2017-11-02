@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import Icon from '../icons/Icon';
 import './Station.css';
 
-//TODO: station prop now includes valve data structure (station.valve) - use that here to render valve details
+//TODO: Station prop now includes valve data structure (station.valve).
+//TODO: Use that here to render valve details.
 const Station = ({onClick, id, station, empty, currentStation, inFault}) => {
   if (empty) {
     return (
@@ -37,11 +38,8 @@ const Station = ({onClick, id, station, empty, currentStation, inFault}) => {
 };
 
 Station.propTypes = {
-  dispatch: PropTypes.func,
-  active: PropTypes.bool,
   id: PropTypes.number,
-  station: PropTypes.object,
-  inFault: PropTypes.bool
+  station: PropTypes.object
 };
 
 export default Station;

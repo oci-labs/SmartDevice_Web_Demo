@@ -74,7 +74,7 @@ class MainViewComponent extends Component {
             selectedMachine={this.state.selectedMachine}
           />
           {currentUser ? (
-            (function() {
+            (() => {
               switch (viewState) {
                 case 'state:department':
                 case 'state:manifold':
@@ -89,7 +89,8 @@ class MainViewComponent extends Component {
                         <Drilldown />
                       </Row>
                     );
-                  } else if (viewProfile || viewAlerts) {
+                  }
+                  if (viewProfile || viewAlerts) {
                     return (
                       <Row className="mainContent no-gutters">
                         <Col className="hidden-md-down" lg="6" xl="7">
@@ -99,17 +100,16 @@ class MainViewComponent extends Component {
                         <Drilldown />
                       </Row>
                     );
-                  } else {
-                    return (
-                      <Row className="mainContent no-gutters">
-                        <Col className="hidden-sm-down" md="5" lg="7" xl="8">
-                          {activeItemsElements}
-                        </Col>
-                        <MachineView />
-                        <Drilldown />
-                      </Row>
-                    );
                   }
+                  return (
+                    <Row className="mainContent no-gutters">
+                      <Col className="hidden-sm-down" md="5" lg="7" xl="8">
+                        {activeItemsElements}
+                      </Col>
+                      <MachineView />
+                      <Drilldown />
+                    </Row>
+                  );
 
                 case 'state:facility':
                 case 'state:machine':
