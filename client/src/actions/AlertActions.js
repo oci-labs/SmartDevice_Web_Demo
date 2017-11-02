@@ -36,6 +36,18 @@ export function getAlerts(count = 10) {
                 return item;
               });
               console.log('Alerts are: ', alerts);
+              alerts.forEach(alert => {
+                const {valve} = alert;
+                const {machine, manifold, station} = valve;
+                console.log(
+                  'machine',
+                  machine.id,
+                  'manifold',
+                  manifold.id,
+                  'station',
+                  station.id
+                );
+              });
               dispatch(setAllAlerts(alerts));
               dispatch(setItemsInFault(itemsInFault));
             }

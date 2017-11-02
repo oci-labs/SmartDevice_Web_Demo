@@ -46,9 +46,6 @@ class Manifold extends React.Component {
           const status = statuses.find(s => s.valve.station.id === station.id);
           const inFault = status ? isStationInFault(status) : false;
 
-          console.log('inFault? ', inFault);
-          console.log('Status : ', status);
-
           return (
             <Station
               id={++index}
