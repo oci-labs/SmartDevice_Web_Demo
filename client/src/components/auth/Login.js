@@ -8,8 +8,8 @@ class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: ''
+      username: 'demoDan', //TODO: remove value later
+      password: 'password' //TODO: remove value later
     };
   }
 

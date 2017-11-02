@@ -3,11 +3,14 @@
   flex-direction: column;
   flex: 1 0 auto;
   height: 100%; }
-  .mainView .row {
-    height: 100%; }
   .mainView .mainViewItems {
     display: flex;
     justify-content: space-around; }
+  .mainView .row {
+    height: 100%; }
+  .mainView p {
+    padding-left: 15px;
+    padding-top: 5px; }
 
 .addScroll {
   overflow-y: scroll;

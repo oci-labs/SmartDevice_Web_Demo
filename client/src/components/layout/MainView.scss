@@ -3,12 +3,19 @@
   flex-direction: column;
   flex: 1 0 auto;
   height: 100%;
-  .row {
-    height: 100%;
-  }
+
   .mainViewItems {
     display: flex;
     justify-content: space-around;
+  }
+
+  .row {
+    height: 100%;
+  }
+
+  p {
+    padding-left: 15px;
+    padding-top: 5px;
   }
 }
 
