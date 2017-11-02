@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./MainView.css";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import './MainView.css';
 
-import Tabs from "../mainView/Tabs";
-import View from "../common/View";
-import IconGroup from "../mainView/IconGroup";
-import { Col, Row } from "reactstrap";
-import Admin from "./Admin";
-import MachineView from "./MachineView";
-import Drilldown from "./Drilldown";
+import Tabs from '../mainView/Tabs';
+import View from '../common/View';
+import IconGroup from '../mainView/IconGroup';
+import {Col, Row} from 'reactstrap';
+import Admin from './Admin';
+import MachineView from './MachineView';
+import Drilldown from './Drilldown';
 
 import {
   ADMIN_STATE,
@@ -16,9 +16,9 @@ import {
   FACILITY_STATE,
   MACHINE_STATE,
   MANIFOLD_STATE
-} from "../common/view.config";
+} from '../common/view.config';
 
-import { setSelectedItem } from "../../actions";
+import {setSelectedItem} from '../../actions';
 
 class MainViewComponent extends Component {
   constructor(props) {
@@ -46,14 +46,14 @@ class MainViewComponent extends Component {
     });
   }
   render() {
-    const { viewProfile, viewAlerts, currentUser } = this.props;
+    const {viewProfile, viewAlerts, currentUser} = this.props;
     let activeItemsElements;
     if (this.state.activeItems.length) {
       activeItemsElements = this.state.activeItems.map(item => (
         <IconGroup groupItem={item} key={item.id} />
       ));
     }
-    let viewState = this.state.viewState;
+    const viewState = this.state.viewState;
     return (
       <div className="mainView">
         <View states={[ADMIN_STATE]}>
@@ -76,9 +76,9 @@ class MainViewComponent extends Component {
           {currentUser ? (
             (function() {
               switch (viewState) {
-                case "state:department":
-                case "state:manifold":
-                case "state:station":
+                case 'state:department':
+                case 'state:manifold':
+                case 'state:station':
                   if (viewProfile && viewAlerts) {
                     return (
                       <Row className="mainContent no-gutters">
@@ -111,9 +111,9 @@ class MainViewComponent extends Component {
                     );
                   }
 
-                case "state:facility":
-                case "state:machine":
-                case "default":
+                case 'state:facility':
+                case 'state:machine':
+                case 'default':
                   return (
                     <Row className="mainContent no-gutters">
                       <Col xs="12">{activeItemsElements}</Col>
@@ -156,7 +156,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleSetCurrentItem: function(item) {
+    handleSetCurrentItem(item) {
       dispatch(setSelectedItem(item));
     }
   };

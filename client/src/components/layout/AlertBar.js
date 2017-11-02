@@ -1,13 +1,6 @@
-import React from "react";
-import "./AlertBar.css";
+import React from 'react';
+import './AlertBar.css';
 
-const AlertBar = () => {
-  return (
-    <div>
-
-    </div>
-  );
-};
-
+const AlertBar = () => <div />;
 
 export default AlertBar;

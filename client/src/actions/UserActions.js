@@ -31,7 +31,7 @@ function GETUsers(token) {
 
 function POSTUserAuth(username, password) {
   return fetch(`${SERVER_URL}/api/login`, {
-    body: JSON.stringify({username: username, password: password}),
+    body: JSON.stringify({username, password}),
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -41,7 +41,7 @@ function POSTUserAuth(username, password) {
 }
 
 function POSTNewUser(user) {
-  return secureFetch(`/api/user`, {
+  return secureFetch('/api/user', {
     method: 'post',
     body: JSON.stringify(user),
     headers: {
@@ -58,7 +58,7 @@ function DELETEUser(user) {
 }
 
 function PUTUser(user) {
-  return secureFetch(`/api/user/update`, {
+  return secureFetch('/api/user/update', {
     method: 'put',
     body: JSON.stringify(user)
   });
@@ -94,38 +94,35 @@ export function getAllUsers() {
 }
 
 export function addNewUser(user) {
-  return dispatch => {
-    return POSTNewUser(user)
+  return dispatch =>
+    POSTNewUser(user)
       .then(toJson)
       .then(response => {
         console.log('User added', response);
         dispatch(getAllUsers());
       });
-  };
 }
 
 export function deleteUser(user) {
   console.log('The delete user is: ', user);
-  return dispatch => {
-    return DELETEUser(user)
+  return dispatch =>
+    DELETEUser(user)
       .then(toJson)
       .then(response => {
         console.log('User deleted', response);
         dispatch(getAllUsers());
       });
-  };
 }
 
 export function editUser(user) {
   console.log('User is : ', user);
-  return dispatch => {
-    return PUTUser(user)
+  return dispatch =>
+    PUTUser(user)
       .then(toJson)
       .then(response => {
         console.log('User edited', response);
         dispatch(getAllUsers());
       });
-  };
 }
 
 export function postUserAuth(username, password) {

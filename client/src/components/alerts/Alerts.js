@@ -1,10 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ValveAlert from "./ValveAlert";
-import { CSSTransitionGroup } from "react-transition-group";
-import "./Alerts.css";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import ValveAlert from './ValveAlert';
+import {CSSTransitionGroup} from 'react-transition-group';
+import './Alerts.css';
 
-import { getAlerts, getSnoozedAlerts, unsnoozeAlerts, showValve } from "../../actions";
+import {
+  getAlerts,
+  getSnoozedAlerts,
+  unsnoozeAlerts,
+  showValve
+} from '../../actions';
 
 class AlertsComponent extends Component {
   constructor(props) {
@@ -15,45 +20,43 @@ class AlertsComponent extends Component {
     this.props.handleGetAlerts(30);
     this.props.handleUnsnoozeAlerts();
     this.props.handleGetSnoozedAlerts();
-    console.log("Props are: ", this.props);
+    console.log('Props are: ', this.props);
     this.timeout = setTimeout(() => {
       this.setAlertCheck();
     }, 250000);
   };
   render() {
-    const { alerts, snoozedAlerts, handleAlertClick } = this.props;
+    const {alerts, snoozedAlerts, handleAlertClick} = this.props;
     let renderActive, renderSnoozed;
 
     if (alerts.length > 0) {
-      let snoozedAlertList = alerts.filter(alert => {
-        return (
-          snoozedAlerts.length > 0 &&
+      const snoozedAlertList = alerts.filter(
+        alert =>
+        snoozedAlerts.length > 0 &&
           snoozedAlerts.some(snoozed => {
-            let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-            let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+            const snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+            const snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
             return (
               snoozedAlertType === alert.alertType &&
               snoozedAlertId === alert.id
             );
           })
-        );
-      });
+      ));
 
       let activeAlertList = alerts;
 
-      if(snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
-          activeAlertList = alerts.filter(alert => {
-              return (
-                  snoozedAlertList.length > 0 && !snoozedAlerts.some(snoozed => {
-                      let snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
-                      let snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
+      if (snoozedAlertList.length > 0 && snoozedAlerts.length > 0) {
+        activeAlertList = alerts.filter(
+          alert =>
+          snoozedAlertList.length > 0 && !snoozedAlerts.some(snoozed => {
+                      const snoozedAlertType = Object.keys(snoozed.valveAlertId)[0];
+                      const snoozedAlertId = snoozed.valveAlertId[snoozedAlertType];
                       return (
                           snoozedAlertType === alert.alertType &&
                           snoozedAlertId === alert.id
                       );
                   })
-              );
-          });
+              ));
       }
 
       snoozedAlertList.sort(
@@ -69,14 +72,13 @@ class AlertsComponent extends Component {
             : new Date(a.detectionTime) > new Date(b.detectionTime) ? -1 : 0
       );
 
-
       renderActive = activeAlertList.map((alert, i) => (
         <ValveAlert
-          key={"alert-" + i}
-          id={"alert-" + alert.id}
+          key={'alert-' + i}
+          id={'alert-' + alert.id}
           alert={alert}
           leftIcon
-          isActive={true}
+          isActive
           isSnoozed={false}
           alertType={alert.alertType}
           time={alert.detectionTime}
@@ -86,11 +88,11 @@ class AlertsComponent extends Component {
 
       renderSnoozed = snoozedAlertList.map((alert, i) => (
         <ValveAlert
-          key={"alert-" + i}
+          key={'alert-' + i}
           id={alert.id}
           leftIcon
-          isActive={true}
-          isSnoozed={true}
+          isActive
+          isSnoozed
           alertType={alert.alertType}
           time={alert.detectionTime}
         />
@@ -129,17 +131,17 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    handleAlertClick: function(valve) {
+    handleAlertClick(valve) {
       dispatch(showValve(valve));
     },
-    handleGetAlerts: function(count) {
+    handleGetAlerts(count) {
       dispatch(getAlerts(count));
     },
-    handleUnsnoozeAlerts: function() {
-          dispatch(unsnoozeAlerts());
+    handleUnsnoozeAlerts() {
+      dispatch(unsnoozeAlerts());
     },
-    handleGetSnoozedAlerts: function() {
-        dispatch(getSnoozedAlerts());
+    handleGetSnoozedAlerts() {
+      dispatch(getSnoozedAlerts());
     }
   };
 }

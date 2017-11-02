@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./IconGroup.css";
-import { listen } from "../../services/InFaultService";
-import ValveIcon from "../common/ValveIcon";
-import AddItem from "../items/AddItem";
-import EditItem from "../items/EditItem";
-import Icon from "../icons/Icon";
-import { HorizontalLine } from "../layout/LayoutComponents";
-import { setSelectedItem } from "../../actions";
-import { Col, Row } from "reactstrap";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import './IconGroup.css';
+import {listen} from '../../services/InFaultService';
+import ValveIcon from '../common/ValveIcon';
+import AddItem from '../items/AddItem';
+import EditItem from '../items/EditItem';
+import Icon from '../icons/Icon';
+import {HorizontalLine} from '../layout/LayoutComponents';
+import {setSelectedItem} from '../../actions';
+import {Col, Row} from 'reactstrap';
 
 class IconGroupComponent extends Component {
   constructor(props) {
@@ -21,7 +21,8 @@ class IconGroupComponent extends Component {
 
   setWarnings = item => {
     item.children.map(child => {
-      const id = child.id && child.type !== "manifold" ? child.id : child.serialNumber;
+      const id =
+        child.id && child.type !== 'manifold' ? child.id : child.serialNumber;
       const listener = listen(`${child.type}.${id}`, true, value => {
         if (this.state.warnings[id] !== value) {
           const newWarning = {};
@@ -44,14 +45,12 @@ class IconGroupComponent extends Component {
   }
 
   render() {
-    const { groupItem, handleIconClick } = this.props;
+    const {groupItem, handleIconClick} = this.props;
     let groupItemChildren = {};
     if (groupItem && groupItem.children) {
       groupItemChildren = groupItem.children
         .slice()
-        .sort((a, b) => {
-          return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
-        })
+        .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
         .map((child, index) => {
           const handleClick = () => {
             handleIconClick(child);
@@ -79,7 +78,7 @@ class IconGroupComponent extends Component {
             </div>
           </div>
           <div className="groupItemNavCenter">
-            {groupItem ? groupItem.name : "All"}
+            {groupItem ? groupItem.name : 'All'}
           </div>
           <div className="groupItemNavRight">
             <EditItem item={groupItem} />
@@ -95,19 +94,15 @@ class IconGroupComponent extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    activeItems: state.activeItems
-  };
-};
+const mapStateToProps = state => ({
+  activeItems: state.activeItems
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleIconClick: function(item) {
-      dispatch(setSelectedItem(item));
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  handleIconClick(item) {
+    dispatch(setSelectedItem(item));
+  }
+});
 
 const IconGroup = connect(mapStateToProps, mapDispatchToProps)(
   IconGroupComponent

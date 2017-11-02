@@ -1,28 +1,31 @@
-import React from "react";
-import { connect } from "react-redux";
-import "./MachineView.css";
+import React from 'react';
+import {connect} from 'react-redux';
+import './MachineView.css';
 
-import { HorizontalLine } from "../layout/LayoutComponents";
-import Icon from "../icons/Icon";
-import View from "../common/View";
-import EditItem from "../items/EditItem";
-import { DEPARTMENT_STATE } from "../common/view.config";
-import { setSelectedItem } from "../../actions";
+import {HorizontalLine} from '../layout/LayoutComponents';
+import Icon from '../icons/Icon';
+import View from '../common/View';
+import EditItem from '../items/EditItem';
+import {DEPARTMENT_STATE} from '../common/view.config';
+import {setSelectedItem} from '../../actions';
 
-const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProfile, viewAlerts }) => {
+const MachineViewComponent = ({
+  handleMachineClick,
+  selectedDepartment,
+  viewProfile,
+  viewAlerts
+}) => {
   let machines;
 
   if (selectedDepartment.children) {
-    machines = selectedDepartment.children.map(function(child, index) {
+    machines = selectedDepartment.children.map((child, index) => {
       const machineClick = () => {
         handleMachineClick(child);
       };
       return (
         <div key={index} onClick={machineClick}>
           <div className="departmentChild">
-            <div>
-              {child.name}
-            </div>
+            <div>{child.name}</div>
             <Icon type="keyboard_arrow_right" />
           </div>
           <HorizontalLine />
@@ -31,11 +34,18 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProf
     });
   }
   return (
-    <View states={[DEPARTMENT_STATE]} className={"" + (viewProfile && viewAlerts ? "machineView col-12 col-xl-5" : viewProfile||viewAlerts ? "machineView col-12 col-lg-6 col-xl-5" : "machineView col-12 col-12 col-md-7 col-lg-5 col-xl-4")}>
+    <View
+      states={[DEPARTMENT_STATE]}
+      className={String(
+        viewProfile && viewAlerts
+          ? 'machineView col-12 col-xl-5'
+          : viewProfile || viewAlerts
+            ? 'machineView col-12 col-lg-6 col-xl-5'
+            : 'machineView col-12 col-12 col-md-7 col-lg-5 col-xl-4'
+      )}
+    >
       <div className="departmentTitle">
-        <div>
-          {selectedDepartment.name}
-        </div>
+        <div>{selectedDepartment.name}</div>
         <div className="departmentNavRight">
           <EditItem item={selectedDepartment}>
             <Icon type="mode_edit" />
@@ -51,21 +61,17 @@ const MachineViewComponent = ({ handleMachineClick, selectedDepartment, viewProf
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    selectedDepartment: state.selectedContext.department,
-    viewProfile:state.view.viewProfile,
-    viewAlerts: state.view.viewAlerts
-  };
-};
+const mapStateToProps = state => ({
+  selectedDepartment: state.selectedContext.department,
+  viewProfile: state.view.viewProfile,
+  viewAlerts: state.view.viewAlerts
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleMachineClick: function(machine) {
-      dispatch(setSelectedItem(machine));
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  handleMachineClick(machine) {
+    dispatch(setSelectedItem(machine));
+  }
+});
 
 const MachineView = connect(mapStateToProps, mapDispatchToProps)(
   MachineViewComponent

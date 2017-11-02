@@ -1,10 +1,10 @@
-import React from "react";
-import { Navbar, NavDropdown, Nav, MenuItem } from "react-bootstrap";
+import React from 'react';
+import {Navbar, NavDropdown, Nav, MenuItem} from 'react-bootstrap';
 
-import grailsLogo from "./images/grails-cupsonly-logo-white.svg";
-import "whatwg-fetch";
+import grailsLogo from './images/grails-cupsonly-logo-white.svg';
+import 'whatwg-fetch';
 
-function AppNav({ serverInfo }) {
+function AppNav({serverInfo}) {
   const {
     environment,
     appprofile,
@@ -18,8 +18,8 @@ function AppNav({ serverInfo }) {
   return (
     <Navbar
       style={{
-        backgroundColor: "#4D8618",
-        backgroundImage: "none",
+        backgroundColor: '#4D8618',
+        backgroundImage: 'none',
         borderRadius: 0
       }}
     >
@@ -27,7 +27,7 @@ function AppNav({ serverInfo }) {
         <Navbar.Brand>
           <i className="fa grails-icon">
             <img src={grailsLogo} alt="Grails" />
-          </i>{" "}
+          </i>{' '}
           Grails
         </Navbar.Brand>
         <Navbar.Toggle />
@@ -35,21 +35,13 @@ function AppNav({ serverInfo }) {
       <Navbar.Collapse>
         <Nav pullRight>
           <NavDropdown eventKey="4" title="Application Status " id="app-status">
-            <MenuItem eventKey="4.1">
-              Environment: {environment}
-            </MenuItem>
-            <MenuItem eventKey="4.2">
-              Grails profile: {appprofile}
-            </MenuItem>
-            <MenuItem eventKey="4.2">
-              Grails version: {grailsversion}
-            </MenuItem>
-            <MenuItem eventKey="4.3">
-              Server version: {appversion}
-            </MenuItem>
+            <MenuItem eventKey="4.1">Environment: {environment}</MenuItem>
+            <MenuItem eventKey="4.2">Grails profile: {appprofile}</MenuItem>
+            <MenuItem eventKey="4.2">Grails version: {grailsversion}</MenuItem>
+            <MenuItem eventKey="4.3">Server version: {appversion}</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="4.4">
-              Reloading active: {reloadingagentenabled ? "true" : "false"}
+              Reloading active: {reloadingagentenabled ? 'true' : 'false'}
             </MenuItem>
           </NavDropdown>
 
@@ -67,13 +59,11 @@ function AppNav({ serverInfo }) {
 
           <NavDropdown eventKey="4" title="Installed Plugins " id="plugins">
             {plugins
-              ? plugins.map(plugin => {
-                  return (
-                    <MenuItem eventKey="4.1" key={plugin.name}>
-                      {plugin.name} - {plugin.version}
-                    </MenuItem>
-                  );
-                })
+              ? plugins.map(plugin => (
+                <MenuItem eventKey="4.1" key={plugin.name}>
+                    {plugin.name} - {plugin.version}
+                </MenuItem>
+                ))
               : null}
           </NavDropdown>
         </Nav>

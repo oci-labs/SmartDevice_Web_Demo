@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { IconAlarm } from "../icons/NexmatixIcons";
-import "./Alerts.css";
-import { snoozeAlert } from "../../actions";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {IconAlarm} from '../icons/NexmatixIcons';
+import './Alerts.css';
+import {snoozeAlert} from '../../actions';
 
 class SnoozeDropdownComponent extends Component {
   constructor(props) {
@@ -21,10 +21,10 @@ class SnoozeDropdownComponent extends Component {
     });
   }
   handleSnoozeAlertClick(duration) {
-    let snoozedAlert = {
+    const snoozedAlert = {
       alertId: this.props.alert.id,
       alertType: this.props.alert.alertType,
-      duration: duration
+      duration
     };
     this.props.handleSnoozeAlert(snoozedAlert);
     this.toggle();
@@ -33,11 +33,9 @@ class SnoozeDropdownComponent extends Component {
     return (
       <div
         className={
-          this.state.dropdownOpen ? (
-            "snoozeWrapper open"
-          ) : (
-            "snoozeWrapper closed"
-          )
+          this.state.dropdownOpen
+            ? 'snoozeWrapper open'
+            : 'snoozeWrapper closed'
         }
       >
         <div className="snoozeOverlay" onClick={this.toggle} />
@@ -66,7 +64,7 @@ class SnoozeDropdownComponent extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleSnoozeAlert: function(alert) {
+    handleSnoozeAlert(alert) {
       dispatch(snoozeAlert(alert));
     }
   };

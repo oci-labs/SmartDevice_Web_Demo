@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './AddItem.css';
-import { authRequest } from '../../services/authRequestService';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Input, Select } from '../common/Inputs';
-import { addItem } from '../../actions';
+import {authRequest} from '../../services/authRequestService';
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Input, Select} from '../common/Inputs';
+import {addItem} from '../../actions';
 import Icon from '../icons/Icon';
 
 class AddItemComponent extends Component {
@@ -117,7 +117,11 @@ class AddItemComponent extends Component {
         <div onClick={this.openModal}>
           <Icon type="add" />
         </div>
-        <Modal className="commonModal" isOpen={this.state.showModal} toggle={this.onModalClose}>
+        <Modal
+          className="commonModal"
+          isOpen={this.state.showModal}
+          toggle={this.onModalClose}
+        >
           <div className="closeButton">
             <Icon type="close" handleClick={this.onModalClose} />
           </div>
@@ -130,7 +134,11 @@ class AddItemComponent extends Component {
                 hide={this.state.model.type !== 'manifold'}
                 onChange={this.handleSNChange}
               />
-              <Select name="Layer" onChange={this.updateParents} options={this.components} />
+              <Select
+                name="Layer"
+                onChange={this.updateParents}
+                options={this.components}
+              />
               <Select
                 name="Parent"
                 hideIf={!this.state.hasParent}

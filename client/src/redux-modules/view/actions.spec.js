@@ -18,7 +18,7 @@ import randomize from 'randomatic';
 
 describe('View action creators', () => {
   it('setViewState should create the expected action', () => {
-    const testItem = { foo: randomize('*', 10) };
+    const testItem = {foo: randomize('*', 10)};
     const expectedAction = {
       type: SET_VIEW_STATE,
       payload: testItem

@@ -31,13 +31,13 @@ export default (state = initialState, action) => {
         PREVIOUS_VIEW_STATE: state.VIEW_STATE
       };
     case TOGGLE_ALERTS:
-      return { ...state, viewAlerts: !state.viewAlerts };
+      return {...state, viewAlerts: !state.viewAlerts};
     case TOGGLE_PROFILE:
-      return { ...state, viewProfile: !state.viewProfile };
+      return {...state, viewProfile: !state.viewProfile};
     case TOGGLE_USER_MODAL:
-      return { ...state, showUserModal: !state.showUserModal };
+      return {...state, showUserModal: !state.showUserModal};
     case TOGGLE_EDIT_USER_MODAL:
-      return { ...state, showEditUserModal: !state.showEditUserModal };
+      return {...state, showEditUserModal: !state.showEditUserModal};
     default:
       return state;
   }

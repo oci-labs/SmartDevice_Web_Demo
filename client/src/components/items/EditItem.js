@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './EditItem.css';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Input, Select } from '../common/Inputs';
-import { deleteItem, updateItem } from '../../actions';
-import { authRequest } from '../../services/authRequestService';
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Input, Select} from '../common/Inputs';
+import {deleteItem, updateItem} from '../../actions';
+import {authRequest} from '../../services/authRequestService';
 import Icon from '../icons/Icon';
 
 class EditItemComponent extends Component {
@@ -75,9 +75,9 @@ class EditItemComponent extends Component {
   };
 
   handleNameChange = name => {
-    console.log("The new name is: ", name);
+    console.log('The new name is: ', name);
     this.setState({
-      itemModel: Object.assign({}, this.state.itemModel, { name })
+      itemModel: Object.assign({}, this.state.itemModel, {name})
     });
   };
 
@@ -105,13 +105,21 @@ class EditItemComponent extends Component {
         <div onClick={this.openModal}>
           <Icon type="mode_edit" />
         </div>
-        <Modal className="commonModal" isOpen={this.state.showModal} toggle={this.onModalClose}>
+        <Modal
+          className="commonModal"
+          isOpen={this.state.showModal}
+          toggle={this.onModalClose}
+        >
           <div className="closeButton">
             <Icon type="close" handleClick={this.onModalClose} />
           </div>
           <ModalHeader>Edit Item</ModalHeader>
           <ModalBody>
-            <Input name="Name" model={this.state.itemModel.name} onChange={this.handleNameChange} />
+            <Input
+              name="Name"
+              model={this.state.itemModel.name}
+              onChange={this.handleNameChange}
+            />
             <Select
               name="Parent"
               hideIf={!this.state.itemModel.parent}
@@ -122,7 +130,11 @@ class EditItemComponent extends Component {
             {() => {
               if (this.state.itemModel.type !== 'facility') {
                 return (
-                  <Select name="Parent" onChange={this.updateParents} options={this.components} />
+                  <Select
+                    name="Parent"
+                    onChange={this.updateParents}
+                    options={this.components}
+                  />
                 );
               }
             }}
@@ -150,6 +162,8 @@ const mapDispatchToProps = dispatch => ({
   handleUpdateItem: item => dispatch(updateItem(item))
 });
 
-const EditItem = connect(mapStateToProps, mapDispatchToProps)(EditItemComponent);
+const EditItem = connect(mapStateToProps, mapDispatchToProps)(
+  EditItemComponent
+);
 
 export default EditItem;

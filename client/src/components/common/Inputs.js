@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "./Inputs.css";
+import React, {Component} from 'react';
+import './Inputs.css';
 
-import Icon from "../icons/Icon";
+import Icon from '../icons/Icon';
 
 export const Input = ({
   hide,
@@ -9,7 +9,7 @@ export const Input = ({
   name,
   isValid,
   onChange,
-  type = "text"
+  type = 'text'
 }) => {
   const handleOnChange = event => {
     if (onChange) {
@@ -48,19 +48,19 @@ export class Option extends Component {
   };
   handleEnterKey = event => {
     if (this.wrapperRef && this.wrapperRef.contains(event.target)) {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         this.props.handleClick(this.props.item);
       }
     }
   };
   componentDidMount() {
-    document.addEventListener("keydown", this.handleEnterKey);
+    document.addEventListener('keydown', this.handleEnterKey);
   }
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleEnterKey);
+    document.removeEventListener('keydown', this.handleEnterKey);
   }
   render() {
-    const { item } = this.props;
+    const {item} = this.props;
     return (
       <div
         className="option"
@@ -113,22 +113,20 @@ export class Select extends Component {
   handleKeydownEvents = event => {
     if (this.wrapperRef && this.wrapperRef.contains(event.target)) {
       switch (event.key) {
-        case "ArrowDown":
+        case 'ArrowDown':
           if (!this.state.isOpen) {
-            this.setState({ isOpen: true });
+            this.setState({isOpen: true});
+            this.currentFocus = 0;
+          } else if (this.currentFocus >= this.dropdownOptions.length - 1) {
             this.currentFocus = 0;
           } else {
-            if (this.currentFocus >= this.dropdownOptions.length - 1) {
-              this.currentFocus = 0;
-            } else {
-              ++this.currentFocus;
-            }
+            ++this.currentFocus;
           }
           this.dropdownOptions[this.currentFocus].focus();
           break;
-        case "ArrowUp":
+        case 'ArrowUp':
           if (this.currentFocus === 0 || this.currentFocus === undefined) {
-            this.setState({ isOpen: false });
+            this.setState({isOpen: false});
             this.wrapperRef.focus();
           } else {
             this.dropdownOptions[--this.currentFocus].focus();
@@ -141,13 +139,13 @@ export class Select extends Component {
   };
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
-    document.addEventListener("keydown", this.handleKeydownEvents);
+    document.addEventListener('mousedown', this.handleClickOutside);
+    document.addEventListener('keydown', this.handleKeydownEvents);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
-    document.removeEventListener("keydown", this.handleKeydownEvents);
+    document.removeEventListener('mousedown', this.handleClickOutside);
+    document.removeEventListener('keydown', this.handleKeydownEvents);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -160,23 +158,23 @@ export class Select extends Component {
       });
     }
     if (nextProps.model && nextProps.options) {
-      const selected = nextProps.options.find(option => {
-        return option.name === nextProps.model.name;
-      });
+      const selected = nextProps.options.find(
+        option => option.name === nextProps.model.name
+      );
       this.setState({
-        selected: selected
+        selected
       });
     }
   }
 
   render() {
-    const { isOpen, selected } = this.state;
-    const { children, onChange } = this.props;
+    const {isOpen, selected} = this.state;
+    const {children, onChange} = this.props;
     let options;
     if (this.props.options) {
-      options = this.props.options.map(option => {
-        return <Option item={option} setRef={this.setChildRef} />;
-      });
+      options = this.props.options.map(option => (
+        <Option item={option} setRef={this.setChildRef} />
+      ));
     }
     const disabled =
       this.props.disabled ||
@@ -187,7 +185,7 @@ export class Select extends Component {
       return (
         <div className="generalWrapper">
           <div className="commonSelectLabel">{this.props.name}</div>
-          <div className={`commonSelectWrapper ${disabled ? "disabled" : ""}`}>
+          <div className={`commonSelectWrapper ${disabled ? 'disabled' : ''}`}>
             <div className="commonSelect" ref={this.setWrapperRef} tabIndex="0">
               <div className="selected" onClick={this.toggleOptions}>
                 <div className="selectedName">
@@ -195,15 +193,13 @@ export class Select extends Component {
                 </div>
                 <Icon
                   type={
-                    isOpen && !disabled ? (
-                      "keyboard_arrow_up"
-                    ) : (
-                      "keyboard_arrow_down"
-                    )
+                    isOpen && !disabled
+                      ? 'keyboard_arrow_up'
+                      : 'keyboard_arrow_down'
                   }
                 />
               </div>
-              <div className={`optionsWrapper ${!isOpen ? "closed" : ""}`}>
+              <div className={`optionsWrapper ${!isOpen ? 'closed' : ''}`}>
                 {React.Children.map(
                   options ? options : children,
                   (child, index) => {
@@ -217,7 +213,7 @@ export class Select extends Component {
                           onChange(item);
                         }
                       },
-                      tabIndex: "0"
+                      tabIndex: '0'
                     };
                     return React.cloneElement(child, additionalProps);
                   }

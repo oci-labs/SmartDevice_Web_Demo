@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./Tabs.css";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import './Tabs.css';
 
-import Tab from "./Tab";
-import View from "../common/View";
-import ReactScrollbar from "react-scrollbar-js";
+import Tab from './Tab';
+import View from '../common/View';
+import ReactScrollbar from 'react-scrollbar-js';
 
 import {
   DEPARTMENT_STATE,
   FACILITY_STATE,
   MACHINE_STATE,
   MANIFOLD_STATE
-} from "../common/view.config";
+} from '../common/view.config';
 
-import { initialize, setSelectedItem } from "../../actions";
+import {initialize, setSelectedItem} from '../../actions';
 
 class TabsComponent extends Component {
   constructor(props) {
@@ -47,9 +47,9 @@ class TabsComponent extends Component {
       selectedMachine
     } = this.state;
     const addTabs = items => {
-      let firstTab = [
+      const firstTab = [
         <Tab
-          item={{ name: "All", type: "facility" }}
+          item={{name: 'All', type: 'facility'}}
           key="0"
           active={!selectedFacility.id}
         />
@@ -70,13 +70,13 @@ class TabsComponent extends Component {
     };
 
     return (
-      <ReactScrollbar style={{ width: "100%", height: "66px"}}>
+      <ReactScrollbar style={{width: '100%', height: '66px'}}>
         <View
           states={[FACILITY_STATE, DEPARTMENT_STATE]}
           className="tabs"
           id="navTabs"
         >
-          <Tab item={{ name: "Facilities" }} label={true} />
+          <Tab item={{name: 'Facilities'}} label />
           {addTabs(facilities)}
         </View>
         <View
@@ -84,26 +84,23 @@ class TabsComponent extends Component {
           className="tabs"
           id="navTabs"
         >
-          <Tab item={selectedFacility} label={true} selected={true} />
-          <Tab item={selectedDepartment} selected={true} />
-          <Tab item={selectedMachine} label={true} />
-
+          <Tab item={selectedFacility} label selected />
+          <Tab item={selectedDepartment} selected />
+          <Tab item={selectedMachine} label />
         </View>
       </ReactScrollbar>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    initializeFacilities: function() {
-      dispatch(initialize());
-    },
-    handleItemClick: item => {
-      dispatch(setSelectedItem(item));
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  initializeFacilities() {
+    dispatch(initialize());
+  },
+  handleItemClick: item => {
+    dispatch(setSelectedItem(item));
+  }
+});
 
 const Tabs = connect(null, mapDispatchToProps)(TabsComponent);
 

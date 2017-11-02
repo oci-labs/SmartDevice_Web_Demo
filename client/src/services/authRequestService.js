@@ -2,17 +2,17 @@ import store from '../store';
 import {SERVER_URL} from '../config';
 
 function getCredentials() {
-  let state = store.getState();
+  const state = store.getState();
   return state.currentUser.credentials;
 }
 
 export function authRequest(url, method, cb) {
-  let credentials = getCredentials();
+  const credentials = getCredentials();
 
   if (credentials) {
     // make request, return result
     fetch(SERVER_URL + url, {
-      method: method,
+      method,
       headers: {
         Authorization: 'Bearer ' + credentials.access_token
       }

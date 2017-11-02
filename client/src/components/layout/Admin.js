@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./Admin.css";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import './Admin.css';
 
-import Users from "../admin/Users";
-import AddUser from "../admin/AddUser";
-import { getAllUsers } from "../../actions";
+import Users from '../admin/Users';
+import AddUser from '../admin/AddUser';
+import {getAllUsers} from '../../actions';
 
 class AdminComponent extends Component {
   constructor(props) {
@@ -21,19 +21,15 @@ class AdminComponent extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    users: state.users
-  };
-};
+const mapStateToProps = state => ({
+  users: state.users
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getUsers: () => {
-      dispatch(getAllUsers());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  getUsers: () => {
+    dispatch(getAllUsers());
+  }
+});
 
 const Admin = connect(mapStateToProps, mapDispatchToProps)(AdminComponent);
 

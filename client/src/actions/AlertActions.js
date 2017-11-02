@@ -24,8 +24,8 @@ export function getAlerts(count = 10) {
           response => {
             console.log('Response is: ', response);
             if (!response.error && response.length > 0) {
-              let itemsInFault = [];
-              let alerts = response.map(item => {
+              const itemsInFault = [];
+              const alerts = response.map(item => {
                 item.isActive = true;
                 item.isSnoozed = false;
                 itemsInFault.push(`station.${item.valve.station.id}`);

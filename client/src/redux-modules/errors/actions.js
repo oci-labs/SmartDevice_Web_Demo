@@ -1,6 +1,6 @@
-import { HANDLE_ERROR } from './action-types';
+import {HANDLE_ERROR} from './action-types';
 
 export const throwError = error => ({
-    type: HANDLE_ERROR,
-    payload: error
+  type: HANDLE_ERROR,
+  payload: error
 });

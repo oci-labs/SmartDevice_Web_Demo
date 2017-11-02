@@ -8,11 +8,11 @@ import {
   toggleUserModal
 } from './actions';
 import randomize from 'randomatic';
-import reducer, { initialState } from './reducer';
+import reducer, {initialState} from './reducer';
 
 describe('Selected context reducer', () => {
   it('should set the view state to the payload and the set the previous view state when a SET_VIEW_STATE action is received', () => {
-    const testItem = { foo: randomize('*', 10) };
+    const testItem = {foo: randomize('*', 10)};
     const newState = reducer(initialState, setViewState(testItem));
     const expectedState = {
       ...initialState,

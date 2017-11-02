@@ -10,10 +10,10 @@ function isInFault(item) {
 }
 
 let currentItemsInFault;
-let itemsListening = {};
+const itemsListening = {};
 
 function handleChange() {
-  let previousItemsInFault = currentItemsInFault;
+  const previousItemsInFault = currentItemsInFault;
   currentItemsInFault = getItemsInFault(store.getState());
 
   if (previousItemsInFault !== currentItemsInFault) {

@@ -1,8 +1,8 @@
-import React from "react";
-import Station from "./Station";
-import "./Manifold.css";
-import { authRequest } from "../../services/authRequestService";
-import { isStationInFault } from "../../services/alertService";
+import React from 'react';
+import Station from './Station';
+import './Manifold.css';
+import {authRequest} from '../../services/authRequestService';
+import {isStationInFault} from '../../services/alertService';
 
 class Manifold extends React.Component {
   constructor() {
@@ -22,17 +22,21 @@ class Manifold extends React.Component {
   }
 
   getValveStatus = () => {
-    let _self = this;
+    const _self = this;
     this.timeout = setTimeout(this.getValveStatus, 5000);
-    const { manifold } = this.props;
-    authRequest(`/api/valveStatus/manifold/${manifold.serialNumber}`, 'get', result => {
-      _self.setState({statuses: result});
-    });
+    const {manifold} = this.props;
+    authRequest(
+      `/api/valveStatus/manifold/${manifold.serialNumber}`,
+      'get',
+      result => {
+        _self.setState({statuses: result});
+      }
+    );
   };
 
   render() {
-    const { currentStation, handleStationClick, manifold } = this.props;
-    const { statuses } = this.state;
+    const {currentStation, handleStationClick, manifold} = this.props;
+    const {statuses} = this.state;
 
     let stations = [];
     if (manifold && manifold.children && !statuses.error) {
@@ -40,12 +44,10 @@ class Manifold extends React.Component {
         .sort((a, b) => a.id - b.id)
         .map((station, index) => {
           const status = statuses.find(s => s.valve.station.id === station.id);
-          const inFault = status
-            ? isStationInFault(status)
-            : false;
+          const inFault = status ? isStationInFault(status) : false;
 
-          console.log("inFault? ", inFault);
-          console.log("Status : ", status);
+          console.log('inFault? ', inFault);
+          console.log('Status : ', status);
 
           return (
             <Station
@@ -71,11 +73,7 @@ class Manifold extends React.Component {
       stations = stations.slice(10);
     }
 
-    return (
-      <div className="manifoldContainer">
-        {stations}
-      </div>
-    );
+    return <div className="manifoldContainer">{stations}</div>;
   }
 }
 

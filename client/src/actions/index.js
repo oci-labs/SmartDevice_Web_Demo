@@ -212,7 +212,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
       if (token) {
         GETItem(item, token)
           .then(toJson)
-          .then(function(response) {
+          .then(response => {
             if (item.id) {
               switch (item.type) {
                 case 'facility':
@@ -268,9 +268,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                     );
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
-                  const currentStationIsChild = child => {
-                    return child.id === station.id;
-                  };
+                  const currentStationIsChild = child =>
+                    child.id === station.id;
                   if (
                     response.children.length > 0 &&
                     !response.children.find(currentStationIsChild)

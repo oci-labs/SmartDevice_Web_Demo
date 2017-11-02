@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "./Dropdown.css";
+import React, {Component} from 'react';
+import './Dropdown.css';
 
-import Icon from "../icons/Icon";
+import Icon from '../icons/Icon';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -36,11 +36,11 @@ class Dropdown extends Component {
   };
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillReceiveProps(newProps) {
@@ -61,7 +61,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    const { selectedItem, show } = this.state;
+    const {selectedItem, show} = this.state;
 
     let items = null;
     if (this.props.items) {
@@ -81,7 +81,7 @@ class Dropdown extends Component {
       });
       const selectAll = () => {
         this.setState({
-          selectedItem: { name: "All" },
+          selectedItem: {name: 'All'},
           show: false
         });
         this.props.handleAllClick();
@@ -97,17 +97,17 @@ class Dropdown extends Component {
         <div className="selectedDropdownOption">
           <div className="dropdownItem" onClick={this.expandDropdown}>
             <div className="labelWrapper">
-              {selectedItem ? selectedItem.name : ""}
+              {selectedItem ? selectedItem.name : ''}
             </div>
             <div className="iconWrapper">
               <Icon
-                type={`${show ? "keyboard_arrow_up" : "keyboard_arrow_down"}`}
+                type={`${show ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}`}
               />
             </div>
           </div>
         </div>
         <div
-          className={`dropdownOptions ${show ? "show" : ""}`}
+          className={`dropdownOptions ${show ? 'show' : ''}`}
           ref={this.setWrapperRef}
         >
           {items}

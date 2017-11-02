@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Control } from 'react-redux-form';
+import {Control} from 'react-redux-form';
 
 const displayName = 'TextInput';
 const propTypes = {
@@ -8,7 +8,7 @@ const propTypes = {
   name: PropTypes.string.isRequired
 };
 
-const TextInput = ({ name, model, ...props }) => (
+const TextInput = ({name, model, ...props}) => (
   <div className="commonInputWrapper">
     <label className="commonInputLabel" htmlFor={model}>
       {name}

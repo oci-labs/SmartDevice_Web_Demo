@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Input } from "../common/Inputs";
-import { postUserAuth } from "../../actions/index";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Input} from '../common/Inputs';
+import {postUserAuth} from '../../actions/index';
 //import "./Login.css";
 
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      username: '',
+      password: ''
     };
   }
 
   handleUserChange = username => {
     this.setState({
-      username: username
+      username
     });
   };
   handlePwChange = password => {
     this.setState({
-      password: password
+      password
     });
   };
   handleLogin = () => {
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    handleLogin: function(username, password) {
+    handleLogin(username, password) {
       dispatch(postUserAuth(username, password));
     }
   };

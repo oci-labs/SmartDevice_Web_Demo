@@ -1,17 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import "./Nav.css";
-import { IconExpand, IconMenu, IconNotification } from "../icons/NexmatixIcons";
-import { Badge } from "reactstrap";
+import React from 'react';
+import {connect} from 'react-redux';
+import './Nav.css';
+import {IconExpand, IconMenu, IconNotification} from '../icons/NexmatixIcons';
+import {Badge} from 'reactstrap';
 //import { toggleProfile, toggleAlerts } from "../../actions";
 
-const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
-
+const NavComponent = ({alerts, toggleAlerts, toggleProfile, viewProfile}) => {
   let activeAlerts = [];
   if (alerts) {
-    activeAlerts = alerts.filter(alert => {
-      return alert.isActive;
-    });
+    activeAlerts = alerts.filter(alert => alert.isActive);
   }
 
   return (
@@ -19,9 +16,17 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
       <div className="toggleProfile" onClick={toggleProfile}>
         <IconMenu width="24" height="24" color="#fff" />
       </div>
-      <div className={viewProfile ? "companyTitle hidden-sm-down" : "companyTitle"}>Gates</div>
+      <div
+        className={viewProfile ? 'companyTitle hidden-sm-down' : 'companyTitle'}
+      >
+        Gates
+      </div>
       <div className="spacing" />
-      <div className={viewProfile ? "rightNavIcons hidden-sm-down" : "rightNavIcons"}>
+      <div
+        className={
+          viewProfile ? 'rightNavIcons hidden-sm-down' : 'rightNavIcons'
+        }
+      >
         <IconExpand width="32" height="32" color="#777" />
         <IconNotification
           width="32"
@@ -29,10 +34,11 @@ const NavComponent = ({ alerts, toggleAlerts, toggleProfile, viewProfile }) => {
           color="#777"
           onClick={toggleAlerts}
         />
-        {activeAlerts.length > 0 &&
+        {activeAlerts.length > 0 && (
           <Badge color="danger" pill onClick={toggleAlerts}>
             {activeAlerts.length}
-          </Badge>}
+          </Badge>
+        )}
       </div>
     </div>
   );
@@ -44,7 +50,6 @@ function mapStateToProps(state) {
     viewProfile: state.view.viewProfile
   };
 }
-
 
 const Nav = connect(mapStateToProps)(NavComponent);
 

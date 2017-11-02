@@ -1,12 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import {connect} from 'react-redux';
 
-const ViewComponent = ({ children, className, currentState, states, colClass, id }) => {
+const ViewComponent = ({
+  children,
+  className,
+  currentState,
+  states,
+  colClass,
+  id
+}) => {
   let show = false;
   if (Array.isArray(states)) {
-    show = states.some(function(state) {
-      return state === currentState;
-    });
+    show = states.some(state => state === currentState);
   } else {
     show = states === currentState;
   }
@@ -21,11 +26,9 @@ const ViewComponent = ({ children, className, currentState, states, colClass, id
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    currentState: state.view.VIEW_STATE
-  };
-};
+const mapStateToProps = state => ({
+  currentState: state.view.VIEW_STATE
+});
 
 const View = connect(mapStateToProps)(ViewComponent);
 

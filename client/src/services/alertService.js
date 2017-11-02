@@ -5,8 +5,8 @@ function getAlerts(state) {
 }
 
 export function isStationInFault(station) {
-  var itemsInAlert = [];
-  var alerts = getAlerts(store.getState());
+  const itemsInAlert = [];
+  const alerts = getAlerts(store.getState());
 
   alerts.map(alert => {
     if (alert.valve.id === station.valve.id) {
@@ -18,8 +18,8 @@ export function isStationInFault(station) {
 }
 
 export function isValveInFault(valve, alertType) {
-  var itemsInAlert = [];
-  var alerts = getAlerts(store.getState());
+  const itemsInAlert = [];
+  const alerts = getAlerts(store.getState());
 
   alerts.map(alert => {
     if (alert.valve.id === valve.id && alert.alertType === alertType) {
@@ -31,8 +31,8 @@ export function isValveInFault(valve, alertType) {
 }
 
 export function isInFault(item) {
-  var itemsInAlert = [];
-  var alerts = getAlerts(store.getState());
+  const itemsInAlert = [];
+  const alerts = getAlerts(store.getState());
 
   alerts.map(alert => {
     switch (item.type) {
