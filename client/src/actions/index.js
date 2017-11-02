@@ -43,14 +43,17 @@ function GETItem(item) {
 }
 
 function GETValve(station) {
+  console.log('index.js GETValve: station =', station);
   return secureFetch(
     `/api/valve/station/${station.parent.id}/${station.number}`
   );
 }
 
+/*
 function GETValveBySerialNumber(valve) {
   return secureFetch(`/api/valve/${valve.serialNumber}`);
 }
+*/
 
 function GETValveStatus(valve) {
   return secureFetch(`/api/valveStatus/${valve.serialNumber}`);
@@ -81,7 +84,7 @@ function DELETEItem(item, token) {
 }
 
 function UPDATEItem(item, token) {
-  console.log('The updated object is: ', item);
+  //console.log('The updated object is: ', item);
   return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ''}`, {
     body: JSON.stringify(item),
     method: 'put',
@@ -130,7 +133,7 @@ export function addItem(item) {
               dispatch(setSelectedItem(response));
               break;
             default:
-              console.log('AddItem', response);
+              console.log('actions/index.js addItem: unsupported item type', item.type);
               break;
           }
         });
@@ -169,6 +172,7 @@ export function deleteItem(item) {
 }
 
 export function updateItem(item) {
+  console.log('index.js updateItem: item =', item);
   return (dispatch, getState) => {
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
@@ -197,6 +201,8 @@ export function updateItem(item) {
 }
 
 export function setSelectedItem(item, keepViewState, forceRefresh) {
+  console.log('index.js setSelectedItem: item =', item);
+  //console.trace();
   return (dispatch, getState) => {
     const {
       selectedContext: {department, facility, machine, manifold, station},
@@ -237,6 +243,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   break;
                 case 'machine':
+                  console.log('index.js setSelectedItem: machine response =', response);
                   dispatch(setSelectedMachine(response));
                   if (
                     !department ||
@@ -253,8 +260,9 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   dispatch(setActiveItems([response]));
                   break;
                 case 'manifold': {
+                  console.log('index.js setSelectedItem: manifold response =', response);
                   dispatch(setSelectedManifold(response));
-                  console.log('The response is: ', response);
+                  //console.log('The response is: ', response);
                   if (
                     !machine ||
                     machine.id !== response.parent.id ||
@@ -265,6 +273,8 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                     );
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
+
+                  /*
                   const currentStationIsChild = child =>
                     child.id === station.id;
                   if (
@@ -273,18 +283,25 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   ) {
                     dispatch(setSelectedItem(getFirst(response.children)));
                   }
+                  */
                   break;
                 }
                 case 'station':
+                  console.log('index.js setSelectedItem: station response =', response);
                   dispatch(setSelectedStation(response));
                   if (!manifold || manifold.id !== response.parent.id) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
-                  dispatch(setValve(response));
+                  //dispatch(setValve(response));
                   break;
                 default:
-                  console.log('Not handled yet', response, item.type);
+                  console.log(
+                    'actions/index.js setSelectedItem:',
+                    'unsupported item type',
+                    response,
+                    item.type
+                  );
               }
             } else {
               switch (item.type) {
@@ -314,6 +331,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
 }
 
 function setValve(station) {
+  console.log('index.js setValve: station =', station);
   return (dispatch, getState) => {
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
@@ -329,19 +347,21 @@ function setValve(station) {
 }
 
 export function showValve(valve) {
-  return (dispatch, getState) => {
-    const credentials = getState().currentUser.credentials;
-    const token = credentials && credentials.access_token;
-    if (valve && token) {
-      return GETValveBySerialNumber(valve, token)
-        .then(toJson)
-        .then(response => {
-          dispatch(
-            setSelectedItem({type: 'station', id: response.stationNumber})
-          );
-        });
-    }
-    return dispatch(throwError('Unauthorized'));
+  console.log('index.js showValve: valve =', valve);
+  //return (dispatch, getState) => {
+  return dispatch => {
+    //const credentials = getState().currentUser.credentials;
+    //const token = credentials && credentials.access_token;
+    //if (valve && token) {
+    //  return GETValveBySerialNumber(valve, token)
+    //    .then(toJson)
+    //    .then(response => {
+    dispatch(setSelectedItem({type: 'station', id: valve.station.id}));
+    //dispatch(setSelectedItem({type: 'manifold', id: valve.manifold.id}));
+    //dispatch(setSelectedItem({type: 'machine', id: valve.machine.id}));
+    //    });
+    //}
+    //return dispatch(throwError('Unauthorized'));
   };
 }
 

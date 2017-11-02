@@ -133,7 +133,8 @@ class BootStrap {
                             updateTime: new Date()).save(failOnError: true)
                 }
                 Valve.list().each { valve ->
-                    if (valve.manifoldSerialNumber.equals(first.serialNumber)) {
+                    //if (valve.manifoldSerialNumber.equals(first.serialNumber)) {
+                    if (valve.stationNumber <= 4) {
                         new ValveAlert(
                                 detectionTime: new Date(),
                                 alertType: AlertType.PRESSURE_FAULT.id,

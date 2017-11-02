@@ -16,15 +16,16 @@ class AlertsComponent extends Component {
     super(props);
     this.setAlertCheck();
   }
+
   setAlertCheck = () => {
     this.props.handleGetAlerts(30);
     this.props.handleUnsnoozeAlerts();
     this.props.handleGetSnoozedAlerts();
-    console.log('Props are: ', this.props);
     this.timeout = setTimeout(() => {
       this.setAlertCheck();
     }, 250000);
   };
+
   render() {
     const {alerts, snoozedAlerts, handleAlertClick} = this.props;
     let renderActive, renderSnoozed;
@@ -130,6 +131,7 @@ function mapStateToProps(state) {
     snoozedAlerts: state.snoozedAlerts
   };
 }
+
 function mapDispatchToProps(dispatch) {
   return {
     handleAlertClick(valve) {

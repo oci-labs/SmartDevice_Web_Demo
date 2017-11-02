@@ -22,7 +22,6 @@ export function getAlerts(count = 10) {
         .then(toJson)
         .then(
           response => {
-            console.log('Response is: ', response);
             if (!response.error && response.length > 0) {
               const itemsInFault = [];
               const alerts = response.map(item => {
@@ -35,25 +34,12 @@ export function getAlerts(count = 10) {
                 itemsInFault.push(`facility.${item.valve.facility.id}`);
                 return item;
               });
-              console.log('Alerts are: ', alerts);
-              alerts.forEach(alert => {
-                const {valve} = alert;
-                const {machine, manifold, station} = valve;
-                console.log(
-                  'machine',
-                  machine.id,
-                  'manifold',
-                  manifold.id,
-                  'station',
-                  station.id
-                );
-              });
               dispatch(setAllAlerts(alerts));
               dispatch(setItemsInFault(itemsInFault));
             }
           },
           error => {
-            console.log('The error is: ', error);
+            console.error('AlertActions getAlerts: error =', error);
             dispatch(throwError(error));
           }
         );

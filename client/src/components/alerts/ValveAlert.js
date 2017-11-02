@@ -29,6 +29,9 @@ class ValveAlert extends Component {
       PRESSURE_WARNING: 'Pressure Warning',
       VALVE_FAULT: 'Valve Fault'
     };
+
+    //TODO: This is not using the actual time the fault was reported,
+    //TODO: it is using now!
     let today = new Date();
     today.setHours(0);
     today.setMinutes(0);
@@ -43,6 +46,7 @@ class ValveAlert extends Component {
         minute: '2-digit'
       })
       .replace(/,/g, '');
+
     /*
     const handleSnoozeClick = () => {
       const alert = {
@@ -53,11 +57,16 @@ class ValveAlert extends Component {
       handleUpdate(alert);
     };
     */
+
     const handleAlertClick = () => {
       if (onAlertClick) {
         onAlertClick(this.props.alert.valve);
       }
     };
+
+    const {machine, manifold, station} = alert.valve;
+    const debugText = `${machine.id}/${manifold.id}/${station.id}`;
+
     return (
       <Alert
         color={isSnoozed ? 'info' : isActive && !isSnoozed ? 'danger' : ''}
@@ -88,7 +97,7 @@ class ValveAlert extends Component {
         <div className="alert-content" onClick={handleAlertClick}>
           <strong>{alertTypes[alertType]}</strong>
           <br />
-          <span className="alert-details">{displayTime}</span>
+          <span className="alert-details">{displayTime + ' ' + debugText}</span>
         </div>
         <div className="alert-icon-right" style={{height: '24px'}}>
           {isActive && !isSnoozed && <SnoozeDropdown alert={alert} />}

@@ -98,29 +98,29 @@ export function addNewUser(user) {
     POSTNewUser(user)
       .then(toJson)
       .then(response => {
-        console.log('User added', response);
+        //console.log('User added', response);
         dispatch(getAllUsers());
       });
 }
 
 export function deleteUser(user) {
-  console.log('The delete user is: ', user);
+  //console.log('The delete user is: ', user);
   return dispatch =>
     DELETEUser(user)
       .then(toJson)
       .then(response => {
-        console.log('User deleted', response);
+        //console.log('User deleted', response);
         dispatch(getAllUsers());
       });
 }
 
 export function editUser(user) {
-  console.log('User is : ', user);
+  //console.log('User is : ', user);
   return dispatch =>
     PUTUser(user)
       .then(toJson)
       .then(response => {
-        console.log('User edited', response);
+        //console.log('User edited', response);
         dispatch(getAllUsers());
       });
 }
@@ -134,13 +134,13 @@ export function postUserAuth(username, password) {
           if (response.error || (response.status && response.status !== 200)) {
             dispatch(userLogout);
           } else {
-            console.log('The response is: ', response);
+            //console.log('The response is: ', response);
             dispatch(setCredentials(response));
             dispatch(getCurrentUser(response));
           }
         },
         error => {
-          console.log('Error encountered logging in, ', error);
+          console.error('UserActions postUserAuth: error =', error);
           dispatch(throwError(error));
           dispatch(userLogout);
         }

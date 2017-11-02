@@ -5,7 +5,7 @@ function getItemsInFault(state) {
 }
 
 function isInFault(item) {
-  console.log('Item for isInFault is: ', item);
+  //console.log('Item for isInFault is: ', item);
   return currentItemsInFault.includes(item);
 }
 
