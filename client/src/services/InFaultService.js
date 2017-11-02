@@ -1,11 +1,11 @@
-import store from "../store";
+import store from '../store';
 
 function getItemsInFault(state) {
   return state.faultItems;
 }
 
 function isInFault(item) {
-  console.log("Item for isInFault is: ", item);
+  console.log('Item for isInFault is: ', item);
   return currentItemsInFault.includes(item);
 }
 

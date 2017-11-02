@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-import { selectShowUserModal } from './view-selectors';
+import {selectShowUserModal} from './view-selectors';
 
 describe('View selectors', () => {
   it('selectShowUserModal should return true if showUserModal is true in state', () => {

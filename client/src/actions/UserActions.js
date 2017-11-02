@@ -1,67 +1,71 @@
-import { toJson, secureFetch, initialize } from './index';
-import { getAlerts, unsnoozeAlerts, getSnoozedAlerts } from './AlertActions';
-import { SERVER_URL } from '../config';
-import { setCredentials, setCurrentUser, userLogout } from '../redux-modules/current-user/actions';
-import { setAllUsers } from '../redux-modules/users/actions';
-import { throwError } from '../redux-modules/errors/actions';
+import {toJson, secureFetch, initialize} from './index';
+import {getAlerts, unsnoozeAlerts, getSnoozedAlerts} from './AlertActions';
+import {SERVER_URL} from '../config';
+import {
+  setCredentials,
+  setCurrentUser,
+  userLogout
+} from '../redux-modules/current-user/actions';
+import {setAllUsers} from '../redux-modules/users/actions';
+import {throwError} from '../redux-modules/errors/actions';
 
 function GETUserObj(username, token) {
   return fetch(`${SERVER_URL}/api/user/username/${username}`, {
-    method: "get",
+    method: 'get',
     headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   });
 }
 
 function GETUsers(token) {
   return fetch(`${SERVER_URL}/api/user/withRoles`, {
-    method: "get",
+    method: 'get',
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: 'Bearer ' + token
     }
   });
 }
 
 function POSTUserAuth(username, password) {
   return fetch(`${SERVER_URL}/api/login`, {
-    body: JSON.stringify({ username: username, password: password }),
-    method: "post",
+    body: JSON.stringify({username: username, password: password}),
+    method: 'post',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     }
   });
 }
 
 function POSTNewUser(user) {
   return secureFetch(`/api/user`, {
-    method: "post",
+    method: 'post',
     body: JSON.stringify(user),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     }
   });
 }
 
 function DELETEUser(user) {
   return secureFetch(`/api/user/${user.id}`, {
-    method: "delete"
+    method: 'delete'
   });
 }
 
 function PUTUser(user) {
   return secureFetch(`/api/user/update`, {
-    method: "put",
+    method: 'put',
     body: JSON.stringify(user)
   });
 }
 
 export function getCurrentUser(credentials) {
-  const { access_token, username } = credentials;
+  const {access_token, username} = credentials;
   return function(dispatch) {
     return GETUserObj(username, access_token)
       .then(toJson)
@@ -94,31 +98,31 @@ export function addNewUser(user) {
     return POSTNewUser(user)
       .then(toJson)
       .then(response => {
-        console.log("User added", response);
+        console.log('User added', response);
         dispatch(getAllUsers());
       });
   };
 }
 
 export function deleteUser(user) {
-  console.log("The delete user is: ", user);
+  console.log('The delete user is: ', user);
   return dispatch => {
     return DELETEUser(user)
       .then(toJson)
       .then(response => {
-        console.log("User deleted", response);
+        console.log('User deleted', response);
         dispatch(getAllUsers());
       });
   };
 }
 
 export function editUser(user) {
-  console.log("User is : ", user);
+  console.log('User is : ', user);
   return dispatch => {
     return PUTUser(user)
       .then(toJson)
       .then(response => {
-        console.log("User edited", response);
+        console.log('User edited', response);
         dispatch(getAllUsers());
       });
   };
@@ -130,16 +134,16 @@ export function postUserAuth(username, password) {
       .then(toJson)
       .then(
         response => {
-          if(response.error || (response.status && response.status !== 200)) {
-              dispatch(userLogout);
+          if (response.error || (response.status && response.status !== 200)) {
+            dispatch(userLogout);
           } else {
-            console.log("The response is: ", response);
+            console.log('The response is: ', response);
             dispatch(setCredentials(response));
             dispatch(getCurrentUser(response));
           }
         },
         error => {
-          console.log("Error encountered logging in, ", error);
+          console.log('Error encountered logging in, ', error);
           dispatch(throwError(error));
           dispatch(userLogout);
         }

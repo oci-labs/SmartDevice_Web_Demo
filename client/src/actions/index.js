@@ -1,15 +1,19 @@
-import { setActiveItems } from '../redux-modules/active-items/actions';
+import {setActiveItems} from '../redux-modules/active-items/actions';
 import * as states from '../components/common/view.config';
-import { SERVER_URL } from '../config';
+import {SERVER_URL} from '../config';
 import store from '../store';
-import { throwError } from '../redux-modules/errors/actions';
+import {throwError} from '../redux-modules/errors/actions';
 import {
-    setSelectedDepartment, setSelectedFacility, setSelectedMachine, setSelectedManifold,
-    setSelectedStation, setSelectedValve
+  setSelectedDepartment,
+  setSelectedFacility,
+  setSelectedMachine,
+  setSelectedManifold,
+  setSelectedStation,
+  setSelectedValve
 } from '../redux-modules/selected-context/actions';
-import { setAllFacilities } from '../redux-modules/facilities/actions';
-import { setSelectedValveStatus } from '../redux-modules/valves/actions';
-import { setViewState } from '../redux-modules/view/actions';
+import {setAllFacilities} from '../redux-modules/facilities/actions';
+import {setSelectedValveStatus} from '../redux-modules/valves/actions';
+import {setViewState} from '../redux-modules/view/actions';
 
 export * from './UserActions';
 export * from './AlertActions';
@@ -20,7 +24,7 @@ export function secureFetch(url, params) {
   let tokenHeader = {};
   if (token) {
     tokenHeader = {
-      Authorization: "Bearer " + token
+      Authorization: 'Bearer ' + token
     };
   }
   const secureHeaders = Object.assign(
@@ -30,12 +34,12 @@ export function secureFetch(url, params) {
   );
   return fetch(
     `${SERVER_URL}${url}`,
-    Object.assign({}, params, { headers: secureHeaders })
+    Object.assign({}, params, {headers: secureHeaders})
   );
 }
 
 function GETItem(item) {
-  return secureFetch(`/api/${item.type}/${item.id ? item.id : ""}`);
+  return secureFetch(`/api/${item.type}/${item.id ? item.id : ''}`);
 }
 
 function GETValve(station) {
@@ -55,36 +59,36 @@ function GETValveStatus(valve) {
 function ADDItem(item, token) {
   return fetch(`${SERVER_URL}/api/${item.type}`, {
     body: JSON.stringify(item),
-    method: "post",
+    method: 'post',
     headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   });
 }
 
 function DELETEItem(item, token) {
-  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ''}`, {
     body: JSON.stringify(item),
-    method: "delete",
+    method: 'delete',
     headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   });
 }
 
 function UPDATEItem(item, token) {
-  console.log("The updated object is: ", item);
-  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ""}`, {
+  console.log('The updated object is: ', item);
+  return fetch(`${SERVER_URL}/api/${item.type}/${item.id ? item.id : ''}`, {
     body: JSON.stringify(item),
-    method: "put",
+    method: 'put',
     headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   });
 }
@@ -114,25 +118,25 @@ export function addItem(item) {
         .then(toJson)
         .then(response => {
           switch (item.type) {
-            case "facility":
-              dispatch(setSelectedItem({ type: response.type }));
+            case 'facility':
+              dispatch(setSelectedItem({type: response.type}));
               break;
-            case "department":
+            case 'department':
               dispatch(setSelectedItem(response));
               break;
-            case "machine":
+            case 'machine':
               dispatch(setSelectedItem(response, null, true));
               break;
-            case "manifold":
+            case 'manifold':
               dispatch(setSelectedItem(response));
               break;
             default:
-              console.log("AddItem", response);
+              console.log('AddItem', response);
               break;
           }
         });
     } else {
-      return dispatch(throwError("Unauthorized"));
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
@@ -145,16 +149,16 @@ export function deleteItem(item) {
     if (token) {
       return DELETEItem(item, token).then(response => {
         switch (item.type) {
-          case "facility":
-            dispatch(setSelectedItem({ type: "facility" }));
+          case 'facility':
+            dispatch(setSelectedItem({type: 'facility'}));
             break;
-            case "department":
+          case 'department':
             dispatch(setSelectedItem(state.selectedContext.facility));
             break;
-          case "machine":
+          case 'machine':
             dispatch(setSelectedItem(state.selectedContext.department));
             break;
-          case "manifold":
+          case 'manifold':
             dispatch(setSelectedItem(state.selectedContext.machine));
             break;
           default:
@@ -162,7 +166,7 @@ export function deleteItem(item) {
         }
       });
     } else {
-      return dispatch(throwError("Unauthorized"));
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
@@ -176,13 +180,13 @@ export function updateItem(item) {
         .then(toJson)
         .then(response => {
           switch (item.type) {
-            case "facility":
-              dispatch(setSelectedItem({ type: response.type }));
+            case 'facility':
+              dispatch(setSelectedItem({type: response.type}));
               break;
-            case "machine":
+            case 'machine':
               dispatch(setSelectedItem(response, null, true));
               break;
-            case "manifold":
+            case 'manifold':
               dispatch(setSelectedItem(response, null, true));
               break;
             default:
@@ -191,7 +195,7 @@ export function updateItem(item) {
           }
         });
     } else {
-      return dispatch(throwError("Unauthorized"));
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
@@ -199,14 +203,8 @@ export function updateItem(item) {
 export function setSelectedItem(item, keepViewState, forceRefresh) {
   return function(dispatch, getState) {
     const {
-      selectedContext: {
-          department,
-          facility,
-          machine,
-          manifold,
-          station
-      },
-      currentUser: { user }
+      selectedContext: {department, facility, machine, manifold, station},
+      currentUser: {user}
     } = getState();
     if (item && user) {
       const credentials = getState().currentUser.credentials;
@@ -217,19 +215,16 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
           .then(function(response) {
             if (item.id) {
               switch (item.type) {
-                case "facility":
+                case 'facility':
                   dispatch(setSelectedFacility(response));
                   dispatch(setActiveItems([response]));
                   if (!keepViewState) {
                     dispatch(setViewState(states.FACILITY_STATE));
                   }
                   break;
-                case "department":
+                case 'department':
                   dispatch(setSelectedDepartment(response));
-                  if (
-                    !facility ||
-                    facility.id !== response.parent.id
-                  ) {
+                  if (!facility || facility.id !== response.parent.id) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
                   if (!keepViewState) {
@@ -244,7 +239,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                       });
                   }
                   break;
-                case "machine":
+                case 'machine':
                   dispatch(setSelectedMachine(response));
                   if (
                     !department ||
@@ -260,9 +255,9 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   dispatch(setActiveItems([response]));
                   break;
-                case "manifold":
+                case 'manifold':
                   dispatch(setSelectedManifold(response));
-                  console.log("The response is: ", response);
+                  console.log('The response is: ', response);
                   if (
                     !machine ||
                     machine.id !== response.parent.id ||
@@ -283,42 +278,39 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                     dispatch(setSelectedItem(getFirst(response.children)));
                   }
                   break;
-                case "station":
+                case 'station':
                   dispatch(setSelectedStation(response));
-                  if (
-                    !manifold ||
-                    manifold.id !== response.parent.id
-                  ) {
+                  if (!manifold || manifold.id !== response.parent.id) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
                   dispatch(setValve(response));
                   break;
                 default:
-                  console.log("Not handled yet", response, item.type);
+                  console.log('Not handled yet', response, item.type);
               }
             } else {
               switch (item.type) {
-                case "facility":
+                case 'facility':
                   dispatch(setSelectedFacility({}));
                   dispatch(setAllFacilities(response));
                   dispatch(setViewState(states.FACILITY_STATE));
                   dispatch(setActiveItems(response));
                   break;
-                case "department":
+                case 'department':
                   dispatch(setSelectedFacility(item.parent));
                   break;
-                case "machine":
+                case 'machine':
                   dispatch(setSelectedMachine({}));
                   dispatch(setSelectedItem(department, true));
                   break;
                 default:
-                  console.log("Not handled yet - all items", item.type);
+                  console.log('Not handled yet - all items', item.type);
               }
             }
           });
       } else {
-        return dispatch(throwError("Unauthorized"));
+        return dispatch(throwError('Unauthorized'));
       }
     }
   };
@@ -335,7 +327,7 @@ function setValve(station) {
           dispatch(setSelectedValve(response));
         });
     } else {
-      return dispatch(throwError("Unauthorized"));
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
@@ -349,11 +341,11 @@ export function showValve(valve) {
         .then(toJson)
         .then(response => {
           dispatch(
-            setSelectedItem({ type: "station", id: response.stationNumber })
+            setSelectedItem({type: 'station', id: response.stationNumber})
           );
         });
     } else {
-      return dispatch(throwError("Unauthorized"));
+      return dispatch(throwError('Unauthorized'));
     }
   };
 }
@@ -378,7 +370,7 @@ export function initialize() {
     if (state.currentUser && state.currentUser.user) {
       GETItem(
         {
-          type: "facility"
+          type: 'facility'
         },
         state.currentUser.credentials.access_token
       )

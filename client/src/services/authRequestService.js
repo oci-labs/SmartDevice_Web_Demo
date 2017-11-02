@@ -1,5 +1,5 @@
-import store from "../store";
-import { SERVER_URL } from "../config";
+import store from '../store';
+import {SERVER_URL} from '../config';
 
 function getCredentials() {
   let state = store.getState();
@@ -14,7 +14,7 @@ export function authRequest(url, method, cb) {
     fetch(SERVER_URL + url, {
       method: method,
       headers: {
-        Authorization: "Bearer " + credentials.access_token
+        Authorization: 'Bearer ' + credentials.access_token
       }
     })
       .then(response => response.json())
@@ -22,6 +22,6 @@ export function authRequest(url, method, cb) {
         cb(json);
       });
   } else {
-    return('Unauthorized - currentUser is not set.')
+    return 'Unauthorized - currentUser is not set.';
   }
 }
