@@ -104,9 +104,8 @@ export function toJson(response) {
 export function getFirst(items) {
   if (items) {
     return items.reduce((a, b) => (a.id < b.id ? a : b), {});
-  } else {
-    return items;
   }
+  return items;
 }
 
 export function addItem(item) {
@@ -135,14 +134,13 @@ export function addItem(item) {
               break;
           }
         });
-    } else {
-      return dispatch(throwError('Unauthorized'));
     }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 
 export function deleteItem(item) {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const state = getState();
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
@@ -165,14 +163,13 @@ export function deleteItem(item) {
             return null;
         }
       });
-    } else {
-      return dispatch(throwError('Unauthorized'));
     }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 
 export function updateItem(item) {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const credentials = getState().currentUser.credentials;
     const token = credentials && credentials.access_token;
     if (token) {
@@ -194,9 +191,8 @@ export function updateItem(item) {
               break;
           }
         });
-    } else {
-      return dispatch(throwError('Unauthorized'));
     }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 
@@ -325,9 +321,8 @@ function setValve(station) {
         .then(response => {
           dispatch(setSelectedValve(response));
         });
-    } else {
-      return dispatch(throwError('Unauthorized'));
     }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 
@@ -343,9 +338,8 @@ export function showValve(valve) {
             setSelectedItem({type: 'station', id: response.stationNumber})
           );
         });
-    } else {
-      return dispatch(throwError('Unauthorized'));
     }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 

@@ -15,7 +15,7 @@ export function GETAllAlerts(count, token) {
 }
 
 export function getAlerts(count = 10) {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const state = getState();
     if (state.currentUser.credentials) {
       return GETAllAlerts(count, state.currentUser.credentials.access_token)
@@ -45,9 +45,8 @@ export function getAlerts(count = 10) {
             dispatch(throwError(error));
           }
         );
-    } else {
-      return 'unauthenticated.';
     }
+    return 'unauthenticated.';
   };
 }
 
