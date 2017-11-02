@@ -133,7 +133,10 @@ export function addItem(item) {
               dispatch(setSelectedItem(response));
               break;
             default:
-              console.log('actions/index.js addItem: unsupported item type', item.type);
+              console.log(
+                'actions/index.js addItem: unsupported item type',
+                item.type
+              );
               break;
           }
         });
@@ -225,6 +228,7 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                     dispatch(setViewState(states.FACILITY_STATE));
                   }
                   break;
+
                 case 'department':
                   dispatch(setSelectedDepartment(response));
                   if (!facility || facility.id !== response.parent.id) {
@@ -242,8 +246,12 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                       });
                   }
                   break;
+
                 case 'machine':
-                  console.log('index.js setSelectedItem: machine response =', response);
+                  console.log(
+                    'index.js setSelectedItem: machine response =',
+                    response
+                  );
                   dispatch(setSelectedMachine(response));
                   if (
                     !department ||
@@ -259,8 +267,12 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   dispatch(setActiveItems([response]));
                   break;
+
                 case 'manifold': {
-                  console.log('index.js setSelectedItem: manifold response =', response);
+                  console.log(
+                    'index.js setSelectedItem: manifold response =',
+                    response
+                  );
                   dispatch(setSelectedManifold(response));
                   //console.log('The response is: ', response);
                   if (
@@ -274,7 +286,6 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
 
-                  /*
                   const currentStationIsChild = child =>
                     child.id === station.id;
                   if (
@@ -283,18 +294,22 @@ export function setSelectedItem(item, keepViewState, forceRefresh) {
                   ) {
                     dispatch(setSelectedItem(getFirst(response.children)));
                   }
-                  */
                   break;
                 }
+
                 case 'station':
-                  console.log('index.js setSelectedItem: station response =', response);
+                  console.log(
+                    'index.js setSelectedItem: station response =',
+                    response
+                  );
                   dispatch(setSelectedStation(response));
                   if (!manifold || manifold.id !== response.parent.id) {
                     dispatch(setSelectedItem(response.parent, true));
                   }
                   dispatch(setViewState(states.MANIFOLD_STATE));
-                  //dispatch(setValve(response));
+                  dispatch(setValve(response));
                   break;
+
                 default:
                   console.log(
                     'actions/index.js setSelectedItem:',
