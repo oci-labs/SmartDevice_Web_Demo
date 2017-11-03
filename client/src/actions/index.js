@@ -49,11 +49,13 @@ function GETValve(station) {
   );
 }
 
-/*
 function GETValveBySerialNumber(valve) {
+  console.log(
+    'index.js GETValveBySerialNumber: valve.serialNumber =',
+    valve.serialNumber
+  );
   return secureFetch(`/api/valve/${valve.serialNumber}`);
 }
-*/
 
 function GETValveStatus(valve) {
   return secureFetch(`/api/valveStatus/${valve.serialNumber}`);
@@ -363,20 +365,23 @@ function setValve(station) {
 
 export function showValve(valve) {
   console.log('index.js showValve: valve =', valve);
-  //return (dispatch, getState) => {
-  return dispatch => {
-    //const credentials = getState().currentUser.credentials;
-    //const token = credentials && credentials.access_token;
-    //if (valve && token) {
-    //  return GETValveBySerialNumber(valve, token)
-    //    .then(toJson)
-    //    .then(response => {
-    dispatch(setSelectedItem({type: 'station', id: valve.station.id}));
-    //dispatch(setSelectedItem({type: 'manifold', id: valve.manifold.id}));
-    //dispatch(setSelectedItem({type: 'machine', id: valve.machine.id}));
-    //    });
-    //}
-    //return dispatch(throwError('Unauthorized'));
+  return (dispatch, getState) => {
+    const credentials = getState().currentUser.credentials;
+    const token = credentials && credentials.access_token;
+    if (valve && token) {
+      return GETValveBySerialNumber(valve, token)
+        .then(toJson)
+        .then(response => {
+          console.log('index.js showValve: response =', response);
+          //TODO: This doesn't set the current machine and manifold correctly!
+          dispatch(
+            setSelectedItem({type: 'station', id: response.stationNumber})
+          );
+          //dispatch(setSelectedItem({type: 'manifold', id: valve.manifold.id}));
+          //dispatch(setSelectedItem({type: 'machine', id: valve.machine.id}));
+        });
+    }
+    return dispatch(throwError('Unauthorized'));
   };
 }
 
