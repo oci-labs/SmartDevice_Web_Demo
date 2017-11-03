@@ -9,5 +9,4 @@ json {
     name manifold.name
     serialNumber manifold.serialNumber
     type 'manifold'
-    machine tmpl.'machine'(manifold.machine)
 }

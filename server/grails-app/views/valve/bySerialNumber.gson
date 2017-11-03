@@ -17,6 +17,5 @@ json {
         id valve.station.id
         type 'station'
         number valve.station.number
-        manifold tmpl.'/templates/manifold'(valve.station.manifold)
     }
 }
