@@ -8,7 +8,8 @@ import {
   getAlerts,
   getSnoozedAlerts,
   unsnoozeAlerts,
-  showValve
+  resetForAlert
+  //showValve
 } from '../../actions';
 
 class AlertsComponent extends Component {
@@ -134,8 +135,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleAlertClick(valve) {
-      dispatch(showValve(valve));
+    handleAlertClick(alert) {
+      dispatch(resetForAlert(alert));
     },
     handleGetAlerts(count) {
       dispatch(getAlerts(count));

@@ -399,6 +399,17 @@ export function setValveStatus(valve) {
   };
 }
 
+export function resetForAlert(alert) {
+  console.log("The alert is: ", alert);
+  return (dispatch, getState) => {
+    dispatch(setSelectedItem({type: 'facility', id: alert.valve.facility.id}));
+    dispatch(setSelectedItem({type: 'department', id: alert.valve.department.id}));
+    dispatch(setSelectedItem({type: 'machine', id: alert.valve.machine.id}));
+    dispatch(setSelectedItem({type: 'manifold', id: alert.valve.manifold.id}));
+    dispatch(showValve(alert.valve));
+  }
+}
+
 export function initialize() {
   return (dispatch, getState) => {
     const state = getState();
