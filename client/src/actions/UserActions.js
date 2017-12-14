@@ -97,7 +97,7 @@ export function addNewUser(user) {
   return dispatch =>
     POSTNewUser(user)
       .then(toJson)
-      .then(response => {
+      .then(() => {
         //console.log('User added', response);
         dispatch(getAllUsers());
       });
@@ -108,7 +108,7 @@ export function deleteUser(user) {
   return dispatch =>
     DELETEUser(user)
       .then(toJson)
-      .then(response => {
+      .then(() => {
         //console.log('User deleted', response);
         dispatch(getAllUsers());
       });
@@ -119,7 +119,7 @@ export function editUser(user) {
   return dispatch =>
     PUTUser(user)
       .then(toJson)
-      .then(response => {
+      .then(() => {
         //console.log('User edited', response);
         dispatch(getAllUsers());
       });

@@ -400,14 +400,15 @@ export function setValveStatus(valve) {
 }
 
 export function resetForAlert(alert) {
-  console.log("The alert is: ", alert);
-  return (dispatch, getState) => {
-    dispatch(setSelectedItem({type: 'facility', id: alert.valve.facility.id}));
-    dispatch(setSelectedItem({type: 'department', id: alert.valve.department.id}));
-    dispatch(setSelectedItem({type: 'machine', id: alert.valve.machine.id}));
-    dispatch(setSelectedItem({type: 'manifold', id: alert.valve.manifold.id}));
-    dispatch(showValve(alert.valve));
-  }
+  console.log('The alert is:', alert);
+  const {valve} = alert;
+  return dispatch => {
+    dispatch(setSelectedItem({type: 'facility', id: valve.facility.id}));
+    dispatch(setSelectedItem({type: 'department', id: valve.department.id}));
+    dispatch(setSelectedItem({type: 'machine', id: valve.machine.id}));
+    dispatch(setSelectedItem({type: 'manifold', id: valve.manifold.id}));
+    dispatch(showValve(valve));
+  };
 }
 
 export function initialize() {

@@ -60,7 +60,7 @@ class ValveAlert extends Component {
 
     const handleAlertClick = () => {
       if (onAlertClick) {
-        console.log("The alert is: ", this.props.alert);
+        console.log('The alert is:', this.props.alert);
         onAlertClick(this.props.alert);
       }
     };
